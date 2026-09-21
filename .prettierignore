@@ -1,0 +1,10 @@
+# Artefactos generados
+dist
+.angular
+coverage
+
+# Evidencia de validación E2E (capturas, snapshots y logs de Playwright MCP)
+.playwright-mcp
+
+# Lockfile generado por npm
+package-lock.json

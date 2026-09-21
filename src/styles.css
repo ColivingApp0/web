@@ -1,0 +1,49 @@
+/* Estilos globales de ColivinApp.
+ * Tailwind v4 (CSS-first): los tokens del sistema de diseño viven aquí, en @theme.
+ * Identidad visual derivada de la landing de referencia (CoolivinApp-Front). */
+@import 'tailwindcss';
+
+@theme {
+  /* Tipografías (se cargan en index.html) */
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+
+  /* Marca — esmeralda */
+  --color-brand-600: #047857;
+  --color-brand-700: #065f46;
+  --color-brand-800: #064e3b;
+
+  /* Acento — ámbar */
+  --color-accent-300: #f8c453;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+
+  /* Neutros y superficies */
+  --color-ink: #17201d;
+  --color-muted: #64706b;
+  --color-line: #e6ebe8;
+  --color-soft: #f5f7f6;
+  --color-sky-soft: #e0f2fe;
+
+  /* Contenedores */
+  --container-page: 1180px;
+
+  /* Radios y sombras */
+  --radius-card: 1.25rem;
+  --shadow-card: 0 18px 55px rgb(6 95 70 / 0.1);
+}
+
+@layer base {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    line-height: 1.12;
+  }
+}
