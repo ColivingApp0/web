@@ -1,0 +1,70 @@
+<form
+  [formRoot]="searchForm"
+  class="mt-8 flex max-w-[920px] flex-col rounded-2xl bg-white p-2 shadow-[0_20px_60px_rgba(0,0,0,0.18)] lg:flex-row lg:items-center"
+  novalidate
+>
+  <div class="grid flex-1 grid-cols-[30px_1fr] px-3.5 py-2">
+    <span class="row-span-2 self-center text-lg" aria-hidden="true">⌖</span>
+    <label for="search-city" class="col-start-2 text-xs font-extrabold text-ink">¿Dónde?</label>
+    <input
+      id="search-city"
+      type="text"
+      placeholder="Ciudad o zona"
+      [formField]="searchForm.city"
+      class="col-start-2 w-full border-0 bg-transparent p-0 text-sm text-ink outline-none placeholder:text-muted"
+    />
+  </div>
+
+  <div class="hidden h-10 w-px bg-line lg:block" aria-hidden="true"></div>
+
+  <div class="grid flex-1 grid-cols-[30px_1fr] px-3.5 py-2">
+    <span class="row-span-2 self-center text-lg" aria-hidden="true">🎓</span>
+    <label for="search-institution" class="col-start-2 text-xs font-extrabold text-ink"
+      >Universidad</label
+    >
+    <input
+      id="search-institution"
+      type="text"
+      placeholder="Tu universidad"
+      [formField]="searchForm.institution"
+      class="col-start-2 w-full border-0 bg-transparent p-0 text-sm text-ink outline-none placeholder:text-muted"
+    />
+  </div>
+
+  <div class="hidden h-10 w-px bg-line lg:block" aria-hidden="true"></div>
+
+  <div class="grid flex-1 grid-cols-[30px_1fr] px-3.5 py-2">
+    <span class="row-span-2 self-center text-lg" aria-hidden="true">💰</span>
+    <label for="search-budget" class="col-start-2 text-xs font-extrabold text-ink"
+      >Presupuesto</label
+    >
+    <div class="col-start-2 w-full">
+      <input
+        id="search-budget"
+        type="range"
+        [min]="budgetMin"
+        [max]="budgetMax"
+        [step]="budgetStep"
+        [value]="budget()"
+        (input)="onBudgetInput($event)"
+        [attr.aria-valuetext]="budgetValueText()"
+        aria-describedby="search-budget-value"
+        class="w-full accent-brand-700"
+      />
+      <p id="search-budget-value" class="text-xs font-bold text-ink">
+        @if (budgetIsFilter()) {
+          Máximo mensual: {{ budget() | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}
+        } @else {
+          Sin límite de presupuesto
+        }
+      </p>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="mt-2 min-h-14 rounded-[14px] bg-accent-500 px-6 font-black text-[#3b2900] transition hover:bg-accent-600 lg:mt-0"
+  >
+    ⌕ Buscar
+  </button>
+</form>

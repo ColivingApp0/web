@@ -1,0 +1,292 @@
+<app-site-header />
+
+<main id="main-content">
+  <!-- Hero -->
+  <section
+    class="relative flex min-h-180 items-center overflow-hidden bg-[linear-gradient(140deg,#064e3b_0%,#0a7a5e_60%,#0f8a6a_100%)]"
+  >
+    <video
+      class="absolute left-1/2 top-[61%] h-full w-full -translate-x-1/2 -translate-y-1/2 object-cover motion-reduce:hidden"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-hidden="true"
+    >
+      <source src="/universitarios.mp4" type="video/mp4" />
+    </video>
+    <div
+      class="absolute inset-0 bg-linear-to-r from-brand-800/90 via-brand-800/60 to-brand-800/30"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="absolute inset-x-0 bottom-0 h-44 bg-linear-to-t from-white to-transparent"
+      aria-hidden="true"
+    ></div>
+
+    <div class="relative z-10 mx-auto w-full max-w-page px-5 pb-24 pt-40">
+      <span class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#b9f4dc]"
+        >Tu lugar. Tu gente. Tu comunidad.</span
+      >
+      <h1
+        class="mt-4 max-w-3xl font-display text-[clamp(2.6rem,5vw,5rem)] font-extrabold tracking-tighter text-white"
+      >
+        Vive tu mejor<br /><em class="not-italic text-accent-300">experiencia</em> universitaria
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-white/85">
+        Encuentra alojamientos ideales, conecta con personas increíbles y forma parte de una
+        comunidad que te impulsa.
+      </p>
+      <app-search-bar />
+      <div class="mt-6 flex flex-wrap gap-5 text-sm font-bold text-white">
+        @for (item of trustItems; track item) {
+          <span>✓ {{ item }}</span>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Alojamientos (ejemplos) -->
+  <section id="alojamientos" class="py-24">
+    <div class="mx-auto w-full max-w-page px-5">
+      <div class="mb-10 flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-[0.14em] text-brand-600"
+            >Descubre</span
+          >
+          <h2
+            class="mt-2 max-w-2xl font-display text-3xl font-extrabold tracking-[-0.04em] text-ink sm:text-4xl"
+          >
+            Alojamientos que podrían ser para ti
+          </h2>
+          <p class="mt-2 text-muted">
+            Espacios seleccionados según ubicación, presupuesto y compatibilidad.
+          </p>
+        </div>
+        <a routerLink="/alojamientos" class="font-extrabold text-brand-700 hover:underline"
+          >Ver todos →</a
+        >
+      </div>
+      <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        @for (listing of listings; track listing.id) {
+          <app-example-property-card [listing]="listing" />
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Categorías -->
+  <section class="bg-soft py-24">
+    <div class="mx-auto w-full max-w-page px-5">
+      <div class="mx-auto max-w-2xl text-center">
+        <span class="text-xs font-extrabold uppercase tracking-[0.14em] text-brand-600"
+          >Explora</span
+        >
+        <h2
+          class="mt-2 font-display text-3xl font-extrabold tracking-[-0.04em] text-ink sm:text-4xl"
+        >
+          Encuentra una opción que encaje contigo
+        </h2>
+        <p class="mt-2 text-muted">Filtra por lo que realmente importa para tu nueva etapa.</p>
+      </div>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        @for (category of categories; track category.title) {
+          <a
+            routerLink="/alojamientos"
+            class="relative rounded-[18px] border border-line bg-white p-7 transition hover:-translate-y-0.5 hover:border-[#9dc7b8]"
+          >
+            <span class="mb-6 block text-3xl" aria-hidden="true">{{ category.icon }}</span>
+            <h3 class="font-display text-lg font-bold text-ink">{{ category.title }}</h3>
+            <p class="mt-1 text-sm text-muted">{{ category.subtitle }}</p>
+            <span class="absolute bottom-5 right-5 text-xl text-brand-700" aria-hidden="true"
+              >→</span
+            >
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Comunidad -->
+  <section id="comunidad" class="py-24">
+    <div class="mx-auto grid w-full max-w-page items-center gap-12 px-5 lg:grid-cols-2 lg:gap-20">
+      <div class="relative min-h-105">
+        <div class="absolute inset-y-0 left-0 right-10 overflow-hidden rounded-[28px]">
+          <img
+            ngSrc="/amigos.avif"
+            fill
+            sizes="(max-width: 1023px) 100vw, 45vw"
+            alt="Estudiantes compartiendo en su comunidad"
+            class="object-cover"
+          />
+        </div>
+        <div
+          class="absolute bottom-0 right-0 hidden h-[55%] w-[55%] overflow-hidden rounded-3xl border-10 border-white shadow-card sm:block"
+        >
+          <!-- Imagen decorativa secundaria: <img> plano porque en móvil el contenedor queda oculto
+               (NgOptimizedImage fill avisa con altura cero cuando el contenedor es display:none). -->
+          <img
+            src="/amigos-universidad.png"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            class="h-full w-full object-cover"
+          />
+        </div>
+        <div class="absolute -left-4 bottom-16 z-10 rounded-2xl bg-white px-5 py-4 shadow-card">
+          <strong class="block font-display text-2xl font-extrabold text-brand-700">96%</strong>
+          <span class="text-xs text-muted">compatibilidad</span>
+        </div>
+      </div>
+
+      <div>
+        <span class="text-xs font-extrabold uppercase tracking-[0.14em] text-brand-600"
+          >Más que alojamiento</span
+        >
+        <h2
+          class="mt-2 font-display text-3xl font-extrabold tracking-[-0.04em] text-ink sm:text-4xl"
+        >
+          Conecta con personas que comparten tu forma de vivir
+        </h2>
+        <p class="mt-4 text-muted">
+          ColivinApp combina alojamiento, comunidad y compatibilidad social para que compartir un
+          espacio sea una buena experiencia.
+        </p>
+        <ul class="mt-6 space-y-3 font-semibold text-ink">
+          @for (benefit of communityBenefits; track benefit) {
+            <li><span class="mr-2 text-brand-700" aria-hidden="true">✓</span>{{ benefit }}</li>
+          }
+        </ul>
+        <a
+          routerLink="/registro"
+          class="mt-8 inline-flex min-h-12 items-center rounded-xl bg-brand-700 px-5 font-extrabold text-white transition hover:bg-brand-600"
+          >Únete a la comunidad</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- Cómo funciona -->
+  <section id="como-funciona" class="bg-soft py-24">
+    <div class="mx-auto w-full max-w-page px-5">
+      <div class="mx-auto max-w-2xl text-center">
+        <span class="text-xs font-extrabold uppercase tracking-[0.14em] text-brand-600"
+          >Así funciona</span
+        >
+        <h2
+          class="mt-2 font-display text-3xl font-extrabold tracking-[-0.04em] text-ink sm:text-4xl"
+        >
+          Encontrar tu próximo hogar es sencillo
+        </h2>
+      </div>
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        @for (step of steps; track step.number) {
+          <div class="relative rounded-card border border-line bg-white p-8">
+            <span class="absolute right-6 top-6 font-black text-[#c7d3ce]" aria-hidden="true">{{
+              step.number
+            }}</span>
+            <span class="mb-8 block text-3xl" aria-hidden="true">{{ step.icon }}</span>
+            <h3 class="font-display text-lg font-bold text-ink">{{ step.title }}</h3>
+            <p class="mt-1.5 text-sm text-muted">{{ step.text }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Score -->
+  <section id="score" class="py-24">
+    <div class="mx-auto w-full max-w-page px-5">
+      <div
+        class="flex flex-col gap-8 overflow-hidden rounded-[28px] bg-brand-700 p-10 text-white md:flex-row md:items-center md:justify-between md:p-16"
+      >
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#b9f4dc]"
+            >Score ColivinApp</span
+          >
+          <h2 class="mt-2 font-display text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">
+            Tu buena convivencia también cuenta.
+          </h2>
+          <p class="mt-3 max-w-2xl text-[#bce5d6]">
+            Construye reputación, genera confianza y desbloquea beneficios dentro de la comunidad.
+          </p>
+        </div>
+        <div
+          class="grid size-36 shrink-0 place-items-center rounded-full border-10 border-white/15 border-t-accent-500"
+          role="img"
+          aria-label="Score de ejemplo 4.9"
+        >
+          <strong class="font-display text-4xl font-extrabold">4.9</strong>
+          <span class="text-xs text-[#cdeee2]">★ Score</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonios -->
+  <section class="pb-24">
+    <div class="mx-auto w-full max-w-page px-5">
+      <div class="mx-auto max-w-2xl text-center">
+        <span class="text-xs font-extrabold uppercase tracking-[0.14em] text-brand-600"
+          >Comunidad</span
+        >
+        <h2
+          class="mt-2 font-display text-3xl font-extrabold tracking-[-0.04em] text-ink sm:text-4xl"
+        >
+          Lo que dicen quienes ya viven la experiencia
+        </h2>
+      </div>
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        @for (testimonial of testimonials; track testimonial.name) {
+          <article class="rounded-[18px] border border-line p-7">
+            <div class="tracking-[2px] text-accent-500" aria-label="5 de 5 estrellas">★★★★★</div>
+            <p class="mt-3 text-ink">“{{ testimonial.text }}”</p>
+            <div class="mt-6 flex items-center gap-2.5">
+              <span
+                class="grid size-10 place-items-center rounded-full bg-[#dcefe8] text-xs font-black text-brand-700"
+                aria-hidden="true"
+                >{{ testimonial.initials }}</span
+              >
+              <div>
+                <strong class="block text-sm text-ink">{{ testimonial.name }}</strong>
+                <small class="text-muted">{{ testimonial.role }}</small>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+      <p class="mt-6 text-center text-xs text-muted">Testimonios ilustrativos del piloto.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-linear-to-br from-brand-800 to-brand-700 py-20 text-white">
+    <div
+      class="mx-auto flex w-full max-w-page flex-col gap-8 px-5 md:flex-row md:items-center md:justify-between"
+    >
+      <div>
+        <span class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#b9f4dc]"
+          >¿Listo para comenzar?</span
+        >
+        <h2 class="mt-2 font-display text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">
+          Tu próxima historia puede empezar aquí.
+        </h2>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a
+          routerLink="/registro"
+          class="inline-flex min-h-12 items-center rounded-xl bg-accent-500 px-5 font-extrabold text-[#342100] transition hover:bg-accent-600"
+          >Crear mi cuenta</a
+        >
+        <a
+          routerLink="/alojamientos"
+          class="inline-flex min-h-12 items-center rounded-xl border border-white/35 px-5 font-extrabold text-white transition hover:bg-white/10"
+          >Explorar alojamientos</a
+        >
+      </div>
+    </div>
+  </section>
+</main>
+
+<app-site-footer />

@@ -1,0 +1,82 @@
+<a
+  href="#main-content"
+  class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:font-bold focus:text-brand-700"
+>
+  Saltar al contenido
+</a>
+
+<header
+  class="absolute inset-x-0 top-0 z-20 bg-linear-to-b from-brand-800/75 to-transparent text-white"
+>
+  <div class="mx-auto flex min-h-20 w-full max-w-page items-center justify-between gap-6 px-5">
+    <a routerLink="/" class="flex items-center gap-2.5 font-display text-xl font-extrabold">
+      <span
+        class="grid size-9 place-items-center rounded-xl bg-accent-500 font-black text-brand-800"
+        aria-hidden="true"
+        >C</span
+      >
+      <span>Colivin<span class="text-accent-500">App</span></span>
+    </a>
+
+    <nav class="hidden items-center gap-6 lg:flex" aria-label="Secciones">
+      @for (link of links; track link.fragment) {
+        <a
+          [href]="'#' + link.fragment"
+          class="text-sm font-semibold text-white/90 transition hover:text-white"
+          >{{ link.label }}</a
+        >
+      }
+    </nav>
+
+    <div class="hidden items-center gap-4 lg:flex">
+      @if (session.isAuthenticated()) {
+        <a routerLink="/perfil" class="text-sm font-bold text-white/90 hover:text-white"
+          >Mi perfil</a
+        >
+      } @else {
+        <a routerLink="/entrar" class="text-sm font-bold text-white/90 hover:text-white"
+          >Iniciar sesión</a
+        >
+        <a
+          routerLink="/registro"
+          class="inline-flex min-h-10 items-center rounded-xl bg-brand-700 px-4 text-sm font-extrabold text-white transition hover:bg-brand-600"
+          >Regístrate</a
+        >
+      }
+    </div>
+
+    <button
+      type="button"
+      class="text-2xl leading-none lg:hidden"
+      [attr.aria-expanded]="open()"
+      aria-controls="mobile-menu"
+      aria-label="Abrir menú"
+      (click)="toggle()"
+    >
+      ☰
+    </button>
+  </div>
+
+  @if (open()) {
+    <div id="mobile-menu" class="border-t border-white/10 bg-brand-800/95 px-5 py-4 lg:hidden">
+      <nav class="grid" aria-label="Secciones (móvil)">
+        @for (link of links; track link.fragment) {
+          <a
+            [href]="'#' + link.fragment"
+            class="border-b border-white/10 py-3 font-semibold"
+            (click)="close()"
+            >{{ link.label }}</a
+          >
+        }
+        @if (session.isAuthenticated()) {
+          <a routerLink="/perfil" class="py-3 font-bold" (click)="close()">Mi perfil</a>
+        } @else {
+          <a routerLink="/entrar" class="py-3 font-bold" (click)="close()">Iniciar sesión</a>
+          <a routerLink="/registro" class="py-3 font-bold text-accent-500" (click)="close()"
+            >Crear cuenta</a
+          >
+        }
+      </nav>
+    </div>
+  }
+</header>
