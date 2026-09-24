@@ -1,0 +1,53 @@
+<section class="rounded-card border border-line bg-white p-6 shadow-card sm:p-8">
+  <h1 class="font-display text-2xl font-extrabold text-ink">Inicia sesión</h1>
+  <p class="mt-1 text-sm text-muted">Accede para gestionar tu perfil y alojamientos.</p>
+
+  <form [formRoot]="loginForm" class="mt-6 space-y-4" novalidate>
+    <ui-alert [message]="serverError()" />
+
+    <ui-form-field htmlFor="email" label="Correo electrónico" [error]="emailError()">
+      <input
+        id="email"
+        type="email"
+        autocomplete="email"
+        [formField]="loginForm.email"
+        [attr.aria-describedby]="emailError() ? 'email-error' : null"
+        [attr.aria-invalid]="emailError() ? 'true' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field htmlFor="password" label="Contraseña" [error]="passwordError()">
+      <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        [formField]="loginForm.password"
+        [attr.aria-describedby]="passwordError() ? 'password-error' : null"
+        [attr.aria-invalid]="passwordError() ? 'true' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-button [full]="true" [loading]="submitting()">
+      {{ submitting() ? 'Entrando…' : 'Entrar' }}
+    </ui-button>
+  </form>
+
+  <div class="mt-6 space-y-2 text-sm">
+    <p class="text-muted">
+      ¿No tienes cuenta?
+      <a routerLink="/registro" class="font-bold text-brand-700 hover:underline">Regístrate</a>
+    </p>
+    <p class="text-muted">
+      ¿Olvidaste tu contraseña?
+      <a routerLink="/recuperar" class="font-bold text-brand-700 hover:underline">Recupérala</a>
+    </p>
+    <p class="text-muted">
+      ¿Ya te registraste?
+      <a routerLink="/verificar-correo" class="font-bold text-brand-700 hover:underline"
+        >Verifica tu correo</a
+      >
+    </p>
+  </div>
+</section>

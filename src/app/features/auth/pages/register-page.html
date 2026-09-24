@@ -1,0 +1,73 @@
+<section class="rounded-card border border-line bg-white p-6 shadow-card sm:p-8">
+  <h1 class="font-display text-2xl font-extrabold text-ink">Crea tu cuenta</h1>
+  <p class="mt-1 text-sm text-muted">Empieza tu búsqueda de alojamiento o publica tus espacios.</p>
+
+  @if (registered()) {
+    <div class="mt-6 space-y-4">
+      <ui-alert
+        variant="success"
+        message="Cuenta creada. Te enviamos un token de verificación a tu correo electrónico."
+      />
+      <p class="text-sm text-muted">
+        En desarrollo el correo no se envía: el token aparece en los logs del servidor (<code
+          class="rounded bg-soft px-1 py-0.5 text-xs"
+          >[dev-email] verify account … token=…</code
+        >).
+      </p>
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <a
+          routerLink="/verificar-correo"
+          class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+          >Verificar mi correo</a
+        >
+        <a
+          routerLink="/entrar"
+          class="inline-flex items-center justify-center rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-bold text-brand-700 transition hover:bg-soft"
+          >Ir a iniciar sesión</a
+        >
+      </div>
+    </div>
+  } @else {
+    <form [formRoot]="registerForm" class="mt-6 space-y-4" novalidate>
+      <ui-alert [message]="serverError()" />
+
+      <ui-form-field htmlFor="email" label="Correo electrónico" [error]="emailError()">
+        <input
+          id="email"
+          type="email"
+          autocomplete="email"
+          [formField]="registerForm.email"
+          [attr.aria-describedby]="emailError() ? 'email-error' : null"
+          [attr.aria-invalid]="emailError() ? 'true' : null"
+          class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        />
+      </ui-form-field>
+
+      <ui-form-field
+        htmlFor="password"
+        label="Contraseña"
+        hint="Entre 8 y 72 caracteres."
+        [error]="passwordError()"
+      >
+        <input
+          id="password"
+          type="password"
+          autocomplete="new-password"
+          [formField]="registerForm.password"
+          [attr.aria-describedby]="passwordError() ? 'password-error' : null"
+          [attr.aria-invalid]="passwordError() ? 'true' : null"
+          class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        />
+      </ui-form-field>
+
+      <ui-button [full]="true" [loading]="submitting()">
+        {{ submitting() ? 'Creando cuenta…' : 'Crear cuenta' }}
+      </ui-button>
+    </form>
+
+    <p class="mt-6 text-sm text-muted">
+      ¿Ya tienes cuenta?
+      <a routerLink="/entrar" class="font-bold text-brand-700 hover:underline">Inicia sesión</a>
+    </p>
+  }
+</section>
