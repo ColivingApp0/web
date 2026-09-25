@@ -1,0 +1,86 @@
+<div class="space-y-6">
+  <div>
+    <h1 class="font-display text-2xl font-extrabold text-ink">Mi perfil</h1>
+    <p class="mt-1 text-sm text-muted">Gestiona tu cuenta, tu perfil y tus consentimientos.</p>
+  </div>
+
+  <section class="rounded-card border border-line bg-white p-6 shadow-card">
+    <h2 class="font-display text-lg font-bold text-ink">Cuenta</h2>
+    <dl class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="min-w-0">
+        <dt class="text-xs font-bold uppercase tracking-wide text-muted">Correo</dt>
+        <dd class="mt-1 truncate text-sm text-ink">{{ session.user()?.email }}</dd>
+      </div>
+      <div>
+        <dt class="text-xs font-bold uppercase tracking-wide text-muted">Correo verificado</dt>
+        <dd class="mt-1 text-sm text-ink">{{ session.emailVerified() ? 'Sí' : 'No' }}</dd>
+      </div>
+      <div>
+        <dt class="text-xs font-bold uppercase tracking-wide text-muted">Rol activo</dt>
+        <dd class="mt-1 text-sm text-ink">
+          @if (session.activeRole(); as role) {
+            {{ role.name }}
+          } @else {
+            <a routerLink="/seleccionar-rol" class="font-bold text-brand-700 hover:underline"
+              >Elegir rol</a
+            >
+          }
+        </dd>
+      </div>
+      <div>
+        <dt class="text-xs font-bold uppercase tracking-wide text-muted">Verificación</dt>
+        <dd class="mt-1 text-sm text-ink">
+          @if (profile(); as userProfile) {
+            {{ levelLabel(userProfile.verificationLevel) }}
+          } @else {
+            —
+          }
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  @if (loading()) {
+    <section class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando perfil…
+    </section>
+  } @else if (loadError(); as errorMessage) {
+    <section class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="errorMessage" />
+      <ui-button variant="secondary" type="button" (click)="load()">Reintentar</ui-button>
+    </section>
+  } @else if (profile(); as userProfile) {
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">Datos del perfil</h2>
+      <p class="mb-4 mt-1 text-sm text-muted">
+        Estos datos alimentan tu perfil y los requisitos de cada rol.
+      </p>
+      <app-profile-form [profile]="userProfile" (saved)="onProfileSaved($event)" />
+    </section>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">Privacidad</h2>
+      <p class="mb-4 mt-1 text-sm text-muted">Decide qué información pueden ver otros miembros.</p>
+      <app-privacy-form [profile]="userProfile" (saved)="onProfileSaved($event)" />
+    </section>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">Consentimientos</h2>
+      <p class="mb-4 mt-1 text-sm text-muted">Puedes aceptar o revocar cada autorización.</p>
+      <app-consents-panel />
+    </section>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">Verificación de identidad</h2>
+      <p class="mt-1 text-sm text-muted">
+        Sube documentos para alcanzar la verificación completa (necesaria para publicar o solicitar
+        alojamiento).
+      </p>
+      <a
+        routerLink="/perfil/verificacion"
+        class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+        >Gestionar documentos</a
+      >
+    </section>
+  }
+</div>

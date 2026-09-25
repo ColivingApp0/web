@@ -1,0 +1,39 @@
+@if (serverError(); as errorMessage) {
+  <div class="mb-4">
+    <ui-alert [message]="errorMessage" />
+  </div>
+}
+
+<ul class="space-y-3">
+  @for (doc of documents; track doc.type) {
+    <li class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line p-4">
+      <div class="min-w-0">
+        <p class="font-bold text-ink">{{ doc.title }}</p>
+        <p class="mt-0.5 text-sm text-muted">{{ doc.description }}</p>
+        @if (statusFor(doc.type); as status) {
+          <p class="mt-1 text-xs" [class]="status.accepted ? 'text-brand-700' : 'text-muted'">
+            @if (status.accepted) {
+              Aceptado el {{ status.timestamp | date: 'medium' }}
+            } @else {
+              No aceptado
+            }
+          </p>
+        } @else {
+          <p class="mt-1 text-xs text-muted">No aceptado</p>
+        }
+      </div>
+      <ui-button
+        variant="secondary"
+        type="button"
+        [loading]="busyType() === doc.type"
+        (click)="toggle(doc)"
+      >
+        @if (statusFor(doc.type)?.accepted ?? false) {
+          Revocar
+        } @else {
+          Aceptar
+        }
+      </ui-button>
+    </li>
+  }
+</ul>

@@ -1,0 +1,72 @@
+<form [formRoot]="profileForm" class="space-y-4" novalidate>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <ui-form-field htmlFor="profile-name" label="Nombre completo" [error]="nameError()">
+      <input
+        id="profile-name"
+        type="text"
+        autocomplete="name"
+        [formField]="profileForm.name"
+        [attr.aria-describedby]="nameError() ? 'profile-name-error' : null"
+        [attr.aria-invalid]="nameError() ? 'true' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field
+      htmlFor="profile-phone"
+      label="Teléfono"
+      hint="Requerido para el rol de anfitrión."
+    >
+      <input
+        id="profile-phone"
+        type="tel"
+        autocomplete="tel"
+        [formField]="profileForm.phone"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field
+      htmlFor="profile-guest-type"
+      label="Tipo de huésped"
+      hint="Necesario para los roles de huésped."
+    >
+      <select
+        id="profile-guest-type"
+        [formField]="profileForm.guestType"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      >
+        <option value="">Sin definir</option>
+        <option value="ESTUDIANTE">Estudiante</option>
+        <option value="TURISTA">Turista</option>
+      </select>
+    </ui-form-field>
+
+    <ui-form-field
+      htmlFor="profile-preferences"
+      label="Preferencias de estancia"
+      hint="Separadas por comas. Por ejemplo: wifi, silencio, mascotas."
+    >
+      <input
+        id="profile-preferences"
+        type="text"
+        [formField]="profileForm.stayPreferences"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+  </div>
+
+  <p class="text-xs text-muted">
+    Ciudad y datos académicos se podrán editar cuando exista el catálogo público (limitación
+    conocida; sus valores actuales se conservan al guardar).
+  </p>
+
+  <ui-alert [message]="serverError()" />
+  @if (success()) {
+    <ui-alert variant="success" message="Perfil guardado." />
+  }
+
+  <ui-button [loading]="submitting()">{{
+    submitting() ? 'Guardando…' : 'Guardar perfil'
+  }}</ui-button>
+</form>
