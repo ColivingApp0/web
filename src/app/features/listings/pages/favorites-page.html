@@ -1,0 +1,74 @@
+<div class="mx-auto max-w-3xl space-y-6">
+  <div>
+    <h1 class="font-display text-2xl font-extrabold text-ink">Mis favoritos</h1>
+    <p class="mt-1 text-sm text-muted">Alojamientos que guardaste para decidir después.</p>
+  </div>
+
+  <ui-alert [message]="favorites.error()" />
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando favoritos…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button variant="secondary" type="button" (click)="load()">Reintentar</ui-button>
+    </div>
+  } @else if (rows().length === 0) {
+    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
+      <p class="font-bold text-ink">Aún no tienes favoritos guardados.</p>
+      <p class="mt-1 text-sm text-muted">
+        Explora alojamientos y guárdalos con el corazón para verlos aquí.
+      </p>
+      <a
+        routerLink="/alojamientos"
+        class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+        >Explorar alojamientos</a
+      >
+    </div>
+  } @else {
+    <ul class="space-y-3">
+      @for (row of rows(); track row.publicationId) {
+        <li
+          class="flex flex-wrap items-center justify-between gap-3 rounded-card border border-line bg-white p-5 shadow-card"
+        >
+          <div class="min-w-0">
+            @if (row.unavailable) {
+              <p class="font-bold text-ink">Alojamiento no disponible</p>
+              <p class="mt-0.5 text-sm text-muted">
+                Puede haberse pausado o archivado desde que lo guardaste.
+              </p>
+            } @else {
+              <p class="font-bold text-ink">{{ row.title }}</p>
+              <p class="mt-0.5 text-sm text-muted">
+                @if (row.price !== null && row.currency; as currency) {
+                  {{ row.price | currency: currency : 'symbol-narrow' : '1.0-0' }} / noche ·
+                }
+                Guardado el {{ row.createdAt | date: 'mediumDate' }}
+              </p>
+            }
+          </div>
+
+          <div class="flex items-center gap-3">
+            @if (!row.unavailable) {
+              <a
+                [routerLink]="['/alojamientos', row.publicationId]"
+                class="text-sm font-extrabold text-brand-700 hover:underline"
+                >Ver detalle →</a
+              >
+            }
+            <ui-button
+              variant="secondary"
+              type="button"
+              [loading]="favorites.isPending(row.publicationId)"
+              (click)="remove(row)"
+            >
+              Quitar
+            </ui-button>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+</div>

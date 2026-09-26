@@ -1,0 +1,160 @@
+<div class="space-y-6">
+  <div>
+    <h1 class="font-display text-2xl font-extrabold text-ink">Alojamientos</h1>
+    <p class="mt-1 text-sm text-muted">
+      Explora publicaciones activas y filtra por precio, fechas y estancia mínima.
+    </p>
+  </div>
+
+  @if (hasUnmappableFilters()) {
+    <ui-alert
+      variant="info"
+      message="El filtro por ciudad o universidad estará disponible cuando se habilite el catálogo público (limitación conocida del piloto). El resto de filtros sí se aplican."
+    />
+  }
+
+  @if (appliedMonthlyBudget(); as budget) {
+    <p class="rounded-card border border-line bg-white px-4 py-3 text-xs text-muted shadow-card">
+      Presupuesto mensual:
+      <strong class="text-ink">{{
+        budget.monthly | currency: 'COP' : 'symbol-narrow' : '1.0-0'
+      }}</strong>
+      · se aplica como tope de
+      <strong class="text-ink">{{
+        budget.nightly | currency: 'COP' : 'symbol-narrow' : '1.0-0'
+      }}</strong>
+      por noche (mes de referencia: {{ referenceMonthNights }} noches), porque la búsqueda del
+      backend filtra por precio por noche. Si el tope queda por debajo de los precios publicados no
+      aparecerán resultados: puedes ajustar el «Precio máximo (por noche)» de los filtros.
+    </p>
+  }
+
+  <form
+    [formRoot]="filterForm"
+    class="grid gap-4 rounded-card border border-line bg-white p-5 shadow-card sm:grid-cols-2 lg:grid-cols-3"
+    novalidate
+  >
+    <ui-form-field htmlFor="filter-min-price" label="Precio mínimo (por noche)">
+      <input
+        id="filter-min-price"
+        type="text"
+        inputmode="numeric"
+        placeholder="Sin mínimo"
+        [formField]="filterForm.minPrice"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field htmlFor="filter-max-price" label="Precio máximo (por noche)">
+      <input
+        id="filter-max-price"
+        type="text"
+        inputmode="numeric"
+        placeholder="Sin máximo"
+        [formField]="filterForm.maxPrice"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field htmlFor="filter-currency" label="Moneda">
+      <select
+        id="filter-currency"
+        [formField]="filterForm.currency"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      >
+        <option value="">Todas</option>
+        <option value="COP">COP</option>
+        <option value="USD">USD</option>
+      </select>
+    </ui-form-field>
+
+    <ui-form-field htmlFor="filter-from" label="Disponible desde">
+      <input
+        id="filter-from"
+        type="date"
+        [formField]="filterForm.availableFrom"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field htmlFor="filter-to" label="Disponible hasta">
+      <input
+        id="filter-to"
+        type="date"
+        [formField]="filterForm.availableTo"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field
+      htmlFor="filter-min-nights"
+      label="Noches de estancia"
+      hint="Alojamientos cuya estancia mínima la permita."
+    >
+      <input
+        id="filter-min-nights"
+        type="text"
+        inputmode="numeric"
+        placeholder="Sin mínimo"
+        [formField]="filterForm.minNights"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field htmlFor="filter-sort" label="Ordenar por">
+      <select
+        id="filter-sort"
+        [formField]="filterForm.sort"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      >
+        <option value="">Más recientes</option>
+        @for (option of sortOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </ui-form-field>
+
+    <div class="flex items-end gap-3 sm:col-span-2 lg:col-span-1">
+      <ui-button [loading]="loading()">Aplicar filtros</ui-button>
+      <ui-button variant="secondary" type="button" (click)="clearFilters()">Limpiar</ui-button>
+    </div>
+  </form>
+
+  <ui-alert [message]="formError()" />
+  <ui-alert [message]="favorites.error()" />
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Buscando alojamientos…
+    </p>
+  } @else if (errorMessage(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (listings().length === 0) {
+    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
+      <p class="font-bold text-ink">No encontramos alojamientos con esos filtros.</p>
+      <p class="mt-1 text-sm text-muted">Prueba a ampliar el rango de precios o las fechas.</p>
+      <div class="mt-4 flex justify-center">
+        <ui-button variant="secondary" type="button" (click)="clearFilters()"
+          >Limpiar filtros</ui-button
+        >
+      </div>
+    </div>
+  } @else {
+    <div>
+      <p class="text-sm text-muted">{{ listings().length }} alojamiento(s) encontrados</p>
+      <div class="mt-3 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        @for (listing of listings(); track listing.publicationId) {
+          <app-listing-card
+            [listing]="listing"
+            [favorite]="favorites.isFavorite(listing.publicationId)"
+            [favoritePending]="favorites.isPending(listing.publicationId)"
+            (favoriteToggle)="favorites.toggle($event)"
+          />
+        }
+      </div>
+    </div>
+  }
+</div>

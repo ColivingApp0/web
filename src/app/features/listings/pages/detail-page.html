@@ -1,0 +1,203 @@
+<div class="mx-auto max-w-3xl space-y-6">
+  <a routerLink="/alojamientos" class="inline-block text-sm font-bold text-muted hover:text-ink"
+    >← Volver a alojamientos</a
+  >
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando alojamiento…
+    </p>
+  } @else if (errorMessage(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (detail(); as publication) {
+    <header>
+      <div class="flex items-start justify-between gap-4">
+        <h1 class="font-display text-3xl font-extrabold tracking-[-0.03em] text-ink">
+          {{ publication.publication.title }}
+        </h1>
+        <button
+          type="button"
+          class="grid size-11 shrink-0 place-items-center rounded-full border border-line text-xl transition hover:bg-soft disabled:opacity-50"
+          [style.color]="favorites.isFavorite(publication.publication.id) ? '#d24d58' : null"
+          [attr.aria-pressed]="favorites.isFavorite(publication.publication.id)"
+          [attr.aria-label]="
+            favorites.isFavorite(publication.publication.id)
+              ? 'Quitar de favoritos'
+              : 'Guardar en favoritos'
+          "
+          [disabled]="favorites.isPending(publication.publication.id)"
+          (click)="favorites.toggle(publication.publication.id)"
+        >
+          {{ favorites.isFavorite(publication.publication.id) ? '♥' : '♡' }}
+        </button>
+      </div>
+      <ui-alert [message]="favorites.error()" />
+      <p class="mt-2 text-lg">
+        @if (publication.pricing; as pricing) {
+          <strong class="font-display text-2xl font-extrabold text-brand-700">{{
+            pricing.basePricePerNight | currency: pricing.currency : 'symbol-narrow' : '1.0-0'
+          }}</strong>
+          <span class="text-muted"> por noche ({{ pricing.currency }})</span>
+        } @else {
+          <span class="text-muted">Precio a consultar con el anfitrión</span>
+        }
+      </p>
+      @if (publication.rules; as rules) {
+        <p class="mt-1 text-sm text-muted">
+          Estancia de {{ rules.minNights }} a {{ rules.maxNights }} noches
+        </p>
+      }
+
+      <div class="mt-4">
+        @if (canRequestReservation()) {
+          <a
+            [routerLink]="['/reservas/nueva']"
+            [queryParams]="{
+              publication: publication.publication.id,
+              unidad: publication.unit.id,
+              desde: selectedDates().from,
+              hasta: selectedDates().to,
+            }"
+            class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+            >Solicitar reserva</a
+          >
+          <p class="mt-2 text-xs text-muted">
+            El anfitrión decide; si acepta, tendrás un plazo para confirmar.
+            {{ selectedDates().from | date: 'd MMM y' }} →
+            {{ selectedDates().to | date: 'd MMM y' }}.
+          </p>
+        } @else if (!hasGuestRole()) {
+          <p class="text-sm text-muted">
+            Para solicitar una reserva necesitas un rol de huésped activo (huésped estudiante o
+            turista).
+          </p>
+        } @else {
+          <p class="text-sm text-muted">
+            Esta publicación no admite solicitudes ahora mismo: solo las publicaciones publicadas y
+            con precio configurado pueden recibir solicitudes.
+          </p>
+        }
+      </div>
+    </header>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">Sobre el alojamiento</h2>
+      <p class="mt-2 text-sm text-ink">
+        {{ publication.property.description ?? 'El anfitrión aún no ha añadido una descripción.' }}
+      </p>
+
+      @if (publication.property.amenities.length > 0) {
+        <h3 class="mt-5 text-sm font-bold text-ink">Servicios del inmueble</h3>
+        <ul class="mt-2 flex flex-wrap gap-2">
+          @for (amenity of publication.property.amenities; track amenity) {
+            <li class="rounded-md bg-[#f1f5f3] px-2 py-1 text-xs">{{ amenity }}</li>
+          }
+        </ul>
+      }
+
+      @if (publication.property.address; as address) {
+        <h3 class="mt-5 text-sm font-bold text-ink">Ubicación</h3>
+        <p class="mt-1 text-sm text-muted">{{ address }}</p>
+      }
+
+      <h3 class="mt-5 text-sm font-bold text-ink">Unidad</h3>
+      <dl class="mt-2 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+        <div>
+          <dt class="text-xs font-bold uppercase tracking-wide text-muted">Huéspedes</dt>
+          <dd class="mt-0.5 text-ink">{{ publication.unit.maxGuests }}</dd>
+        </div>
+        <div>
+          <dt class="text-xs font-bold uppercase tracking-wide text-muted">Habitaciones</dt>
+          <dd class="mt-0.5 text-ink">{{ publication.unit.bedrooms }}</dd>
+        </div>
+        <div>
+          <dt class="text-xs font-bold uppercase tracking-wide text-muted">Camas</dt>
+          <dd class="mt-0.5 text-ink">{{ publication.unit.beds }}</dd>
+        </div>
+        <div>
+          <dt class="text-xs font-bold uppercase tracking-wide text-muted">Baños</dt>
+          <dd class="mt-0.5 text-ink">{{ publication.unit.bathrooms }}</dd>
+        </div>
+      </dl>
+
+      @if (publication.rules; as rules) {
+        <h3 class="mt-5 text-sm font-bold text-ink">Reglas de la publicación</h3>
+        <ul class="mt-2 grid gap-1 text-sm text-ink sm:grid-cols-2">
+          <li>Cancelación: {{ policyLabels[rules.cancellationPolicy] }}</li>
+          <li>Check-in: {{ formatTime(rules.checkInTime) }}</li>
+          <li>Check-out: {{ formatTime(rules.checkOutTime) }}</li>
+          <li>Estancia: de {{ rules.minNights }} a {{ rules.maxNights }} noches</li>
+        </ul>
+        @if (rules.houseRules.length > 0) {
+          <ul class="mt-3 list-inside list-disc text-sm text-muted">
+            @for (rule of rules.houseRules; track rule) {
+              <li>{{ rule }}</li>
+            }
+          </ul>
+        }
+      }
+    </section>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">Disponibilidad</h2>
+      <p class="mt-1 text-sm text-muted">
+        Consulta el estado día a día de la unidad para el rango que te interese.
+      </p>
+
+      <form [formRoot]="datesForm" class="mt-4 grid gap-4 sm:grid-cols-[1fr_1fr_auto]" novalidate>
+        <ui-form-field htmlFor="availability-from" label="Desde">
+          <input
+            id="availability-from"
+            type="date"
+            [formField]="datesForm.from"
+            class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+          />
+        </ui-form-field>
+        <ui-form-field htmlFor="availability-to" label="Hasta">
+          <input
+            id="availability-to"
+            type="date"
+            [formField]="datesForm.to"
+            class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+          />
+        </ui-form-field>
+        <div class="flex items-end">
+          <ui-button [loading]="availabilityLoading()">Consultar</ui-button>
+        </div>
+      </form>
+
+      <div class="mt-4 space-y-3">
+        <ui-alert [message]="availabilityError()" />
+
+        @if (availability(); as days) {
+          @if (days.length === 0) {
+            <p class="text-sm text-muted">No hay días en el rango consultado.</p>
+          } @else {
+            <ul class="divide-y divide-line rounded-xl border border-line">
+              @for (day of days; track day.date) {
+                <li class="flex items-center justify-between gap-3 px-4 py-2.5">
+                  <span class="text-sm text-ink">{{ day.date | date: 'EEE d MMM y' }}</span>
+                  <span
+                    class="rounded-full px-3 py-1 text-xs font-bold"
+                    [class]="stateClasses(day.state)"
+                  >
+                    {{ stateLabel(day.state) }}
+                  </span>
+                </li>
+              }
+            </ul>
+            <p class="text-xs text-muted">
+              «No disponible» incluye bloqueos del anfitrión y solicitudes en proceso; «Ocupado»
+              corresponde a reservas confirmadas.
+            </p>
+          }
+        } @else if (!availabilityLoading() && availabilityError() === null) {
+          <p class="text-sm text-muted">Aún no has consultado la disponibilidad.</p>
+        }
+      </div>
+    </section>
+  }
+</div>
