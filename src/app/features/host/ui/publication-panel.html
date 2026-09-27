@@ -1,0 +1,79 @@
+@if (publication(); as pub) {
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <p class="font-bold text-ink">{{ pub.title }}</p>
+      <p class="mt-0.5 text-xs text-muted">Publicación de la unidad (1:1)</p>
+    </div>
+    <span class="rounded-full px-3 py-1 text-xs font-bold" [class]="classes[pub.status]">
+      {{ labels[pub.status] }}
+    </span>
+  </div>
+
+  @if (pub.status === 'EN_REVISION') {
+    <p class="mt-3 text-sm text-muted">
+      La publicación está en manos de moderación; las acciones del anfitrión se reanudan cuando haya
+      una decisión.
+    </p>
+  }
+
+  @if (actions().length > 0) {
+    <div class="mt-4 flex flex-wrap gap-3">
+      @for (action of actions(); track action.action) {
+        <ui-button
+          [variant]="action.danger ? 'secondary' : 'primary'"
+          type="button"
+          [loading]="actionBusy() === action.action"
+          [disabled]="actionBusy() !== null && actionBusy() !== action.action"
+          (click)="run(action)"
+        >
+          {{ action.label }}
+        </ui-button>
+      }
+    </div>
+  }
+} @else {
+  <p class="text-sm text-muted">
+    Esta unidad aún no tiene publicación. Crea una para poder definir precio, reglas y
+    disponibilidad, y para que aparezca en búsquedas cuando la publiques.
+  </p>
+
+  <form [formRoot]="createForm" class="mt-4 space-y-4" novalidate>
+    <ui-form-field
+      htmlFor="host-publication-title"
+      label="Título de la publicación"
+      [error]="titleError()"
+    >
+      <input
+        id="host-publication-title"
+        type="text"
+        [formField]="createForm.title"
+        [attr.aria-describedby]="titleError() ? 'host-publication-title-error' : null"
+        [attr.aria-invalid]="titleError() ? 'true' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-button [loading]="creating()">
+      {{ creating() ? 'Creando…' : 'Crear publicación' }}
+    </ui-button>
+  </form>
+
+  @if (limitation()) {
+    <p class="mt-3 text-xs text-muted">
+      La API del piloto todavía no permite recuperar las publicaciones existentes del anfitrión
+      (limitación conocida del backend), así que solo pueden gestionarse aquí las creadas durante
+      esta visita.
+    </p>
+  }
+}
+
+<div class="mt-4 space-y-3">
+  <ui-alert [message]="error()" />
+  @if (publishGateHint()) {
+    <p class="text-sm">
+      <a routerLink="/perfil/verificacion" class="font-bold text-brand-700 hover:underline"
+        >Revisar mi verificación de identidad</a
+      >
+    </p>
+  }
+</div>

@@ -1,0 +1,85 @@
+<div class="space-y-6">
+  <a
+    [routerLink]="['/anfitrion/propiedades', propertyId()]"
+    class="inline-block text-sm font-bold text-muted hover:text-ink"
+    >← Volver a la propiedad</a
+  >
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando unidad…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (notFound()) {
+    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
+      <p class="font-bold text-ink">No encontramos esta unidad en la propiedad.</p>
+      <a
+        [routerLink]="['/anfitrion/propiedades', propertyId()]"
+        class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+        >Volver a la propiedad</a
+      >
+    </div>
+  } @else if (unit(); as currentUnit) {
+    <header>
+      <h1 class="font-display text-2xl font-extrabold text-ink">{{ currentUnit.name }}</h1>
+      <p class="mt-1 text-sm text-muted">
+        {{ currentUnit.maxGuests }} huésped(es) · {{ currentUnit.bedrooms }} hab. ·
+        {{ currentUnit.beds }} cama(s) · {{ currentUnit.bathrooms }} baño(s)
+      </p>
+    </header>
+
+    @if (success(); as message) {
+      <ui-alert variant="success" [message]="message" />
+    }
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="mb-4 font-display text-lg font-bold text-ink">Datos de la unidad</h2>
+      <app-host-unit-form
+        [propertyId]="propertyId()"
+        [unit]="currentUnit"
+        (saved)="onUnitSaved($event)"
+      />
+    </section>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="mb-4 font-display text-lg font-bold text-ink">Publicación</h2>
+      <app-host-publication-panel
+        [unitId]="currentUnit.id"
+        [publication]="publication()"
+        (created)="onPublicationCreated($event)"
+        (changed)="onPublicationChanged($event)"
+      />
+    </section>
+
+    @if (publication(); as pub) {
+      <section class="rounded-card border border-line bg-white p-6 shadow-card">
+        <h2 class="font-display text-lg font-bold text-ink">Precio</h2>
+        <p class="mb-4 mt-1 text-xs text-muted">
+          Hasta que el backend exponga la lectura de publicaciones del anfitrión, los valores ya
+          guardados no pueden mostrarse al recargar (limitación conocida del piloto).
+        </p>
+        <app-host-pricing-form [publicationId]="pub.id" />
+      </section>
+
+      <section class="rounded-card border border-line bg-white p-6 shadow-card">
+        <h2 class="font-display text-lg font-bold text-ink">Reglas</h2>
+        <p class="mb-4 mt-1 text-xs text-muted">
+          Política de cancelación, horarios y estancias mínima/máxima.
+        </p>
+        <app-host-rules-form [publicationId]="pub.id" />
+      </section>
+    }
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">Disponibilidad (bloqueos)</h2>
+      <p class="mb-4 mt-1 text-sm text-muted">
+        Bloquea fechas concretas (mantenimiento, uso propio) o libera bloqueos existentes.
+      </p>
+      <app-host-blocks-form [unitId]="currentUnit.id" />
+    </section>
+  }
+</div>

@@ -1,0 +1,61 @@
+<form [formRoot]="blocksForm" class="space-y-4" novalidate>
+  <div class="grid gap-4 sm:grid-cols-[1fr_1fr_auto]">
+    <ui-form-field htmlFor="host-blocks-from" label="Desde" [error]="fromError()">
+      <input
+        id="host-blocks-from"
+        type="date"
+        [formField]="blocksForm.from"
+        [attr.aria-describedby]="fromError() ? 'host-blocks-from-error' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field htmlFor="host-blocks-to" label="Hasta" [error]="toError()">
+      <input
+        id="host-blocks-to"
+        type="date"
+        [formField]="blocksForm.to"
+        [attr.aria-describedby]="toError() ? 'host-blocks-to-error' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <div class="flex items-end gap-3">
+      <ui-button [loading]="busy() === 'block'">
+        {{ busy() === 'block' ? 'Bloqueando…' : 'Bloquear' }}
+      </ui-button>
+      <ui-button
+        variant="secondary"
+        type="button"
+        [loading]="busy() === 'release'"
+        [disabled]="busy() !== null && busy() !== 'release'"
+        (click)="run('release')"
+      >
+        Liberar
+      </ui-button>
+    </div>
+  </div>
+
+  <p class="text-xs text-muted">
+    El rango usa el intervalo [desde, hasta): «Bloquear» impide solicitudes en esos días y «Liberar»
+    solo retira bloqueos del anfitrión (nunca reservas en curso).
+  </p>
+
+  <ui-alert [message]="error()" />
+  @if (resultMessage(); as message) {
+    <ui-alert variant="success" [message]="message" />
+  }
+
+  @if (days(); as resultDays) {
+    <ul class="divide-y divide-line rounded-xl border border-line">
+      @for (day of resultDays; track day.date) {
+        <li class="flex items-center justify-between gap-3 px-4 py-2.5">
+          <span class="text-sm text-ink">{{ day.date | date: 'EEE d MMM y' }}</span>
+          <span class="rounded-full px-3 py-1 text-xs font-bold" [class]="stateClasses(day.state)">
+            {{ stateLabel(day.state) }}
+          </span>
+        </li>
+      }
+    </ul>
+  }
+</form>

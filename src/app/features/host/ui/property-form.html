@@ -1,0 +1,64 @@
+<form [formRoot]="propertyForm" class="space-y-4" novalidate>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <ui-form-field htmlFor="host-property-title" label="Título" [error]="titleError()">
+      <input
+        id="host-property-title"
+        type="text"
+        [formField]="propertyForm.title"
+        [attr.aria-describedby]="titleError() ? 'host-property-title-error' : null"
+        [attr.aria-invalid]="titleError() ? 'true' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field htmlFor="host-property-address" label="Dirección">
+      <input
+        id="host-property-address"
+        type="text"
+        [formField]="propertyForm.address"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+  </div>
+
+  <ui-form-field htmlFor="host-property-description" label="Descripción">
+    <textarea
+      id="host-property-description"
+      rows="3"
+      [formField]="propertyForm.description"
+      class="w-full resize-y rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+    ></textarea>
+  </ui-form-field>
+
+  <ui-form-field
+    htmlFor="host-property-amenities"
+    label="Servicios del inmueble"
+    hint="Separados por comas. Por ejemplo: WiFi, cocina, lavadora."
+  >
+    <input
+      id="host-property-amenities"
+      type="text"
+      [formField]="propertyForm.amenities"
+      class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+    />
+  </ui-form-field>
+
+  <p class="text-xs text-muted">
+    La ciudad se podrá editar cuando exista el catálogo público (limitación conocida; su valor
+    actual se conserva).
+  </p>
+
+  <ui-alert [message]="serverError()" />
+
+  <ui-button [loading]="submitting()">
+    {{
+      isEdit()
+        ? submitting()
+          ? 'Guardando…'
+          : 'Guardar cambios'
+        : submitting()
+          ? 'Creando…'
+          : 'Crear propiedad'
+    }}
+  </ui-button>
+</form>

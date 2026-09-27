@@ -1,0 +1,72 @@
+<form [formRoot]="unitForm" class="space-y-4" novalidate>
+  <ui-form-field htmlFor="host-unit-name" label="Nombre de la unidad" [error]="nameError()">
+    <input
+      id="host-unit-name"
+      type="text"
+      [formField]="unitForm.name"
+      [attr.aria-describedby]="nameError() ? 'host-unit-name-error' : null"
+      [attr.aria-invalid]="nameError() ? 'true' : null"
+      class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+    />
+  </ui-form-field>
+
+  <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+    <ui-form-field htmlFor="host-unit-guests" label="Huéspedes" [error]="maxGuestsError()">
+      <input
+        id="host-unit-guests"
+        type="text"
+        inputmode="numeric"
+        [formField]="unitForm.maxGuests"
+        [attr.aria-describedby]="maxGuestsError() ? 'host-unit-guests-error' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field htmlFor="host-unit-bedrooms" label="Habitaciones" [error]="bedroomsError()">
+      <input
+        id="host-unit-bedrooms"
+        type="text"
+        inputmode="numeric"
+        [formField]="unitForm.bedrooms"
+        [attr.aria-describedby]="bedroomsError() ? 'host-unit-bedrooms-error' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field htmlFor="host-unit-beds" label="Camas" [error]="bedsError()">
+      <input
+        id="host-unit-beds"
+        type="text"
+        inputmode="numeric"
+        [formField]="unitForm.beds"
+        [attr.aria-describedby]="bedsError() ? 'host-unit-beds-error' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+
+    <ui-form-field htmlFor="host-unit-bathrooms" label="Baños" [error]="bathroomsError()">
+      <input
+        id="host-unit-bathrooms"
+        type="text"
+        inputmode="numeric"
+        [formField]="unitForm.bathrooms"
+        [attr.aria-describedby]="bathroomsError() ? 'host-unit-bathrooms-error' : null"
+        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      />
+    </ui-form-field>
+  </div>
+
+  <ui-alert [message]="serverError()" />
+
+  <ui-button [loading]="submitting()">
+    {{
+      isEdit()
+        ? submitting()
+          ? 'Guardando…'
+          : 'Guardar cambios'
+        : submitting()
+          ? 'Creando…'
+          : 'Crear unidad'
+    }}
+  </ui-button>
+</form>

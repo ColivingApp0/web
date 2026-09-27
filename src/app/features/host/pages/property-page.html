@@ -1,0 +1,94 @@
+<div class="space-y-6">
+  <a routerLink="/anfitrion" class="inline-block text-sm font-bold text-muted hover:text-ink"
+    >← Área de anfitrión</a
+  >
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando propiedad…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (notFound()) {
+    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
+      <p class="font-bold text-ink">No encontramos esta propiedad o no es tuya.</p>
+      <a
+        routerLink="/anfitrion"
+        class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+        >Volver al área de anfitrión</a
+      >
+    </div>
+  } @else if (property(); as prop) {
+    <header class="flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <h1 class="font-display text-2xl font-extrabold text-ink">{{ prop.title }}</h1>
+        @if (prop.address; as address) {
+          <p class="mt-1 text-sm text-muted">{{ address }}</p>
+        }
+      </div>
+      @if (prop.archived) {
+        <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-800"
+          >Archivada</span
+        >
+      }
+    </header>
+
+    @if (success(); as message) {
+      <ui-alert variant="success" [message]="message" />
+    }
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="mb-4 font-display text-lg font-bold text-ink">Datos de la propiedad</h2>
+      <app-host-property-form [property]="prop" (saved)="onPropertySaved($event)" />
+    </section>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <h2 class="font-display text-lg font-bold text-ink">Unidades</h2>
+        <ui-button
+          type="button"
+          variant="secondary"
+          (click)="showCreateUnit.set(!showCreateUnit())"
+        >
+          {{ showCreateUnit() ? 'Cancelar' : 'Nueva unidad' }}
+        </ui-button>
+      </div>
+
+      @if (showCreateUnit()) {
+        <div class="mt-4 rounded-xl border border-line p-4">
+          <app-host-unit-form [propertyId]="prop.id" (saved)="onUnitCreated($event)" />
+        </div>
+      }
+
+      @if (unitsLoading()) {
+        <p class="mt-4 text-sm text-muted">Cargando unidades…</p>
+      } @else if (units().length === 0) {
+        <p class="mt-4 text-sm text-muted">Esta propiedad aún no tiene unidades.</p>
+      } @else {
+        <ul class="mt-4 space-y-3">
+          @for (unit of units(); track unit.id) {
+            <li
+              class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line p-4"
+            >
+              <div class="min-w-0">
+                <p class="font-bold text-ink">{{ unit.name }}</p>
+                <p class="mt-0.5 text-xs text-muted">
+                  {{ unit.maxGuests }} huésped(es) · {{ unit.bedrooms }} hab. ·
+                  {{ unit.beds }} cama(s) · {{ unit.bathrooms }} baño(s)
+                </p>
+              </div>
+              <a
+                [routerLink]="['/anfitrion/propiedades', prop.id, 'unidades', unit.id]"
+                class="text-sm font-extrabold text-brand-700 hover:underline"
+                >Gestionar →</a
+              >
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+</div>
