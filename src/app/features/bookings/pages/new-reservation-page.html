@@ -1,0 +1,194 @@
+<div class="space-y-6">
+  <a
+    [routerLink]="['/alojamientos', publicationId()]"
+    class="inline-block text-sm font-bold text-muted hover:text-ink"
+    >← Volver al alojamiento</a
+  >
+
+  <div>
+    <h1 class="font-display text-2xl font-extrabold text-ink">Solicitar reserva</h1>
+    <p class="mt-1 text-sm text-muted">
+      El anfitrión decide si acepta. Si acepta, tendrás un plazo para confirmar y cerrar la reserva.
+    </p>
+  </div>
+
+  @if (publicationId() === '') {
+    <div class="rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert
+        message="Falta el alojamiento a solicitar. Abre la ficha del alojamiento y usa «Solicitar reserva»."
+      />
+      <div class="mt-4">
+        <a
+          routerLink="/alojamientos"
+          class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+          >Ver alojamientos</a
+        >
+      </div>
+    </div>
+  } @else if (contextLoading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando el alojamiento…
+    </p>
+  } @else if (contextError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button type="button" variant="secondary" (click)="retryContext()">Reintentar</ui-button>
+    </div>
+  } @else if (context(); as unit) {
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">{{ unit.unitName }}</h2>
+      @if (unit.propertyTitle; as title) {
+        <p class="mt-1 text-sm text-muted">{{ title }}</p>
+      }
+      @if (unit.propertyAddress; as address) {
+        <p class="mt-0.5 text-xs text-muted">{{ address }}</p>
+      }
+
+      <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+        <div>
+          <dt class="text-xs font-semibold uppercase tracking-wide text-muted">Capacidad</dt>
+          <dd class="text-ink">{{ unit.maxGuests }} huésped(es)</dd>
+        </div>
+        <div>
+          <dt class="text-xs font-semibold uppercase tracking-wide text-muted">Precio por noche</dt>
+          <dd class="text-ink">
+            @if (unit.pricePerNight > 0) {
+              {{ unit.pricePerNight | currency: unit.currency : 'symbol-narrow' : '1.0-2' }}
+            } @else {
+              Sin precio configurado
+            }
+          </dd>
+        </div>
+        <div>
+          <dt class="text-xs font-semibold uppercase tracking-wide text-muted">
+            Política de cancelación
+          </dt>
+          <dd class="text-ink">
+            @if (unit.cancellationPolicy; as policy) {
+              {{ policyLabels[policy] }}
+            } @else {
+              Sin definir
+            }
+          </dd>
+        </div>
+        <div>
+          <dt class="text-xs font-semibold uppercase tracking-wide text-muted">
+            Estancia declarada
+          </dt>
+          <dd class="text-ink">
+            @if (unit.minNights !== null || unit.maxNights !== null) {
+              {{ unit.minNights ?? '—' }}–{{ unit.maxNights ?? '—' }} noches
+            } @else {
+              Sin definir
+            }
+          </dd>
+        </div>
+      </dl>
+
+      @if (missingPricing()) {
+        <div class="mt-4">
+          <ui-alert
+            variant="info"
+            message="Esta publicación no tiene precio configurado: la API rechazará la solicitud (responde 404 porque exige publicación y precio)."
+          />
+        </div>
+      }
+
+      <p class="mt-4 text-xs text-muted">
+        El precio, la moneda y la política se congelan al crear la solicitud (RN-07): cambios
+        posteriores del anfitrión no alteran tu reserva. La API valida el rango, la capacidad y tu
+        verificación; los mínimos/máximos declarados por el anfitrión no se aplican al crear (solo
+        el límite de {{ maxNights }} noches), así que no bloqueamos el envío por ellos.
+      </p>
+    </section>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="mb-4 font-display text-lg font-bold text-ink">Datos de la solicitud</h2>
+
+      <form [formRoot]="requestForm" class="space-y-4" novalidate>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <ui-form-field htmlFor="booking-from" label="Entrada (desde)" [error]="fromError()">
+            <input
+              id="booking-from"
+              type="date"
+              [formField]="requestForm.from"
+              [attr.aria-describedby]="fromError() ? 'booking-from-error' : null"
+              [attr.aria-invalid]="fromError() ? 'true' : null"
+              class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+            />
+          </ui-form-field>
+
+          <ui-form-field htmlFor="booking-to" label="Salida (hasta)" [error]="toError()">
+            <input
+              id="booking-to"
+              type="date"
+              [formField]="requestForm.to"
+              [attr.aria-describedby]="toError() ? 'booking-to-error' : null"
+              [attr.aria-invalid]="toError() ? 'true' : null"
+              class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+            />
+          </ui-form-field>
+        </div>
+
+        <p class="text-xs text-muted">
+          El rango usa la convención [entrada, salida): la noche de la salida no se cuenta.
+          @if (nights() > 0) {
+            Esta solicitud es de <strong>{{ nights() }}</strong> noche(s).
+          }
+        </p>
+
+        <ui-form-field
+          htmlFor="booking-occupants"
+          label="Huéspedes"
+          [error]="occupantsError()"
+          [hint]="'La unidad admite hasta ' + unit.maxGuests + ' huésped(es).'"
+        >
+          <input
+            id="booking-occupants"
+            type="text"
+            inputmode="numeric"
+            [formField]="requestForm.occupants"
+            [attr.aria-describedby]="occupantsError() ? 'booking-occupants-error' : null"
+            [attr.aria-invalid]="occupantsError() ? 'true' : null"
+            class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+          />
+        </ui-form-field>
+
+        <ui-form-field
+          htmlFor="booking-message"
+          label="Mensaje para el anfitrión (opcional)"
+          hint="Cuéntale quién eres y para cuándo necesitas la estancia."
+        >
+          <textarea
+            id="booking-message"
+            rows="3"
+            [formField]="requestForm.message"
+            class="w-full resize-y rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+          ></textarea>
+        </ui-form-field>
+
+        @if (estimated(); as total) {
+          <p class="rounded-xl border border-line bg-soft px-4 py-3 text-sm text-ink">
+            Total estimado ({{ nights() }} noche ×
+            {{ unit.pricePerNight | currency: unit.currency : 'symbol-narrow' : '1.0-2' }}):
+            <strong class="text-ink">{{
+              total | currency: unit.currency : 'symbol-narrow' : '1.0-2'
+            }}</strong>
+          </p>
+        }
+
+        <ui-alert [message]="actionError()" />
+
+        @if (verificationGate()) {
+          <p class="text-sm">
+            <a routerLink="/perfil/verificacion" class="font-bold text-brand-700 hover:underline"
+              >Revisar mi verificación de identidad</a
+            >
+          </p>
+        }
+
+        <ui-button [loading]="submitting()">Enviar solicitud</ui-button>
+      </form>
+    </section>
+  }
+</div>

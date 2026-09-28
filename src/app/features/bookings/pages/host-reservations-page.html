@@ -1,0 +1,69 @@
+<div class="space-y-6">
+  <div>
+    <h1 class="font-display text-2xl font-extrabold text-ink">Reservas recibidas</h1>
+    <p class="mt-1 text-sm text-muted">
+      Decide sobre las solicitudes de tus unidades. Aceptar bloquea los días y abre un plazo de
+      confirmación para el huésped; rechazar o cancelar los libera.
+    </p>
+  </div>
+
+  @if (successMessage(); as message) {
+    <ui-alert variant="success" [message]="message" />
+  }
+  <ui-alert [message]="actionError()" />
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando reservas recibidas…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (reservations().length === 0) {
+    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
+      <p class="font-bold text-ink">No tienes solicitudes por ahora.</p>
+      <p class="mt-1 text-sm text-muted">
+        Cuando un huésped solicite una de tus unidades publicadas, aparecerá aquí.
+      </p>
+    </div>
+  } @else {
+    <ul class="space-y-4">
+      @for (reservation of reservations(); track reservation.id) {
+        <li>
+          <app-reservation-card
+            mode="host"
+            [reservation]="reservation"
+            [unitName]="unitName(reservation)"
+            [history]="historyOf(reservation)"
+            [historyLoading]="historyLoading(reservation)"
+            [busyAction]="busyReservationId() === reservation.id ? busyAction() : null"
+            (action)="run(reservation, $event)"
+            (toggleHistory)="toggleHistory(reservation)"
+          />
+          @if (unitLink(reservation); as link) {
+            <p class="mt-2 text-xs">
+              <a [routerLink]="link" class="font-bold text-brand-700 hover:underline"
+                >Gestionar la unidad</a
+              >
+              ·
+              <a
+                [routerLink]="['/mensajes/nueva']"
+                [queryParams]="{ reserva: reservation.id }"
+                class="font-bold text-brand-700 hover:underline"
+                >Conversación</a
+              >
+              ·
+              <a
+                [routerLink]="['/reputacion/usuario', reservation.guestUserId]"
+                class="font-bold text-brand-700 hover:underline"
+                >Reputación del huésped</a
+              >
+            </p>
+          }
+        </li>
+      }
+    </ul>
+  }
+</div>

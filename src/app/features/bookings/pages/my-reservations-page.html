@@ -1,0 +1,78 @@
+<div class="space-y-6">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="font-display text-2xl font-extrabold text-ink">Mis reservas</h1>
+      <p class="mt-1 text-sm text-muted">
+        Solicitudes que enviaste: confirma dentro del plazo provisional o cancela con un motivo.
+      </p>
+    </div>
+    <a
+      routerLink="/alojamientos"
+      class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+      >Buscar alojamientos</a
+    >
+  </div>
+
+  @if (successMessage(); as message) {
+    <ui-alert variant="success" [message]="message" />
+  }
+  <ui-alert [message]="actionError()" />
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando tus reservas…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (reservations().length === 0) {
+    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
+      <p class="font-bold text-ink">Aún no has solicitado ninguna reserva.</p>
+      <p class="mt-1 text-sm text-muted">
+        Explora alojamientos, consulta su disponibilidad y envía una solicitud al anfitrión.
+      </p>
+    </div>
+  } @else {
+    <ul class="space-y-4">
+      @for (reservation of reservations(); track reservation.id) {
+        <li>
+          <app-reservation-card
+            mode="guest"
+            [reservation]="reservation"
+            [busyAction]="busyReservationId() === reservation.id ? busyAction() : null"
+            (action)="run(reservation, $event)"
+          />
+          <p class="mt-2 text-xs">
+            <a
+              [routerLink]="['/alojamientos', reservation.publicationId]"
+              class="font-bold text-brand-700 hover:underline"
+              >Ver el alojamiento</a
+            >
+            ·
+            <a
+              [routerLink]="['/mensajes/nueva']"
+              [queryParams]="{ reserva: reservation.id }"
+              class="font-bold text-brand-700 hover:underline"
+              >Conversación</a
+            >
+            @if (reservation.status === 'CONFIRMADA') {
+              ·
+              <a
+                [routerLink]="['/reputacion/evaluar']"
+                [queryParams]="{
+                  relacion: reservation.id,
+                  desde: reservation.fromDate,
+                  hasta: reservation.toDate,
+                }"
+                class="font-bold text-brand-700 hover:underline"
+                >Evaluar estancia</a
+              >
+            }
+          </p>
+        </li>
+      }
+    </ul>
+  }
+</div>
