@@ -1,0 +1,184 @@
+<div class="space-y-6">
+  <a routerLink="/mensajes" class="inline-block text-sm font-bold text-muted hover:text-ink"
+    >← Volver a mensajes</a
+  >
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando la conversación…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (detail(); as conversation) {
+    <header class="flex flex-wrap items-start justify-between gap-3">
+      <div>
+        <h1 class="font-display text-2xl font-extrabold text-ink">Conversación</h1>
+        @if (stay(); as currentStay) {
+          <p class="mt-1 text-sm text-muted">
+            Estancia: {{ currentStay.fromDate | date: 'd MMM y' }} →
+            {{ currentStay.toDate | date: 'd MMM y' }}
+          </p>
+        }
+        <p class="mt-0.5 text-xs text-muted">
+          Reserva <span class="font-mono">{{ conversation.conversation.reservationId }}</span>
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <ui-button type="button" variant="secondary" (click)="refresh()">Actualizar</ui-button>
+        <a
+          routerLink="/reservas"
+          class="inline-flex items-center justify-center rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-bold text-brand-700 transition hover:bg-soft"
+          >Ver mis reservas</a
+        >
+      </div>
+    </header>
+
+    <p class="text-xs text-muted">
+      La mensajería del backend no ofrece tiempo real: los mensajes nuevos de la contraparte
+      aparecen al usar «Actualizar» o al volver a entrar en la conversación.
+    </p>
+
+    @if (successMessage(); as message) {
+      <ui-alert variant="success" [message]="message" />
+    }
+    <ui-alert [message]="actionError()" />
+    <ui-alert [message]="sendError()" />
+
+    <section class="rounded-card border border-line bg-white p-4 shadow-card">
+      @if (isEmpty()) {
+        <p class="text-sm text-muted">
+          Todavía no hay mensajes en esta conversación. Escribe el primero para presentarte.
+        </p>
+      } @else {
+        <ol role="log" aria-live="polite" aria-relevant="additions" class="flex flex-col gap-3">
+          @for (message of messages(); track message.id) {
+            <app-message-bubble [message]="message" [own]="isOwn(message)" />
+          }
+        </ol>
+      }
+    </section>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="mb-4 font-display text-lg font-bold text-ink">Escribir mensaje</h2>
+
+      <form [formRoot]="composerForm" class="space-y-4" novalidate>
+        <ui-form-field
+          htmlFor="message-body"
+          label="Mensaje"
+          [error]="bodyError()"
+          [hint]="'Máximo ' + maxLength + ' caracteres (límite real del backend).'"
+        >
+          <textarea
+            id="message-body"
+            rows="3"
+            [formField]="composerForm.body"
+            [attr.aria-describedby]="bodyError() ? 'message-body-error' : null"
+            [attr.aria-invalid]="bodyError() ? 'true' : null"
+            class="w-full resize-y rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+          ></textarea>
+        </ui-form-field>
+
+        <p class="text-xs text-muted" aria-live="polite">
+          {{ draftLength() }} / {{ maxLength }} caracteres
+        </p>
+
+        <ui-button [loading]="sending()" [disabled]="!canSend()">Enviar mensaje</ui-button>
+      </form>
+    </section>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">Seguridad de la conversación</h2>
+      <p class="mt-1 text-sm text-muted">
+        Reportar abre un caso de moderación (uno por conversación y persona). Bloquear impide que la
+        otra persona escriba en vuestros hilos; la lectura sigue permitida y el bloqueo se puede
+        deshacer.
+      </p>
+
+      @if (reportSuccess(); as message) {
+        <div class="mt-4">
+          <ui-alert variant="success" [message]="message" />
+        </div>
+      }
+
+      @if (myReport(); as report) {
+        <div class="mt-4">
+          <ui-alert
+            variant="info"
+            [message]="
+              'Ya reportaste esta conversación. Caso ' +
+              report.caseId +
+              ' en revisión por moderación.'
+            "
+          />
+        </div>
+      } @else {
+        <div class="mt-4">
+          <ui-button type="button" variant="secondary" (click)="toggleReportForm()">
+            {{ showReportForm() ? 'Cancelar reporte' : 'Reportar conversación' }}
+          </ui-button>
+        </div>
+
+        @if (showReportForm()) {
+          <form [formRoot]="reportForm" class="mt-4 space-y-4" novalidate>
+            <ui-form-field
+              htmlFor="report-reason"
+              label="Motivo del reporte"
+              [error]="reportReasonFieldError()"
+              [hint]="'Obligatorio. Máximo ' + reportMaxLength + ' caracteres.'"
+            >
+              <textarea
+                id="report-reason"
+                rows="2"
+                [formField]="reportForm.reason"
+                [attr.aria-describedby]="reportReasonFieldError() ? 'report-reason-error' : null"
+                [attr.aria-invalid]="reportReasonFieldError() ? 'true' : null"
+                class="w-full resize-y rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+              ></textarea>
+            </ui-form-field>
+
+            <p class="text-xs text-muted">
+              {{ reportReasonLength() }} / {{ reportMaxLength }} caracteres
+            </p>
+
+            <ui-alert [message]="reportError()" />
+
+            <ui-button [loading]="reporting()">Enviar reporte</ui-button>
+          </form>
+        }
+      }
+
+      <div class="mt-4 border-t border-line pt-4">
+        @if (counterpartBlocked()) {
+          <ui-button
+            type="button"
+            variant="secondary"
+            [loading]="blocking()"
+            (click)="unblockCounterpart()"
+          >
+            Desbloquear a la contraparte
+          </ui-button>
+          <p class="mt-2 text-xs text-muted">
+            Tienes bloqueada a la contraparte: no puede escribir en ninguna conversación compartida
+            (tú sigues viendo el historial).
+          </p>
+        } @else {
+          <ui-button
+            type="button"
+            variant="secondary"
+            [loading]="blocking()"
+            (click)="blockCounterpart()"
+          >
+            Bloquear a la contraparte
+          </ui-button>
+          <p class="mt-2 text-xs text-muted">
+            Bloquear corta la escritura en ambos sentidos; el historial sigue visible para las dos
+            partes.
+          </p>
+        }
+      </div>
+    </section>
+  }
+</div>

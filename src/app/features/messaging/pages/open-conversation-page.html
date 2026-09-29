@@ -1,0 +1,65 @@
+<div class="space-y-6">
+  <a routerLink="/mensajes" class="inline-block text-sm font-bold text-muted hover:text-ink"
+    >← Volver a mensajes</a
+  >
+
+  @if (missingReservation()) {
+    <div class="rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert
+        message="Falta la reserva. Abre la conversación con el botón «Conversación» de una de tus reservas."
+      />
+      <div class="mt-4">
+        <a
+          routerLink="/reservas"
+          class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+          >Ir a mis reservas</a
+        >
+      </div>
+    </div>
+  } @else if (checking()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Comprobando si la conversación ya existe…
+    </p>
+  } @else {
+    <div>
+      <h1 class="font-display text-2xl font-extrabold text-ink">Abrir conversación</h1>
+      <p class="mt-1 text-sm text-muted">
+        La conversación vive dentro de la reserva. Si todavía no existe, se crea al enviar el primer
+        mensaje; si ya existe, te llevaremos directamente a ella.
+      </p>
+      <p class="mt-1 text-xs text-muted">
+        Reserva <span class="font-mono">{{ reservationId() }}</span>
+      </p>
+    </div>
+
+    <ui-alert [message]="notice()" />
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="mb-4 font-display text-lg font-bold text-ink">Primer mensaje</h2>
+
+      <form [formRoot]="firstMessageForm" class="space-y-4" novalidate>
+        <ui-form-field
+          htmlFor="first-message-body"
+          label="Mensaje"
+          [error]="bodyError()"
+          [hint]="'Máximo ' + maxLength + ' caracteres (límite real del backend).'"
+        >
+          <textarea
+            id="first-message-body"
+            rows="3"
+            [formField]="firstMessageForm.body"
+            [attr.aria-describedby]="bodyError() ? 'first-message-body-error' : null"
+            [attr.aria-invalid]="bodyError() ? 'true' : null"
+            class="w-full resize-y rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+          ></textarea>
+        </ui-form-field>
+
+        <ui-alert [message]="error()" />
+
+        <ui-button [loading]="starting()" [disabled]="!canStart()"
+          >Enviar y abrir conversación</ui-button
+        >
+      </form>
+    </section>
+  }
+</div>
