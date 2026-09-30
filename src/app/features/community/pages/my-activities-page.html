@@ -1,0 +1,51 @@
+<div class="space-y-6">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="font-display text-2xl font-extrabold text-ink">Mi comunidad</h1>
+      <p class="mt-1 text-sm text-muted">
+        Actividades que el anfitrión habilitó para la comunidad autorizada de tu alojamiento.
+        Confirma tu asistencia o retírate desde cada actividad.
+      </p>
+      <p class="mt-1 text-xs text-muted">
+        Tu consentimiento de privacidad decide si apareces en el resumen agregado de la comunidad
+        (<a routerLink="/perfil/privacidad" class="font-bold text-brand-700 hover:underline"
+          >gestionar consentimiento</a
+        >).
+      </p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando actividades…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (activities().length === 0) {
+    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
+      <p class="font-bold text-ink">Aún no participas en ninguna actividad.</p>
+      <p class="mt-1 text-sm text-muted">
+        El anfitrión habilita a los residentes con estancia confirmada al crear cada actividad; en
+        cuanto te habilite aparecerá aquí.
+      </p>
+    </div>
+  } @else {
+    <ul class="space-y-4">
+      @for (activity of activities(); track activity.id) {
+        <li>
+          <app-activity-card [activity]="activity" />
+          <p class="mt-2 text-xs">
+            <a
+              [routerLink]="['/comunidad', activity.id]"
+              class="font-bold text-brand-700 hover:underline"
+              >Ver actividad y participantes →</a
+            >
+          </p>
+        </li>
+      }
+    </ul>
+  }
+</div>

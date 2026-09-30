@@ -1,0 +1,162 @@
+<div class="space-y-6">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="font-display text-2xl font-extrabold text-ink">Comunidad de mis propiedades</h1>
+      <p class="mt-1 text-sm text-muted">
+        Crea actividades para los residentes con estancia confirmada, revisa quién se ha apuntado y
+        cancela las que ya no se celebren.
+      </p>
+    </div>
+    <ui-button type="button" (click)="toggleCreate()">
+      {{ showCreate() ? 'Cancelar' : 'Nueva actividad' }}
+    </ui-button>
+  </div>
+
+  @if (successMessage(); as message) {
+    <ui-alert variant="success" [message]="message" />
+  }
+  <ui-alert [message]="actionError()" />
+
+  @if (showCreate()) {
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="mb-4 font-display text-lg font-bold text-ink">Nueva actividad</h2>
+
+      @if (contextLoading()) {
+        <p class="text-sm text-muted">Cargando tus propiedades y residentes…</p>
+      } @else if (contextError(); as error) {
+        <div class="space-y-3">
+          <ui-alert [message]="error" />
+          <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+        </div>
+      } @else {
+        <app-create-activity-form
+          [properties]="properties()"
+          [units]="units()"
+          [reservations]="reservations()"
+          (created)="onCreated($event)"
+        />
+      }
+    </section>
+  }
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando actividades…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (activities().length === 0) {
+    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
+      <p class="font-bold text-ink">Todavía no has creado actividades.</p>
+      <p class="mt-1 text-sm text-muted">
+        Una actividad se crea para una propiedad y se habilita a sus residentes con estancia
+        confirmada; solo ellos la verán.
+      </p>
+    </div>
+  } @else {
+    <ul class="space-y-4">
+      @for (activity of activities(); track activity.id) {
+        <li>
+          <app-activity-card [activity]="activity">
+            <div class="flex flex-wrap gap-3">
+              <ui-button
+                type="button"
+                variant="secondary"
+                [loading]="detailLoading(activity.id)"
+                (click)="toggleDetail(activity)"
+              >
+                {{ detailOf(activity.id) === null ? 'Ver participantes' : 'Ocultar participantes' }}
+              </ui-button>
+              @if (activity.status === 'PROGRAMADA') {
+                <ui-button
+                  type="button"
+                  variant="secondary"
+                  [loading]="busyActivityId() === activity.id"
+                  (click)="cancel(activity)"
+                  >Cancelar actividad</ui-button
+                >
+              }
+            </div>
+          </app-activity-card>
+
+          @if (detailOf(activity.id); as detail) {
+            <div class="mt-2 rounded-card border border-line bg-white p-4 shadow-card">
+              @if (detail.participants.length === 0) {
+                <p class="text-sm text-muted">La actividad no tiene participantes habilitados.</p>
+              } @else {
+                <ul class="divide-y divide-line">
+                  @for (participant of detail.participants; track participant.userId) {
+                    <li class="flex flex-wrap items-center justify-between gap-2 py-2">
+                      <span class="font-mono text-xs text-ink">{{ participant.userId }}</span>
+                      <span class="rounded-full bg-soft px-3 py-1 text-xs font-bold text-ink">
+                        {{ participationLabels[participant.status] }}
+                      </span>
+                    </li>
+                  }
+                </ul>
+              }
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  }
+
+  <section class="rounded-card border border-line bg-white p-6 shadow-card">
+    <h2 class="font-display text-lg font-bold text-ink">Resumen de la comunidad</h2>
+    <p class="mt-1 text-sm text-muted">
+      Información agregada por propiedad (RF-062): solo contadores, y solo cuando existe
+      consentimiento suficiente de los residentes (consentimiento de privacidad, que cada persona
+      gestiona en su perfil).
+    </p>
+
+    <div class="mt-4 max-w-sm">
+      <ui-form-field htmlFor="summary-property" label="Propiedad">
+        <select
+          id="summary-property"
+          [value]="summaryPropertyId()"
+          (change)="onSummaryPropertyChange($event)"
+          class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        >
+          <option value="">Selecciona una propiedad</option>
+          @for (property of properties(); track property.id) {
+            <option [value]="property.id">{{ property.title ?? property.id }}</option>
+          }
+        </select>
+      </ui-form-field>
+    </div>
+
+    @if (summary(); as community) {
+      @if (!community.available) {
+        <div class="mt-4">
+          <ui-alert
+            variant="info"
+            message="Todavía no hay consentimiento suficiente para esta propiedad: el backend no considera disponible el resumen."
+          />
+        </div>
+      } @else {
+        <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wide text-muted">Residentes</dt>
+            <dd class="text-ink">{{ community.residentCount }}</dd>
+          </div>
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wide text-muted">
+              Con consentimiento
+            </dt>
+            <dd class="text-ink">{{ community.consentedResidentCount }}</dd>
+          </div>
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wide text-muted">
+              Actividades próximas
+            </dt>
+            <dd class="text-ink">{{ community.upcomingActivityCount }}</dd>
+          </div>
+        </dl>
+      }
+    }
+  </section>
+</div>

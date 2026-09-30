@@ -1,0 +1,116 @@
+<div class="space-y-6">
+  <a routerLink="/comunidad" class="inline-block text-sm font-bold text-muted hover:text-ink"
+    >← Volver a mi comunidad</a
+  >
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando la actividad…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (detail(); as current) {
+    @if (successMessage(); as message) {
+      <ui-alert variant="success" [message]="message" />
+    }
+    <ui-alert [message]="actionError()" />
+
+    <app-activity-card [activity]="current.activity" [participation]="participation()">
+      <div class="flex flex-wrap gap-3">
+        @if (canConfirmNow()) {
+          <ui-button
+            type="button"
+            [loading]="busyAction() === 'confirm'"
+            [disabled]="busyAction() !== null && busyAction() !== 'confirm'"
+            (click)="confirmAttendance()"
+            >Confirmar asistencia</ui-button
+          >
+        }
+        @if (canWithdrawNow()) {
+          <ui-button
+            type="button"
+            variant="secondary"
+            [loading]="busyAction() === 'withdraw'"
+            [disabled]="busyAction() !== null && busyAction() !== 'withdraw'"
+            (click)="withdraw()"
+            >Retirarme</ui-button
+          >
+        }
+        <ui-button type="button" variant="secondary" (click)="refresh()">Actualizar</ui-button>
+      </div>
+
+      @if (!canConfirmNow() && !canWithdrawNow()) {
+        <p class="mt-3 text-xs text-muted">
+          No hay acciones disponibles ahora mismo: la actividad puede estar cancelada, haber pasado,
+          no tener plazas libres o no estar habilitado para ti.
+        </p>
+      }
+    </app-activity-card>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">Comunidad autorizada</h2>
+      <p class="mt-1 text-xs text-muted">
+        Los participantes se muestran por su identificador: la API no expone nombres ni contacto de
+        otras personas (el identificador es el mismo que aparece en tus reservas).
+      </p>
+
+      @if (current.participants.length === 0) {
+        <p class="mt-4 text-sm text-muted">La actividad no tiene participantes habilitados.</p>
+      } @else {
+        <ul class="mt-4 divide-y divide-line rounded-xl border border-line">
+          @for (participant of current.participants; track participant.userId) {
+            <li class="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5">
+              <span class="font-mono text-xs text-ink">{{ participant.userId }}</span>
+              <span class="rounded-full bg-soft px-3 py-1 text-xs font-bold text-ink">
+                {{ participationLabel(participant) }}
+              </span>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="font-display text-lg font-bold text-ink">Resumen de la comunidad</h2>
+      <p class="mt-1 text-sm text-muted">
+        Información agregada de la propiedad (RF-062): solo contadores, y solo cuando existe
+        consentimiento suficiente de los residentes.
+      </p>
+
+      @if (summary(); as community) {
+        @if (!community.available) {
+          <div class="mt-4">
+            <ui-alert
+              variant="info"
+              message="Todavía no hay consentimiento suficiente para mostrar el resumen: el backend no lo considera disponible."
+            />
+          </div>
+        } @else {
+          <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+            <div>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-muted">Residentes</dt>
+              <dd class="text-ink">{{ community.residentCount }}</dd>
+            </div>
+            <div>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-muted">
+                Con consentimiento
+              </dt>
+              <dd class="text-ink">{{ community.consentedResidentCount }}</dd>
+            </div>
+            <div>
+              <dt class="text-xs font-semibold uppercase tracking-wide text-muted">
+                Actividades próximas
+              </dt>
+              <dd class="text-ink">{{ community.upcomingActivityCount }}</dd>
+            </div>
+          </dl>
+        }
+      } @else {
+        <p class="mt-4 text-sm text-muted">Cargando el resumen…</p>
+      }
+    </section>
+  }
+</div>
