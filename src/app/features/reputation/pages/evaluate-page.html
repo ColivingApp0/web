@@ -1,0 +1,97 @@
+<div class="space-y-6">
+  <a routerLink="/reservas" class="inline-block text-sm font-bold text-muted hover:text-ink"
+    >← Volver a mis reservas</a
+  >
+
+  <div>
+    <h1 class="font-display text-2xl font-extrabold text-ink">Evaluar la estancia</h1>
+    <p class="mt-1 text-sm text-muted">
+      Valora a la contraparte con las cinco categorías definidas. Solo se admite una evaluación por
+      estancia, y la relación debe estar confirmada.
+    </p>
+    <p class="mt-0.5 text-xs text-muted">
+      Reserva <span class="font-mono">{{ relationId() }}</span>
+      @if (fromDate() !== '' && toDate() !== '') {
+        · {{ fromDate() }} → {{ toDate() }}
+      }
+    </p>
+  </div>
+
+  @if (relationId() === '') {
+    <div class="rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert
+        message="Falta la estancia a evaluar. Abre la evaluación desde una reserva confirmada en «Mis reservas»."
+      />
+      <div class="mt-4">
+        <a
+          routerLink="/reservas"
+          class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+          >Ir a mis reservas</a
+        >
+      </div>
+    </div>
+  } @else if (checking()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Comprobando si ya evaluaste esta estancia…
+    </p>
+  } @else if (alreadyEvaluated()) {
+    <div class="rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert
+        variant="info"
+        message="Ya evaluaste esta estancia: el contrato admite una única evaluación por autor y evento."
+      />
+      <div class="mt-4">
+        <a
+          routerLink="/reputacion/evaluaciones"
+          class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
+          >Ver mis evaluaciones</a
+        >
+      </div>
+    </div>
+  } @else {
+    <section class="rounded-card border border-line bg-white p-6 shadow-card">
+      <h2 class="mb-4 font-display text-lg font-bold text-ink">Categorías (1 a 5)</h2>
+
+      <div class="space-y-3">
+        @for (category of categories; track category) {
+          <app-rating-input
+            [category]="category"
+            [label]="categoryLabels[category]"
+            [value]="ratingOf(category)"
+            (valueChange)="setRating(category, $event)"
+          />
+        }
+      </div>
+
+      @if (ratingsIssue(); as issue) {
+        <p class="mt-3 text-xs font-medium text-red-700">{{ issue }}</p>
+      }
+
+      <div class="mt-6">
+        <form [formRoot]="commentForm" class="space-y-4" novalidate>
+          <ui-form-field
+            htmlFor="evaluation-comment"
+            label="Comentario (opcional)"
+            [error]="commentError()"
+            hint="Máximo 1000 caracteres."
+          >
+            <textarea
+              id="evaluation-comment"
+              rows="3"
+              [formField]="commentForm.comment"
+              [attr.aria-describedby]="commentError() ? 'evaluation-comment-error' : null"
+              [attr.aria-invalid]="commentError() ? 'true' : null"
+              class="w-full resize-y rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+            ></textarea>
+          </ui-form-field>
+
+          <ui-alert [message]="error()" />
+
+          <ui-button type="button" [loading]="submitting()" (click)="submit()"
+            >Enviar evaluación</ui-button
+          >
+        </form>
+      </div>
+    </section>
+  }
+</div>

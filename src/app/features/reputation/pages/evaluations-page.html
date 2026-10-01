@@ -1,0 +1,164 @@
+<div class="space-y-6">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="font-display text-2xl font-extrabold text-ink">Mis evaluaciones</h1>
+      <p class="mt-1 text-sm text-muted">
+        Evaluaciones que escribiste tras una estancia confirmada y evaluaciones que recibiste.
+        Puedes disputar una evaluación recibida: se abre un caso y deja de contar para tu score
+        hasta que se resuelva.
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-3">
+      <a
+        routerLink="/reputacion"
+        class="inline-flex items-center justify-center rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-bold text-brand-700 transition hover:bg-soft"
+        >Mi reputación</a
+      >
+      <ui-button type="button" variant="secondary" (click)="retry()">Actualizar</ui-button>
+    </div>
+  </div>
+
+  @if (successMessage(); as message) {
+    <ui-alert variant="success" [message]="message" />
+  }
+
+  <section class="rounded-card border border-line bg-white p-6 shadow-card">
+    <h2 class="font-display text-lg font-bold text-ink">Recibidas</h2>
+
+    @if (receivedLoading()) {
+      <p class="mt-2 text-sm text-muted">Cargando evaluaciones recibidas…</p>
+    } @else if (receivedError(); as error) {
+      <div class="mt-2 space-y-3">
+        <ui-alert [message]="error" />
+        <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+      </div>
+    } @else if (received().length === 0) {
+      <p class="mt-2 text-sm text-muted">
+        Aún no has recibido evaluaciones: se crean cuando la contraparte de una estancia confirmada
+        te evalúa.
+      </p>
+    } @else {
+      <ul class="mt-4 space-y-3">
+        @for (evaluation of received(); track evaluation.id) {
+          <li class="rounded-xl border border-line p-4">
+            <div class="flex flex-wrap items-start justify-between gap-2">
+              <div class="min-w-0">
+                <p class="text-sm text-ink">
+                  Nota global
+                  <strong>{{ evaluation.overallRating | number: '1.2-2' }}</strong>
+                  · autor <span class="font-mono text-xs">{{ evaluation.authorUserId }}</span>
+                </p>
+                <p class="mt-0.5 text-xs text-muted">
+                  {{ evaluation.createdAt | date: 'd MMM y, HH:mm' }}
+                </p>
+              </div>
+              <span
+                class="rounded-full px-3 py-1 text-xs font-bold"
+                [class]="statusClasses[evaluation.status]"
+              >
+                {{ statusLabels[evaluation.status] }}
+              </span>
+            </div>
+
+            @if (evaluation.comment; as comment) {
+              <p class="mt-2 rounded-xl border border-line bg-soft px-3 py-2 text-sm text-ink">
+                «{{ comment }}»
+              </p>
+            }
+
+            @if (evaluation.disputeCaseId; as caseId) {
+              <p class="mt-2 text-xs text-muted">
+                Caso de moderación <span class="font-mono">{{ caseId }}</span>
+              </p>
+            }
+
+            @if (evaluation.status === 'ACTIVA') {
+              <div class="mt-3">
+                <ui-button type="button" variant="secondary" (click)="toggleDispute(evaluation)">
+                  {{ pendingDisputeId() === evaluation.id ? 'Cancelar disputa' : 'Disputar' }}
+                </ui-button>
+              </div>
+            }
+
+            @if (pendingDisputeId() === evaluation.id) {
+              <div class="mt-3 space-y-3 rounded-xl border border-line p-4">
+                <ui-form-field
+                  htmlFor="dispute-reason"
+                  label="Motivo de la disputa"
+                  [error]="reasonError()"
+                  [hint]="'Obligatorio. Máximo ' + reasonMaxLength + ' caracteres.'"
+                >
+                  <textarea
+                    id="dispute-reason"
+                    rows="2"
+                    [value]="disputeReason()"
+                    (input)="updateReason($event)"
+                    [attr.aria-describedby]="reasonError() ? 'dispute-reason-error' : null"
+                    [attr.aria-invalid]="reasonError() ? 'true' : null"
+                    class="w-full resize-y rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+                  ></textarea>
+                </ui-form-field>
+                <ui-alert [message]="disputeError()" />
+                <ui-button
+                  type="button"
+                  [loading]="disputing()"
+                  (click)="submitDispute(evaluation)"
+                >
+                  Enviar disputa
+                </ui-button>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </section>
+
+  <section class="rounded-card border border-line bg-white p-6 shadow-card">
+    <h2 class="font-display text-lg font-bold text-ink">Escritas</h2>
+
+    @if (writtenLoading()) {
+      <p class="mt-2 text-sm text-muted">Cargando evaluaciones escritas…</p>
+    } @else if (writtenError(); as error) {
+      <div class="mt-2 space-y-3">
+        <ui-alert [message]="error" />
+        <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+      </div>
+    } @else if (written().length === 0) {
+      <p class="mt-2 text-sm text-muted">
+        Todavía no has evaluado ninguna estancia. Puedes hacerlo desde «Mis reservas» en las
+        reservas confirmadas.
+      </p>
+    } @else {
+      <ul class="mt-4 space-y-3">
+        @for (evaluation of written(); track evaluation.id) {
+          <li class="rounded-xl border border-line p-4">
+            <div class="flex flex-wrap items-start justify-between gap-2">
+              <div class="min-w-0">
+                <p class="text-sm text-ink">
+                  Nota global <strong>{{ evaluation.overallRating | number: '1.2-2' }}</strong> ·
+                  evaluado <span class="font-mono text-xs">{{ evaluation.subjectUserId }}</span>
+                </p>
+                <p class="mt-0.5 text-xs text-muted">
+                  Reserva <span class="font-mono">{{ evaluation.relationId }}</span> ·
+                  {{ evaluation.createdAt | date: 'd MMM y, HH:mm' }}
+                </p>
+              </div>
+              <span
+                class="rounded-full px-3 py-1 text-xs font-bold"
+                [class]="statusClasses[evaluation.status]"
+              >
+                {{ statusLabels[evaluation.status] }}
+              </span>
+            </div>
+            @if (evaluation.comment; as comment) {
+              <p class="mt-2 rounded-xl border border-line bg-soft px-3 py-2 text-sm text-ink">
+                «{{ comment }}»
+              </p>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</div>
