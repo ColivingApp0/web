@@ -1,0 +1,162 @@
+<div class="space-y-6">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="font-display text-2xl font-extrabold text-ink">Reglas de beneficio</h1>
+      <p class="mt-1 text-sm text-muted">
+        RF-073: los beneficios del score se configuran como datos (código y puntuación mínima) sin
+        tocar la fórmula. El cálculo y la concesión siguen siendo del backend.
+      </p>
+      <p class="mt-1 text-xs text-muted">
+        El contrato real permite crear, listar y desactivar. No hay edición ni reactivación, así que
+        no se ofrecen; una regla desactivada se conserva para no perder referencias.
+      </p>
+    </div>
+    <ui-button type="button" variant="secondary" (click)="retry()">Actualizar</ui-button>
+  </div>
+
+  @if (successMessage(); as message) {
+    <ui-alert variant="success" [message]="message" />
+  }
+  <ui-alert [message]="actionError()" />
+
+  <section class="rounded-card border border-line bg-white p-6 shadow-card">
+    <h2 class="font-display text-lg font-bold text-ink">Nueva regla</h2>
+
+    <div class="mt-4 grid gap-4 sm:grid-cols-3">
+      <ui-form-field
+        htmlFor="benefit-code"
+        label="Código"
+        [error]="createCodeError()"
+        [hint]="'Se guarda en mayúsculas. Máximo ' + codeMaxLength + ' caracteres.'"
+      >
+        <input
+          id="benefit-code"
+          type="text"
+          [value]="createValues().code"
+          (input)="updateCreateField('code', $event)"
+          class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        />
+      </ui-form-field>
+
+      <ui-form-field
+        htmlFor="benefit-score"
+        label="Puntuación mínima del score"
+        [error]="createMinScoreError()"
+        [hint]="'Entre ' + minScore + ' y ' + maxScore + '.'"
+      >
+        <input
+          id="benefit-score"
+          type="text"
+          inputmode="decimal"
+          [value]="createValues().minScore"
+          (input)="updateCreateField('minScore', $event)"
+          class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        />
+      </ui-form-field>
+
+      <ui-form-field
+        htmlFor="benefit-description"
+        label="Descripción (opcional)"
+        [error]="createDescriptionError()"
+        [hint]="'Máximo ' + descriptionMaxLength + ' caracteres.'"
+      >
+        <input
+          id="benefit-description"
+          type="text"
+          [value]="createValues().description"
+          (input)="updateCreateField('description', $event)"
+          class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        />
+      </ui-form-field>
+    </div>
+
+    @if (createError(); as error) {
+      <p class="mt-3 text-xs font-medium text-red-700">{{ error }}</p>
+    }
+
+    <div class="mt-4">
+      <ui-button type="button" [loading]="creating()" (click)="submitCreate()"
+        >Crear regla</ui-button
+      >
+    </div>
+  </section>
+
+  <label class="flex items-center gap-2 text-sm text-ink">
+    <input
+      type="checkbox"
+      [checked]="includeInactive()"
+      (change)="toggleInactive($event)"
+      class="size-4 rounded border-line"
+    />
+    Mostrar reglas inactivas
+  </label>
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando reglas…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (rules().length === 0) {
+    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
+      <p class="font-bold text-ink">No hay reglas de beneficio configuradas.</p>
+      <p class="mt-1 text-sm text-muted">
+        Mientras no existan reglas, ningún score concede beneficios (la reputación los muestra como
+        lista vacía).
+      </p>
+    </div>
+  } @else {
+    <ul class="space-y-3">
+      @for (rule of rules(); track rule.id) {
+        <li class="rounded-card border border-line bg-white p-5 shadow-card">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div class="min-w-0">
+              <p class="text-sm font-semibold text-ink">
+                <span class="font-mono text-xs text-muted">{{ rule.code }}</span>
+                · desde {{ rule.minScore | number: '1.1-2' }} de score
+              </p>
+              @if (rule.description; as description) {
+                <p class="mt-1 text-sm text-ink">{{ description }}</p>
+              }
+              <p class="mt-1 font-mono text-xs text-muted">{{ rule.id }}</p>
+            </div>
+            <span
+              class="rounded-full px-3 py-1 text-xs font-bold"
+              [class]="rule.active ? 'bg-emerald-100 text-emerald-800' : 'bg-soft text-muted'"
+            >
+              {{ rule.active ? 'Activa' : 'Inactiva' }}
+            </span>
+          </div>
+
+          @if (rule.active) {
+            <div class="mt-4 flex flex-wrap gap-3">
+              <ui-button type="button" variant="secondary" (click)="toggleConfirm(rule)">{{
+                confirmingId() === rule.id ? 'Cancelar' : 'Desactivar'
+              }}</ui-button>
+            </div>
+
+            @if (confirmingId() === rule.id) {
+              <div class="mt-3 rounded-xl border border-red-200 bg-red-50 p-4">
+                <p class="text-sm text-ink">
+                  ¿Desactivar «{{ rule.code }}»? Dejará de concederse el beneficio a partir de esa
+                  puntuación y no se puede reactivar desde la API.
+                </p>
+                <div class="mt-3">
+                  <ui-button
+                    type="button"
+                    [loading]="deactivatingId() === rule.id"
+                    (click)="deactivate(rule)"
+                    >Confirmar desactivación</ui-button
+                  >
+                </div>
+              </div>
+            }
+          }
+        </li>
+      }
+    </ul>
+  }
+</div>

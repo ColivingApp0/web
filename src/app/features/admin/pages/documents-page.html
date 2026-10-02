@@ -1,0 +1,135 @@
+<div class="space-y-6">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="font-display text-2xl font-extrabold text-ink">Verificación de documentos</h1>
+      <p class="mt-1 text-sm text-muted">
+        RF-080: el moderador revisa los documentos pendientes y decide. Aprobar no exige motivo;
+        rechazar y solicitar corrección sí (queda registrado con el revisor).
+      </p>
+      <p class="mt-1 text-xs text-muted">
+        El contrato solo expone el tipo, el estado y las fechas del documento: la API no informa de
+        qué usuario es ni permite ver el archivo, así que esta cola no muestra identidad ni
+        contenido.
+      </p>
+    </div>
+    <ui-button type="button" variant="secondary" (click)="retry()">Actualizar</ui-button>
+  </div>
+
+  @if (successMessage(); as message) {
+    <ui-alert variant="success" [message]="message" />
+  }
+  <ui-alert [message]="actionError()" />
+
+  <section class="rounded-card border border-line bg-white p-5 shadow-card">
+    <div class="max-w-sm">
+      <ui-form-field htmlFor="document-status" label="Estado">
+        <select
+          id="document-status"
+          [value]="statusFilter() ?? ''"
+          (change)="changeStatus($event)"
+          class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        >
+          <option value="">Todos</option>
+          @for (status of statusOptions; track status) {
+            <option [value]="status">{{ statusLabels[status] }}</option>
+          }
+        </select>
+      </ui-form-field>
+    </div>
+    <p class="mt-2 text-xs text-muted">
+      El filtro se guarda en la URL. Para trabajar la cola, «Pendiente» es la vista útil.
+    </p>
+  </section>
+
+  @if (loading()) {
+    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
+      Cargando documentos…
+    </p>
+  } @else if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (documents().length === 0) {
+    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
+      <p class="font-bold text-ink">No hay documentos con este filtro.</p>
+      <p class="mt-1 text-sm text-muted">
+        Los documentos llegan desde el perfil del usuario (`POST /users/me/verification-documents`).
+      </p>
+    </div>
+  } @else {
+    <ul class="space-y-3">
+      @for (document of documents(); track document.id) {
+        <li class="rounded-card border border-line bg-white p-5 shadow-card">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div class="min-w-0">
+              <p class="text-sm font-semibold text-ink">{{ typeLabels[document.type] }}</p>
+              <p class="mt-1 font-mono text-xs text-muted">{{ document.id }}</p>
+              <p class="mt-1 text-xs text-muted">
+                Subido {{ document.uploadedAt | date: 'd MMM y, HH:mm' }}
+                @if (document.reviewedAt; as reviewedAt) {
+                  · revisado {{ reviewedAt | date: 'd MMM y, HH:mm' }}
+                }
+              </p>
+              @if (document.reviewReason; as reason) {
+                <p class="mt-1 text-xs text-ink">Motivo registrado: {{ reason }}</p>
+              }
+            </div>
+            <span
+              class="rounded-full px-3 py-1 text-xs font-bold"
+              [class]="statusClasses[document.status]"
+            >
+              {{ statusLabels[document.status] }}
+            </span>
+          </div>
+
+          @if (canReview(document)) {
+            <div class="mt-4 flex flex-wrap gap-3">
+              <ui-button
+                type="button"
+                [loading]="busyId() === document.id && pendingDecision() === null"
+                (click)="approve(document)"
+                >Aprobar</ui-button
+              >
+              <ui-button
+                type="button"
+                variant="secondary"
+                (click)="toggleDecision(document, 'reject')"
+              >
+                {{ isPending(document, 'reject') ? 'Cancelar' : 'Rechazar' }}
+              </ui-button>
+              <ui-button
+                type="button"
+                variant="secondary"
+                (click)="toggleDecision(document, 'correction')"
+              >
+                {{ isPending(document, 'correction') ? 'Cancelar' : 'Solicitar corrección' }}
+              </ui-button>
+            </div>
+
+            @if (pendingDecision()?.documentId === document.id) {
+              <div class="mt-4 rounded-xl border border-line p-4">
+                <app-reason-form
+                  [(value)]="reason"
+                  htmlFor="document-reason"
+                  [label]="
+                    pendingAction() === 'reject' ? 'Motivo del rechazo' : 'Motivo de la corrección'
+                  "
+                  [submitLabel]="
+                    pendingAction() === 'reject' ? 'Rechazar documento' : 'Solicitar corrección'
+                  "
+                  [loading]="busyId() === document.id"
+                  (submitted)="submitDecision($event)"
+                />
+              </div>
+            }
+          } @else {
+            <p class="mt-3 text-xs text-muted">
+              Este documento ya está resuelto: el backend solo admite revisar los pendientes.
+            </p>
+          }
+        </li>
+      }
+    </ul>
+  }
+</div>
