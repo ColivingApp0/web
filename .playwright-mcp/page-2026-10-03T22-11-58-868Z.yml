@@ -1,0 +1,64 @@
+- generic [ref=f48e4]:
+    - banner [ref=f48e5]:
+        - generic [ref=f48e6]:
+            - link "ColivinApp" [ref=f48e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f48e8]: C
+            - generic [ref=f48e10]:
+                - link "Reservas" [ref=f48e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Favoritos" [ref=f48e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f48e13]
+                - button "Cerrar sesión" [ref=f48e15]
+    - main [ref=f48e16]:
+        - generic [ref=f48e92]:
+            - link "← Volver al alojamiento" [ref=f48e93] [cursor=pointer]:
+                - /url: /alojamientos/ff67a5b7-daed-44f0-8809-10a7126d561a
+            - generic [ref=f48e94]:
+                - heading "Solicitar reserva" [level=1] [ref=f48e95]
+                - paragraph [ref=f48e96]: El anfitrión decide si acepta. Si acepta, tendrás un plazo para confirmar y cerrar la reserva.
+            - generic [ref=f48e97]:
+                - heading "Estudio 501" [level=2] [ref=f48e98]
+                - paragraph [ref=f48e99]: Torre M3 E2E (editada)
+                - paragraph [ref=f48e100]: 'Cra 7 #45-12, Bogota'
+                - generic [ref=f48e101]:
+                    - generic [ref=f48e102]:
+                        - term [ref=f48e103]: Capacidad
+                        - definition [ref=f48e104]: 2 huésped(es)
+                    - generic [ref=f48e105]:
+                        - term [ref=f48e106]: Precio por noche
+                        - definition [ref=f48e107]: $ 1.200.000
+                    - generic [ref=f48e108]:
+                        - term [ref=f48e109]: Política de cancelación
+                        - definition [ref=f48e110]: Moderada
+                    - generic [ref=f48e111]:
+                        - term [ref=f48e112]: Estancia declarada
+                        - definition [ref=f48e113]: 3–60 noches
+                - paragraph [ref=f48e114]: 'El precio, la moneda y la política se congelan al crear la solicitud (RN-07): cambios posteriores del anfitrión no alteran tu reserva. La API valida el rango, la capacidad y tu verificación; los mínimos/máximos declarados por el anfitrión no se aplican al crear (solo el límite de 366 noches), así que no bloqueamos el envío por ellos.'
+            - generic [ref=f48e115]:
+                - heading "Datos de la solicitud" [level=2] [ref=f48e116]
+                - generic [ref=f48e117]:
+                    - generic [ref=f48e118]:
+                        - generic [ref=f48e120]:
+                            - generic [ref=f48e121]: Entrada (desde)
+                            - textbox "Entrada (desde)" [ref=f48e122]: 2026-11-01
+                        - generic [ref=f48e124]:
+                            - generic [ref=f48e125]: Salida (hasta)
+                            - textbox "Salida (hasta)" [ref=f48e126]: 2026-11-04
+                    - paragraph [ref=f48e127]:
+                        - text: 'El rango usa la convención [entrada, salida): la noche de la salida no se cuenta. Esta solicitud es de'
+                        - strong [ref=f48e128]: '3'
+                        - text: noche(s).
+                    - generic [ref=f48e130]:
+                        - generic [ref=f48e131]: Huéspedes
+                        - textbox "Huéspedes" [ref=f48e132]: '1'
+                        - paragraph [ref=f48e133]: La unidad admite hasta 2 huésped(es).
+                    - generic [ref=f48e135]:
+                        - generic [ref=f48e136]: Mensaje para el anfitrión (opcional)
+                        - textbox "Mensaje para el anfitrión (opcional)" [ref=f48e137]
+                        - paragraph [ref=f48e138]: Cuéntale quién eres y para cuándo necesitas la estancia.
+                    - paragraph [ref=f48e139]:
+                        - text: 'Total estimado (3 noche × $ 1.200.000):'
+                        - strong [ref=f48e140]: $ 3.600.000
+                    - button "Enviar solicitud" [ref=f48e142]

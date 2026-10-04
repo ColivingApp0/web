@@ -1,0 +1,64 @@
+- generic [ref=f35e4]:
+    - banner [ref=f35e5]:
+        - generic [ref=f35e6]:
+            - link "ColivinApp" [ref=f35e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f35e8]: C
+            - generic [ref=f35e10]:
+                - link "Anfitrión" [ref=f35e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f35e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f35e13]
+                - button "Cerrar sesión" [ref=f35e15]
+    - main [ref=f35e16]:
+        - generic [ref=f35e147]:
+            - link "← Volver a la propiedad" [ref=f35e148] [cursor=pointer]:
+                - /url: /anfitrion/propiedades/8e3c641f-c242-4990-9fc1-6002c78c7a39
+            - generic [ref=f35e149]:
+                - heading "Estudio 501" [level=1] [ref=f35e150]
+                - paragraph [ref=f35e151]: 2 huésped(es) · 1 hab. · 1 cama(s) · 1 baño(s)
+            - generic [ref=f35e152]:
+                - heading "Datos de la unidad" [level=2] [ref=f35e153]
+                - generic [ref=f35e155]:
+                    - generic [ref=f35e157]:
+                        - generic [ref=f35e158]: Nombre de la unidad
+                        - textbox "Nombre de la unidad" [ref=f35e159]: Estudio 501
+                    - generic [ref=f35e160]:
+                        - generic [ref=f35e162]:
+                            - generic [ref=f35e163]: Huéspedes
+                            - textbox "Huéspedes" [ref=f35e164]: '2'
+                        - generic [ref=f35e166]:
+                            - generic [ref=f35e167]: Habitaciones
+                            - textbox "Habitaciones" [ref=f35e168]: '1'
+                        - generic [ref=f35e170]:
+                            - generic [ref=f35e171]: Camas
+                            - textbox "Camas" [ref=f35e172]: '1'
+                        - generic [ref=f35e174]:
+                            - generic [ref=f35e175]: Baños
+                            - textbox "Baños" [ref=f35e176]: '1'
+                    - button "Guardar cambios" [ref=f35e178]
+            - generic [ref=f35e179]:
+                - heading "Publicación" [level=2] [ref=f35e180]
+                - generic [ref=f35e181]:
+                    - paragraph [ref=f35e182]: Esta unidad aún no tiene publicación. Crea una para poder definir precio, reglas y disponibilidad, y para que aparezca en búsquedas cuando la publiques.
+                    - generic [ref=f35e183]:
+                        - generic [ref=f35e185]:
+                            - generic [ref=f35e186]: Título de la publicación
+                            - textbox "Título de la publicación" [ref=f35e187]
+                        - button "Crear publicación" [ref=f35e189]
+            - generic [ref=f35e190]:
+                - heading "Disponibilidad (bloqueos)" [level=2] [ref=f35e191]
+                - paragraph [ref=f35e192]: Bloquea fechas concretas (mantenimiento, uso propio) o libera bloqueos existentes.
+                - generic [ref=f35e194]:
+                    - generic [ref=f35e195]:
+                        - generic [ref=f35e197]:
+                            - generic [ref=f35e198]: Desde
+                            - textbox "Desde" [ref=f35e199]: 2026-10-03
+                        - generic [ref=f35e201]:
+                            - generic [ref=f35e202]: Hasta
+                            - textbox "Hasta" [ref=f35e203]: 2026-10-10
+                        - generic [ref=f35e204]:
+                            - button "Bloquear" [ref=f35e206]
+                            - button "Liberar" [ref=f35e208]
+                    - paragraph [ref=f35e209]: 'El rango usa el intervalo [desde, hasta): «Bloquear» impide solicitudes en esos días y «Liberar» solo retira bloqueos del anfitrión (nunca reservas en curso).'

@@ -1,0 +1,2 @@
+[      89ms] [LOG] Angular is running in development mode. @ http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-Chl50vpr.js?v=2b6d0143:9363
+[   23731ms] [ERROR] Failed to load resource: the server responded with a status of 409 (Conflict) @ http://localhost:4200/api/v1/host/publications/8382e888-33b6-4ec5-9239-dabda73270a6/publish:0

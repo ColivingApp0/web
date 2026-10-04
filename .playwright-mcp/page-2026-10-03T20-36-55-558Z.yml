@@ -1,0 +1,62 @@
+- generic [ref=f17e4]:
+    - banner [ref=f17e5]:
+        - generic [ref=f17e6]:
+            - link "ColivinApp" [ref=f17e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f17e8]: C
+            - generic [ref=f17e10]:
+                - generic "e2e-m1-20261003@example.com" [ref=f17e11]
+                - button "Cerrar sesión" [ref=f17e13]
+    - main [ref=f17e14]:
+        - generic [ref=f17e16]:
+            - generic [ref=f17e17]:
+                - heading "Alojamientos" [level=1] [ref=f17e18]
+                - paragraph [ref=f17e19]: Explora publicaciones activas y filtra por precio, fechas y estancia mínima.
+            - generic [ref=f17e20]:
+                - generic [ref=f17e22]:
+                    - generic [ref=f17e23]: Precio mínimo (por noche)
+                    - textbox "Precio mínimo (por noche)" [ref=f17e24]:
+                        - /placeholder: Sin mínimo
+                - generic [ref=f17e26]:
+                    - generic [ref=f17e27]: Precio máximo (por noche)
+                    - textbox "Precio máximo (por noche)" [ref=f17e28]:
+                        - /placeholder: Sin máximo
+                        - text: '500000'
+                - generic [ref=f17e30]:
+                    - generic [ref=f17e31]: Moneda
+                    - combobox "Moneda" [ref=f17e32]:
+                        - option "Todas" [selected]
+                        - option "COP"
+                        - option "USD"
+                - generic [ref=f17e34]:
+                    - generic [ref=f17e35]: Disponible desde
+                    - textbox "Disponible desde" [ref=f17e36]
+                - generic [ref=f17e38]:
+                    - generic [ref=f17e39]: Disponible hasta
+                    - textbox "Disponible hasta" [ref=f17e40]
+                - generic [ref=f17e42]:
+                    - generic [ref=f17e43]: Noches de estancia
+                    - textbox "Noches de estancia" [ref=f17e44]:
+                        - /placeholder: Sin mínimo
+                    - paragraph [ref=f17e45]: Alojamientos cuya estancia mínima la permita.
+                - generic [ref=f17e47]:
+                    - generic [ref=f17e48]: Ordenar por
+                    - combobox "Ordenar por" [ref=f17e49]:
+                        - option "Más recientes" [selected]
+                        - option "Más recientes"
+                        - 'option "Precio: de menor a mayor"'
+                        - 'option "Precio: de mayor a menor"'
+                - generic [ref=f17e50]:
+                    - button "Aplicar filtros" [ref=f17e52]
+                    - button "Limpiar" [ref=f17e55]
+            - generic [ref=f17e76]:
+                - paragraph [ref=f17e77]: 1 alojamiento(s) encontrados
+                - article [ref=f17e80]:
+                    - heading "Habitacion economica para estudiante" [level=3] [ref=f17e81]
+                    - paragraph [ref=f17e82]: Estancia flexible
+                    - generic [ref=f17e83]:
+                        - generic [ref=f17e84]:
+                            - strong [ref=f17e85]: $420,000
+                            - text: / noche
+                        - link "Ver detalle →" [ref=f17e86] [cursor=pointer]:
+                            - /url: /alojamientos/1081f2d7-ae2b-45d6-9f29-ef3c4d8720e2

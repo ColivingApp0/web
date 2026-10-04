@@ -1,0 +1,73 @@
+- generic [ref=f157e279]:
+  - banner [ref=f157e280]:
+    - generic [ref=f157e281]:
+      - link "ColivinApp" [ref=f157e282] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f157e283]: C
+      - generic [ref=f157e285]:
+        - link "Mensajes" [ref=f157e286] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f157e287] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f157e288] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f157e289] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f157e290] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f157e291] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f157e292]
+        - button "Cerrar sesión" [ref=f157e294]
+  - main [ref=f157e295]:
+    - generic [ref=f157e297]:
+      - generic [ref=f157e298]:
+        - heading "Alojamientos" [level=1] [ref=f157e299]
+        - paragraph [ref=f157e300]: Explora publicaciones activas y filtra por precio, fechas y estancia mínima.
+      - paragraph [ref=f157e301]:
+        - text: "Presupuesto mensual:"
+        - strong [ref=f157e302]: $ 1.500.000
+        - text: · se aplica como tope de
+        - strong [ref=f157e303]: $ 50.000
+        - text: "por noche (mes de referencia: 30 noches). La búsqueda del backend filtra por precio por noche, así que mostramos la equivalencia exacta que se está aplicando."
+      - generic [ref=f157e304]:
+        - generic [ref=f157e306]:
+          - generic [ref=f157e307]: Precio mínimo (por noche)
+          - textbox "Precio mínimo (por noche)" [ref=f157e308]:
+            - /placeholder: Sin mínimo
+        - generic [ref=f157e310]:
+          - generic [ref=f157e311]: Precio máximo (por noche)
+          - textbox "Precio máximo (por noche)" [ref=f157e312]:
+            - /placeholder: Sin máximo
+            - text: "50000"
+        - generic [ref=f157e314]:
+          - generic [ref=f157e315]: Moneda
+          - combobox "Moneda" [ref=f157e316]:
+            - option "Todas"
+            - option "COP" [selected]
+            - option "USD"
+        - generic [ref=f157e318]:
+          - generic [ref=f157e319]: Disponible desde
+          - textbox "Disponible desde" [ref=f157e320]
+        - generic [ref=f157e322]:
+          - generic [ref=f157e323]: Disponible hasta
+          - textbox "Disponible hasta" [ref=f157e324]
+        - generic [ref=f157e326]:
+          - generic [ref=f157e327]: Noches de estancia
+          - textbox "Noches de estancia" [ref=f157e328]:
+            - /placeholder: Sin mínimo
+          - paragraph [ref=f157e329]: Alojamientos cuya estancia mínima la permita.
+        - generic [ref=f157e331]:
+          - generic [ref=f157e332]: Ordenar por
+          - combobox "Ordenar por" [ref=f157e333]:
+            - option "Más recientes" [selected]
+            - option "Más recientes"
+            - 'option "Precio: de menor a mayor"'
+            - 'option "Precio: de mayor a menor"'
+        - generic [ref=f157e334]:
+          - button "Aplicar filtros" [ref=f157e336]
+          - button "Limpiar" [ref=f157e338]
+      - generic [ref=f157e339]:
+        - paragraph [ref=f157e340]: No encontramos alojamientos con esos filtros.
+        - paragraph [ref=f157e341]: Prueba a ampliar el rango de precios o las fechas.
+        - button "Limpiar filtros" [ref=f157e344]

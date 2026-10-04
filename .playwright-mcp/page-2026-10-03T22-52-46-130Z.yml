@@ -1,0 +1,24 @@
+- generic [ref=f88e4]:
+    - banner [ref=f88e5]:
+        - generic [ref=f88e6]:
+            - link "ColivinApp" [ref=f88e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f88e8]: C
+            - generic [ref=f88e10]:
+                - link "Anfitrión" [ref=f88e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Mensajes" [ref=f88e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f88e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f88e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059253@example.com" [ref=f88e15]
+                - button "Cerrar sesión" [ref=f88e17]
+    - main [ref=f88e18]:
+        - generic [ref=f88e20]:
+            - link "← Volver a mensajes" [ref=f88e21] [cursor=pointer]:
+                - /url: /mensajes
+            - generic [ref=f88e22]:
+                - alert [ref=f88e24]: No eres parte de esta conversación.
+                - button "Reintentar" [ref=f88e26]

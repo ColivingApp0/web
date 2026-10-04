@@ -1,0 +1,19 @@
+- generic [ref=f121e4]:
+  - banner [ref=f121e5]:
+    - generic [ref=f121e6]:
+      - link "ColivinApp" [ref=f121e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f121e8]: C
+      - button "Cerrar sesión" [ref=f121e12]
+  - main [ref=f121e13]:
+    - generic [ref=f121e15]:
+      - generic [ref=f121e16]:
+        - generic [ref=f121e17]:
+          - heading "Mi reputación" [level=1] [ref=f121e18]
+          - paragraph [ref=f121e19]: Score con los factores documentados que lo explican, la versión de la fórmula y los beneficios vigentes.
+        - generic [ref=f121e20]:
+          - link "Mis evaluaciones" [ref=f121e21] [cursor=pointer]:
+            - /url: /reputacion/evaluaciones
+          - button "Recalcular" [ref=f121e23]
+      - paragraph [ref=f121e24]: Cada consulta de reputación recalcula el score y guarda una instantánea con la versión de la fórmula usada (comportamiento real del backend), por eso se lee una vez por visita y solo se vuelve a pedir con «Recalcular».
+      - paragraph [ref=f121e25]: Calculando reputación…

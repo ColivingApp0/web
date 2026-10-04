@@ -1,0 +1,20 @@
+- generic [ref=f1e4]:
+    - banner [ref=f1e5]:
+        - generic [ref=f1e6]:
+            - generic [aria-hidden] [ref=f1e7]: C
+            - generic [ref=f1e8]: ColivinApp
+    - main [ref=f1e9]:
+        - generic [ref=f1e12]:
+            - heading "Crea tu cuenta" [level=1] [ref=f1e13]
+            - paragraph [ref=f1e14]: Empieza tu búsqueda de alojamiento o publica tus espacios.
+            - generic [ref=f1e29]:
+                - status [ref=f1e31]: Cuenta creada. Te enviamos un token de verificación a tu correo electrónico.
+                - paragraph [ref=f1e32]:
+                    - text: 'En desarrollo el correo no se envía: el token aparece en los logs del servidor ('
+                    - code [ref=f1e33]: '[dev-email] verify account … token=…'
+                    - text: ).
+                - generic [ref=f1e34]:
+                    - link "Verificar mi correo" [ref=f1e35] [cursor=pointer]:
+                        - /url: /verificar-correo
+                    - link "Ir a iniciar sesión" [ref=f1e36] [cursor=pointer]:
+                        - /url: /entrar

@@ -1,0 +1,84 @@
+- generic [ref=f54e4]:
+    - banner [ref=f54e5]:
+        - generic [ref=f54e6]:
+            - link "ColivinApp" [ref=f54e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f54e8]: C
+            - generic [ref=f54e10]:
+                - link "Reservas" [ref=f54e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Favoritos" [ref=f54e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f54e13]
+                - button "Cerrar sesión" [ref=f54e15]
+    - main [ref=f54e16]:
+        - generic [ref=f54e18]:
+            - link "← Volver a alojamientos" [ref=f54e19] [cursor=pointer]:
+                - /url: /alojamientos
+            - generic [ref=f54e21]:
+                - generic [ref=f54e22]:
+                    - heading "Estudio 501 en Torre M3" [level=1] [ref=f54e23]
+                    - button "Guardar en favoritos" [ref=f54e24]: ♡
+                - paragraph [ref=f54e25]:
+                    - strong [ref=f54e26]: $ 1.200.000
+                    - text: por noche (COP)
+                - paragraph [ref=f54e27]: Estancia de 3 a 60 noches
+                - generic [ref=f54e28]:
+                    - link "Solicitar reserva" [ref=f54e29] [cursor=pointer]:
+                        - /url: /reservas/nueva?publication=ff67a5b7-daed-44f0-8809-10a7126d561a&unidad=15daa1d6-b385-467a-b471-206c3907d53f&desde=2026-11-01&hasta=2026-11-04
+                    - paragraph [ref=f54e30]: El anfitrión decide; si acepta, tendrás un plazo para confirmar. 1 nov 2026 → 4 nov 2026.
+            - generic [ref=f54e31]:
+                - heading "Sobre el alojamiento" [level=2] [ref=f54e32]
+                - paragraph [ref=f54e33]: Torre nueva creada durante la validacion de M3.
+                - heading "Servicios del inmueble" [level=3] [ref=f54e34]
+                - list [ref=f54e35]:
+                    - listitem [ref=f54e36]: WiFi
+                    - listitem [ref=f54e37]: Gimnasio
+                - heading "Ubicación" [level=3] [ref=f54e38]
+                - paragraph [ref=f54e39]: 'Cra 7 #45-12, Bogota'
+                - heading "Unidad" [level=3] [ref=f54e40]
+                - generic [ref=f54e41]:
+                    - generic [ref=f54e42]:
+                        - term [ref=f54e43]: Huéspedes
+                        - definition [ref=f54e44]: '2'
+                    - generic [ref=f54e45]:
+                        - term [ref=f54e46]: Habitaciones
+                        - definition [ref=f54e47]: '1'
+                    - generic [ref=f54e48]:
+                        - term [ref=f54e49]: Camas
+                        - definition [ref=f54e50]: '1'
+                    - generic [ref=f54e51]:
+                        - term [ref=f54e52]: Baños
+                        - definition [ref=f54e53]: '1'
+                - heading "Reglas de la publicación" [level=3] [ref=f54e54]
+                - list [ref=f54e55]:
+                    - listitem [ref=f54e56]: 'Cancelación: Moderada'
+                    - listitem [ref=f54e57]: 'Check-in: 14:00'
+                    - listitem [ref=f54e58]: 'Check-out: 10:00'
+                    - listitem [ref=f54e59]: 'Estancia: de 3 a 60 noches'
+                - list [ref=f54e60]:
+                    - listitem [ref=f54e61]: No fiestas
+                    - listitem [ref=f54e62]: No mascotas
+            - generic [ref=f54e63]:
+                - heading "Disponibilidad" [level=2] [ref=f54e64]
+                - paragraph [ref=f54e65]: Consulta el estado día a día de la unidad para el rango que te interese.
+                - generic [ref=f54e66]:
+                    - generic [ref=f54e68]:
+                        - generic [ref=f54e69]: Desde
+                        - textbox "Desde" [ref=f54e70]: 2026-11-01
+                    - generic [ref=f54e72]:
+                        - generic [ref=f54e73]: Hasta
+                        - textbox "Hasta" [ref=f54e74]: 2026-11-04
+                    - button "Consultar" [ref=f54e77]
+                - generic [ref=f54e78]:
+                    - list [ref=f54e79]:
+                        - listitem [ref=f54e80]:
+                            - generic [ref=f54e81]: dom 1 nov 2026
+                            - generic [ref=f54e82]: Ocupado
+                        - listitem [ref=f54e83]:
+                            - generic [ref=f54e84]: lun 2 nov 2026
+                            - generic [ref=f54e85]: Ocupado
+                        - listitem [ref=f54e86]:
+                            - generic [ref=f54e87]: mar 3 nov 2026
+                            - generic [ref=f54e88]: Ocupado
+                    - paragraph [ref=f54e89]: «No disponible» incluye bloqueos del anfitrión y solicitudes en proceso; «Ocupado» corresponde a reservas confirmadas.

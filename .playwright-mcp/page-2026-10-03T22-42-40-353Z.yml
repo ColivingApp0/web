@@ -1,0 +1,24 @@
+- generic [ref=f74e4]:
+    - banner [ref=f74e5]:
+        - generic [ref=f74e6]:
+            - link "ColivinApp" [ref=f74e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f74e8]: C
+            - generic [ref=f74e10]:
+                - link "Reservas" [ref=f74e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Mensajes" [ref=f74e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f74e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f74e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f74e15]
+                - button "Cerrar sesión" [ref=f74e17]
+    - main [ref=f74e18]:
+        - generic [ref=f74e20]:
+            - heading "Abriendo conversación…" [level=1] [ref=f74e21]
+            - alert [ref=f74e23]: "HV000030: No validator could be found for constraint 'jakarta.validation.constraints.NotBlank' validating type 'java.util.UUID'. Check configuration for 'reservationId'"
+            - paragraph [ref=f74e24]:
+                - link "Volver a mis conversaciones" [ref=f74e25] [cursor=pointer]:
+                    - /url: /mensajes

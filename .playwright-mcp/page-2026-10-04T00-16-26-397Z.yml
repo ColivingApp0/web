@@ -1,0 +1,62 @@
+- generic [ref=f146e4]:
+  - banner [ref=f146e5]:
+    - generic [ref=f146e6]:
+      - link "ColivinApp" [ref=f146e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f146e8]: C
+      - generic [ref=f146e10]:
+        - link "Mensajes" [ref=f146e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f146e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f146e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f146e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f146e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f146e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f146e17]
+        - button "Cerrar sesión" [ref=f146e19]
+  - main [ref=f146e20]:
+    - generic [ref=f146e22]:
+      - generic [ref=f146e23]:
+        - generic [ref=f146e24]:
+          - heading "Catálogos" [level=1] [ref=f146e25]
+          - paragraph [ref=f146e26]: "RF-083: el administrador gestiona los catálogos del piloto (instituciones, facultades, carreras, ciudades, servicios y reglas). Los cambios no eliminan referencias históricas: las entradas se desactivan."
+          - paragraph [ref=f146e27]: Las facultades pertenecen a una institución y las carreras a una facultad; el contrato exige ese padre y lo valida. El contrato real no expone reactivación, así que no se ofrece.
+          - paragraph [ref=f146e28]:
+            - strong [ref=f146e29]: "Limitación del backend:"
+            - text: el alta rechaza siempre la creación (400 con parentId nulo, incluso en categorías planas, y 404 si se envía uno, porque no existe ninguna entrada previa). Se muestra el error real de cada intento.
+        - button "Actualizar" [ref=f146e31]
+      - generic [ref=f146e33]:
+        - generic [ref=f146e35]:
+          - generic [ref=f146e36]: Categoría
+          - combobox "Categoría" [ref=f146e37]:
+            - option "Instituciones" [selected]
+            - option "Facultades"
+            - option "Carreras"
+            - option "Ciudades"
+            - option "Servicios"
+            - option "Reglas"
+        - generic [ref=f146e38]:
+          - checkbox "Mostrar entradas inactivas" [ref=f146e39]
+          - text: Mostrar entradas inactivas
+      - generic [ref=f146e40]:
+        - heading "Nueva entrada en Ciudades" [level=2] [ref=f146e41]
+        - generic [ref=f146e42]:
+          - generic [ref=f146e44]:
+            - generic [ref=f146e45]: Código
+            - textbox "Código" [ref=f146e46]
+            - paragraph [ref=f146e47]: El código es obligatorio.
+          - generic [ref=f146e49]:
+            - generic [ref=f146e50]: Nombre
+            - textbox "Nombre" [ref=f146e51]
+            - paragraph [ref=f146e52]: El nombre es obligatorio.
+          - generic [ref=f146e54]:
+            - generic [ref=f146e55]: Descripción (opcional)
+            - textbox "Descripción (opcional)" [ref=f146e56]
+            - paragraph [ref=f146e57]: Máximo 1000 caracteres.
+        - button "Crear entrada" [ref=f146e60]
+      - paragraph [ref=f146e61]: Cargando entradas…

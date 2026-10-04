@@ -1,0 +1,15 @@
+[     175ms] [LOG] Angular is running in development mode. @ http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-CABa1ZRZ.js?v=b96ac3e3:12478
+[     264ms] [LOG] Angular hydrated 9 component(s) and 515 node(s), 0 component(s) were skipped. 0 defer block(s) were configured to use incremental hydration. Learn more at https://v22.angular.dev/guide/hydration. @ http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-CABa1ZRZ.js?v=b96ac3e3:12478
+[   21662ms] [ERROR] ERROR RuntimeError: NG0203: toSignal() can only be used within an injection context such as a constructor, a factory function, a field initializer, or a function used with `runInInjectionContext`. Find more at https://v22.angular.dev/errors/NG0203
+    at assertInInjectionContext (http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/_resource-chunk-D_YzcRAE.js?v=6963f076:1674:37)
+    at toSignal (http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/@angular_core_rxjs-interop.js?v=1e0f01b7:82:58)
+    at <instance_members_initializer> (http://localhost:4200/chunk-7F7H42ES.js:275:17)
+    at new _SearchPage (http://localhost:4200/chunk-7F7H42ES.js:270:18)
+    at NodeInjectorFactory.SearchPage_Factory [as factory] (http://localhost:4200/chunk-7F7H42ES.js:425:12)
+    at getNodeInjectable (http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-CABa1ZRZ.js?v=b96ac3e3:3746:35)
+    at instantiateAllDirectives (http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-CABa1ZRZ.js?v=b96ac3e3:7611:21)
+    at createDirectivesInstances (http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-CABa1ZRZ.js?v=b96ac3e3:7502:2)
+    at ComponentFactory.createComponentRef (http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-CABa1ZRZ.js?v=b96ac3e3:10577:4)
+    at ComponentFactory.create (http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-CABa1ZRZ.js?v=b96ac3e3:10551:21) @ http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-CABa1ZRZ.js?v=b96ac3e3:2732
+[   21864ms] [LOG] Angular is running in development mode. @ http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-DHWaREvY.js?v=6963f076:9363
+[   21937ms] [LOG] Angular hydrated 9 component(s) and 515 node(s), 0 component(s) were skipped. 0 defer block(s) were configured to use incremental hydration. Learn more at https://v22.angular.dev/guide/hydration. @ http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-DHWaREvY.js?v=6963f076:9363

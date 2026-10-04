@@ -1,0 +1,21 @@
+- generic [ref=f35e4]:
+    - banner [ref=f35e5]:
+        - generic [ref=f35e6]:
+            - link "ColivinApp" [ref=f35e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f35e8]: C
+            - generic [ref=f35e10]:
+                - link "Anfitrión" [ref=f35e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f35e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f35e13]
+                - button "Cerrar sesión" [ref=f35e15]
+    - main [ref=f35e16]:
+        - generic [ref=f35e18]:
+            - generic [ref=f35e19]:
+                - generic [ref=f35e20]:
+                    - heading "Área de anfitrión" [level=1] [ref=f35e21]
+                    - paragraph [ref=f35e22]: Gestiona tus propiedades, unidades, publicaciones, precios y disponibilidad.
+                - button "Nueva propiedad" [ref=f35e24]
+            - paragraph [ref=f35e25]: Cargando propiedades…

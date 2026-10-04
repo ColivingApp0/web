@@ -1,0 +1,121 @@
+- generic [ref=f61e4]:
+    - banner [ref=f61e5]:
+        - generic [ref=f61e6]:
+            - link "ColivinApp" [ref=f61e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f61e8]: C
+            - generic [ref=f61e10]:
+                - link "Reservas" [ref=f61e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Favoritos" [ref=f61e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f61e13]
+                - button "Cerrar sesión" [ref=f61e15]
+    - main [ref=f61e16]:
+        - generic [ref=f61e18]:
+            - generic [ref=f61e19]:
+                - generic [ref=f61e20]:
+                    - heading "Mis reservas" [level=1] [ref=f61e21]
+                    - paragraph [ref=f61e22]: 'Solicitudes que enviaste: confirma dentro del plazo provisional o cancela con un motivo.'
+                - link "Buscar alojamientos" [ref=f61e23] [cursor=pointer]:
+                    - /url: /alojamientos
+            - status [ref=f61e149]: Reserva cancelada. Los días quedan libres de nuevo.
+            - list [ref=f61e150]:
+                - listitem [ref=f61e151]:
+                    - article [ref=f61e153]:
+                        - generic [ref=f61e154]:
+                            - generic [ref=f61e155]:
+                                - paragraph [ref=f61e156]: 10 dic 2026 → 14 dic 2026
+                                - paragraph [ref=f61e157]: 4 noche(s) · 1 huésped(es)
+                            - generic [ref=f61e158]: Aceptada
+                        - generic [ref=f61e159]:
+                            - generic [ref=f61e160]:
+                                - term [ref=f61e161]: Precio por noche
+                                - definition [ref=f61e162]: $ 1.200.000
+                            - generic [ref=f61e163]:
+                                - term [ref=f61e164]: Total de la estancia
+                                - definition [ref=f61e165]: $ 4.800.000
+                            - generic [ref=f61e166]:
+                                - term [ref=f61e167]: Política de cancelación
+                                - definition [ref=f61e168]: Moderada
+                            - generic [ref=f61e169]:
+                                - term [ref=f61e170]: Solicitada
+                                - definition [ref=f61e171]: 3 oct 2026, 17:15
+                        - paragraph [ref=f61e173]: La reserva provisional venció el 3 oct 2026, 17:11. Confirmar ahora será rechazado por el servidor (409) y la reserva se marcará como expirada.
+                        - generic [ref=f61e174]:
+                            - button "Confirmar reserva" [ref=f61e176]
+                            - button "Cancelar" [ref=f61e178]
+                    - paragraph [ref=f61e179]:
+                        - link "Ver el alojamiento" [ref=f61e180] [cursor=pointer]:
+                            - /url: /alojamientos/ff67a5b7-daed-44f0-8809-10a7126d561a
+                - listitem [ref=f61e181]:
+                    - article [ref=f61e183]:
+                        - generic [ref=f61e184]:
+                            - generic [ref=f61e185]:
+                                - paragraph [ref=f61e186]: 1 dic 2026 → 5 dic 2026
+                                - paragraph [ref=f61e187]: 4 noche(s) · 2 huésped(es)
+                            - generic [ref=f61e188]: Cancelada
+                        - generic [ref=f61e189]:
+                            - generic [ref=f61e190]:
+                                - term [ref=f61e191]: Precio por noche
+                                - definition [ref=f61e192]: $ 1.200.000
+                            - generic [ref=f61e193]:
+                                - term [ref=f61e194]: Total de la estancia
+                                - definition [ref=f61e195]: $ 4.800.000
+                            - generic [ref=f61e196]:
+                                - term [ref=f61e197]: Política de cancelación
+                                - definition [ref=f61e198]: Moderada
+                            - generic [ref=f61e199]:
+                                - term [ref=f61e200]: Solicitada
+                                - definition [ref=f61e201]: 3 oct 2026, 17:15
+                    - paragraph [ref=f61e202]:
+                        - link "Ver el alojamiento" [ref=f61e203] [cursor=pointer]:
+                            - /url: /alojamientos/ff67a5b7-daed-44f0-8809-10a7126d561a
+                - listitem [ref=f61e204]:
+                    - article [ref=f61e206]:
+                        - generic [ref=f61e207]:
+                            - generic [ref=f61e208]:
+                                - paragraph [ref=f61e209]: 2 nov 2026 → 5 nov 2026
+                                - paragraph [ref=f61e210]: 3 noche(s) · 1 huésped(es)
+                            - generic [ref=f61e211]: Rechazada
+                        - generic [ref=f61e212]:
+                            - generic [ref=f61e213]:
+                                - term [ref=f61e214]: Precio por noche
+                                - definition [ref=f61e215]: $ 1.200.000
+                            - generic [ref=f61e216]:
+                                - term [ref=f61e217]: Total de la estancia
+                                - definition [ref=f61e218]: $ 3.600.000
+                            - generic [ref=f61e219]:
+                                - term [ref=f61e220]: Política de cancelación
+                                - definition [ref=f61e221]: Moderada
+                            - generic [ref=f61e222]:
+                                - term [ref=f61e223]: Solicitada
+                                - definition [ref=f61e224]: 3 oct 2026, 17:12
+                    - paragraph [ref=f61e225]:
+                        - link "Ver el alojamiento" [ref=f61e226] [cursor=pointer]:
+                            - /url: /alojamientos/ff67a5b7-daed-44f0-8809-10a7126d561a
+                - listitem [ref=f61e227]:
+                    - article [ref=f61e229]:
+                        - generic [ref=f61e230]:
+                            - generic [ref=f61e231]:
+                                - paragraph [ref=f61e232]: 1 nov 2026 → 4 nov 2026
+                                - paragraph [ref=f61e233]: 3 noche(s) · 2 huésped(es)
+                            - generic [ref=f61e234]: Confirmada
+                        - generic [ref=f61e235]:
+                            - generic [ref=f61e236]:
+                                - term [ref=f61e237]: Precio por noche
+                                - definition [ref=f61e238]: $ 1.200.000
+                            - generic [ref=f61e239]:
+                                - term [ref=f61e240]: Total de la estancia
+                                - definition [ref=f61e241]: $ 3.600.000
+                            - generic [ref=f61e242]:
+                                - term [ref=f61e243]: Política de cancelación
+                                - definition [ref=f61e244]: Moderada
+                            - generic [ref=f61e245]:
+                                - term [ref=f61e246]: Solicitada
+                                - definition [ref=f61e247]: 3 oct 2026, 17:12
+                        - paragraph [ref=f61e248]: «Hola, somos dos estudiantes y necesitamos la estancia en noviembre.»
+                        - button "Cancelar" [ref=f61e251]
+                    - paragraph [ref=f61e252]:
+                        - link "Ver el alojamiento" [ref=f61e253] [cursor=pointer]:
+                            - /url: /alojamientos/ff67a5b7-daed-44f0-8809-10a7126d561a

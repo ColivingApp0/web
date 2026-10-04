@@ -1,0 +1,42 @@
+- generic [ref=f133e4]:
+  - banner [ref=f133e5]:
+    - generic [ref=f133e6]:
+      - link "ColivinApp" [ref=f133e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f133e8]: C
+      - generic [ref=f133e10]:
+        - link "Mensajes" [ref=f133e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f133e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f133e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f133e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f133e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f133e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f133e17]
+        - button "Cerrar sesión" [ref=f133e19]
+  - main [ref=f133e20]:
+    - generic [ref=f133e22]:
+      - generic [ref=f133e23]:
+        - heading "Mi perfil" [level=1] [ref=f133e24]
+        - paragraph [ref=f133e25]: Gestiona tu cuenta, tu perfil y tus consentimientos.
+      - generic [ref=f133e26]:
+        - heading "Cuenta" [level=2] [ref=f133e27]
+        - generic [ref=f133e28]:
+          - generic [ref=f133e29]:
+            - term [ref=f133e30]: Correo
+            - definition [ref=f133e31]: admin@coliving.local
+          - generic [ref=f133e32]:
+            - term [ref=f133e33]: Correo verificado
+            - definition [ref=f133e34]: Sí
+          - generic [ref=f133e35]:
+            - term [ref=f133e36]: Rol activo
+            - definition [ref=f133e37]: Administrador
+          - generic [ref=f133e38]:
+            - term [ref=f133e39]: Verificación
+            - definition [ref=f133e40]: —
+      - generic [ref=f133e41]: Cargando perfil…

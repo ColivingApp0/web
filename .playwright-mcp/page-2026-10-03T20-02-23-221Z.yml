@@ -1,0 +1,22 @@
+- generic [ref=f2e4]:
+    - banner [ref=f2e5]:
+        - generic [ref=f2e6]:
+            - generic [aria-hidden] [ref=f2e7]: C
+            - generic [ref=f2e8]: ColivinApp
+    - main [ref=f2e9]:
+        - generic [ref=f2e12]:
+            - heading "Verifica tu correo" [level=1] [ref=f2e13]
+            - paragraph [ref=f2e14]: Introduce el token que enviamos a tu correo al crear la cuenta.
+            - paragraph [ref=f2e15]:
+                - text: 'En desarrollo el correo no se envía: busca en los logs del servidor la línea'
+                - code [ref=f2e16]: '[dev-email] verify account … token=…'
+                - text: .
+            - generic [ref=f2e17]:
+                - generic [ref=f2e19]:
+                    - generic [ref=f2e20]: Token de verificación
+                    - textbox "Token de verificación" [ref=f2e21]: vfHXewWhOjc8x0sTOX6Wd6qjqIw_YPf-I1uRxun4mCw
+                - button "Verificar mi correo" [ref=f2e23]
+            - paragraph [ref=f2e24]:
+                - text: ¿Ya está verificado?
+                - link "Inicia sesión" [ref=f2e25] [cursor=pointer]:
+                    - /url: /entrar

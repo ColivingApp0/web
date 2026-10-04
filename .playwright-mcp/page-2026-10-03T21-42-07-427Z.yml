@@ -1,0 +1,46 @@
+- generic [ref=f35e4]:
+    - banner [ref=f35e5]:
+        - generic [ref=f35e6]:
+            - link "ColivinApp" [ref=f35e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f35e8]: C
+            - generic [ref=f35e10]:
+                - link "Anfitrión" [ref=f35e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f35e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f35e13]
+                - button "Cerrar sesión" [ref=f35e15]
+    - main [ref=f35e16]:
+        - generic [ref=f35e18]:
+            - generic [ref=f35e19]:
+                - generic [ref=f35e20]:
+                    - heading "Área de anfitrión" [level=1] [ref=f35e21]
+                    - paragraph [ref=f35e22]: Gestiona tus propiedades, unidades, publicaciones, precios y disponibilidad.
+                - button "Cancelar" [active] [ref=f35e34]
+            - generic [ref=f35e35]:
+                - heading "Nueva propiedad" [level=2] [ref=f35e36]
+                - generic [ref=f35e38]:
+                    - generic [ref=f35e39]:
+                        - generic [ref=f35e41]:
+                            - generic [ref=f35e42]: Título
+                            - textbox "Título" [ref=f35e43]
+                        - generic [ref=f35e45]:
+                            - generic [ref=f35e46]: Dirección
+                            - textbox "Dirección" [ref=f35e47]
+                    - generic [ref=f35e49]:
+                        - generic [ref=f35e50]: Descripción
+                        - textbox "Descripción" [ref=f35e51]
+                    - generic [ref=f35e53]:
+                        - generic [ref=f35e54]: Servicios del inmueble
+                        - textbox "Servicios del inmueble" [ref=f35e55]
+                        - paragraph [ref=f35e56]: 'Separados por comas. Por ejemplo: WiFi, cocina, lavadora.'
+                    - paragraph [ref=f35e57]: La ciudad se podrá editar cuando exista el catálogo público (limitación conocida; su valor actual se conserva).
+                    - button "Crear propiedad" [ref=f35e59]
+            - list [ref=f35e26]:
+                - listitem [ref=f35e27]:
+                    - heading "Edificio Aurora E2E" [level=2] [ref=f35e29]
+                    - paragraph [ref=f35e30]: 'Calle 45 #12-30, Medellin'
+                    - paragraph [ref=f35e31]: Edificio con apartaestudios amoblados cerca del campus.
+                    - link "Gestionar propiedad →" [ref=f35e33] [cursor=pointer]:
+                        - /url: /anfitrion/propiedades/828e7ede-6e0e-4619-84d2-d09d5585c363

@@ -1,0 +1,5 @@
+[      49ms] [LOG] Angular is running in development mode. @ http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-DHWaREvY.js?v=6963f076:9363
+[  115691ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:4200/@vite/client:1030
+[  445099ms] [LOG] Angular is running in development mode. @ http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-Chl50vpr.js?v=2b6d0143:9363
+[  445111ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://localhost:4200/api/v1/users/me:0
+[  445188ms] [ERROR] Failed to load resource: the server responded with a status of 502 (Bad Gateway) @ http://localhost:4200/api/v1/profile:0

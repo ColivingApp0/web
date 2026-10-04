@@ -1,0 +1,34 @@
+- generic [ref=f57e4]:
+    - banner [ref=f57e5]:
+        - generic [ref=f57e6]:
+            - link "ColivinApp" [ref=f57e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f57e8]: C
+            - generic [ref=f57e10]:
+                - link "Reservas" [ref=f57e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Favoritos" [ref=f57e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f57e13]
+                - button "Cerrar sesión" [ref=f57e15]
+    - main [ref=f57e16]:
+        - generic [ref=f57e18]:
+            - generic [ref=f57e19]:
+                - heading "Mi perfil" [level=1] [ref=f57e20]
+                - paragraph [ref=f57e21]: Gestiona tu cuenta, tu perfil y tus consentimientos.
+            - generic [ref=f57e22]:
+                - heading "Cuenta" [level=2] [ref=f57e23]
+                - generic [ref=f57e24]:
+                    - generic [ref=f57e25]:
+                        - term [ref=f57e26]: Correo
+                        - definition [ref=f57e27]: e2e-m1-20261003@example.com
+                    - generic [ref=f57e28]:
+                        - term [ref=f57e29]: Correo verificado
+                        - definition [ref=f57e30]: Sí
+                    - generic [ref=f57e31]:
+                        - term [ref=f57e32]: Rol activo
+                        - definition [ref=f57e33]: Huésped estudiante
+                    - generic [ref=f57e34]:
+                        - term [ref=f57e35]: Verificación
+                        - definition [ref=f57e36]: —
+            - generic [ref=f57e37]: Cargando perfil…

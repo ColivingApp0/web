@@ -1,0 +1,63 @@
+- generic [ref=f117e4]:
+  - banner [ref=f117e5]:
+    - generic [ref=f117e6]:
+      - link "ColivinApp" [ref=f117e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f117e8]: C
+      - generic [ref=f117e10]:
+        - link "Anfitrión" [ref=f117e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f117e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f117e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f117e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f117e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f117e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f117e17]
+        - button "Cerrar sesión" [ref=f117e19]
+  - main [ref=f117e20]:
+    - generic [ref=f117e22]:
+      - generic [ref=f117e23]:
+        - heading "Alojamientos" [level=1] [ref=f117e24]
+        - paragraph [ref=f117e25]: Explora publicaciones activas y filtra por precio, fechas y estancia mínima.
+      - generic [ref=f117e26]:
+        - generic [ref=f117e28]:
+          - generic [ref=f117e29]: Precio mínimo (por noche)
+          - textbox "Precio mínimo (por noche)" [ref=f117e30]:
+            - /placeholder: Sin mínimo
+        - generic [ref=f117e32]:
+          - generic [ref=f117e33]: Precio máximo (por noche)
+          - textbox "Precio máximo (por noche)" [ref=f117e34]:
+            - /placeholder: Sin máximo
+        - generic [ref=f117e36]:
+          - generic [ref=f117e37]: Moneda
+          - combobox "Moneda" [ref=f117e38]:
+            - option "Todas" [selected]
+            - option "COP"
+            - option "USD"
+        - generic [ref=f117e40]:
+          - generic [ref=f117e41]: Disponible desde
+          - textbox "Disponible desde" [ref=f117e42]
+        - generic [ref=f117e44]:
+          - generic [ref=f117e45]: Disponible hasta
+          - textbox "Disponible hasta" [ref=f117e46]
+        - generic [ref=f117e48]:
+          - generic [ref=f117e49]: Noches de estancia
+          - textbox "Noches de estancia" [ref=f117e50]:
+            - /placeholder: Sin mínimo
+          - paragraph [ref=f117e51]: Alojamientos cuya estancia mínima la permita.
+        - generic [ref=f117e53]:
+          - generic [ref=f117e54]: Ordenar por
+          - combobox "Ordenar por" [ref=f117e55]:
+            - option "Más recientes" [selected]
+            - option "Más recientes"
+            - 'option "Precio: de menor a mayor"'
+            - 'option "Precio: de mayor a menor"'
+        - generic [ref=f117e56]:
+          - button "Aplicar filtros" [disabled] [ref=f117e58]
+          - button "Limpiar" [ref=f117e61]
+      - paragraph [ref=f117e62]: Buscando alojamientos…

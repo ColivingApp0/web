@@ -1,0 +1,109 @@
+- generic [ref=f105e73]:
+  - banner [ref=f105e74]:
+    - generic [ref=f105e75]:
+      - link "ColivinApp" [ref=f105e76] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f105e77]: C
+      - generic [ref=f105e79]:
+        - link "Reservas" [ref=f105e80] [cursor=pointer]:
+          - /url: /reservas
+        - link "Mensajes" [ref=f105e81] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f105e82] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f105e83] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f105e84] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f105e85] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m1-20261003@example.com" [ref=f105e86]
+        - button "Cerrar sesión" [ref=f105e88]
+  - main [ref=f105e89]:
+    - generic [ref=f105e91]:
+      - generic [ref=f105e92]:
+        - heading "Mi perfil" [level=1] [ref=f105e93]
+        - paragraph [ref=f105e94]: Gestiona tu cuenta, tu perfil y tus consentimientos.
+      - generic [ref=f105e95]:
+        - heading "Cuenta" [level=2] [ref=f105e96]
+        - generic [ref=f105e97]:
+          - generic [ref=f105e98]:
+            - term [ref=f105e99]: Correo
+            - definition [ref=f105e100]: e2e-m1-20261003@example.com
+          - generic [ref=f105e101]:
+            - term [ref=f105e102]: Correo verificado
+            - definition [ref=f105e103]: Sí
+          - generic [ref=f105e104]:
+            - term [ref=f105e105]: Rol activo
+            - definition [ref=f105e106]: Huésped estudiante
+          - generic [ref=f105e107]:
+            - term [ref=f105e108]: Verificación
+            - definition [ref=f105e109]: Verificado
+      - generic [ref=f105e110]:
+        - heading "Datos del perfil" [level=2] [ref=f105e111]
+        - paragraph [ref=f105e112]: Estos datos alimentan tu perfil y los requisitos de cada rol.
+        - generic [ref=f105e114]:
+          - generic [ref=f105e115]:
+            - generic [ref=f105e117]:
+              - generic [ref=f105e118]: Nombre completo
+              - textbox "Nombre completo" [ref=f105e119]: Ada Prueba E2E
+            - generic [ref=f105e121]:
+              - generic [ref=f105e122]: Teléfono
+              - textbox "Teléfono" [ref=f105e123]
+              - paragraph [ref=f105e124]: Requerido para el rol de anfitrión.
+            - generic [ref=f105e126]:
+              - generic [ref=f105e127]: Tipo de huésped
+              - combobox "Tipo de huésped" [ref=f105e128]:
+                - option "Sin definir"
+                - option "Estudiante" [selected]
+                - option "Turista"
+              - paragraph [ref=f105e129]: Necesario para los roles de huésped.
+            - generic [ref=f105e131]:
+              - generic [ref=f105e132]: Preferencias de estancia
+              - textbox "Preferencias de estancia" [ref=f105e133]: wifi, silencio
+              - paragraph [ref=f105e134]: "Separadas por comas. Por ejemplo: wifi, silencio, mascotas."
+          - paragraph [ref=f105e135]: Ciudad y datos académicos se podrán editar cuando exista el catálogo público (limitación conocida; sus valores actuales se conservan al guardar).
+          - button "Guardar perfil" [ref=f105e137]
+      - generic [ref=f105e138]:
+        - heading "Privacidad" [level=2] [ref=f105e139]
+        - paragraph [ref=f105e140]: Decide qué información pueden ver otros miembros.
+        - generic [ref=f105e142]:
+          - generic [ref=f105e143]:
+            - generic [ref=f105e144] [cursor=pointer]:
+              - checkbox "Mostrar mi afinidad Otros miembros podrán ver indicadores de afinidad basados en tus preferencias." [checked] [ref=f105e145]
+              - generic [ref=f105e146]:
+                - generic [ref=f105e147]: Mostrar mi afinidad
+                - generic [ref=f105e148]: Otros miembros podrán ver indicadores de afinidad basados en tus preferencias.
+            - generic [ref=f105e149] [cursor=pointer]:
+              - checkbox "Mostrar mis datos académicos Incluye institución, facultad y carrera cuando estén registradas." [ref=f105e150]
+              - generic [ref=f105e151]:
+                - generic [ref=f105e152]: Mostrar mis datos académicos
+                - generic [ref=f105e153]: Incluye institución, facultad y carrera cuando estén registradas.
+          - button "Guardar privacidad" [ref=f105e155]
+      - generic [ref=f105e156]:
+        - heading "Consentimientos" [level=2] [ref=f105e157]
+        - paragraph [ref=f105e158]: Puedes aceptar o revocar cada autorización.
+        - list [ref=f105e160]:
+          - listitem [ref=f105e161]:
+            - generic [ref=f105e162]:
+              - paragraph [ref=f105e163]: Términos de uso
+              - paragraph [ref=f105e164]: Reglas de uso de la plataforma para huéspedes y anfitriones.
+              - paragraph [ref=f105e165]: Aceptado el 3/10/2026, 3:04:51 p. m.
+            - button "Revocar" [ref=f105e167]
+          - listitem [ref=f105e168]:
+            - generic [ref=f105e169]:
+              - paragraph [ref=f105e170]: Política de privacidad
+              - paragraph [ref=f105e171]: Cómo tratamos y protegemos tu información personal.
+              - paragraph [ref=f105e172]: Aceptado el 3/10/2026, 6:29:12 p. m.
+            - button "Revocar" [ref=f105e174]
+          - listitem [ref=f105e175]:
+            - generic [ref=f105e176]:
+              - paragraph [ref=f105e177]: Tratamiento de datos personales
+              - paragraph [ref=f105e178]: Autorización para el tratamiento de tus datos personales.
+              - paragraph [ref=f105e179]: No aceptado
+            - button "Aceptar" [ref=f105e181]
+      - generic [ref=f105e182]:
+        - heading "Verificación de identidad" [level=2] [ref=f105e183]
+        - paragraph [ref=f105e184]: Sube documentos para alcanzar la verificación completa (necesaria para publicar o solicitar alojamiento).
+        - link "Gestionar documentos" [ref=f105e185] [cursor=pointer]:
+          - /url: /perfil/verificacion

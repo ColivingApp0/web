@@ -1,0 +1,50 @@
+- generic [ref=f77e4]:
+    - banner [ref=f77e5]:
+        - generic [ref=f77e6]:
+            - link "ColivinApp" [ref=f77e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f77e8]: C
+            - generic [ref=f77e10]:
+                - link "Reservas" [ref=f77e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Mensajes" [ref=f77e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f77e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f77e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f77e15]
+                - button "Cerrar sesión" [ref=f77e17]
+    - main [ref=f77e18]:
+        - generic [ref=f77e152]:
+            - link "← Volver a mensajes" [ref=f77e153] [cursor=pointer]:
+                - /url: /mensajes
+            - generic [ref=f77e154]:
+                - generic [ref=f77e155]:
+                    - heading "Conversación" [level=1] [ref=f77e156]
+                    - paragraph [ref=f77e157]: 'Estancia: 1 dic 2026 → 5 dic 2026'
+                    - paragraph [ref=f77e158]: Reserva c9d3654e-d79c-4abb-a4a2-cb68b36f67bb
+                - generic [ref=f77e159]:
+                    - button "Actualizar" [ref=f77e161]
+                    - link "Ver mis reservas" [ref=f77e162] [cursor=pointer]:
+                        - /url: /reservas
+            - paragraph [ref=f77e163]: 'La mensajería del backend no ofrece tiempo real: los mensajes nuevos de la contraparte aparecen al usar «Actualizar» o al volver a entrar en la conversación.'
+            - log [ref=f77e165]:
+                - listitem [ref=f77e167]:
+                    - paragraph [ref=f77e168]: Tú · 3 oct 2026, 17:45
+                    - paragraph [ref=f77e169]: Hola, cancelé la reserva por el calendario académico; ¿todo en orden?
+            - generic [ref=f77e170]:
+                - heading "Escribir mensaje" [level=2] [ref=f77e171]
+                - generic [ref=f77e172]:
+                    - generic [ref=f77e174]:
+                        - generic [ref=f77e175]: Mensaje
+                        - textbox "Mensaje" [ref=f77e176]
+                        - paragraph [ref=f77e177]: Máximo 2000 caracteres (límite real del backend).
+                    - paragraph [ref=f77e178]: '[Computed (draftLength): 0] / 2000 caracteres'
+                    - button "Enviar mensaje" [ref=f77e180]
+            - generic [ref=f77e181]:
+                - heading "Seguridad de la conversación" [level=2] [ref=f77e182]
+                - paragraph [ref=f77e183]: Reportar abre un caso de moderación (uno por conversación y persona). Bloquear impide que la otra persona escriba en vuestros hilos; la lectura sigue permitida y el bloqueo se puede deshacer.
+                - generic [ref=f77e184]:
+                    - button "Reportar conversación" [ref=f77e186]
+                    - button "Bloquear a la contraparte" [ref=f77e188]

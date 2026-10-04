@@ -1,0 +1,19 @@
+- generic [ref=f67e4]:
+    - banner [ref=f67e5]:
+        - generic [ref=f67e6]:
+            - link "ColivinApp" [ref=f67e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f67e8]: C
+            - generic [ref=f67e10]:
+                - link "Anfitrión" [ref=f67e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f67e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f67e13]
+                - button "Cerrar sesión" [ref=f67e15]
+    - main [ref=f67e16]:
+        - generic [ref=f67e18]:
+            - generic [ref=f67e19]:
+                - heading "Mis favoritos" [level=1] [ref=f67e20]
+                - paragraph [ref=f67e21]: Alojamientos que guardaste para decidir después.
+            - paragraph [ref=f67e22]: Cargando favoritos…

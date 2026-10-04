@@ -1,0 +1,30 @@
+- generic [ref=f90e4]:
+    - banner [ref=f90e5]:
+        - generic [ref=f90e6]:
+            - link "ColivinApp" [ref=f90e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f90e8]: C
+            - generic [ref=f90e10]:
+                - link "Anfitrión" [ref=f90e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Mensajes" [ref=f90e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f90e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f90e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059253@example.com" [ref=f90e15]
+                - button "Cerrar sesión" [ref=f90e17]
+    - main [ref=f90e18]:
+        - generic [ref=f90e20]:
+            - generic [ref=f90e21]:
+                - generic [ref=f90e22]:
+                    - heading "Notificaciones" [level=1] [ref=f90e23]
+                    - paragraph [ref=f90e24]: Sin notificaciones nuevas
+                - generic [ref=f90e25]:
+                    - link "Mis conversaciones" [ref=f90e26] [cursor=pointer]:
+                        - /url: /mensajes
+                    - button "Actualizar" [ref=f90e28]
+            - generic [ref=f90e29]:
+                - paragraph [ref=f90e30]: No tienes notificaciones.
+                - paragraph [ref=f90e31]: El backend solo notifica mensajes nuevos en las conversaciones de una reserva.

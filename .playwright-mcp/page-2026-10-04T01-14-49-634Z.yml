@@ -1,0 +1,36 @@
+- generic [ref=f167e4]:
+  - banner [ref=f167e5]:
+    - generic [ref=f167e6]:
+      - link "ColivinApp" [ref=f167e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f167e8]: C
+      - button "Cerrar sesión" [ref=f167e12]
+  - main [ref=f167e13]:
+    - generic [ref=f167e15]:
+      - generic [ref=f167e16]:
+        - generic [ref=f167e17]:
+          - heading "Notificaciones" [level=1] [ref=f167e18]
+          - paragraph [ref=f167e19]: 1 notificación sin leer
+        - generic [ref=f167e20]:
+          - link "Mis conversaciones" [ref=f167e21] [cursor=pointer]:
+            - /url: /mensajes
+          - button "Actualizar" [ref=f167e23]
+      - list [ref=f167e24]:
+        - listitem [ref=f167e25]:
+          - generic [ref=f167e26]:
+            - generic [ref=f167e27]:
+              - paragraph [ref=f167e28]: Tienes un nuevo mensaje
+              - paragraph [ref=f167e29]: Mensaje nuevo · 3 oct 2026, 17:47 · leída el 3 oct 2026, 17:48
+            - generic [ref=f167e30]: Leída
+          - link "Ir a la conversación" [ref=f167e32] [cursor=pointer]:
+            - /url: /mensajes/14b19022-da31-4edb-8b39-710c2a57af0f
+        - listitem [ref=f167e33]:
+          - generic [ref=f167e34]:
+            - generic [ref=f167e35]:
+              - paragraph [ref=f167e36]: Tienes un nuevo mensaje
+              - paragraph [ref=f167e37]: Mensaje nuevo · 3 oct 2026, 17:46
+            - generic [ref=f167e38]: Sin leer
+          - generic [ref=f167e39]:
+            - link "Ir a la conversación" [ref=f167e40] [cursor=pointer]:
+              - /url: /mensajes/14b19022-da31-4edb-8b39-710c2a57af0f
+            - button "Marcar como leída" [ref=f167e42]

@@ -1,0 +1,88 @@
+- generic [ref=f127e4]:
+  - banner [ref=f127e5]:
+    - generic [ref=f127e6]:
+      - link "ColivinApp" [ref=f127e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f127e8]: C
+      - generic [ref=f127e10]:
+        - link "Mensajes" [ref=f127e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f127e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f127e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f127e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f127e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f127e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f127e17]
+        - button "Cerrar sesión" [ref=f127e19]
+  - main [ref=f127e20]:
+    - generic [ref=f127e89]:
+      - link "← Volver a la cola de casos" [ref=f127e90] [cursor=pointer]:
+        - /url: /admin/casos
+      - status [ref=f127e318]: Caso resuelto con la resolución registrada.
+      - generic [ref=f127e319]:
+        - generic [ref=f127e320]:
+          - generic [ref=f127e321]:
+            - heading "Reporte · Conversación" [level=1] [ref=f127e322]
+            - paragraph [ref=f127e323]: El anfitrión insiste en cerrar por fuera de la plataforma
+          - generic [ref=f127e324]: Resuelto Prioridad Media
+        - generic [ref=f127e325]:
+          - generic [ref=f127e326]:
+            - term [ref=f127e327]: Identificador
+            - definition [ref=f127e328]: b104d875-5b29-43ff-bb74-04da54b1faa4
+          - generic [ref=f127e329]:
+            - term [ref=f127e330]: Objeto denunciado
+            - definition [ref=f127e331]: 98a81966-d2e1-4c20-9d5b-1ae810486959
+          - generic [ref=f127e332]:
+            - term [ref=f127e333]: Abierto por
+            - definition [ref=f127e334]: 8b60bb10-810d-4199-898e-7de2a68109d4
+          - generic [ref=f127e335]:
+            - term [ref=f127e336]: Usuario reportado
+            - definition [ref=f127e337]: ed2c3288-8cee-4161-83f1-e0f025635813
+          - generic [ref=f127e338]:
+            - term [ref=f127e339]: Responsable
+            - definition [ref=f127e340]: babc1739-11e1-4328-b1b9-737468ba05fb
+          - generic [ref=f127e341]:
+            - term [ref=f127e342]: Fechas
+            - definition [ref=f127e343]: Abierto 3 oct 2026, 17:50 · cerrado 3 oct 2026, 19:02
+          - generic [ref=f127e344]:
+            - term [ref=f127e345]: Tiempo de atención
+            - definition [ref=f127e346]: 1,21 h
+          - generic [ref=f127e347]:
+            - term [ref=f127e348]: Resolución
+            - definition [ref=f127e349]: Se contactó a las partes y el anfitrión retiró el mensaje; se le recordó la política de pagos dentro de la plataforma.
+      - generic [ref=f127e350]:
+        - heading "Trazabilidad" [level=2] [ref=f127e351]
+        - paragraph [ref=f127e352]: Cada acción sobre el caso queda registrada con su actor, su nota y su fecha (RF-082). Es la única traza que el backend expone.
+        - list [ref=f127e353]:
+          - listitem [ref=f127e354]:
+            - generic [ref=f127e355]:
+              - paragraph [ref=f127e356]: Caso abierto
+              - paragraph [ref=f127e357]: 3 oct 2026, 17:50
+            - paragraph [ref=f127e358]: 8b60bb10-810d-4199-898e-7de2a68109d4
+            - paragraph [ref=f127e359]: El anfitrión insiste en cerrar por fuera de la plataforma
+          - listitem [ref=f127e360]:
+            - generic [ref=f127e361]:
+              - paragraph [ref=f127e362]: Asignado
+              - paragraph [ref=f127e363]: 3 oct 2026, 19:02
+            - paragraph [ref=f127e364]: babc1739-11e1-4328-b1b9-737468ba05fb
+            - paragraph [ref=f127e365]: Assigned to moderator
+          - listitem [ref=f127e366]:
+            - generic [ref=f127e367]:
+              - paragraph [ref=f127e368]: Revisión iniciada
+              - paragraph [ref=f127e369]: 3 oct 2026, 19:02
+            - paragraph [ref=f127e370]: babc1739-11e1-4328-b1b9-737468ba05fb
+            - paragraph [ref=f127e371]: Review started
+          - listitem [ref=f127e372]:
+            - generic [ref=f127e373]:
+              - paragraph [ref=f127e374]: Resuelto
+              - paragraph [ref=f127e375]: 3 oct 2026, 19:02
+            - paragraph [ref=f127e376]: babc1739-11e1-4328-b1b9-737468ba05fb
+            - paragraph [ref=f127e377]: Se contactó a las partes y el anfitrión retiró el mensaje; se le recordó la política de pagos dentro de la plataforma.
+      - generic [ref=f127e378]:
+        - heading "Acciones" [level=2] [ref=f127e379]
+        - paragraph [ref=f127e380]: "El caso está cerrado: la resolución y el rechazo no se pueden repetir (el backend responde 409 si se intentara)."

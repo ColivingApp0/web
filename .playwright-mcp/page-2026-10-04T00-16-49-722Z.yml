@@ -1,0 +1,69 @@
+- generic [ref=f147e4]:
+  - banner [ref=f147e5]:
+    - generic [ref=f147e6]:
+      - link "ColivinApp" [ref=f147e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f147e8]: C
+      - button "Cerrar sesión" [ref=f147e12]
+  - main [ref=f147e13]:
+    - generic [ref=f147e15]:
+      - generic [ref=f147e16]:
+        - generic [ref=f147e17]:
+          - heading "Casos y disputas" [level=1] [ref=f147e18]
+          - paragraph [ref=f147e19]: "Cola de moderación (RF-082): cada caso se asigna a una persona y se cierra con resolución o rechazo motivados. La trazabilidad completa está en el detalle."
+          - paragraph [ref=f147e20]: Los filtros se guardan en la URL, así que puedes compartir o recargar la cola sin perderlos.
+        - button "Actualizar" [ref=f147e22]
+      - generic [ref=f147e23]:
+        - heading "Filtros" [level=2] [ref=f147e24]
+        - generic [ref=f147e25]:
+          - generic [ref=f147e27]:
+            - generic [ref=f147e28]: Tipo
+            - combobox "Tipo" [ref=f147e29]:
+              - option "Todos" [selected]
+              - option "Reporte"
+              - option "Disputa"
+          - generic [ref=f147e31]:
+            - generic [ref=f147e32]: Estado
+            - combobox "Estado" [ref=f147e33]:
+              - option "Todos" [selected]
+              - option "Abierto"
+              - option "En revisión"
+              - option "Resuelto"
+              - option "Rechazado"
+          - generic [ref=f147e35]:
+            - generic [ref=f147e36]: Prioridad
+            - combobox "Prioridad" [ref=f147e37]:
+              - option "Todas" [selected]
+              - option "Alta"
+              - option "Media"
+              - option "Baja"
+          - generic [ref=f147e39]:
+            - generic [ref=f147e40]: Responsable
+            - textbox "Responsable" [ref=f147e41]
+        - generic [ref=f147e42]:
+          - checkbox "Mostrar solo casos abiertos" [ref=f147e43]
+          - text: Mostrar solo casos abiertos
+        - button "Aplicar filtros" [ref=f147e46]
+      - list [ref=f147e47]:
+        - listitem [ref=f147e48]:
+          - generic [ref=f147e49]:
+            - generic [ref=f147e50]:
+              - paragraph [ref=f147e51]: Reporte · Conversación
+              - paragraph [ref=f147e52]: El anfitrión insiste en cerrar por fuera de la plataforma
+              - paragraph [ref=f147e53]: Objeto 98a81966-d2e1-4c20-9d5b-1ae810486959 · abierto por 8b60bb10-810d-4199-898e-7de2a68109d4
+              - paragraph [ref=f147e54]: Responsable babc1739-11e1-4328-b1b9-737468ba05fb
+            - generic [ref=f147e55]:
+              - generic [ref=f147e56]: Resuelto Prioridad Media
+              - link "Ver trazabilidad →" [ref=f147e57] [cursor=pointer]:
+                - /url: /admin/casos/b104d875-5b29-43ff-bb74-04da54b1faa4
+        - listitem [ref=f147e58]:
+          - generic [ref=f147e59]:
+            - generic [ref=f147e60]:
+              - paragraph [ref=f147e61]: Reporte · Conversación
+              - paragraph [ref=f147e62]: Mensajes insistentes fuera del horario de la reserva
+              - paragraph [ref=f147e63]: Objeto 14b19022-da31-4edb-8b39-710c2a57af0f · abierto por 8b60bb10-810d-4199-898e-7de2a68109d4
+              - paragraph [ref=f147e64]: Responsable Sin responsable
+            - generic [ref=f147e65]:
+              - generic [ref=f147e66]: Rechazado Prioridad Media
+              - link "Ver trazabilidad →" [ref=f147e67] [cursor=pointer]:
+                - /url: /admin/casos/e956597b-8cc0-4e7b-ab6c-ad5ad4ce624a

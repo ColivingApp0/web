@@ -1,0 +1,41 @@
+- generic [ref=f163e4]:
+  - banner [ref=f163e5]:
+    - generic [ref=f163e6]:
+      - link "ColivinApp" [ref=f163e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f163e8]: C
+      - button "Cerrar sesión" [ref=f163e12]
+  - main [ref=f163e13]:
+    - generic [ref=f163e29]:
+      - link "← Volver a mensajes" [ref=f163e30] [cursor=pointer]:
+        - /url: /mensajes
+      - generic [ref=f163e31]:
+        - generic [ref=f163e32]:
+          - heading "Conversación" [level=1] [ref=f163e33]
+          - paragraph [ref=f163e34]: "Estancia: 1 dic 2026 → 5 dic 2026"
+          - paragraph [ref=f163e35]: Reserva c9d3654e-d79c-4abb-a4a2-cb68b36f67bb
+        - generic [ref=f163e36]:
+          - button "Actualizar" [ref=f163e38]
+          - link "Ver mis reservas" [ref=f163e39] [cursor=pointer]:
+            - /url: /reservas
+      - paragraph [ref=f163e40]: "La mensajería del backend no ofrece tiempo real: los mensajes nuevos de la contraparte aparecen al usar «Actualizar» o al volver a entrar en la conversación."
+      - log [ref=f163e42]:
+        - listitem [ref=f163e44]:
+          - paragraph [ref=f163e45]: Tú · 3 oct 2026, 17:45
+          - paragraph [ref=f163e46]: Hola, cancelé la reserva por el calendario académico; ¿todo en orden?
+      - generic [ref=f163e47]:
+        - heading "Escribir mensaje" [level=2] [ref=f163e48]
+        - generic [ref=f163e49]:
+          - generic [ref=f163e51]:
+            - generic [ref=f163e52]: Mensaje
+            - textbox "Mensaje" [ref=f163e53]
+            - paragraph [ref=f163e54]: Máximo 2000 caracteres (límite real del backend).
+          - paragraph [ref=f163e55]: 0 / 2000 caracteres
+          - button "Enviar mensaje" [ref=f163e57]
+      - generic [ref=f163e58]:
+        - heading "Seguridad de la conversación" [level=2] [ref=f163e59]
+        - paragraph [ref=f163e60]: Reportar abre un caso de moderación (uno por conversación y persona). Bloquear impide que la otra persona escriba en vuestros hilos; la lectura sigue permitida y el bloqueo se puede deshacer.
+        - status [ref=f163e63]: Ya reportaste esta conversación. Caso b104d875-5b29-43ff-bb74-04da54b1faa4 en revisión por moderación.
+        - generic [ref=f163e64]:
+          - button "Bloquear a la contraparte" [ref=f163e66]
+          - paragraph [ref=f163e67]: Bloquear corta la escritura en ambos sentidos; el historial sigue visible para las dos partes.

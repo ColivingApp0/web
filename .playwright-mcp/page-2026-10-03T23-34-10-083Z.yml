@@ -1,0 +1,62 @@
+- generic [ref=f119e4]:
+  - banner [ref=f119e5]:
+    - generic [ref=f119e6]:
+      - link "ColivinApp" [ref=f119e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f119e8]: C
+      - generic [ref=f119e10]:
+        - link "Anfitrión" [ref=f119e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f119e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f119e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f119e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f119e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f119e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f119e17]
+        - button "Cerrar sesión" [ref=f119e19]
+  - main [ref=f119e20]:
+    - generic [ref=f119e22]:
+      - generic [ref=f119e23]:
+        - generic [ref=f119e24]:
+          - heading "Notificaciones" [level=1] [ref=f119e25]
+          - paragraph [ref=f119e26]: 3 notificaciones sin leer
+        - generic [ref=f119e27]:
+          - link "Mis conversaciones" [ref=f119e28] [cursor=pointer]:
+            - /url: /mensajes
+          - button "Actualizar" [ref=f119e30]
+      - list [ref=f119e31]:
+        - listitem [ref=f119e32]:
+          - generic [ref=f119e33]:
+            - generic [ref=f119e34]:
+              - paragraph [ref=f119e35]: Tienes un nuevo mensaje
+              - paragraph [ref=f119e36]: Mensaje nuevo · 3 oct 2026, 17:45
+            - generic [ref=f119e37]: Sin leer
+          - generic [ref=f119e38]:
+            - link "Ir a la conversación" [ref=f119e39] [cursor=pointer]:
+              - /url: /mensajes/98a81966-d2e1-4c20-9d5b-1ae810486959
+            - button "Marcar como leída" [ref=f119e41]
+        - listitem [ref=f119e42]:
+          - generic [ref=f119e43]:
+            - generic [ref=f119e44]:
+              - paragraph [ref=f119e45]: Tienes un nuevo mensaje
+              - paragraph [ref=f119e46]: Mensaje nuevo · 3 oct 2026, 17:44
+            - generic [ref=f119e47]: Sin leer
+          - generic [ref=f119e48]:
+            - link "Ir a la conversación" [ref=f119e49] [cursor=pointer]:
+              - /url: /mensajes/14b19022-da31-4edb-8b39-710c2a57af0f
+            - button "Marcar como leída" [ref=f119e51]
+        - listitem [ref=f119e52]:
+          - generic [ref=f119e53]:
+            - generic [ref=f119e54]:
+              - paragraph [ref=f119e55]: Tienes un nuevo mensaje
+              - paragraph [ref=f119e56]: Mensaje nuevo · 3 oct 2026, 17:40
+            - generic [ref=f119e57]: Sin leer
+          - generic [ref=f119e58]:
+            - link "Ir a la conversación" [ref=f119e59] [cursor=pointer]:
+              - /url: /mensajes/14b19022-da31-4edb-8b39-710c2a57af0f
+            - button "Marcar como leída" [ref=f119e61]

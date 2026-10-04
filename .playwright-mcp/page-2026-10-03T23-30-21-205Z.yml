@@ -1,0 +1,36 @@
+- generic [ref=f104e4]:
+  - banner [ref=f104e5]:
+    - generic [ref=f104e6]:
+      - link "ColivinApp" [ref=f104e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f104e8]: C
+      - generic [ref=f104e10]:
+        - link "Anfitrión" [ref=f104e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f104e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f104e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f104e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f104e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f104e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f104e17]
+        - button "Cerrar sesión" [ref=f104e19]
+  - main [ref=f104e20]:
+    - generic [ref=f104e22]:
+      - generic [ref=f104e23]:
+        - generic [ref=f104e24]:
+          - heading "Comunidad de mis propiedades" [level=1] [ref=f104e25]
+          - paragraph [ref=f104e26]: Crea actividades para los residentes con estancia confirmada, revisa quién se ha apuntado y cancela las que ya no se celebren.
+        - button "Nueva actividad" [ref=f104e28]
+      - paragraph [ref=f104e29]: Cargando actividades…
+      - generic [ref=f104e30]:
+        - heading "Resumen de la comunidad" [level=2] [ref=f104e31]
+        - paragraph [ref=f104e32]: "Información agregada por propiedad (RF-062): solo contadores, y solo cuando existe consentimiento suficiente de los residentes (consentimiento de privacidad, que cada persona gestiona en su perfil)."
+        - generic [ref=f104e35]:
+          - generic [ref=f104e36]: Propiedad
+          - combobox "Propiedad" [ref=f104e37]:
+            - option "Selecciona una propiedad" [selected]

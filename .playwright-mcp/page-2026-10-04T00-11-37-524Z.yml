@@ -1,0 +1,35 @@
+- generic [ref=f134e4]:
+  - banner [ref=f134e5]:
+    - generic [ref=f134e6]:
+      - link "ColivinApp" [ref=f134e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f134e8]: C
+      - generic [ref=f134e10]:
+        - link "Anfitrión" [ref=f134e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f134e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f134e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f134e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f134e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f134e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f134e17]
+        - button "Cerrar sesión" [ref=f134e19]
+  - main [ref=f134e20]:
+    - generic [ref=f134e22]:
+      - generic [ref=f134e23]:
+        - generic [ref=f134e24]:
+          - heading "Área de anfitrión" [level=1] [ref=f134e25]
+          - paragraph [ref=f134e26]: Gestiona tus propiedades, unidades, publicaciones, precios y disponibilidad.
+          - paragraph [ref=f134e27]:
+            - link "Reservas recibidas →" [ref=f134e28] [cursor=pointer]:
+              - /url: /anfitrion/reservas
+            - text: ·
+            - link "Comunidad de mis propiedades →" [ref=f134e29] [cursor=pointer]:
+              - /url: /anfitrion/comunidad
+        - button "Nueva propiedad" [ref=f134e31]
+      - paragraph [ref=f134e32]: Cargando propiedades…

@@ -1,0 +1,30 @@
+- generic [ref=f108e4]:
+  - banner [ref=f108e5]:
+    - generic [ref=f108e6]:
+      - link "ColivinApp" [ref=f108e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f108e8]: C
+      - generic [ref=f108e10]:
+        - link "Reservas" [ref=f108e11] [cursor=pointer]:
+          - /url: /reservas
+        - link "Mensajes" [ref=f108e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f108e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f108e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f108e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f108e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m1-20261003@example.com" [ref=f108e17]
+        - button "Cerrar sesión" [ref=f108e19]
+  - main [ref=f108e20]:
+    - generic [ref=f108e22]:
+      - link "← Volver a mis reservas" [ref=f108e23] [cursor=pointer]:
+        - /url: /reservas
+      - generic [ref=f108e24]:
+        - heading "Evaluar la estancia" [level=1] [ref=f108e25]
+        - paragraph [ref=f108e26]: Valora a la contraparte con las cinco categorías definidas. Solo se admite una evaluación por estancia, y la relación debe estar confirmada.
+        - paragraph [ref=f108e27]: Reserva 1ad45bd6-ebaf-4b79-89b7-c61409fba5e8 · 2026-11-01 → 2026-11-04
+      - paragraph [ref=f108e28]: Comprobando si ya evaluaste esta estancia…

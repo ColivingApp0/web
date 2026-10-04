@@ -1,0 +1,109 @@
+- generic [ref=f109e148]:
+  - banner [ref=f109e149]:
+    - generic [ref=f109e150]:
+      - link "ColivinApp" [ref=f109e151] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f109e152]: C
+      - generic [ref=f109e154]:
+        - link "Anfitrión" [ref=f109e155] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f109e156] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f109e157] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f109e158] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f109e159] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f109e160] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f109e161]
+        - button "Cerrar sesión" [ref=f109e163]
+  - main [ref=f109e164]:
+    - generic [ref=f109e166]:
+      - generic [ref=f109e167]:
+        - heading "Mi perfil" [level=1] [ref=f109e168]
+        - paragraph [ref=f109e169]: Gestiona tu cuenta, tu perfil y tus consentimientos.
+      - generic [ref=f109e170]:
+        - heading "Cuenta" [level=2] [ref=f109e171]
+        - generic [ref=f109e172]:
+          - generic [ref=f109e173]:
+            - term [ref=f109e174]: Correo
+            - definition [ref=f109e175]: e2e-m2-host-1791059611@example.com
+          - generic [ref=f109e176]:
+            - term [ref=f109e177]: Correo verificado
+            - definition [ref=f109e178]: Sí
+          - generic [ref=f109e179]:
+            - term [ref=f109e180]: Rol activo
+            - definition [ref=f109e181]: Anfitrión
+          - generic [ref=f109e182]:
+            - term [ref=f109e183]: Verificación
+            - definition [ref=f109e184]: Verificado
+      - generic [ref=f109e185]:
+        - heading "Datos del perfil" [level=2] [ref=f109e186]
+        - paragraph [ref=f109e187]: Estos datos alimentan tu perfil y los requisitos de cada rol.
+        - generic [ref=f109e189]:
+          - generic [ref=f109e190]:
+            - generic [ref=f109e192]:
+              - generic [ref=f109e193]: Nombre completo
+              - textbox "Nombre completo" [ref=f109e194]: Anfitrion E2E
+            - generic [ref=f109e196]:
+              - generic [ref=f109e197]: Teléfono
+              - textbox "Teléfono" [ref=f109e198]: "3001234567"
+              - paragraph [ref=f109e199]: Requerido para el rol de anfitrión.
+            - generic [ref=f109e201]:
+              - generic [ref=f109e202]: Tipo de huésped
+              - combobox "Tipo de huésped" [ref=f109e203]:
+                - option "Sin definir" [selected]
+                - option "Estudiante"
+                - option "Turista"
+              - paragraph [ref=f109e204]: Necesario para los roles de huésped.
+            - generic [ref=f109e206]:
+              - generic [ref=f109e207]: Preferencias de estancia
+              - textbox "Preferencias de estancia" [ref=f109e208]
+              - paragraph [ref=f109e209]: "Separadas por comas. Por ejemplo: wifi, silencio, mascotas."
+          - paragraph [ref=f109e210]: Ciudad y datos académicos se podrán editar cuando exista el catálogo público (limitación conocida; sus valores actuales se conservan al guardar).
+          - button "Guardar perfil" [ref=f109e212]
+      - generic [ref=f109e213]:
+        - heading "Privacidad" [level=2] [ref=f109e214]
+        - paragraph [ref=f109e215]: Decide qué información pueden ver otros miembros.
+        - generic [ref=f109e217]:
+          - generic [ref=f109e218]:
+            - generic [ref=f109e219] [cursor=pointer]:
+              - checkbox "Mostrar mi afinidad Otros miembros podrán ver indicadores de afinidad basados en tus preferencias." [ref=f109e220]
+              - generic [ref=f109e221]:
+                - generic [ref=f109e222]: Mostrar mi afinidad
+                - generic [ref=f109e223]: Otros miembros podrán ver indicadores de afinidad basados en tus preferencias.
+            - generic [ref=f109e224] [cursor=pointer]:
+              - checkbox "Mostrar mis datos académicos Incluye institución, facultad y carrera cuando estén registradas." [ref=f109e225]
+              - generic [ref=f109e226]:
+                - generic [ref=f109e227]: Mostrar mis datos académicos
+                - generic [ref=f109e228]: Incluye institución, facultad y carrera cuando estén registradas.
+          - button "Guardar privacidad" [ref=f109e230]
+      - generic [ref=f109e231]:
+        - heading "Consentimientos" [level=2] [ref=f109e232]
+        - paragraph [ref=f109e233]: Puedes aceptar o revocar cada autorización.
+        - list [ref=f109e235]:
+          - listitem [ref=f109e236]:
+            - generic [ref=f109e237]:
+              - paragraph [ref=f109e238]: Términos de uso
+              - paragraph [ref=f109e239]: Reglas de uso de la plataforma para huéspedes y anfitriones.
+              - paragraph [ref=f109e240]: No aceptado
+            - button "Aceptar" [ref=f109e242]
+          - listitem [ref=f109e243]:
+            - generic [ref=f109e244]:
+              - paragraph [ref=f109e245]: Política de privacidad
+              - paragraph [ref=f109e246]: Cómo tratamos y protegemos tu información personal.
+              - paragraph [ref=f109e247]: No aceptado
+            - button "Aceptar" [ref=f109e249]
+          - listitem [ref=f109e250]:
+            - generic [ref=f109e251]:
+              - paragraph [ref=f109e252]: Tratamiento de datos personales
+              - paragraph [ref=f109e253]: Autorización para el tratamiento de tus datos personales.
+              - paragraph [ref=f109e254]: No aceptado
+            - button "Aceptar" [ref=f109e256]
+      - generic [ref=f109e257]:
+        - heading "Verificación de identidad" [level=2] [ref=f109e258]
+        - paragraph [ref=f109e259]: Sube documentos para alcanzar la verificación completa (necesaria para publicar o solicitar alojamiento).
+        - link "Gestionar documentos" [ref=f109e260] [cursor=pointer]:
+          - /url: /perfil/verificacion

@@ -1,0 +1,53 @@
+- generic [ref=f76e4]:
+    - banner [ref=f76e5]:
+        - generic [ref=f76e6]:
+            - link "ColivinApp" [ref=f76e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f76e8]: C
+            - generic [ref=f76e10]:
+                - link "Reservas" [ref=f76e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Mensajes" [ref=f76e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f76e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f76e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f76e15]
+                - button "Cerrar sesión" [ref=f76e17]
+    - main [ref=f76e18]:
+        - generic [ref=f76e24]:
+            - link "← Volver a mensajes" [ref=f76e25] [cursor=pointer]:
+                - /url: /mensajes
+            - generic [ref=f76e61]:
+                - generic [ref=f76e62]:
+                    - heading "Conversación" [level=1] [ref=f76e63]
+                    - paragraph [ref=f76e64]: 'Estancia: 1 nov 2026 → 4 nov 2026'
+                    - paragraph [ref=f76e65]: Reserva 1ad45bd6-ebaf-4b79-89b7-c61409fba5e8
+                - generic [ref=f76e66]:
+                    - button "Actualizar" [ref=f76e68]
+                    - link "Ver mis reservas" [ref=f76e69] [cursor=pointer]:
+                        - /url: /reservas
+            - paragraph [ref=f76e70]: 'La mensajería del backend no ofrece tiempo real: los mensajes nuevos de la contraparte aparecen al usar «Actualizar» o al volver a entrar en la conversación.'
+            - log [ref=f76e72]:
+                - listitem [ref=f76e74]:
+                    - paragraph [ref=f76e75]: Tú · 3 oct 2026, 17:40
+                    - paragraph [ref=f76e76]: Hola, confirma si la entrada es a las 14:00.
+                - listitem [ref=f76e78]:
+                    - paragraph [ref=f76e79]: Tú · 3 oct 2026, 17:44
+                    - paragraph [ref=f76e80]: Perfecto, ¿me confirmas la hora de entrada?
+            - generic [ref=f76e81]:
+                - heading "Escribir mensaje" [level=2] [ref=f76e82]
+                - generic [ref=f76e83]:
+                    - generic [ref=f76e85]:
+                        - generic [ref=f76e86]: Mensaje
+                        - textbox "Mensaje" [invalid] [ref=f76e87]
+                        - paragraph [ref=f76e88]: Escribe un mensaje antes de enviarlo.
+                    - paragraph [ref=f76e89]: '[Computed (draftLength): 0] / 2000 caracteres'
+                    - button "Enviar mensaje" [disabled] [ref=f76e91]
+            - generic [ref=f76e92]:
+                - heading "Seguridad de la conversación" [level=2] [ref=f76e93]
+                - paragraph [ref=f76e94]: Reportar abre un caso de moderación (uno por conversación y persona). Bloquear impide que la otra persona escriba en vuestros hilos; la lectura sigue permitida y el bloqueo se puede deshacer.
+                - generic [ref=f76e95]:
+                    - button "Reportar conversación" [ref=f76e97]
+                    - button "Bloquear a la contraparte" [ref=f76e99]

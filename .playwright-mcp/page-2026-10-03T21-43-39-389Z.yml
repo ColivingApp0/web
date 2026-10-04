@@ -1,0 +1,18 @@
+- generic [ref=f38e4]:
+    - banner [ref=f38e5]:
+        - generic [ref=f38e6]:
+            - link "ColivinApp" [ref=f38e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f38e8]: C
+            - generic [ref=f38e10]:
+                - link "Anfitrión" [ref=f38e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f38e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f38e13]
+                - button "Cerrar sesión" [ref=f38e15]
+    - main [ref=f38e16]:
+        - generic [ref=f38e18]:
+            - link "← Volver a la propiedad" [ref=f38e19] [cursor=pointer]:
+                - /url: /anfitrion/propiedades/828e7ede-6e0e-4619-84d2-d09d5585c363
+            - paragraph [ref=f38e20]: Cargando unidad…

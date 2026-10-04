@@ -1,0 +1,31 @@
+- generic [ref=f6e4]:
+    - banner [ref=f6e5]:
+        - generic [ref=f6e6]:
+            - link "ColivinApp" [ref=f6e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f6e8]: C
+            - generic [ref=f6e10]:
+                - generic "e2e-m1-20261003@example.com" [ref=f6e11]
+                - button "Cerrar sesión" [ref=f6e13]
+    - main [ref=f6e14]:
+        - generic [ref=f6e16]:
+            - generic [ref=f6e17]:
+                - heading "Verificación de identidad" [level=1] [ref=f6e18]
+                - paragraph [ref=f6e19]: Sube documentos para verificar tu cuenta. Cuando un documento sea aprobado, tu nivel de verificación será «Completo» (necesario para publicar o solicitar alojamiento).
+            - generic [ref=f6e20]:
+                - heading "Subir documento" [level=2] [ref=f6e21]
+                - generic [ref=f6e22]:
+                    - generic [ref=f6e23]:
+                        - generic [ref=f6e24]: Tipo de documento
+                        - combobox "Tipo de documento" [ref=f6e25]:
+                            - option "Documento de identidad" [selected]
+                            - option "Certificado académico"
+                            - option "Comprobante de estudio"
+                    - generic [ref=f6e26]:
+                        - generic [ref=f6e27]: Archivo
+                        - button "Archivo" [active] [ref=f6e28]
+                        - paragraph [ref=f6e29]: JPG, PNG, WEBP o PDF · máximo 10 MB.
+                - button "Subir documento" [ref=f6e32]
+            - generic [ref=f6e33]:
+                - heading "Mis documentos" [level=2] [ref=f6e34]
+                - paragraph [ref=f6e35]: Aún no has subido documentos de verificación.

@@ -1,0 +1,30 @@
+- generic [ref=e4]:
+    - banner [ref=e5]:
+        - generic [ref=e6]:
+            - generic [aria-hidden] [ref=e7]: C
+            - generic [ref=e8]: ColivinApp
+    - main [ref=e9]:
+        - generic [ref=e12]:
+            - heading "Inicia sesión" [level=1] [ref=e13]
+            - paragraph [ref=e14]: Accede para gestionar tu perfil y alojamientos.
+            - generic [ref=e15]:
+                - generic [ref=e17]:
+                    - generic [ref=e18]: Correo electrónico
+                    - textbox "Correo electrónico" [ref=e19]
+                - generic [ref=e21]:
+                    - generic [ref=e22]: Contraseña
+                    - textbox "Contraseña" [ref=e23]
+                - button "Entrar" [ref=e25]
+            - generic [ref=e26]:
+                - paragraph [ref=e27]:
+                    - text: ¿No tienes cuenta?
+                    - link "Regístrate" [ref=e28] [cursor=pointer]:
+                        - /url: /registro
+                - paragraph [ref=e29]:
+                    - text: ¿Olvidaste tu contraseña?
+                    - link "Recupérala" [ref=e30] [cursor=pointer]:
+                        - /url: /recuperar
+                - paragraph [ref=e31]:
+                    - text: ¿Ya te registraste?
+                    - link "Verifica tu correo" [ref=e32] [cursor=pointer]:
+                        - /url: /verificar-correo

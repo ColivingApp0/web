@@ -1,0 +1,296 @@
+- generic [ref=f68e3]:
+    - generic:
+        - link "Saltar al contenido" [ref=f68e4] [cursor=pointer]:
+            - /url: '#main-content'
+        - banner [ref=f68e5]:
+            - generic [ref=f68e6]:
+                - link "ColivinApp" [ref=f68e7] [cursor=pointer]:
+                    - /url: /
+                    - generic [aria-hidden] [ref=f68e8]: C
+                - navigation "Secciones" [ref=f68e10]:
+                    - link "Alojamientos" [ref=f68e11] [cursor=pointer]:
+                        - /url: '#alojamientos'
+                    - link "Comunidad" [ref=f68e12] [cursor=pointer]:
+                        - /url: '#comunidad'
+                    - link "Score" [ref=f68e13] [cursor=pointer]:
+                        - /url: '#score'
+                    - link "Cómo funciona" [ref=f68e14] [cursor=pointer]:
+                        - /url: '#como-funciona'
+                - link "Mi perfil" [ref=f68e16] [cursor=pointer]:
+                    - /url: /perfil
+    - main [ref=f68e17]:
+        - generic [ref=f68e22]:
+            - text: Tu lugar. Tu gente. Tu comunidad.
+            - heading [level=1] [ref=f68e23]:
+                - text: Vive tu mejor
+                - emphasis [ref=f68e24]: experiencia
+                - text: universitaria
+            - paragraph [ref=f68e25]: Encuentra alojamientos ideales, conecta con personas increíbles y forma parte de una comunidad que te impulsa.
+            - generic [ref=f68e27]:
+                - generic [ref=f68e28]:
+                    - generic [aria-hidden] [ref=f68e29]: ⌖
+                    - generic [ref=f68e30]: ¿Dónde?
+                    - textbox "¿Dónde?" [ref=f68e31]:
+                        - /placeholder: Ciudad o zona
+                - generic [ref=f68e33]:
+                    - generic [aria-hidden] [ref=f68e34]: 🎓
+                    - generic [ref=f68e35]: Universidad
+                    - textbox "Universidad" [ref=f68e36]:
+                        - /placeholder: Tu universidad
+                - generic [ref=f68e38]:
+                    - generic [aria-hidden] [ref=f68e39]: 💰
+                    - generic [ref=f68e40]: Presupuesto
+                    - textbox "Presupuesto" [ref=f68e41]:
+                        - /placeholder: Máximo por noche
+                - button "⌕ Buscar" [ref=f68e42]
+            - generic [ref=f68e43]:
+                - generic [ref=f68e44]: ✓ Alojamientos verificados
+                - generic [ref=f68e45]: ✓ Comunidad confiable
+                - generic [ref=f68e46]: ✓ Score que te recompensa
+        - generic [ref=f68e48]:
+            - generic [ref=f68e49]:
+                - generic [ref=f68e50]:
+                    - text: Descubre
+                    - heading "Alojamientos que podrían ser para ti" [level=2] [ref=f68e51]
+                    - paragraph [ref=f68e52]: Espacios seleccionados según ubicación, presupuesto y compatibilidad.
+                - link "Ver todos →" [ref=f68e53] [cursor=pointer]:
+                    - /url: /alojamientos
+            - generic [ref=f68e54]:
+                - article [ref=f68e56]:
+                    - generic [ref=f68e57]:
+                        - 'img "Ejemplo: Apartamento universitario en Chapinero" [ref=f68e58]'
+                        - generic [ref=f68e59]: Más popular
+                        - generic [aria-hidden] [ref=f68e60]: ♡
+                    - generic [ref=f68e61]:
+                        - generic [ref=f68e62]:
+                            - heading "Apartamento universitario en Chapinero" [level=3] [ref=f68e63]
+                            - generic "Puntuación" [ref=f68e64]: ★ 4.9
+                        - paragraph [ref=f68e65]: Bogotá · Universidad Javeriana
+                        - paragraph [ref=f68e66]: Ingeniería
+                        - generic [ref=f68e67]:
+                            - generic [ref=f68e68]:
+                                - strong [ref=f68e69]: 96%
+                                - text: compatibilidad
+                            - generic [ref=f68e70]:
+                                - strong [ref=f68e71]: '3'
+                                - text: viviendo aquí
+                        - generic [ref=f68e72]:
+                            - generic [ref=f68e73]: WiFi
+                            - generic [ref=f68e74]: Amoblado
+                            - generic [ref=f68e75]: Cocina
+                            - generic [ref=f68e76]: Lavadora
+                        - link "Explorar alojamientos →" [ref=f68e78] [cursor=pointer]:
+                            - /url: /alojamientos
+                - article [ref=f68e80]:
+                    - generic [ref=f68e81]:
+                        - 'img "Ejemplo: Casa compartida cerca del campus" [ref=f68e82]'
+                        - generic [ref=f68e83]: Nuevo
+                        - generic [aria-hidden] [ref=f68e84]: ♡
+                    - generic [ref=f68e85]:
+                        - generic [ref=f68e86]:
+                            - heading "Casa compartida cerca del campus" [level=3] [ref=f68e87]
+                            - generic "Puntuación" [ref=f68e88]: ★ 4.8
+                        - paragraph [ref=f68e89]: Medellín · Universidad EAFIT
+                        - paragraph [ref=f68e90]: Negocios
+                        - generic [ref=f68e91]:
+                            - generic [ref=f68e92]:
+                                - strong [ref=f68e93]: 91%
+                                - text: compatibilidad
+                            - generic [ref=f68e94]:
+                                - strong [ref=f68e95]: '4'
+                                - text: viviendo aquí
+                        - generic [ref=f68e96]:
+                            - generic [ref=f68e97]: WiFi
+                            - generic [ref=f68e98]: Terraza
+                            - generic [ref=f68e99]: Seguridad
+                            - generic [ref=f68e100]: Parqueadero
+                        - link "Explorar alojamientos →" [ref=f68e102] [cursor=pointer]:
+                            - /url: /alojamientos
+                - article [ref=f68e104]:
+                    - generic [ref=f68e105]:
+                        - 'img "Ejemplo: Habitación luminosa para estudiantes" [ref=f68e106]'
+                        - generic [aria-hidden] [ref=f68e107]: ♡
+                    - generic [ref=f68e108]:
+                        - generic [ref=f68e109]:
+                            - heading "Habitación luminosa para estudiantes" [level=3] [ref=f68e110]
+                            - generic "Puntuación" [ref=f68e111]: ★ 4.7
+                        - paragraph [ref=f68e112]: Cali · Universidad del Valle
+                        - paragraph [ref=f68e113]: Ciencias Sociales
+                        - generic [ref=f68e114]:
+                            - generic [ref=f68e115]:
+                                - strong [ref=f68e116]: 88%
+                                - text: compatibilidad
+                            - generic [ref=f68e117]:
+                                - strong [ref=f68e118]: '2'
+                                - text: viviendo aquí
+                        - generic [ref=f68e119]:
+                            - generic [ref=f68e120]: WiFi
+                            - generic [ref=f68e121]: Escritorio
+                            - generic [ref=f68e122]: Cocina
+                            - generic [ref=f68e123]: Balcón
+                        - link "Explorar alojamientos →" [ref=f68e125] [cursor=pointer]:
+                            - /url: /alojamientos
+                - article [ref=f68e127]:
+                    - generic [ref=f68e128]:
+                        - 'img "Ejemplo: Loft moderno junto a universidades" [ref=f68e129]'
+                        - generic [aria-hidden] [ref=f68e130]: ♡
+                    - generic [ref=f68e131]:
+                        - generic [ref=f68e132]:
+                            - heading "Loft moderno junto a universidades" [level=3] [ref=f68e133]
+                            - generic "Puntuación" [ref=f68e134]: ★ 4.9
+                        - paragraph [ref=f68e135]: Bogotá · Universidad Nacional
+                        - paragraph [ref=f68e136]: Arquitectura
+                        - generic [ref=f68e137]:
+                            - generic [ref=f68e138]:
+                                - strong [ref=f68e139]: 94%
+                                - text: compatibilidad
+                            - generic [ref=f68e140]:
+                                - strong [ref=f68e141]: '2'
+                                - text: viviendo aquí
+                        - generic [ref=f68e142]:
+                            - generic [ref=f68e143]: WiFi
+                            - generic [ref=f68e144]: Gym
+                            - generic [ref=f68e145]: Coworking
+                            - generic [ref=f68e146]: Seguridad
+                        - link "Explorar alojamientos →" [ref=f68e148] [cursor=pointer]:
+                            - /url: /alojamientos
+        - generic [ref=f68e150]:
+            - generic [ref=f68e151]:
+                - text: Explora
+                - heading "Encuentra una opción que encaje contigo" [level=2] [ref=f68e152]
+                - paragraph [ref=f68e153]: Filtra por lo que realmente importa para tu nueva etapa.
+            - generic [ref=f68e154]:
+                - link [ref=f68e155] [cursor=pointer]:
+                    - /url: /alojamientos
+                    - generic [aria-hidden] [ref=f68e156]: 🎓
+                    - heading "Cerca de universidades" [level=3] [ref=f68e157]
+                    - paragraph [ref=f68e158]: A pocos minutos de tu campus
+                    - generic [aria-hidden] [ref=f68e159]: →
+                - link [ref=f68e160] [cursor=pointer]:
+                    - /url: /alojamientos
+                    - generic [aria-hidden] [ref=f68e161]: 🧑‍🤝‍🧑
+                    - heading "Compartidos" [level=3] [ref=f68e162]
+                    - paragraph [ref=f68e163]: Conecta con personas compatibles
+                    - generic [aria-hidden] [ref=f68e164]: →
+                - link [ref=f68e165] [cursor=pointer]:
+                    - /url: /alojamientos
+                    - generic [aria-hidden] [ref=f68e166]: 🏡
+                    - heading "Habitaciones" [level=3] [ref=f68e167]
+                    - paragraph [ref=f68e168]: Espacios listos para mudarte
+                    - generic [aria-hidden] [ref=f68e169]: →
+                - link [ref=f68e170] [cursor=pointer]:
+                    - /url: /alojamientos
+                    - generic [aria-hidden] [ref=f68e171]: 🌆
+                    - heading "Por ciudad" [level=3] [ref=f68e172]
+                    - paragraph [ref=f68e173]: Bogotá, Medellín, Cali y más
+                    - generic [aria-hidden] [ref=f68e174]: →
+        - generic [ref=f68e176]:
+            - generic [ref=f68e177]:
+                - img "Estudiantes compartiendo en su comunidad" [ref=f68e179]
+                - generic [ref=f68e181]:
+                    - strong [ref=f68e182]: 96%
+                    - text: compatibilidad
+            - generic [ref=f68e183]:
+                - text: Más que alojamiento
+                - heading "Conecta con personas que comparten tu forma de vivir" [level=2] [ref=f68e184]
+                - paragraph [ref=f68e185]: ColivinApp combina alojamiento, comunidad y compatibilidad social para que compartir un espacio sea una buena experiencia.
+                - list [ref=f68e186]:
+                    - listitem [ref=f68e187]: ✓Preferencias de convivencia claras
+                    - listitem [ref=f68e188]: ✓Score basado en comportamiento y confianza
+                    - listitem [ref=f68e189]: ✓Actividades para conocer a tu comunidad
+                    - listitem [ref=f68e190]: ✓Mensajería entre estudiantes y anfitriones
+                - link "Únete a la comunidad" [ref=f68e191] [cursor=pointer]:
+                    - /url: /registro
+        - generic [ref=f68e193]:
+            - generic [ref=f68e194]:
+                - text: Así funciona
+                - heading "Encontrar tu próximo hogar es sencillo" [level=2] [ref=f68e195]
+            - generic [ref=f68e196]:
+                - generic [ref=f68e197]:
+                    - generic [aria-hidden] [ref=f68e198]: '01'
+                    - generic [aria-hidden] [ref=f68e199]: 🔎
+                    - heading "Busca" [level=3] [ref=f68e200]
+                    - paragraph [ref=f68e201]: Indica ciudad, universidad, presupuesto y preferencias.
+                - generic [ref=f68e202]:
+                    - generic [aria-hidden] [ref=f68e203]: '02'
+                    - generic [aria-hidden] [ref=f68e204]: 🤝
+                    - heading "Conecta" [level=3] [ref=f68e205]
+                    - paragraph [ref=f68e206]: Compara espacios y descubre tu compatibilidad social.
+                - generic [ref=f68e207]:
+                    - generic [aria-hidden] [ref=f68e208]: '03'
+                    - generic [aria-hidden] [ref=f68e209]: 🏡
+                    - heading "Reserva" [level=3] [ref=f68e210]
+                    - paragraph [ref=f68e211]: Habla con el anfitrión y solicita con información clara.
+        - generic [ref=f68e214]:
+            - generic [ref=f68e215]:
+                - text: Score ColivinApp
+                - heading "Tu buena convivencia también cuenta." [level=2] [ref=f68e216]
+                - paragraph [ref=f68e217]: Construye reputación, genera confianza y desbloquea beneficios dentro de la comunidad.
+            - img "Score de ejemplo 4.9" [ref=f68e218]:
+                - strong [ref=f68e219]: '4.9'
+                - generic [ref=f68e220]: ★ Score
+        - generic [ref=f68e222]:
+            - generic [ref=f68e223]:
+                - text: Comunidad
+                - heading "Lo que dicen quienes ya viven la experiencia" [level=2] [ref=f68e224]
+            - generic [ref=f68e225]:
+                - article [ref=f68e226]:
+                    - generic "5 de 5 estrellas" [ref=f68e227]: ★★★★★
+                    - paragraph [ref=f68e228]: “Encontré compañeros con gustos muy parecidos a los míos y pude mudarme sin complicaciones.”
+                    - generic [ref=f68e229]:
+                        - generic [aria-hidden] [ref=f68e230]: LM
+                        - generic [ref=f68e231]:
+                            - strong [ref=f68e232]: Laura Martínez
+                            - text: Estudiante de Ingeniería
+                - article [ref=f68e233]:
+                    - generic "5 de 5 estrellas" [ref=f68e234]: ★★★★★
+                    - paragraph [ref=f68e235]: “La plataforma hace mucho más sencillo gestionar solicitudes y mantener una comunidad sana.”
+                    - generic [ref=f68e236]:
+                        - generic [aria-hidden] [ref=f68e237]: DR
+                        - generic [ref=f68e238]:
+                            - strong [ref=f68e239]: Daniel Rojas
+                            - text: Anfitrión
+                - article [ref=f68e240]:
+                    - generic "5 de 5 estrellas" [ref=f68e241]: ★★★★★
+                    - paragraph [ref=f68e242]: “Me gustó poder comparar hospedajes y conocer las reglas de cada espacio antes de solicitar.”
+                    - generic [ref=f68e243]:
+                        - generic [aria-hidden] [ref=f68e244]: SG
+                        - generic [ref=f68e245]:
+                            - strong [ref=f68e246]: Sofía Gómez
+                            - text: Turista
+            - paragraph [ref=f68e247]: Testimonios ilustrativos del piloto.
+        - generic [ref=f68e249]:
+            - generic [ref=f68e250]:
+                - text: ¿Listo para comenzar?
+                - heading "Tu próxima historia puede empezar aquí." [level=2] [ref=f68e251]
+            - generic [ref=f68e252]:
+                - link "Crear mi cuenta" [ref=f68e253] [cursor=pointer]:
+                    - /url: /registro
+                - link "Explorar alojamientos" [ref=f68e254] [cursor=pointer]:
+                    - /url: /alojamientos
+    - contentinfo [ref=f68e256]:
+        - generic [ref=f68e257]:
+            - generic [ref=f68e258]:
+                - link "ColivinApp" [ref=f68e259] [cursor=pointer]:
+                    - /url: /
+                    - generic [aria-hidden] [ref=f68e260]: C
+                - paragraph [ref=f68e262]: Vive, conecta y comparte. Una comunidad pensada para encontrar el lugar y las personas correctas.
+            - navigation "Explorar" [ref=f68e263]:
+                - heading "Explorar" [level=4] [ref=f68e264]
+                - link "Alojamientos" [ref=f68e265] [cursor=pointer]:
+                    - /url: /alojamientos
+                - link "Comunidad" [ref=f68e266] [cursor=pointer]:
+                    - /url: '#comunidad'
+                - link "Cómo funciona" [ref=f68e267] [cursor=pointer]:
+                    - /url: '#como-funciona'
+            - navigation "Tu cuenta" [ref=f68e268]:
+                - heading "Tu cuenta" [level=4] [ref=f68e269]
+                - link "Mi perfil" [ref=f68e270] [cursor=pointer]:
+                    - /url: /perfil
+                - link "Iniciar sesión" [ref=f68e271] [cursor=pointer]:
+                    - /url: /entrar
+                - link "Crear cuenta" [ref=f68e272] [cursor=pointer]:
+                    - /url: /registro
+        - generic [ref=f68e273]:
+            - generic [ref=f68e274]: © 2026 ColivinApp. Todos los derechos reservados.
+            - generic [ref=f68e275]: Hecho para vivir mejor juntos.

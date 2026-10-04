@@ -1,0 +1,31 @@
+- generic [ref=f145e4]:
+  - banner [ref=f145e5]:
+    - generic [ref=f145e6]:
+      - link "ColivinApp" [ref=f145e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f145e8]: C
+      - generic [ref=f145e10]:
+        - link "Mensajes" [ref=f145e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f145e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f145e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f145e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f145e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f145e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f145e17]
+        - button "Cerrar sesión" [ref=f145e19]
+  - main [ref=f145e20]:
+    - generic [ref=f145e22]:
+      - generic [ref=f145e23]:
+        - generic [ref=f145e24]:
+          - heading "Reputación del usuario" [level=1] [ref=f145e25]
+          - paragraph [ref=f145e26]: Score con los factores documentados que lo explican, la versión de la fórmula y los beneficios vigentes.
+          - paragraph [ref=f145e27]: ed2c3288-8cee-4161-83f1-e0f025635813
+        - button "Recalcular" [ref=f145e30]
+      - paragraph [ref=f145e31]: Cada consulta de reputación recalcula el score y guarda una instantánea con la versión de la fórmula usada (comportamiento real del backend), por eso se lee una vez por visita y solo se vuelve a pedir con «Recalcular».
+      - paragraph [ref=f145e32]: Calculando reputación…

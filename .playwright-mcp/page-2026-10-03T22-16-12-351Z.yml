@@ -1,0 +1,34 @@
+- generic [ref=f59e4]:
+    - banner [ref=f59e5]:
+        - generic [ref=f59e6]:
+            - link "ColivinApp" [ref=f59e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f59e8]: C
+            - generic [ref=f59e10]:
+                - link "Anfitrión" [ref=f59e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f59e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f59e13]
+                - button "Cerrar sesión" [ref=f59e15]
+    - main [ref=f59e16]:
+        - generic [ref=f59e18]:
+            - generic [ref=f59e19]:
+                - heading "Mi perfil" [level=1] [ref=f59e20]
+                - paragraph [ref=f59e21]: Gestiona tu cuenta, tu perfil y tus consentimientos.
+            - generic [ref=f59e22]:
+                - heading "Cuenta" [level=2] [ref=f59e23]
+                - generic [ref=f59e24]:
+                    - generic [ref=f59e25]:
+                        - term [ref=f59e26]: Correo
+                        - definition [ref=f59e27]: e2e-m2-host-1791059611@example.com
+                    - generic [ref=f59e28]:
+                        - term [ref=f59e29]: Correo verificado
+                        - definition [ref=f59e30]: Sí
+                    - generic [ref=f59e31]:
+                        - term [ref=f59e32]: Rol activo
+                        - definition [ref=f59e33]: Anfitrión
+                    - generic [ref=f59e34]:
+                        - term [ref=f59e35]: Verificación
+                        - definition [ref=f59e36]: —
+            - generic [ref=f59e37]: Cargando perfil…

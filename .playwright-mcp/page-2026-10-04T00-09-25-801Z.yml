@@ -1,0 +1,96 @@
+- generic [ref=f130e4]:
+  - banner [ref=f130e5]:
+    - generic [ref=f130e6]:
+      - link "ColivinApp" [ref=f130e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f130e8]: C
+      - generic [ref=f130e10]:
+        - link "Mensajes" [ref=f130e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f130e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f130e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f130e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f130e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f130e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f130e17]
+        - button "Cerrar sesión" [ref=f130e19]
+  - main [ref=f130e20]:
+    - generic [ref=f130e22]:
+      - generic [ref=f130e23]:
+        - generic [ref=f130e24]:
+          - heading "Verificación de documentos" [level=1] [ref=f130e25]
+          - paragraph [ref=f130e26]: "RF-080: el moderador revisa los documentos pendientes y decide. Aprobar no exige motivo; rechazar y solicitar corrección sí (queda registrado con el revisor)."
+          - paragraph [ref=f130e27]: "El contrato solo expone el tipo, el estado y las fechas del documento: la API no informa de qué usuario es ni permite ver el archivo, así que esta cola no muestra identidad ni contenido."
+        - button "Actualizar" [ref=f130e29]
+      - status [ref=f130e116]: Documento rechazado.
+      - generic [ref=f130e30]:
+        - generic [ref=f130e33]:
+          - generic [ref=f130e34]: Estado
+          - combobox "Estado" [ref=f130e35]:
+            - option "Todos" [selected]
+            - option "Pendiente"
+            - option "Aprobado"
+            - option "Rechazado"
+            - option "Corrección solicitada"
+        - paragraph [ref=f130e36]: El filtro se guarda en la URL. Para trabajar la cola, «Pendiente» es la vista útil.
+      - list [ref=f130e117]:
+        - listitem [ref=f130e118]:
+          - generic [ref=f130e119]:
+            - generic [ref=f130e120]:
+              - paragraph [ref=f130e121]: Comprobante de estudio
+              - paragraph [ref=f130e122]: 629d398b-e9e9-484e-a8bf-7d3951d13093
+              - paragraph [ref=f130e123]: Subido 3 oct 2026, 19:03 · revisado 3 oct 2026, 19:09
+              - paragraph [ref=f130e124]: "Motivo registrado: El comprobante no permite leer el periodo académico ni el nombre del estudiante."
+            - generic [ref=f130e125]: Rechazado
+          - paragraph [ref=f130e126]: "Este documento ya está resuelto: el backend solo admite revisar los pendientes."
+        - listitem [ref=f130e127]:
+          - generic [ref=f130e128]:
+            - generic [ref=f130e129]:
+              - paragraph [ref=f130e130]: Certificado académico
+              - paragraph [ref=f130e131]: 7ef517a2-5dca-4e64-bb19-fe7d8dd5433a
+              - paragraph [ref=f130e132]: Subido 3 oct 2026, 19:03
+            - generic [ref=f130e133]: Pendiente
+          - generic [ref=f130e134]:
+            - button "Aprobar" [ref=f130e136]
+            - button "Rechazar" [ref=f130e138]
+            - button "Solicitar corrección" [ref=f130e140]
+        - listitem [ref=f130e141]:
+          - generic [ref=f130e142]:
+            - generic [ref=f130e143]:
+              - paragraph [ref=f130e144]: Identidad
+              - paragraph [ref=f130e145]: ca00c911-7249-4429-b7ba-c07df2fadd89
+              - paragraph [ref=f130e146]: Subido 3 oct 2026, 15:33 · revisado 3 oct 2026, 15:33
+            - generic [ref=f130e147]: Aprobado
+          - paragraph [ref=f130e148]: "Este documento ya está resuelto: el backend solo admite revisar los pendientes."
+        - listitem [ref=f130e149]:
+          - generic [ref=f130e150]:
+            - generic [ref=f130e151]:
+              - paragraph [ref=f130e152]: Identidad
+              - paragraph [ref=f130e153]: d1cf2614-9b1b-48ad-862f-943ea53b16a6
+              - paragraph [ref=f130e154]: Subido 3 oct 2026, 15:27
+            - generic [ref=f130e155]: Pendiente
+          - generic [ref=f130e156]:
+            - button "Aprobar" [ref=f130e158]
+            - button "Rechazar" [ref=f130e160]
+            - button "Solicitar corrección" [ref=f130e162]
+        - listitem [ref=f130e163]:
+          - generic [ref=f130e164]:
+            - generic [ref=f130e165]:
+              - paragraph [ref=f130e166]: Identidad
+              - paragraph [ref=f130e167]: 63b86b9c-e284-4d3b-9284-269359fd087a
+              - paragraph [ref=f130e168]: Subido 3 oct 2026, 15:27 · revisado 3 oct 2026, 15:27
+            - generic [ref=f130e169]: Aprobado
+          - paragraph [ref=f130e170]: "Este documento ya está resuelto: el backend solo admite revisar los pendientes."
+        - listitem [ref=f130e171]:
+          - generic [ref=f130e172]:
+            - generic [ref=f130e173]:
+              - paragraph [ref=f130e174]: Identidad
+              - paragraph [ref=f130e175]: bdcd3712-88a3-44cb-b2fb-0bb555423a9a
+              - paragraph [ref=f130e176]: Subido 3 oct 2026, 15:07 · revisado 3 oct 2026, 15:27
+            - generic [ref=f130e177]: Aprobado
+          - paragraph [ref=f130e178]: "Este documento ya está resuelto: el backend solo admite revisar los pendientes."

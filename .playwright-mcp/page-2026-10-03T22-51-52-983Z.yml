@@ -1,0 +1,22 @@
+- generic [ref=f86e4]:
+    - banner [ref=f86e5]:
+        - generic [ref=f86e6]:
+            - link "ColivinApp" [ref=f86e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f86e8]: C
+            - generic [ref=f86e10]:
+                - link "Reservas" [ref=f86e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Mensajes" [ref=f86e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f86e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f86e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f86e15]
+                - button "Cerrar sesión" [ref=f86e17]
+    - main [ref=f86e18]:
+        - generic [ref=f86e20]:
+            - link "← Volver a mensajes" [ref=f86e21] [cursor=pointer]:
+                - /url: /mensajes
+            - paragraph [ref=f86e22]: Cargando la conversación…

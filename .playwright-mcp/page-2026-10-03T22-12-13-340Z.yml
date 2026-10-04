@@ -1,0 +1,47 @@
+- generic [ref=f48e4]:
+    - banner [ref=f48e5]:
+        - generic [ref=f48e6]:
+            - link "ColivinApp" [ref=f48e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f48e8]: C
+            - generic [ref=f48e10]:
+                - link "Reservas" [ref=f48e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Favoritos" [ref=f48e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f48e13]
+                - button "Cerrar sesión" [ref=f48e15]
+    - main [ref=f48e16]:
+        - generic [ref=f48e144]:
+            - generic [ref=f48e145]:
+                - generic [ref=f48e146]:
+                    - heading "Mis reservas" [level=1] [ref=f48e147]
+                    - paragraph [ref=f48e148]: 'Solicitudes que enviaste: confirma dentro del plazo provisional o cancela con un motivo.'
+                - link "Buscar alojamientos" [ref=f48e149] [cursor=pointer]:
+                    - /url: /alojamientos
+            - list [ref=f48e150]:
+                - listitem [ref=f48e151]:
+                    - article [ref=f48e153]:
+                        - generic [ref=f48e154]:
+                            - generic [ref=f48e155]:
+                                - paragraph [ref=f48e156]: 1 nov 2026 → 4 nov 2026
+                                - paragraph [ref=f48e157]: 3 noche(s) · 2 huésped(es)
+                            - generic [ref=f48e158]: Solicitada
+                        - generic [ref=f48e159]:
+                            - generic [ref=f48e160]:
+                                - term [ref=f48e161]: Precio por noche
+                                - definition [ref=f48e162]: $ 1.200.000
+                            - generic [ref=f48e163]:
+                                - term [ref=f48e164]: Total de la estancia
+                                - definition [ref=f48e165]: $ 3.600.000
+                            - generic [ref=f48e166]:
+                                - term [ref=f48e167]: Política de cancelación
+                                - definition [ref=f48e168]: Moderada
+                            - generic [ref=f48e169]:
+                                - term [ref=f48e170]: Solicitada
+                                - definition [ref=f48e171]: 3 oct 2026, 17:12
+                        - paragraph [ref=f48e172]: «Hola, somos dos estudiantes y necesitamos la estancia en noviembre.»
+                        - button "Cancelar" [ref=f48e175]
+                    - paragraph [ref=f48e176]:
+                        - link "Ver el alojamiento" [ref=f48e177] [cursor=pointer]:
+                            - /url: /alojamientos/ff67a5b7-daed-44f0-8809-10a7126d561a

@@ -1,0 +1,18 @@
+- generic [ref=f54e4]:
+    - banner [ref=f54e5]:
+        - generic [ref=f54e6]:
+            - link "ColivinApp" [ref=f54e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f54e8]: C
+            - generic [ref=f54e10]:
+                - link "Reservas" [ref=f54e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Favoritos" [ref=f54e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f54e13]
+                - button "Cerrar sesión" [ref=f54e15]
+    - main [ref=f54e16]:
+        - generic [ref=f54e18]:
+            - link "← Volver a alojamientos" [ref=f54e19] [cursor=pointer]:
+                - /url: /alojamientos
+            - paragraph [ref=f54e20]: Cargando alojamiento…

@@ -1,0 +1,37 @@
+- generic [ref=f118e4]:
+  - banner [ref=f118e5]:
+    - generic [ref=f118e6]:
+      - link "ColivinApp" [ref=f118e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f118e8]: C
+      - generic [ref=f118e10]:
+        - link "Anfitrión" [ref=f118e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f118e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f118e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f118e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f118e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f118e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f118e17]
+        - button "Cerrar sesión" [ref=f118e19]
+  - main [ref=f118e20]:
+    - generic [ref=f118e22]:
+      - generic [ref=f118e23]:
+        - generic [ref=f118e24]:
+          - heading "Mensajes" [level=1] [ref=f118e25]
+          - paragraph [ref=f118e26]: Conversaciones con la contraparte de cada reserva. Una reserva tiene un único hilo y lo abren tanto el huésped como el anfitrión.
+        - generic [ref=f118e27]:
+          - link "Notificaciones" [ref=f118e28] [cursor=pointer]:
+            - /url: /notificaciones
+          - link "Ir a mis reservas" [ref=f118e29] [cursor=pointer]:
+            - /url: /reservas
+      - paragraph [ref=f118e30]: Cargando conversaciones…
+      - generic [ref=f118e31]:
+        - heading "Usuarios bloqueados" [level=2] [ref=f118e32]
+        - paragraph [ref=f118e33]: Bloquear impide que la otra persona escriba en vuestras conversaciones (la lectura sigue permitida). Puedes deshacerlo aquí cuando quieras.
+        - paragraph [ref=f118e34]: No has bloqueado a nadie.

@@ -1,0 +1,23 @@
+- generic [ref=f91e4]:
+    - banner [ref=f91e5]:
+        - generic [ref=f91e6]:
+            - link "ColivinApp" [ref=f91e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f91e8]: C
+            - generic [ref=f91e10]:
+                - link "Anfitrión" [ref=f91e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Mensajes" [ref=f91e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f91e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f91e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059253@example.com" [ref=f91e15]
+                - button "Cerrar sesión" [ref=f91e17]
+    - main [ref=f91e18]:
+        - generic [ref=f91e20]:
+            - generic [ref=f91e21]:
+                - heading "Reservas recibidas" [level=1] [ref=f91e22]
+                - paragraph [ref=f91e23]: Decide sobre las solicitudes de tus unidades. Aceptar bloquea los días y abre un plazo de confirmación para el huésped; rechazar o cancelar los libera.
+            - paragraph [ref=f91e24]: Cargando reservas recibidas…

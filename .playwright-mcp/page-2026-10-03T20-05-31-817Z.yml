@@ -1,0 +1,37 @@
+- generic [ref=f4e4]:
+    - banner [ref=f4e5]:
+        - generic [ref=f4e6]:
+            - link "ColivinApp" [ref=f4e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f4e8]: C
+            - generic [ref=f4e10]:
+                - generic "e2e-m1-20261003@example.com" [ref=f4e11]
+                - button "Cerrar sesión" [ref=f4e13]
+    - main [ref=f4e14]:
+        - generic [ref=f4e16]:
+            - heading "Elige tu rol" [level=1] [ref=f4e17]
+            - paragraph [ref=f4e18]: Define cómo usarás ColivinApp. Podrás cambiarlo más adelante.
+            - generic [ref=f4e19]:
+                - group "Rol" [ref=f4e20]:
+                    - generic [ref=f4e22]:
+                        - generic [ref=f4e23] [cursor=pointer]:
+                            - radio "Huésped estudiante Busco alojamiento cerca de mi institución y quiero conocer la comunidad." [ref=f4e24]
+                            - generic [ref=f4e25]:
+                                - generic [ref=f4e26]: Huésped estudiante
+                                - generic [ref=f4e27]: Busco alojamiento cerca de mi institución y quiero conocer la comunidad.
+                        - generic [ref=f4e28] [cursor=pointer]:
+                            - radio "Huésped turista Busco estancias temporales, sin vínculo académico." [ref=f4e29]
+                            - generic [ref=f4e30]:
+                                - generic [ref=f4e31]: Huésped turista
+                                - generic [ref=f4e32]: Busco estancias temporales, sin vínculo académico.
+                        - generic [ref=f4e33] [cursor=pointer]:
+                            - radio "Anfitrión Publico y gestiono propiedades, unidades y solicitudes." [ref=f4e34]
+                            - generic [ref=f4e35]:
+                                - generic [ref=f4e36]: Anfitrión
+                                - generic [ref=f4e37]: Publico y gestiono propiedades, unidades y solicitudes.
+                - generic [ref=f4e38]:
+                    - button "Continuar" [disabled] [ref=f4e40]
+                    - paragraph [ref=f4e41]:
+                        - text: Para el rol de huésped necesitas tu nombre y tipo de huésped; para anfitrión, nombre y teléfono.
+                        - link "Completar mi perfil" [ref=f4e42] [cursor=pointer]:
+                            - /url: /perfil

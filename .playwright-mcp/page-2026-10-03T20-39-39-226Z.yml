@@ -1,0 +1,73 @@
+- generic [ref=f18e277]:
+    - banner [ref=f18e278]:
+        - generic [ref=f18e279]:
+            - link "ColivinApp" [ref=f18e280] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f18e281]: C
+            - generic [ref=f18e283]:
+                - generic "e2e-m1-20261003@example.com" [ref=f18e284]
+                - button "Cerrar sesión" [ref=f18e286]
+    - main [ref=f18e287]:
+        - generic [ref=f18e289]:
+            - generic [ref=f18e290]:
+                - heading "Alojamientos" [level=1] [ref=f18e291]
+                - paragraph [ref=f18e292]: Explora publicaciones activas y filtra por precio, fechas y estancia mínima.
+            - status [ref=f18e294]: El filtro por ciudad o universidad estará disponible cuando se habilite el catálogo público (limitación conocida del piloto). El resto de filtros sí se aplican.
+            - generic [ref=f18e295]:
+                - generic [ref=f18e297]:
+                    - generic [ref=f18e298]: Precio mínimo (por noche)
+                    - textbox "Precio mínimo (por noche)" [ref=f18e299]:
+                        - /placeholder: Sin mínimo
+                - generic [ref=f18e301]:
+                    - generic [ref=f18e302]: Precio máximo (por noche)
+                    - textbox "Precio máximo (por noche)" [ref=f18e303]:
+                        - /placeholder: Sin máximo
+                        - text: '900000'
+                - generic [ref=f18e305]:
+                    - generic [ref=f18e306]: Moneda
+                    - combobox "Moneda" [ref=f18e307]:
+                        - option "Todas" [selected]
+                        - option "COP"
+                        - option "USD"
+                - generic [ref=f18e309]:
+                    - generic [ref=f18e310]: Disponible desde
+                    - textbox "Disponible desde" [ref=f18e311]
+                - generic [ref=f18e313]:
+                    - generic [ref=f18e314]: Disponible hasta
+                    - textbox "Disponible hasta" [ref=f18e315]
+                - generic [ref=f18e317]:
+                    - generic [ref=f18e318]: Noches de estancia
+                    - textbox "Noches de estancia" [ref=f18e319]:
+                        - /placeholder: Sin mínimo
+                    - paragraph [ref=f18e320]: Alojamientos cuya estancia mínima la permita.
+                - generic [ref=f18e322]:
+                    - generic [ref=f18e323]: Ordenar por
+                    - combobox "Ordenar por" [ref=f18e324]:
+                        - option "Más recientes" [selected]
+                        - option "Más recientes"
+                        - 'option "Precio: de menor a mayor"'
+                        - 'option "Precio: de mayor a menor"'
+                - generic [ref=f18e325]:
+                    - button "Aplicar filtros" [ref=f18e327]
+                    - button "Limpiar" [ref=f18e329]
+            - generic [ref=f18e330]:
+                - paragraph [ref=f18e331]: 2 alojamiento(s) encontrados
+                - generic [ref=f18e332]:
+                    - article [ref=f18e334]:
+                        - heading "Habitacion economica para estudiante" [level=3] [ref=f18e335]
+                        - paragraph [ref=f18e336]: Estancia flexible
+                        - generic [ref=f18e337]:
+                            - generic [ref=f18e338]:
+                                - strong [ref=f18e339]: $420,000
+                                - text: / noche
+                            - link "Ver detalle →" [ref=f18e340] [cursor=pointer]:
+                                - /url: /alojamientos/1081f2d7-ae2b-45d6-9f29-ef3c4d8720e2
+                    - article [ref=f18e342]:
+                        - heading "Apartaestudio luminoso cerca del campus" [level=3] [ref=f18e343]
+                        - paragraph [ref=f18e344]: 'Estancia mínima: 2 noche(s)'
+                        - generic [ref=f18e345]:
+                            - generic [ref=f18e346]:
+                                - strong [ref=f18e347]: $850,000
+                                - text: / noche
+                            - link "Ver detalle →" [ref=f18e348] [cursor=pointer]:
+                                - /url: /alojamientos/23cec0a8-8a65-42eb-9464-1dc26edd7ef2

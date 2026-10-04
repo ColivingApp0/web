@@ -1,0 +1,40 @@
+- generic [ref=f130e4]:
+  - banner [ref=f130e5]:
+    - generic [ref=f130e6]:
+      - link "ColivinApp" [ref=f130e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f130e8]: C
+      - generic [ref=f130e10]:
+        - link "Mensajes" [ref=f130e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f130e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f130e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f130e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f130e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f130e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f130e17]
+        - button "Cerrar sesión" [ref=f130e19]
+  - main [ref=f130e20]:
+    - generic [ref=f130e22]:
+      - generic [ref=f130e23]:
+        - generic [ref=f130e24]:
+          - heading "Verificación de documentos" [level=1] [ref=f130e25]
+          - paragraph [ref=f130e26]: "RF-080: el moderador revisa los documentos pendientes y decide. Aprobar no exige motivo; rechazar y solicitar corrección sí (queda registrado con el revisor)."
+          - paragraph [ref=f130e27]: "El contrato solo expone el tipo, el estado y las fechas del documento: la API no informa de qué usuario es ni permite ver el archivo, así que esta cola no muestra identidad ni contenido."
+        - button "Actualizar" [ref=f130e29]
+      - generic [ref=f130e30]:
+        - generic [ref=f130e33]:
+          - generic [ref=f130e34]: Estado
+          - combobox "Estado" [ref=f130e35]:
+            - option "Todos" [selected]
+            - option "Pendiente"
+            - option "Aprobado"
+            - option "Rechazado"
+            - option "Corrección solicitada"
+        - paragraph [ref=f130e36]: El filtro se guarda en la URL. Para trabajar la cola, «Pendiente» es la vista útil.
+      - paragraph [ref=f130e37]: Cargando documentos…

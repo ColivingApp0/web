@@ -1,0 +1,101 @@
+- generic [ref=f3e4]:
+    - banner [ref=f3e5]:
+        - generic [ref=f3e6]:
+            - link "ColivinApp" [ref=f3e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f3e8]: C
+            - generic [ref=f3e10]:
+                - generic "e2e-m1-20261003@example.com" [ref=f3e11]
+                - button "Cerrar sesión" [ref=f3e13]
+    - main [ref=f3e14]:
+        - generic [ref=f3e16]:
+            - generic [ref=f3e17]:
+                - heading "Mi perfil" [level=1] [ref=f3e18]
+                - paragraph [ref=f3e19]: Gestiona tu cuenta, tu perfil y tus consentimientos.
+            - generic [ref=f3e20]:
+                - heading "Cuenta" [level=2] [ref=f3e21]
+                - generic [ref=f3e22]:
+                    - generic [ref=f3e23]:
+                        - term [ref=f3e24]: Correo
+                        - definition [ref=f3e25]: e2e-m1-20261003@example.com
+                    - generic [ref=f3e26]:
+                        - term [ref=f3e27]: Correo verificado
+                        - definition [ref=f3e28]: Sí
+                    - generic [ref=f3e29]:
+                        - term [ref=f3e30]: Rol activo
+                        - definition [ref=f3e31]:
+                            - link "Elegir rol" [ref=f3e32] [cursor=pointer]:
+                                - /url: /seleccionar-rol
+                    - generic [ref=f3e33]:
+                        - term [ref=f3e34]: Verificación
+                        - definition [ref=f3e35]: Sin verificar
+            - generic [ref=f3e37]:
+                - heading "Datos del perfil" [level=2] [ref=f3e38]
+                - paragraph [ref=f3e39]: Estos datos alimentan tu perfil y los requisitos de cada rol.
+                - generic [ref=f3e41]:
+                    - generic [ref=f3e42]:
+                        - generic [ref=f3e44]:
+                            - generic [ref=f3e45]: Nombre completo
+                            - textbox "Nombre completo" [ref=f3e46]: Ada Prueba E2E
+                        - generic [ref=f3e48]:
+                            - generic [ref=f3e49]: Teléfono
+                            - textbox "Teléfono" [ref=f3e50]
+                            - paragraph [ref=f3e51]: Requerido para el rol de anfitrión.
+                        - generic [ref=f3e53]:
+                            - generic [ref=f3e54]: Tipo de huésped
+                            - combobox "Tipo de huésped" [ref=f3e55]:
+                                - option "Sin definir"
+                                - option "Estudiante" [selected]
+                                - option "Turista"
+                            - paragraph [ref=f3e56]: Necesario para los roles de huésped.
+                        - generic [ref=f3e58]:
+                            - generic [ref=f3e59]: Preferencias de estancia
+                            - textbox "Preferencias de estancia" [ref=f3e60]: wifi, silencio
+                            - paragraph [ref=f3e61]: 'Separadas por comas. Por ejemplo: wifi, silencio, mascotas.'
+                    - paragraph [ref=f3e62]: Ciudad y datos académicos se podrán editar cuando exista el catálogo público (limitación conocida; sus valores actuales se conservan al guardar).
+                    - status [ref=f3e114]: Perfil guardado.
+                    - button "Guardar perfil" [ref=f3e64]
+            - generic [ref=f3e65]:
+                - heading "Privacidad" [level=2] [ref=f3e66]
+                - paragraph [ref=f3e67]: Decide qué información pueden ver otros miembros.
+                - generic [ref=f3e69]:
+                    - generic [ref=f3e70]:
+                        - generic [ref=f3e71] [cursor=pointer]:
+                            - checkbox "Mostrar mi afinidad Otros miembros podrán ver indicadores de afinidad basados en tus preferencias." [checked] [ref=f3e72]
+                            - generic [ref=f3e73]:
+                                - generic [ref=f3e74]: Mostrar mi afinidad
+                                - generic [ref=f3e75]: Otros miembros podrán ver indicadores de afinidad basados en tus preferencias.
+                        - generic [ref=f3e76] [cursor=pointer]:
+                            - checkbox "Mostrar mis datos académicos Incluye institución, facultad y carrera cuando estén registradas." [ref=f3e77]
+                            - generic [ref=f3e78]:
+                                - generic [ref=f3e79]: Mostrar mis datos académicos
+                                - generic [ref=f3e80]: Incluye institución, facultad y carrera cuando estén registradas.
+                    - status [ref=f3e118]: Privacidad actualizada.
+                    - button "Guardar privacidad" [ref=f3e82]
+            - generic [ref=f3e83]:
+                - heading "Consentimientos" [level=2] [ref=f3e84]
+                - paragraph [ref=f3e85]: Puedes aceptar o revocar cada autorización.
+                - list [ref=f3e87]:
+                    - listitem [ref=f3e88]:
+                        - generic [ref=f3e89]:
+                            - paragraph [ref=f3e90]: Términos de uso
+                            - paragraph [ref=f3e91]: Reglas de uso de la plataforma para huéspedes y anfitriones.
+                            - paragraph [ref=f3e115]: Aceptado el Oct 3, 2026, 3:04:51 PM
+                        - button "Revocar" [ref=f3e116]
+                    - listitem [ref=f3e95]:
+                        - generic [ref=f3e96]:
+                            - paragraph [ref=f3e97]: Política de privacidad
+                            - paragraph [ref=f3e98]: Cómo tratamos y protegemos tu información personal.
+                            - paragraph [ref=f3e99]: No aceptado
+                        - button "Aceptar" [ref=f3e101]
+                    - listitem [ref=f3e102]:
+                        - generic [ref=f3e103]:
+                            - paragraph [ref=f3e104]: Tratamiento de datos personales
+                            - paragraph [ref=f3e105]: Autorización para el tratamiento de tus datos personales.
+                            - paragraph [ref=f3e106]: No aceptado
+                        - button "Aceptar" [ref=f3e108]
+            - generic [ref=f3e109]:
+                - heading "Verificación de identidad" [level=2] [ref=f3e110]
+                - paragraph [ref=f3e111]: Sube documentos para alcanzar la verificación completa (necesaria para publicar o solicitar alojamiento).
+                - link "Gestionar documentos" [ref=f3e112] [cursor=pointer]:
+                    - /url: /perfil/verificacion

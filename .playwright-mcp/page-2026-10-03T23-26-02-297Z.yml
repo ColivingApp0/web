@@ -1,0 +1,75 @@
+- generic [ref=f97e4]:
+  - banner [ref=f97e5]:
+    - generic [ref=f97e6]:
+      - link "ColivinApp" [ref=f97e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f97e8]: C
+      - generic [ref=f97e10]:
+        - link "Anfitrión" [ref=f97e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f97e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f97e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f97e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f97e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f97e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f97e17]
+        - button "Cerrar sesión" [ref=f97e19]
+  - main [ref=f97e20]:
+    - generic [ref=f97e22]:
+      - generic [ref=f97e23]:
+        - generic [ref=f97e24]:
+          - heading "Comunidad de mis propiedades" [level=1] [ref=f97e25]
+          - paragraph [ref=f97e26]: Crea actividades para los residentes con estancia confirmada, revisa quién se ha apuntado y cancela las que ya no se celebren.
+        - button "Cancelar" [active] [ref=f97e38]
+      - generic [ref=f97e39]:
+        - heading "Nueva actividad" [level=2] [ref=f97e40]
+        - generic [ref=f97e42]:
+          - generic [ref=f97e44]:
+            - generic [ref=f97e45]: Propiedad
+            - combobox "Propiedad" [ref=f97e46]:
+              - option "Selecciona una propiedad"
+              - option "Edificio Aurora E2E"
+              - option "Torre M3 E2E (editada)" [selected]
+          - generic [ref=f97e48]:
+            - generic [ref=f97e49]: Título
+            - textbox "Título" [ref=f97e50]
+            - paragraph [ref=f97e51]: Máximo 120 caracteres.
+          - generic [ref=f97e53]:
+            - generic [ref=f97e54]: Descripción (opcional)
+            - textbox "Descripción (opcional)" [ref=f97e55]
+            - paragraph [ref=f97e56]: Máximo 1000 caracteres.
+          - generic [ref=f97e57]:
+            - generic [ref=f97e59]:
+              - generic [ref=f97e60]: Fecha y hora
+              - textbox "Fecha y hora" [ref=f97e61]
+              - paragraph [ref=f97e62]: Debe ser futura (el backend rechaza el pasado).
+            - generic [ref=f97e64]:
+              - generic [ref=f97e65]: Cupo
+              - textbox "Cupo" [ref=f97e66]
+              - paragraph [ref=f97e67]: Número entero mayor que cero.
+          - group "Residentes habilitados" [ref=f97e68]:
+            - paragraph [ref=f97e70]: "Se listan los residentes con estancia confirmada en las unidades de la propiedad, derivados de tus propias reservas. Se muestran por identificador: la API no expone nombres de terceros. El backend volverá a validar la pertenencia al crear la actividad."
+            - list [ref=f97e77]:
+              - listitem [ref=f97e78]:
+                - generic [ref=f97e79]:
+                  - checkbox "8b60bb10-810d-4199-898e-7de2a68109d4" [ref=f97e80]
+                  - generic [ref=f97e81]: 8b60bb10-810d-4199-898e-7de2a68109d4
+                - generic [ref=f97e82]: 1 estancia(s) confirmada(s)
+          - button "Crear actividad" [ref=f97e73]
+      - generic [ref=f97e74]:
+        - paragraph [ref=f97e75]: Todavía no has creado actividades.
+        - paragraph [ref=f97e76]: Una actividad se crea para una propiedad y se habilita a sus residentes con estancia confirmada; solo ellos la verán.
+      - generic [ref=f97e30]:
+        - heading "Resumen de la comunidad" [level=2] [ref=f97e31]
+        - paragraph [ref=f97e32]: "Información agregada por propiedad (RF-062): solo contadores, y solo cuando existe consentimiento suficiente de los residentes (consentimiento de privacidad, que cada persona gestiona en su perfil)."
+        - generic [ref=f97e35]:
+          - generic [ref=f97e36]: Propiedad
+          - combobox "Propiedad" [ref=f97e37]:
+            - option "Selecciona una propiedad" [selected]
+            - option "Edificio Aurora E2E"
+            - option "Torre M3 E2E (editada)"

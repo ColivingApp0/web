@@ -1,0 +1,30 @@
+- generic [ref=f107e4]:
+  - banner [ref=f107e5]:
+    - generic [ref=f107e6]:
+      - link "ColivinApp" [ref=f107e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f107e8]: C
+      - generic [ref=f107e10]:
+        - link "Reservas" [ref=f107e11] [cursor=pointer]:
+          - /url: /reservas
+        - link "Mensajes" [ref=f107e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f107e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f107e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f107e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f107e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m1-20261003@example.com" [ref=f107e17]
+        - button "Cerrar sesión" [ref=f107e19]
+  - main [ref=f107e20]:
+    - generic [ref=f107e22]:
+      - generic [ref=f107e23]:
+        - generic [ref=f107e24]:
+          - heading "Mis reservas" [level=1] [ref=f107e25]
+          - paragraph [ref=f107e26]: "Solicitudes que enviaste: confirma dentro del plazo provisional o cancela con un motivo."
+        - link "Buscar alojamientos" [ref=f107e27] [cursor=pointer]:
+          - /url: /alojamientos
+      - paragraph [ref=f107e28]: Cargando tus reservas…

@@ -1,0 +1,64 @@
+- generic [ref=f134e4]:
+  - banner [ref=f134e5]:
+    - generic [ref=f134e6]:
+      - link "ColivinApp" [ref=f134e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f134e8]: C
+      - generic [ref=f134e10]:
+        - link "Anfitrión" [ref=f134e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f134e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f134e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f134e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f134e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f134e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f134e17]
+        - button "Cerrar sesión" [ref=f134e19]
+  - main [ref=f134e20]:
+    - generic [ref=f134e49]:
+      - link "← Área de anfitrión" [ref=f134e50] [cursor=pointer]:
+        - /url: /anfitrion
+      - generic [ref=f134e52]:
+        - heading "Edificio Aurora E2E" [level=1] [ref=f134e53]
+        - paragraph [ref=f134e54]: "Calle 45 #12-30, Medellin"
+      - generic [ref=f134e55]:
+        - heading "Datos de la propiedad" [level=2] [ref=f134e56]
+        - generic [ref=f134e58]:
+          - generic [ref=f134e59]:
+            - generic [ref=f134e61]:
+              - generic [ref=f134e62]: Título
+              - textbox "Título" [ref=f134e63]: Edificio Aurora E2E
+            - generic [ref=f134e65]:
+              - generic [ref=f134e66]: Dirección
+              - textbox "Dirección" [ref=f134e67]: "Calle 45 #12-30, Medellin"
+          - generic [ref=f134e69]:
+            - generic [ref=f134e70]: Descripción
+            - textbox "Descripción" [ref=f134e71]: Edificio con apartaestudios amoblados cerca del campus.
+          - generic [ref=f134e73]:
+            - generic [ref=f134e74]: Servicios del inmueble
+            - textbox "Servicios del inmueble" [ref=f134e75]: WiFi, Cocina, Lavadora, Zona de estudio
+            - paragraph [ref=f134e76]: "Separados por comas. Por ejemplo: WiFi, cocina, lavadora."
+          - paragraph [ref=f134e77]: La ciudad se podrá editar cuando exista el catálogo público (limitación conocida; su valor actual se conserva).
+          - button "Guardar cambios" [ref=f134e79]
+      - generic [ref=f134e80]:
+        - generic [ref=f134e81]:
+          - heading "Unidades" [level=2] [ref=f134e82]
+          - button "Nueva unidad" [ref=f134e84]
+        - list [ref=f134e85]:
+          - listitem [ref=f134e86]:
+            - generic [ref=f134e87]:
+              - paragraph [ref=f134e88]: Apartaestudio 301
+              - paragraph [ref=f134e89]: 2 huésped(es) · 1 hab. · 1 cama(s) · 1 baño(s)
+            - link "Gestionar →" [ref=f134e90] [cursor=pointer]:
+              - /url: /anfitrion/propiedades/828e7ede-6e0e-4619-84d2-d09d5585c363/unidades/27b0b261-b7b6-43dc-9aab-cd08bb216834
+          - listitem [ref=f134e91]:
+            - generic [ref=f134e92]:
+              - paragraph [ref=f134e93]: Habitacion 102
+              - paragraph [ref=f134e94]: 1 huésped(es) · 1 hab. · 1 cama(s) · 1 baño(s)
+            - link "Gestionar →" [ref=f134e95] [cursor=pointer]:
+              - /url: /anfitrion/propiedades/828e7ede-6e0e-4619-84d2-d09d5585c363/unidades/8fb811d2-091c-480d-9a17-bf27a7a6a655

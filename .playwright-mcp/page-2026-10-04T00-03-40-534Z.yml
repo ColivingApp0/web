@@ -1,0 +1,76 @@
+- generic [ref=f128e4]:
+  - banner [ref=f128e5]:
+    - generic [ref=f128e6]:
+      - link "ColivinApp" [ref=f128e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f128e8]: C
+      - generic [ref=f128e10]:
+        - link "Mensajes" [ref=f128e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f128e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f128e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f128e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f128e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f128e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f128e17]
+        - button "Cerrar sesión" [ref=f128e19]
+  - main [ref=f128e20]:
+    - generic [ref=f128e102]:
+      - link "← Volver a la cola de casos" [ref=f128e103] [cursor=pointer]:
+        - /url: /admin/casos
+      - status [ref=f128e174]: Caso rechazado con el motivo registrado.
+      - generic [ref=f128e175]:
+        - generic [ref=f128e176]:
+          - generic [ref=f128e177]:
+            - heading "Reporte · Conversación" [level=1] [ref=f128e178]
+            - paragraph [ref=f128e179]: Mensajes insistentes fuera del horario de la reserva
+          - generic [ref=f128e180]: Rechazado Prioridad Media
+        - generic [ref=f128e181]:
+          - generic [ref=f128e182]:
+            - term [ref=f128e183]: Identificador
+            - definition [ref=f128e184]: e956597b-8cc0-4e7b-ab6c-ad5ad4ce624a
+          - generic [ref=f128e185]:
+            - term [ref=f128e186]: Objeto denunciado
+            - definition [ref=f128e187]: 14b19022-da31-4edb-8b39-710c2a57af0f
+          - generic [ref=f128e188]:
+            - term [ref=f128e189]: Abierto por
+            - definition [ref=f128e190]: 8b60bb10-810d-4199-898e-7de2a68109d4
+          - generic [ref=f128e191]:
+            - term [ref=f128e192]: Usuario reportado
+            - definition [ref=f128e193]: ed2c3288-8cee-4161-83f1-e0f025635813
+          - generic [ref=f128e194]:
+            - term [ref=f128e195]: Responsable
+            - definition [ref=f128e196]: Sin asignar
+          - generic [ref=f128e197]:
+            - term [ref=f128e198]: Fechas
+            - definition [ref=f128e199]: Abierto 3 oct 2026, 17:49 · cerrado 3 oct 2026, 19:03
+          - generic [ref=f128e200]:
+            - term [ref=f128e201]: Tiempo de atención
+            - definition [ref=f128e202]: 1,24 h
+          - generic [ref=f128e203]:
+            - term [ref=f128e204]: Resolución
+            - definition [ref=f128e205]: "El reporte no describe una infracción de las reglas: no hay acción que tomar."
+      - generic [ref=f128e206]:
+        - heading "Trazabilidad" [level=2] [ref=f128e207]
+        - paragraph [ref=f128e208]: Cada acción sobre el caso queda registrada con su actor, su nota y su fecha (RF-082). Es la única traza que el backend expone.
+        - list [ref=f128e209]:
+          - listitem [ref=f128e210]:
+            - generic [ref=f128e211]:
+              - paragraph [ref=f128e212]: Caso abierto
+              - paragraph [ref=f128e213]: 3 oct 2026, 17:49
+            - paragraph [ref=f128e214]: 8b60bb10-810d-4199-898e-7de2a68109d4
+            - paragraph [ref=f128e215]: Mensajes insistentes fuera del horario de la reserva
+          - listitem [ref=f128e216]:
+            - generic [ref=f128e217]:
+              - paragraph [ref=f128e218]: Rechazado
+              - paragraph [ref=f128e219]: 3 oct 2026, 19:03
+            - paragraph [ref=f128e220]: babc1739-11e1-4328-b1b9-737468ba05fb
+            - paragraph [ref=f128e221]: "El reporte no describe una infracción de las reglas: no hay acción que tomar."
+      - generic [ref=f128e222]:
+        - heading "Acciones" [level=2] [ref=f128e223]
+        - paragraph [ref=f128e224]: "El caso está cerrado: la resolución y el rechazo no se pueden repetir (el backend responde 409 si se intentara)."

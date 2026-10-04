@@ -1,0 +1,33 @@
+- generic [ref=f77e4]:
+    - banner [ref=f77e5]:
+        - generic [ref=f77e6]:
+            - link "ColivinApp" [ref=f77e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f77e8]: C
+            - generic [ref=f77e10]:
+                - link "Reservas" [ref=f77e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Mensajes" [ref=f77e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f77e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f77e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f77e15]
+                - button "Cerrar sesión" [ref=f77e17]
+    - main [ref=f77e18]:
+        - generic [ref=f77e135]:
+            - link "← Volver a mensajes" [ref=f77e136] [cursor=pointer]:
+                - /url: /mensajes
+            - generic [ref=f77e137]:
+                - heading "Abrir conversación" [level=1] [ref=f77e138]
+                - paragraph [ref=f77e139]: La conversación vive dentro de la reserva. Si todavía no existe, se crea al enviar el primer mensaje; si ya existe, te llevaremos directamente a ella.
+                - paragraph [ref=f77e140]: Reserva c9d3654e-d79c-4abb-a4a2-cb68b36f67bb
+            - generic [ref=f77e141]:
+                - heading "Primer mensaje" [level=2] [ref=f77e142]
+                - generic [ref=f77e143]:
+                    - generic [ref=f77e145]:
+                        - generic [ref=f77e146]: Mensaje
+                        - textbox "Mensaje" [ref=f77e147]
+                        - paragraph [ref=f77e148]: Máximo 2000 caracteres (límite real del backend).
+                    - button "Enviar y abrir conversación" [ref=f77e150]

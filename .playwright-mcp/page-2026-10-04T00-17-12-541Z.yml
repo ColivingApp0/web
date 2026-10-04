@@ -1,0 +1,39 @@
+- generic [ref=f150e4]:
+  - banner [ref=f150e5]:
+    - generic [ref=f150e6]:
+      - link "ColivinApp" [ref=f150e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f150e8]: C
+      - generic [ref=f150e10]:
+        - link "Mensajes" [ref=f150e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f150e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f150e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f150e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f150e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f150e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f150e17]
+        - button "Cerrar sesión" [ref=f150e19]
+  - main [ref=f150e20]:
+    - generic [ref=f150e22]:
+      - generic [ref=f150e23]:
+        - generic [ref=f150e24]:
+          - heading "Mensajes" [level=1] [ref=f150e25]
+          - paragraph [ref=f150e26]: Conversaciones con la contraparte de cada reserva. Una reserva tiene un único hilo y lo abren tanto el huésped como el anfitrión.
+        - generic [ref=f150e27]:
+          - link "Notificaciones" [ref=f150e28] [cursor=pointer]:
+            - /url: /notificaciones
+          - link "Ir a mis reservas" [ref=f150e29] [cursor=pointer]:
+            - /url: /reservas
+      - generic [ref=f150e30]:
+        - paragraph [ref=f150e31]: Aún no tienes conversaciones.
+        - paragraph [ref=f150e32]: "Cada conversación pertenece a una reserva: ábrela desde «Mis reservas» (huésped) o desde «Reservas recibidas» (anfitrión) con el botón «Conversación»."
+      - generic [ref=f150e33]:
+        - heading "Usuarios bloqueados" [level=2] [ref=f150e34]
+        - paragraph [ref=f150e35]: Bloquear impide que la otra persona escriba en vuestras conversaciones (la lectura sigue permitida). Puedes deshacerlo aquí cuando quieras.
+        - paragraph [ref=f150e36]: No has bloqueado a nadie.

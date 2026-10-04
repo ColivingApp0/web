@@ -1,0 +1,80 @@
+- generic [ref=f29e4]:
+    - banner [ref=f29e5]:
+        - generic [ref=f29e6]:
+            - link "ColivinApp" [ref=f29e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f29e8]: C
+            - generic [ref=f29e10]:
+                - link "Favoritos" [ref=f29e11] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f29e12]
+                - button "Cerrar sesión" [ref=f29e14]
+    - main [ref=f29e15]:
+        - generic [ref=f29e17]:
+            - link "← Volver a alojamientos" [ref=f29e18] [cursor=pointer]:
+                - /url: /alojamientos
+            - generic [ref=f29e20]:
+                - generic [ref=f29e21]:
+                    - heading "Apartaestudio luminoso cerca del campus" [level=1] [ref=f29e22]
+                    - button "Guardar en favoritos" [ref=f29e23]: ♡
+                - paragraph [ref=f29e24]:
+                    - strong [ref=f29e25]: $ 850.000
+                    - text: por noche (COP)
+                - paragraph [ref=f29e26]: Estancia de 2 a 30 noches
+            - generic [ref=f29e27]:
+                - heading "Sobre el alojamiento" [level=2] [ref=f29e28]
+                - paragraph [ref=f29e29]: Edificio con apartaestudios amoblados cerca del campus.
+                - heading "Servicios del inmueble" [level=3] [ref=f29e30]
+                - list [ref=f29e31]:
+                    - listitem [ref=f29e32]: WiFi
+                    - listitem [ref=f29e33]: Cocina
+                    - listitem [ref=f29e34]: Lavadora
+                    - listitem [ref=f29e35]: Zona de estudio
+                - heading "Ubicación" [level=3] [ref=f29e36]
+                - paragraph [ref=f29e37]: 'Calle 45 #12-30, Medellin'
+                - heading "Unidad" [level=3] [ref=f29e38]
+                - generic [ref=f29e39]:
+                    - generic [ref=f29e40]:
+                        - term [ref=f29e41]: Huéspedes
+                        - definition [ref=f29e42]: '2'
+                    - generic [ref=f29e43]:
+                        - term [ref=f29e44]: Habitaciones
+                        - definition [ref=f29e45]: '1'
+                    - generic [ref=f29e46]:
+                        - term [ref=f29e47]: Camas
+                        - definition [ref=f29e48]: '1'
+                    - generic [ref=f29e49]:
+                        - term [ref=f29e50]: Baños
+                        - definition [ref=f29e51]: '1'
+                - heading "Reglas de la publicación" [level=3] [ref=f29e52]
+                - list [ref=f29e53]:
+                    - listitem [ref=f29e54]: 'Cancelación: Flexible'
+                    - listitem [ref=f29e55]: 'Check-in: 15:00'
+                    - listitem [ref=f29e56]: 'Check-out: 11:00'
+                    - listitem [ref=f29e57]: 'Estancia: de 2 a 30 noches'
+                - list [ref=f29e58]:
+                    - listitem [ref=f29e59]: No se permiten fiestas
+                    - listitem [ref=f29e60]: No fumar
+            - generic [ref=f29e61]:
+                - heading "Disponibilidad" [level=2] [ref=f29e62]
+                - paragraph [ref=f29e63]: Consulta el estado día a día de la unidad para el rango que te interese.
+                - generic [ref=f29e64]:
+                    - generic [ref=f29e66]:
+                        - generic [ref=f29e67]: Desde
+                        - textbox "Desde" [ref=f29e68]: 2026-10-11
+                    - generic [ref=f29e70]:
+                        - generic [ref=f29e71]: Hasta
+                        - textbox "Hasta" [ref=f29e72]: 2026-10-14
+                    - button "Consultar" [ref=f29e75]
+                - generic [ref=f29e76]:
+                    - list [ref=f29e77]:
+                        - listitem [ref=f29e78]:
+                            - generic [ref=f29e79]: dom 11 oct 2026
+                            - generic [ref=f29e80]: Disponible
+                        - listitem [ref=f29e81]:
+                            - generic [ref=f29e82]: lun 12 oct 2026
+                            - generic [ref=f29e83]: Disponible
+                        - listitem [ref=f29e84]:
+                            - generic [ref=f29e85]: mar 13 oct 2026
+                            - generic [ref=f29e86]: No disponible
+                    - paragraph [ref=f29e87]: «No disponible» incluye bloqueos del anfitrión y solicitudes en proceso; «Ocupado» corresponde a reservas confirmadas.

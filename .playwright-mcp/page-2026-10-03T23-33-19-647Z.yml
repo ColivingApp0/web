@@ -1,0 +1,33 @@
+- generic [ref=f113e4]:
+  - banner [ref=f113e5]:
+    - generic [ref=f113e6]:
+      - link "ColivinApp" [ref=f113e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f113e8]: C
+      - generic [ref=f113e10]:
+        - link "Anfitrión" [ref=f113e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f113e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f113e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f113e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f113e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f113e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f113e17]
+        - button "Cerrar sesión" [ref=f113e19]
+  - main [ref=f113e20]:
+    - generic [ref=f113e22]:
+      - generic [ref=f113e23]:
+        - generic [ref=f113e24]:
+          - heading "Mi reputación" [level=1] [ref=f113e25]
+          - paragraph [ref=f113e26]: Score con los factores documentados que lo explican, la versión de la fórmula y los beneficios vigentes.
+        - generic [ref=f113e27]:
+          - link "Mis evaluaciones" [ref=f113e28] [cursor=pointer]:
+            - /url: /reputacion/evaluaciones
+          - button "Recalcular" [ref=f113e30]
+      - paragraph [ref=f113e31]: Cada consulta de reputación recalcula el score y guarda una instantánea con la versión de la fórmula usada (comportamiento real del backend), por eso se lee una vez por visita y solo se vuelve a pedir con «Recalcular».
+      - paragraph [ref=f113e32]: Calculando reputación…

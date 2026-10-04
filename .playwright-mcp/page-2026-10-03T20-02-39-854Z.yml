@@ -1,0 +1,12 @@
+- generic [ref=f2e4]:
+    - banner [ref=f2e5]:
+        - generic [ref=f2e6]:
+            - generic [aria-hidden] [ref=f2e7]: C
+            - generic [ref=f2e8]: ColivinApp
+    - main [ref=f2e9]:
+        - generic [ref=f2e12]:
+            - heading "Verifica tu correo" [level=1] [ref=f2e13]
+            - generic [ref=f2e26]:
+                - status [ref=f2e28]: ¡Correo verificado! Ya puedes iniciar sesión.
+                - link "Ir a iniciar sesión" [ref=f2e29] [cursor=pointer]:
+                    - /url: /entrar

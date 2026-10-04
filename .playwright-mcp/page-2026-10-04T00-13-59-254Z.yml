@@ -1,0 +1,62 @@
+- generic [ref=f139e4]:
+  - banner [ref=f139e5]:
+    - generic [ref=f139e6]:
+      - link "ColivinApp" [ref=f139e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f139e8]: C
+      - generic [ref=f139e10]:
+        - link "Mensajes" [ref=f139e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f139e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f139e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f139e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f139e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f139e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f139e17]
+        - button "Cerrar sesión" [ref=f139e19]
+  - main [ref=f139e20]:
+    - generic [ref=f139e22]:
+      - generic [ref=f139e23]:
+        - generic [ref=f139e24]:
+          - heading "Catálogos" [level=1] [ref=f139e25]
+          - paragraph [ref=f139e26]: "RF-083: el administrador gestiona los catálogos del piloto (instituciones, facultades, carreras, ciudades, servicios y reglas). Los cambios no eliminan referencias históricas: las entradas se desactivan."
+          - paragraph [ref=f139e27]: Las facultades pertenecen a una institución y las carreras a una facultad; el contrato exige ese padre y lo valida. El contrato real no expone reactivación, así que no se ofrece.
+        - button "Actualizar" [ref=f139e29]
+      - generic [ref=f139e31]:
+        - generic [ref=f139e33]:
+          - generic [ref=f139e34]: Categoría
+          - combobox "Categoría" [ref=f139e35]:
+            - option "Instituciones" [selected]
+            - option "Facultades"
+            - option "Carreras"
+            - option "Ciudades"
+            - option "Servicios"
+            - option "Reglas"
+        - generic [ref=f139e36]:
+          - checkbox "Mostrar entradas inactivas" [ref=f139e37]
+          - text: Mostrar entradas inactivas
+      - generic [ref=f139e38]:
+        - heading "Nueva entrada en Ciudades" [level=2] [ref=f139e39]
+        - generic [ref=f139e40]:
+          - generic [ref=f139e42]:
+            - generic [ref=f139e43]: Código
+            - textbox "Código" [ref=f139e44]: medellin
+            - paragraph [ref=f139e62]: Único por categoría (se guarda en mayúsculas). Máximo 60 caracteres.
+          - generic [ref=f139e47]:
+            - generic [ref=f139e48]: Nombre
+            - textbox "Nombre" [ref=f139e49]: Medellín
+            - paragraph [ref=f139e63]: Máximo 120 caracteres.
+          - generic [ref=f139e52]:
+            - generic [ref=f139e53]: Descripción (opcional)
+            - textbox "Descripción (opcional)" [ref=f139e54]: Área metropolitana del Valle de Aburrá
+            - paragraph [ref=f139e55]: Máximo 1000 caracteres.
+        - paragraph [ref=f139e64]: "El servidor rechazó la acción (VALIDATION_ERROR): Request validation failed."
+        - button "Crear entrada" [ref=f139e58]
+      - generic [ref=f139e59]:
+        - paragraph [ref=f139e60]: No hay entradas en Ciudades.
+        - paragraph [ref=f139e61]: Crea la primera con el formulario de arriba.

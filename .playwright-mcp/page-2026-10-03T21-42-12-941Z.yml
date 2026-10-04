@@ -1,0 +1,34 @@
+- generic [ref=f35e4]:
+    - banner [ref=f35e5]:
+        - generic [ref=f35e6]:
+            - link "ColivinApp" [ref=f35e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f35e8]: C
+            - generic [ref=f35e10]:
+                - link "Anfitrión" [ref=f35e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f35e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f35e13]
+                - button "Cerrar sesión" [ref=f35e15]
+    - main [ref=f35e16]:
+        - generic [ref=f35e18]:
+            - generic [ref=f35e19]:
+                - generic [ref=f35e20]:
+                    - heading "Área de anfitrión" [level=1] [ref=f35e21]
+                    - paragraph [ref=f35e22]: Gestiona tus propiedades, unidades, publicaciones, precios y disponibilidad.
+                - button "Nueva propiedad" [ref=f35e60]
+            - status [ref=f35e62]: Propiedad creada. Añade sus unidades para publicarlas.
+            - list [ref=f35e26]:
+                - listitem [ref=f35e27]:
+                    - heading "Edificio Aurora E2E" [level=2] [ref=f35e29]
+                    - paragraph [ref=f35e30]: 'Calle 45 #12-30, Medellin'
+                    - paragraph [ref=f35e31]: Edificio con apartaestudios amoblados cerca del campus.
+                    - link "Gestionar propiedad →" [ref=f35e33] [cursor=pointer]:
+                        - /url: /anfitrion/propiedades/828e7ede-6e0e-4619-84d2-d09d5585c363
+                - listitem [ref=f35e63]:
+                    - heading "Torre M3 E2E" [level=2] [ref=f35e65]
+                    - paragraph [ref=f35e66]: 'Cra 7 #45-12, Bogota'
+                    - paragraph [ref=f35e67]: Torre nueva creada durante la validacion de M3.
+                    - link "Gestionar propiedad →" [ref=f35e69] [cursor=pointer]:
+                        - /url: /anfitrion/propiedades/8e3c641f-c242-4990-9fc1-6002c78c7a39

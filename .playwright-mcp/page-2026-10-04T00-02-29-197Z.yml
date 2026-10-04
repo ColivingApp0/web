@@ -1,0 +1,98 @@
+- generic [ref=f127e4]:
+  - banner [ref=f127e5]:
+    - generic [ref=f127e6]:
+      - link "ColivinApp" [ref=f127e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f127e8]: C
+      - generic [ref=f127e10]:
+        - link "Mensajes" [ref=f127e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f127e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f127e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f127e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f127e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f127e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f127e17]
+        - button "Cerrar sesión" [ref=f127e19]
+  - main [ref=f127e20]:
+    - generic [ref=f127e89]:
+      - link "← Volver a la cola de casos" [ref=f127e90] [cursor=pointer]:
+        - /url: /admin/casos
+      - status [ref=f127e236]: Revisión iniciada.
+      - generic [ref=f127e237]:
+        - generic [ref=f127e238]:
+          - generic [ref=f127e239]:
+            - heading "Reporte · Conversación" [level=1] [ref=f127e240]
+            - paragraph [ref=f127e241]: El anfitrión insiste en cerrar por fuera de la plataforma
+          - generic [ref=f127e242]: En revisión Prioridad Media
+        - generic [ref=f127e243]:
+          - generic [ref=f127e244]:
+            - term [ref=f127e245]: Identificador
+            - definition [ref=f127e246]: b104d875-5b29-43ff-bb74-04da54b1faa4
+          - generic [ref=f127e247]:
+            - term [ref=f127e248]: Objeto denunciado
+            - definition [ref=f127e249]: 98a81966-d2e1-4c20-9d5b-1ae810486959
+          - generic [ref=f127e250]:
+            - term [ref=f127e251]: Abierto por
+            - definition [ref=f127e252]: 8b60bb10-810d-4199-898e-7de2a68109d4
+          - generic [ref=f127e253]:
+            - term [ref=f127e254]: Usuario reportado
+            - definition [ref=f127e255]: ed2c3288-8cee-4161-83f1-e0f025635813
+          - generic [ref=f127e256]:
+            - term [ref=f127e257]: Responsable
+            - definition [ref=f127e258]: babc1739-11e1-4328-b1b9-737468ba05fb
+          - generic [ref=f127e259]:
+            - term [ref=f127e260]: Fechas
+            - definition [ref=f127e261]: Abierto 3 oct 2026, 17:50
+          - generic [ref=f127e262]:
+            - term [ref=f127e263]: Tiempo de atención
+            - definition [ref=f127e264]: Todavía abierto
+      - generic [ref=f127e265]:
+        - heading "Trazabilidad" [level=2] [ref=f127e266]
+        - paragraph [ref=f127e267]: Cada acción sobre el caso queda registrada con su actor, su nota y su fecha (RF-082). Es la única traza que el backend expone.
+        - list [ref=f127e268]:
+          - listitem [ref=f127e269]:
+            - generic [ref=f127e270]:
+              - paragraph [ref=f127e271]: Caso abierto
+              - paragraph [ref=f127e272]: 3 oct 2026, 17:50
+            - paragraph [ref=f127e273]: 8b60bb10-810d-4199-898e-7de2a68109d4
+            - paragraph [ref=f127e274]: El anfitrión insiste en cerrar por fuera de la plataforma
+          - listitem [ref=f127e275]:
+            - generic [ref=f127e276]:
+              - paragraph [ref=f127e277]: Asignado
+              - paragraph [ref=f127e278]: 3 oct 2026, 19:02
+            - paragraph [ref=f127e279]: babc1739-11e1-4328-b1b9-737468ba05fb
+            - paragraph [ref=f127e280]: Assigned to moderator
+          - listitem [ref=f127e281]:
+            - generic [ref=f127e282]:
+              - paragraph [ref=f127e283]: Revisión iniciada
+              - paragraph [ref=f127e284]: 3 oct 2026, 19:02
+            - paragraph [ref=f127e285]: babc1739-11e1-4328-b1b9-737468ba05fb
+            - paragraph [ref=f127e286]: Review started
+      - generic [ref=f127e287]:
+        - heading "Acciones" [level=2] [ref=f127e288]
+        - generic [ref=f127e289]:
+          - button "Asignarme el caso" [ref=f127e291]
+          - button "Iniciar revisión" [ref=f127e293]
+        - generic [ref=f127e294]:
+          - generic [ref=f127e295]:
+            - heading "Resolver el caso" [level=3] [ref=f127e296]
+            - generic [ref=f127e298]:
+              - generic [ref=f127e300]:
+                - generic [ref=f127e301]: Resolución
+                - textbox "Resolución" [ref=f127e302]
+                - paragraph [ref=f127e303]: Obligatorio. Máximo 1000 caracteres.
+              - button "Resolver" [ref=f127e305]
+          - generic [ref=f127e306]:
+            - heading "Rechazar el caso" [level=3] [ref=f127e307]
+            - generic [ref=f127e309]:
+              - generic [ref=f127e311]:
+                - generic [ref=f127e312]: Motivo del rechazo
+                - textbox "Motivo del rechazo" [ref=f127e313]
+                - paragraph [ref=f127e314]: Obligatorio. Máximo 1000 caracteres.
+              - button "Rechazar" [ref=f127e316]

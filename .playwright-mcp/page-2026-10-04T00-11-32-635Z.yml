@@ -1,0 +1,109 @@
+- generic [ref=f133e73]:
+  - banner [ref=f133e74]:
+    - generic [ref=f133e75]:
+      - link "ColivinApp" [ref=f133e76] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f133e77]: C
+      - generic [ref=f133e79]:
+        - link "Anfitrión" [ref=f133e80] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f133e81] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f133e82] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f133e83] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f133e84] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f133e85] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f133e86]
+        - button "Cerrar sesión" [ref=f133e88]
+  - main [ref=f133e89]:
+    - generic [ref=f133e91]:
+      - generic [ref=f133e92]:
+        - heading "Mi perfil" [level=1] [ref=f133e93]
+        - paragraph [ref=f133e94]: Gestiona tu cuenta, tu perfil y tus consentimientos.
+      - generic [ref=f133e95]:
+        - heading "Cuenta" [level=2] [ref=f133e96]
+        - generic [ref=f133e97]:
+          - generic [ref=f133e98]:
+            - term [ref=f133e99]: Correo
+            - definition [ref=f133e100]: e2e-m2-host-1791059611@example.com
+          - generic [ref=f133e101]:
+            - term [ref=f133e102]: Correo verificado
+            - definition [ref=f133e103]: Sí
+          - generic [ref=f133e104]:
+            - term [ref=f133e105]: Rol activo
+            - definition [ref=f133e106]: Anfitrión
+          - generic [ref=f133e107]:
+            - term [ref=f133e108]: Verificación
+            - definition [ref=f133e109]: Verificado
+      - generic [ref=f133e110]:
+        - heading "Datos del perfil" [level=2] [ref=f133e111]
+        - paragraph [ref=f133e112]: Estos datos alimentan tu perfil y los requisitos de cada rol.
+        - generic [ref=f133e114]:
+          - generic [ref=f133e115]:
+            - generic [ref=f133e117]:
+              - generic [ref=f133e118]: Nombre completo
+              - textbox "Nombre completo" [ref=f133e119]: Anfitrion E2E
+            - generic [ref=f133e121]:
+              - generic [ref=f133e122]: Teléfono
+              - textbox "Teléfono" [ref=f133e123]: "3001234567"
+              - paragraph [ref=f133e124]: Requerido para el rol de anfitrión.
+            - generic [ref=f133e126]:
+              - generic [ref=f133e127]: Tipo de huésped
+              - combobox "Tipo de huésped" [ref=f133e128]:
+                - option "Sin definir" [selected]
+                - option "Estudiante"
+                - option "Turista"
+              - paragraph [ref=f133e129]: Necesario para los roles de huésped.
+            - generic [ref=f133e131]:
+              - generic [ref=f133e132]: Preferencias de estancia
+              - textbox "Preferencias de estancia" [ref=f133e133]
+              - paragraph [ref=f133e134]: "Separadas por comas. Por ejemplo: wifi, silencio, mascotas."
+          - paragraph [ref=f133e135]: Ciudad y datos académicos se podrán editar cuando exista el catálogo público (limitación conocida; sus valores actuales se conservan al guardar).
+          - button "Guardar perfil" [ref=f133e137]
+      - generic [ref=f133e138]:
+        - heading "Privacidad" [level=2] [ref=f133e139]
+        - paragraph [ref=f133e140]: Decide qué información pueden ver otros miembros.
+        - generic [ref=f133e142]:
+          - generic [ref=f133e143]:
+            - generic [ref=f133e144] [cursor=pointer]:
+              - checkbox "Mostrar mi afinidad Otros miembros podrán ver indicadores de afinidad basados en tus preferencias." [ref=f133e145]
+              - generic [ref=f133e146]:
+                - generic [ref=f133e147]: Mostrar mi afinidad
+                - generic [ref=f133e148]: Otros miembros podrán ver indicadores de afinidad basados en tus preferencias.
+            - generic [ref=f133e149] [cursor=pointer]:
+              - checkbox "Mostrar mis datos académicos Incluye institución, facultad y carrera cuando estén registradas." [ref=f133e150]
+              - generic [ref=f133e151]:
+                - generic [ref=f133e152]: Mostrar mis datos académicos
+                - generic [ref=f133e153]: Incluye institución, facultad y carrera cuando estén registradas.
+          - button "Guardar privacidad" [ref=f133e155]
+      - generic [ref=f133e156]:
+        - heading "Consentimientos" [level=2] [ref=f133e157]
+        - paragraph [ref=f133e158]: Puedes aceptar o revocar cada autorización.
+        - list [ref=f133e160]:
+          - listitem [ref=f133e161]:
+            - generic [ref=f133e162]:
+              - paragraph [ref=f133e163]: Términos de uso
+              - paragraph [ref=f133e164]: Reglas de uso de la plataforma para huéspedes y anfitriones.
+              - paragraph [ref=f133e165]: No aceptado
+            - button "Aceptar" [ref=f133e167]
+          - listitem [ref=f133e168]:
+            - generic [ref=f133e169]:
+              - paragraph [ref=f133e170]: Política de privacidad
+              - paragraph [ref=f133e171]: Cómo tratamos y protegemos tu información personal.
+              - paragraph [ref=f133e172]: No aceptado
+            - button "Aceptar" [ref=f133e174]
+          - listitem [ref=f133e175]:
+            - generic [ref=f133e176]:
+              - paragraph [ref=f133e177]: Tratamiento de datos personales
+              - paragraph [ref=f133e178]: Autorización para el tratamiento de tus datos personales.
+              - paragraph [ref=f133e179]: No aceptado
+            - button "Aceptar" [ref=f133e181]
+      - generic [ref=f133e182]:
+        - heading "Verificación de identidad" [level=2] [ref=f133e183]
+        - paragraph [ref=f133e184]: Sube documentos para alcanzar la verificación completa (necesaria para publicar o solicitar alojamiento).
+        - link "Gestionar documentos" [ref=f133e185] [cursor=pointer]:
+          - /url: /perfil/verificacion

@@ -1,0 +1,35 @@
+- generic [ref=f89e4]:
+    - banner [ref=f89e5]:
+        - generic [ref=f89e6]:
+            - link "ColivinApp" [ref=f89e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f89e8]: C
+            - generic [ref=f89e10]:
+                - link "Anfitrión" [ref=f89e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Mensajes" [ref=f89e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f89e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f89e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059253@example.com" [ref=f89e15]
+                - button "Cerrar sesión" [ref=f89e17]
+    - main [ref=f89e18]:
+        - generic [ref=f89e20]:
+            - generic [ref=f89e21]:
+                - generic [ref=f89e22]:
+                    - heading "Mensajes" [level=1] [ref=f89e23]
+                    - paragraph [ref=f89e24]: Conversaciones con la contraparte de cada reserva. Una reserva tiene un único hilo y lo abren tanto el huésped como el anfitrión.
+                - generic [ref=f89e25]:
+                    - link "Notificaciones" [ref=f89e26] [cursor=pointer]:
+                        - /url: /notificaciones
+                    - link "Ir a mis reservas" [ref=f89e27] [cursor=pointer]:
+                        - /url: /reservas
+            - generic [ref=f89e28]:
+                - paragraph [ref=f89e29]: Aún no tienes conversaciones.
+                - paragraph [ref=f89e30]: 'Cada conversación pertenece a una reserva: ábrela desde «Mis reservas» (huésped) o desde «Reservas recibidas» (anfitrión) con el botón «Conversación».'
+            - generic [ref=f89e31]:
+                - heading "Usuarios bloqueados" [level=2] [ref=f89e32]
+                - paragraph [ref=f89e33]: Bloquear impide que la otra persona escriba en vuestras conversaciones (la lectura sigue permitida). Puedes deshacerlo aquí cuando quieras.
+                - paragraph [ref=f89e34]: No has bloqueado a nadie.

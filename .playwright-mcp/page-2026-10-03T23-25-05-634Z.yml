@@ -1,0 +1,42 @@
+- generic [ref=f96e4]:
+  - banner [ref=f96e5]:
+    - generic [ref=f96e6]:
+      - link "ColivinApp" [ref=f96e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f96e8]: C
+      - generic [ref=f96e10]:
+        - link "Anfitrión" [ref=f96e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f96e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f96e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f96e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f96e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f96e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059253@example.com" [ref=f96e17]
+        - button "Cerrar sesión" [ref=f96e19]
+  - main [ref=f96e20]:
+    - generic [ref=f96e22]:
+      - generic [ref=f96e23]:
+        - heading "Mi perfil" [level=1] [ref=f96e24]
+        - paragraph [ref=f96e25]: Gestiona tu cuenta, tu perfil y tus consentimientos.
+      - generic [ref=f96e26]:
+        - heading "Cuenta" [level=2] [ref=f96e27]
+        - generic [ref=f96e28]:
+          - generic [ref=f96e29]:
+            - term [ref=f96e30]: Correo
+            - definition [ref=f96e31]: e2e-m2-host-1791059253@example.com
+          - generic [ref=f96e32]:
+            - term [ref=f96e33]: Correo verificado
+            - definition [ref=f96e34]: Sí
+          - generic [ref=f96e35]:
+            - term [ref=f96e36]: Rol activo
+            - definition [ref=f96e37]: Anfitrión
+          - generic [ref=f96e38]:
+            - term [ref=f96e39]: Verificación
+            - definition [ref=f96e40]: —
+      - generic [ref=f96e41]: Cargando perfil…

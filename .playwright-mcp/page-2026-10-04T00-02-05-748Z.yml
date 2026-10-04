@@ -1,0 +1,85 @@
+- generic [ref=f127e4]:
+  - banner [ref=f127e5]:
+    - generic [ref=f127e6]:
+      - link "ColivinApp" [ref=f127e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f127e8]: C
+      - generic [ref=f127e10]:
+        - link "Mensajes" [ref=f127e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f127e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f127e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f127e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f127e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f127e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f127e17]
+        - button "Cerrar sesión" [ref=f127e19]
+  - main [ref=f127e20]:
+    - generic [ref=f127e89]:
+      - link "← Volver a la cola de casos" [ref=f127e90] [cursor=pointer]:
+        - /url: /admin/casos
+      - generic [ref=f127e91]:
+        - generic [ref=f127e92]:
+          - generic [ref=f127e93]:
+            - heading "Reporte · Conversación" [level=1] [ref=f127e94]
+            - paragraph [ref=f127e95]: El anfitrión insiste en cerrar por fuera de la plataforma
+          - generic [ref=f127e96]: Abierto Prioridad Media
+        - generic [ref=f127e97]:
+          - generic [ref=f127e98]:
+            - term [ref=f127e99]: Identificador
+            - definition [ref=f127e100]: b104d875-5b29-43ff-bb74-04da54b1faa4
+          - generic [ref=f127e101]:
+            - term [ref=f127e102]: Objeto denunciado
+            - definition [ref=f127e103]: 98a81966-d2e1-4c20-9d5b-1ae810486959
+          - generic [ref=f127e104]:
+            - term [ref=f127e105]: Abierto por
+            - definition [ref=f127e106]: 8b60bb10-810d-4199-898e-7de2a68109d4
+          - generic [ref=f127e107]:
+            - term [ref=f127e108]: Usuario reportado
+            - definition [ref=f127e109]: ed2c3288-8cee-4161-83f1-e0f025635813
+          - generic [ref=f127e110]:
+            - term [ref=f127e111]: Responsable
+            - definition [ref=f127e112]: Sin asignar
+          - generic [ref=f127e113]:
+            - term [ref=f127e114]: Fechas
+            - definition [ref=f127e115]: Abierto 3 oct 2026, 17:50
+          - generic [ref=f127e116]:
+            - term [ref=f127e117]: Tiempo de atención
+            - definition [ref=f127e118]: Todavía abierto
+      - generic [ref=f127e119]:
+        - heading "Trazabilidad" [level=2] [ref=f127e120]
+        - paragraph [ref=f127e121]: Cada acción sobre el caso queda registrada con su actor, su nota y su fecha (RF-082). Es la única traza que el backend expone.
+        - list [ref=f127e122]:
+          - listitem [ref=f127e123]:
+            - generic [ref=f127e124]:
+              - paragraph [ref=f127e125]: Caso abierto
+              - paragraph [ref=f127e126]: 3 oct 2026, 17:50
+            - paragraph [ref=f127e127]: 8b60bb10-810d-4199-898e-7de2a68109d4
+            - paragraph [ref=f127e128]: El anfitrión insiste en cerrar por fuera de la plataforma
+      - generic [ref=f127e129]:
+        - heading "Acciones" [level=2] [ref=f127e130]
+        - generic [ref=f127e131]:
+          - button "Asignarme el caso" [ref=f127e133]
+          - button "Iniciar revisión" [ref=f127e135]
+        - generic [ref=f127e136]:
+          - generic [ref=f127e137]:
+            - heading "Resolver el caso" [level=3] [ref=f127e138]
+            - generic [ref=f127e140]:
+              - generic [ref=f127e142]:
+                - generic [ref=f127e143]: Resolución
+                - textbox "Resolución" [ref=f127e144]
+                - paragraph [ref=f127e145]: Obligatorio. Máximo 1000 caracteres.
+              - button "Resolver" [ref=f127e147]
+          - generic [ref=f127e148]:
+            - heading "Rechazar el caso" [level=3] [ref=f127e149]
+            - generic [ref=f127e151]:
+              - generic [ref=f127e153]:
+                - generic [ref=f127e154]: Motivo del rechazo
+                - textbox "Motivo del rechazo" [ref=f127e155]
+                - paragraph [ref=f127e156]: Obligatorio. Máximo 1000 caracteres.
+              - button "Rechazar" [ref=f127e158]

@@ -1,0 +1,3 @@
+[     122ms] [LOG] Angular is running in development mode. @ http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-Chl50vpr.js?v=19eb6d06:9363
+[    7158ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/api/v1/users/me/blocks:0
+[   62811ms] [LOG] Angular is running in development mode. @ http://localhost:4200/@fs/home/dan/Documents/ColivingApp/client/.angular/cache/22.2.1/client/vite/deps/core-Chl50vpr.js?v=19eb6d06:9363

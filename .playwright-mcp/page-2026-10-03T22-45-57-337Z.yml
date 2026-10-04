@@ -1,0 +1,47 @@
+- generic [ref=f79e4]:
+    - banner [ref=f79e5]:
+        - generic [ref=f79e6]:
+            - link "ColivinApp" [ref=f79e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f79e8]: C
+            - generic [ref=f79e10]:
+                - link "Anfitrión" [ref=f79e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Mensajes" [ref=f79e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f79e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f79e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f79e15]
+                - button "Cerrar sesión" [ref=f79e17]
+    - main [ref=f79e18]:
+        - generic [ref=f79e20]:
+            - generic [ref=f79e21]:
+                - generic [ref=f79e22]:
+                    - heading "Mensajes" [level=1] [ref=f79e23]
+                    - paragraph [ref=f79e24]: Conversaciones con la contraparte de cada reserva. Una reserva tiene un único hilo y lo abren tanto el huésped como el anfitrión.
+                - generic [ref=f79e25]:
+                    - link "Notificaciones" [ref=f79e26] [cursor=pointer]:
+                        - /url: /notificaciones
+                    - link "Ir a mis reservas" [ref=f79e27] [cursor=pointer]:
+                        - /url: /reservas
+            - list [ref=f79e28]:
+                - listitem [ref=f79e29]:
+                    - generic [ref=f79e30]:
+                        - generic [ref=f79e31]:
+                            - paragraph [ref=f79e32]: Conversación de la reserva c9d3654e…
+                            - paragraph [ref=f79e33]: 1 mensaje(s) · última actividad 3 oct 2026, 17:45
+                        - link "Abrir hilo →" [ref=f79e34] [cursor=pointer]:
+                            - /url: /mensajes/98a81966-d2e1-4c20-9d5b-1ae810486959
+                - listitem [ref=f79e35]:
+                    - generic [ref=f79e36]:
+                        - generic [ref=f79e37]:
+                            - paragraph [ref=f79e38]: Conversación de la reserva 1ad45bd6…
+                            - paragraph [ref=f79e39]: 2 mensaje(s) · última actividad 3 oct 2026, 17:44
+                        - link "Abrir hilo →" [ref=f79e40] [cursor=pointer]:
+                            - /url: /mensajes/14b19022-da31-4edb-8b39-710c2a57af0f
+            - generic [ref=f79e41]:
+                - heading "Usuarios bloqueados" [level=2] [ref=f79e42]
+                - paragraph [ref=f79e43]: Bloquear impide que la otra persona escriba en vuestras conversaciones (la lectura sigue permitida). Puedes deshacerlo aquí cuando quieras.
+                - paragraph [ref=f79e44]: No has bloqueado a nadie.

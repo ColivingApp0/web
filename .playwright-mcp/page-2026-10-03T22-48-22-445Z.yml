@@ -1,0 +1,47 @@
+- generic [ref=f82e4]:
+    - banner [ref=f82e5]:
+        - generic [ref=f82e6]:
+            - link "ColivinApp" [ref=f82e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f82e8]: C
+            - generic [ref=f82e10]:
+                - link "Reservas" [ref=f82e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Mensajes" [ref=f82e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f82e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f82e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f82e15]
+                - button "Cerrar sesión" [ref=f82e17]
+    - main [ref=f82e18]:
+        - generic [ref=f82e20]:
+            - generic [ref=f82e21]:
+                - generic [ref=f82e22]:
+                    - heading "Notificaciones" [level=1] [ref=f82e23]
+                    - paragraph [ref=f82e24]: 1 notificación sin leer
+                - generic [ref=f82e25]:
+                    - link "Mis conversaciones" [ref=f82e26] [cursor=pointer]:
+                        - /url: /mensajes
+                    - button "Actualizar" [ref=f82e28]
+            - status [ref=f82e52]: Notificación marcada como leída.
+            - list [ref=f82e53]:
+                - listitem [ref=f82e54]:
+                    - generic [ref=f82e55]:
+                        - generic [ref=f82e56]:
+                            - paragraph [ref=f82e57]: Tienes un nuevo mensaje
+                            - paragraph [ref=f82e58]: Mensaje nuevo · 3 oct 2026, 17:47 · leída el 3 oct 2026, 17:48
+                        - generic [ref=f82e59]: Leída
+                    - link "Ir a la conversación" [ref=f82e61] [cursor=pointer]:
+                        - /url: /mensajes/14b19022-da31-4edb-8b39-710c2a57af0f
+                - listitem [ref=f82e62]:
+                    - generic [ref=f82e63]:
+                        - generic [ref=f82e64]:
+                            - paragraph [ref=f82e65]: Tienes un nuevo mensaje
+                            - paragraph [ref=f82e66]: Mensaje nuevo · 3 oct 2026, 17:46
+                        - generic [ref=f82e67]: Sin leer
+                    - generic [ref=f82e68]:
+                        - link "Ir a la conversación" [ref=f82e69] [cursor=pointer]:
+                            - /url: /mensajes/14b19022-da31-4edb-8b39-710c2a57af0f
+                        - button "Marcar como leída" [ref=f82e71]

@@ -1,0 +1,49 @@
+- generic [ref=f142e4]:
+  - banner [ref=f142e5]:
+    - generic [ref=f142e6]:
+      - link "ColivinApp" [ref=f142e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f142e8]: C
+      - generic [ref=f142e10]:
+        - link "Mensajes" [ref=f142e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f142e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f142e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f142e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f142e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f142e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f142e17]
+        - button "Cerrar sesión" [ref=f142e19]
+  - main [ref=f142e20]:
+    - generic [ref=f142e22]:
+      - generic [ref=f142e23]:
+        - generic [ref=f142e24]:
+          - heading "Reglas de beneficio" [level=1] [ref=f142e25]
+          - paragraph [ref=f142e26]: "RF-073: los beneficios del score se configuran como datos (código y puntuación mínima) sin tocar la fórmula. El cálculo y la concesión siguen siendo del backend."
+          - paragraph [ref=f142e27]: El contrato real permite crear, listar y desactivar. No hay edición ni reactivación, así que no se ofrecen; una regla desactivada se conserva para no perder referencias.
+        - button "Actualizar" [ref=f142e29]
+      - generic [ref=f142e30]:
+        - heading "Nueva regla" [level=2] [ref=f142e31]
+        - generic [ref=f142e32]:
+          - generic [ref=f142e34]:
+            - generic [ref=f142e35]: Código
+            - textbox "Código" [ref=f142e36]
+            - paragraph [ref=f142e37]: El código es obligatorio.
+          - generic [ref=f142e39]:
+            - generic [ref=f142e40]: Puntuación mínima del score
+            - textbox "Puntuación mínima del score" [ref=f142e41]: "4"
+            - paragraph [ref=f142e42]: Entre 0 y 5.
+          - generic [ref=f142e44]:
+            - generic [ref=f142e45]: Descripción (opcional)
+            - textbox "Descripción (opcional)" [ref=f142e46]
+            - paragraph [ref=f142e47]: Máximo 200 caracteres.
+        - button "Crear regla" [ref=f142e50]
+      - generic [ref=f142e51]:
+        - checkbox "Mostrar reglas inactivas" [ref=f142e52]
+        - text: Mostrar reglas inactivas
+      - paragraph [ref=f142e53]: Cargando reglas…

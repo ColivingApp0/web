@@ -1,0 +1,60 @@
+- generic [ref=f83e4]:
+    - banner [ref=f83e5]:
+        - generic [ref=f83e6]:
+            - link "ColivinApp" [ref=f83e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f83e8]: C
+            - generic [ref=f83e10]:
+                - link "Reservas" [ref=f83e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Mensajes" [ref=f83e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f83e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f83e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f83e15]
+                - button "Cerrar sesión" [ref=f83e17]
+    - main [ref=f83e18]:
+        - generic [ref=f83e20]:
+            - link "← Volver a mensajes" [ref=f83e21] [cursor=pointer]:
+                - /url: /mensajes
+            - generic [ref=f83e23]:
+                - generic [ref=f83e24]:
+                    - heading "Conversación" [level=1] [ref=f83e25]
+                    - paragraph [ref=f83e26]: 'Estancia: 1 nov 2026 → 4 nov 2026'
+                    - paragraph [ref=f83e27]: Reserva 1ad45bd6-ebaf-4b79-89b7-c61409fba5e8
+                - generic [ref=f83e28]:
+                    - button "Actualizar" [ref=f83e30]
+                    - link "Ver mis reservas" [ref=f83e31] [cursor=pointer]:
+                        - /url: /reservas
+            - paragraph [ref=f83e32]: 'La mensajería del backend no ofrece tiempo real: los mensajes nuevos de la contraparte aparecen al usar «Actualizar» o al volver a entrar en la conversación.'
+            - alert [ref=f83e34]: 'could not execute statement [ERROR: null value in column "conversation_id" of relation "messaging_conversation_block" violates not-null constraint Detail: Failing row contains (b1a34fa3-0dc5-43de-a13d-a31d72eee78d, null, 8b60bb10-810d-4199-898e-7de2a68109d4, ed2c3288-8cee-4161-83f1-e0f025635813, null, 2026-10-03 17:48:47.032914-05, null).] [insert into messaging_conversation_block (blocked_user_id,blocker_user_id,created_at,id) values (?,?,?,?)]; SQL [insert into messaging_conversation_block (blocked_user_id,blocker_user_id,created_at,id) values (?,?,?,?)]; constraint [conversation_id]'
+            - log [ref=f83e36]:
+                - listitem [ref=f83e38]:
+                    - paragraph [ref=f83e39]: Tú · 3 oct 2026, 17:40
+                    - paragraph [ref=f83e40]: Hola, confirma si la entrada es a las 14:00.
+                - listitem [ref=f83e42]:
+                    - paragraph [ref=f83e43]: Tú · 3 oct 2026, 17:44
+                    - paragraph [ref=f83e44]: Perfecto, ¿me confirmas la hora de entrada?
+                - listitem [ref=f83e46]:
+                    - paragraph [ref=f83e47]: Contraparte · 3 oct 2026, 17:46
+                    - paragraph [ref=f83e48]: La entrada es a las 14:00 y la salida a las 10:00, como figura en las reglas.
+                - listitem [ref=f83e50]:
+                    - paragraph [ref=f83e51]: Contraparte · 3 oct 2026, 17:47
+                    - paragraph [ref=f83e52]: 'Confirmado: entrada 14:00 y salida 10:00. Cualquier cosa, escríbeme por aquí.'
+            - generic [ref=f83e53]:
+                - heading "Escribir mensaje" [level=2] [ref=f83e54]
+                - generic [ref=f83e55]:
+                    - generic [ref=f83e57]:
+                        - generic [ref=f83e58]: Mensaje
+                        - textbox "Mensaje" [ref=f83e59]
+                        - paragraph [ref=f83e60]: Máximo 2000 caracteres (límite real del backend).
+                    - paragraph [ref=f83e61]: '[Computed (draftLength): 0] / 2000 caracteres'
+                    - button "Enviar mensaje" [ref=f83e63]
+            - generic [ref=f83e64]:
+                - heading "Seguridad de la conversación" [level=2] [ref=f83e65]
+                - paragraph [ref=f83e66]: Reportar abre un caso de moderación (uno por conversación y persona). Bloquear impide que la otra persona escriba en vuestros hilos; la lectura sigue permitida y el bloqueo se puede deshacer.
+                - generic [ref=f83e67]:
+                    - button "Reportar conversación" [ref=f83e69]
+                    - button "Bloquear a la contraparte" [ref=f83e71]

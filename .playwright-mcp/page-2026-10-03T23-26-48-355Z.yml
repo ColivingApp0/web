@@ -1,0 +1,52 @@
+- generic [ref=f97e4]:
+  - banner [ref=f97e5]:
+    - generic [ref=f97e6]:
+      - link "ColivinApp" [ref=f97e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f97e8]: C
+      - generic [ref=f97e10]:
+        - link "Anfitrión" [ref=f97e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f97e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f97e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f97e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f97e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f97e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f97e17]
+        - button "Cerrar sesión" [ref=f97e19]
+  - main [ref=f97e20]:
+    - generic [ref=f97e22]:
+      - generic [ref=f97e23]:
+        - generic [ref=f97e24]:
+          - heading "Comunidad de mis propiedades" [level=1] [ref=f97e25]
+          - paragraph [ref=f97e26]: Crea actividades para los residentes con estancia confirmada, revisa quién se ha apuntado y cancela las que ya no se celebren.
+        - button "Nueva actividad" [ref=f97e83]
+      - status [ref=f97e85]: Actividad «Cena de bienvenida» creada para 1 residente(s).
+      - list [ref=f97e86]:
+        - listitem [ref=f97e87]:
+          - article [ref=f97e89]:
+            - generic [ref=f97e90]:
+              - generic [ref=f97e91]:
+                - heading "Cena de bienvenida" [level=3] [ref=f97e92]
+                - paragraph [ref=f97e93]: viernes 15 nov 2030, 19:00
+                - paragraph [ref=f97e94]: Cupo 2 · confirmados 0 · plazas libres 2
+              - generic [ref=f97e95]:
+                - generic [ref=f97e96]: Admite confirmaciones
+                - generic [ref=f97e97]: Programada
+            - generic [ref=f97e99]:
+              - button "Ver participantes" [ref=f97e101]
+              - button "Cancelar actividad" [ref=f97e103]
+      - generic [ref=f97e30]:
+        - heading "Resumen de la comunidad" [level=2] [ref=f97e31]
+        - paragraph [ref=f97e32]: "Información agregada por propiedad (RF-062): solo contadores, y solo cuando existe consentimiento suficiente de los residentes (consentimiento de privacidad, que cada persona gestiona en su perfil)."
+        - generic [ref=f97e35]:
+          - generic [ref=f97e36]: Propiedad
+          - combobox "Propiedad" [ref=f97e37]:
+            - option "Selecciona una propiedad"
+            - option "Edificio Aurora E2E"
+            - option "Torre M3 E2E (editada)" [selected]

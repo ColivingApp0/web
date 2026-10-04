@@ -1,0 +1,112 @@
+- generic [ref=f35e4]:
+    - banner [ref=f35e5]:
+        - generic [ref=f35e6]:
+            - link "ColivinApp" [ref=f35e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f35e8]: C
+            - generic [ref=f35e10]:
+                - link "Anfitrión" [ref=f35e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f35e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f35e13]
+                - button "Cerrar sesión" [ref=f35e15]
+    - main [ref=f35e16]:
+        - generic [ref=f35e147]:
+            - link "← Volver a la propiedad" [ref=f35e148] [cursor=pointer]:
+                - /url: /anfitrion/propiedades/8e3c641f-c242-4990-9fc1-6002c78c7a39
+            - generic [ref=f35e149]:
+                - heading "Estudio 501" [level=1] [ref=f35e150]
+                - paragraph [ref=f35e151]: 2 huésped(es) · 1 hab. · 1 cama(s) · 1 baño(s)
+            - status [ref=f35e211]: Publicación creada en borrador. Define precio y reglas, y publícala cuando esté lista.
+            - generic [ref=f35e152]:
+                - heading "Datos de la unidad" [level=2] [ref=f35e153]
+                - generic [ref=f35e155]:
+                    - generic [ref=f35e157]:
+                        - generic [ref=f35e158]: Nombre de la unidad
+                        - textbox "Nombre de la unidad" [ref=f35e159]: Estudio 501
+                    - generic [ref=f35e160]:
+                        - generic [ref=f35e162]:
+                            - generic [ref=f35e163]: Huéspedes
+                            - textbox "Huéspedes" [ref=f35e164]: '2'
+                        - generic [ref=f35e166]:
+                            - generic [ref=f35e167]: Habitaciones
+                            - textbox "Habitaciones" [ref=f35e168]: '1'
+                        - generic [ref=f35e170]:
+                            - generic [ref=f35e171]: Camas
+                            - textbox "Camas" [ref=f35e172]: '1'
+                        - generic [ref=f35e174]:
+                            - generic [ref=f35e175]: Baños
+                            - textbox "Baños" [ref=f35e176]: '1'
+                    - button "Guardar cambios" [ref=f35e178]
+            - generic [ref=f35e179]:
+                - heading "Publicación" [level=2] [ref=f35e180]
+                - generic [ref=f35e181]:
+                    - generic [ref=f35e212]:
+                        - generic [ref=f35e213]:
+                            - paragraph [ref=f35e214]: Estudio 501 en Torre M3
+                            - paragraph [ref=f35e215]: Publicación de la unidad (1:1)
+                        - generic [ref=f35e216]: Borrador
+                    - generic [ref=f35e217]:
+                        - button "Publicar" [ref=f35e219]
+                        - button "Enviar a revisión" [ref=f35e221]
+                        - button "Archivar" [ref=f35e223]
+            - generic [ref=f35e224]:
+                - heading "Precio" [level=2] [ref=f35e225]
+                - paragraph [ref=f35e226]: Hasta que el backend exponga la lectura de publicaciones del anfitrión, los valores ya guardados no pueden mostrarse al recargar (limitación conocida del piloto).
+                - generic [ref=f35e228]:
+                    - generic [ref=f35e229]:
+                        - generic [ref=f35e231]:
+                            - generic [ref=f35e232]: Precio base por noche
+                            - textbox "Precio base por noche" [ref=f35e233]
+                            - paragraph [ref=f35e234]: Sin decimales obligatorios; se admite hasta dos decimales.
+                        - generic [ref=f35e236]:
+                            - generic [ref=f35e237]: Moneda
+                            - combobox "Moneda" [ref=f35e238]:
+                                - option "COP" [selected]
+                                - option "USD"
+                    - button "Guardar precio" [ref=f35e240]
+            - generic [ref=f35e241]:
+                - heading "Reglas" [level=2] [ref=f35e242]
+                - paragraph [ref=f35e243]: Política de cancelación, horarios y estancias mínima/máxima.
+                - generic [ref=f35e245]:
+                    - generic [ref=f35e246]:
+                        - generic [ref=f35e248]:
+                            - generic [ref=f35e249]: Política de cancelación
+                            - combobox "Política de cancelación" [ref=f35e250]:
+                                - option "Selecciona una política" [selected]
+                                - option "Flexible"
+                                - option "Moderada"
+                                - option "Estricta"
+                        - generic [ref=f35e252]:
+                            - generic [ref=f35e253]: Reglas de la casa
+                            - textbox "Reglas de la casa" [ref=f35e254]
+                            - paragraph [ref=f35e255]: Separadas por comas.
+                        - generic [ref=f35e257]:
+                            - generic [ref=f35e258]: Hora de check-in
+                            - textbox "Hora de check-in" [ref=f35e259]
+                        - generic [ref=f35e261]:
+                            - generic [ref=f35e262]: Hora de check-out
+                            - textbox "Hora de check-out" [ref=f35e263]
+                        - generic [ref=f35e265]:
+                            - generic [ref=f35e266]: Noches mínimas
+                            - textbox "Noches mínimas" [ref=f35e267]: '1'
+                        - generic [ref=f35e269]:
+                            - generic [ref=f35e270]: Noches máximas
+                            - textbox "Noches máximas" [ref=f35e271]: '365'
+                    - button "Guardar reglas" [ref=f35e273]
+            - generic [ref=f35e190]:
+                - heading "Disponibilidad (bloqueos)" [level=2] [ref=f35e191]
+                - paragraph [ref=f35e192]: Bloquea fechas concretas (mantenimiento, uso propio) o libera bloqueos existentes.
+                - generic [ref=f35e194]:
+                    - generic [ref=f35e195]:
+                        - generic [ref=f35e197]:
+                            - generic [ref=f35e198]: Desde
+                            - textbox "Desde" [ref=f35e199]: 2026-10-03
+                        - generic [ref=f35e201]:
+                            - generic [ref=f35e202]: Hasta
+                            - textbox "Hasta" [ref=f35e203]: 2026-10-10
+                        - generic [ref=f35e204]:
+                            - button "Bloquear" [ref=f35e206]
+                            - button "Liberar" [ref=f35e208]
+                    - paragraph [ref=f35e209]: 'El rango usa el intervalo [desde, hasta): «Bloquear» impide solicitudes en esos días y «Liberar» solo retira bloqueos del anfitrión (nunca reservas en curso).'

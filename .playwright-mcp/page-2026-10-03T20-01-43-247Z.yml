@@ -1,0 +1,22 @@
+- generic [ref=f1e4]:
+    - banner [ref=f1e5]:
+        - generic [ref=f1e6]:
+            - generic [aria-hidden] [ref=f1e7]: C
+            - generic [ref=f1e8]: ColivinApp
+    - main [ref=f1e9]:
+        - generic [ref=f1e12]:
+            - heading "Crea tu cuenta" [level=1] [ref=f1e13]
+            - paragraph [ref=f1e14]: Empieza tu búsqueda de alojamiento o publica tus espacios.
+            - generic [ref=f1e15]:
+                - generic [ref=f1e17]:
+                    - generic [ref=f1e18]: Correo electrónico
+                    - textbox "Correo electrónico" [ref=f1e19]
+                - generic [ref=f1e21]:
+                    - generic [ref=f1e22]: Contraseña
+                    - textbox "Contraseña" [ref=f1e23]
+                    - paragraph [ref=f1e24]: Entre 8 y 72 caracteres.
+                - button "Crear cuenta" [ref=f1e26]
+            - paragraph [ref=f1e27]:
+                - text: ¿Ya tienes cuenta?
+                - link "Inicia sesión" [ref=f1e28] [cursor=pointer]:
+                    - /url: /entrar

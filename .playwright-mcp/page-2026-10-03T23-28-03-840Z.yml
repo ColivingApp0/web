@@ -1,0 +1,50 @@
+- generic [ref=f99e4]:
+  - banner [ref=f99e5]:
+    - generic [ref=f99e6]:
+      - link "ColivinApp" [ref=f99e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f99e8]: C
+      - generic [ref=f99e10]:
+        - link "Reservas" [ref=f99e11] [cursor=pointer]:
+          - /url: /reservas
+        - link "Mensajes" [ref=f99e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f99e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f99e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f99e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f99e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m1-20261003@example.com" [ref=f99e17]
+        - button "Cerrar sesión" [ref=f99e19]
+  - main [ref=f99e20]:
+    - generic [ref=f99e45]:
+      - link "← Volver a mi comunidad" [ref=f99e46] [cursor=pointer]:
+        - /url: /comunidad
+      - status [ref=f99e78]: Asistencia confirmada.
+      - article [ref=f99e80]:
+        - generic [ref=f99e81]:
+          - generic [ref=f99e82]:
+            - heading "Cena de bienvenida" [level=3] [ref=f99e83]
+            - paragraph [ref=f99e84]: viernes 15 nov 2030, 19:00
+            - paragraph [ref=f99e85]: Cupo 2 · confirmados 1 · plazas libres 1
+          - generic [ref=f99e86]:
+            - generic [ref=f99e87]: Admite confirmaciones
+            - generic [ref=f99e88]: Programada
+        - paragraph [ref=f99e89]: "Tu participación: Asistencia confirmada"
+        - generic [ref=f99e91]:
+          - button "Retirarme" [ref=f99e93]
+          - button "Actualizar" [ref=f99e95]
+      - generic [ref=f99e96]:
+        - heading "Comunidad autorizada" [level=2] [ref=f99e97]
+        - paragraph [ref=f99e98]: "Los participantes se muestran por su identificador: la API no expone nombres ni contacto de otras personas (el identificador es el mismo que aparece en tus reservas)."
+        - list [ref=f99e99]:
+          - listitem [ref=f99e100]:
+            - generic [ref=f99e101]: 8b60bb10-810d-4199-898e-7de2a68109d4
+            - generic [ref=f99e102]: Asistencia confirmada
+      - generic [ref=f99e103]:
+        - heading "Resumen de la comunidad" [level=2] [ref=f99e104]
+        - paragraph [ref=f99e105]: "Información agregada de la propiedad (RF-062): solo contadores, y solo cuando existe consentimiento suficiente de los residentes."
+        - status [ref=f99e108]: "Todavía no hay consentimiento suficiente para mostrar el resumen: el backend no lo considera disponible."

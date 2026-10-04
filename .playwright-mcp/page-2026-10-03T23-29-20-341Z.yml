@@ -1,0 +1,26 @@
+- generic [ref=f102e4]:
+  - banner [ref=f102e5]:
+    - generic [ref=f102e6]:
+      - link "ColivinApp" [ref=f102e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f102e8]: C
+      - generic [ref=f102e10]:
+        - link "Reservas" [ref=f102e11] [cursor=pointer]:
+          - /url: /reservas
+        - link "Mensajes" [ref=f102e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f102e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f102e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f102e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f102e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m1-20261003@example.com" [ref=f102e17]
+        - button "Cerrar sesión" [ref=f102e19]
+  - main [ref=f102e20]:
+    - generic [ref=f102e22]:
+      - link "← Volver a mi comunidad" [ref=f102e23] [cursor=pointer]:
+        - /url: /comunidad
+      - paragraph [ref=f102e24]: Cargando la actividad…

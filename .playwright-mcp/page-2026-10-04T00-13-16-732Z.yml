@@ -1,0 +1,65 @@
+- generic [ref=f138e4]:
+  - banner [ref=f138e5]:
+    - generic [ref=f138e6]:
+      - link "ColivinApp" [ref=f138e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f138e8]: C
+      - generic [ref=f138e10]:
+        - link "Mensajes" [ref=f138e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f138e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f138e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f138e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f138e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f138e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f138e17]
+        - button "Cerrar sesión" [ref=f138e19]
+  - main [ref=f138e20]:
+    - generic [ref=f138e22]:
+      - generic [ref=f138e23]:
+        - generic [ref=f138e24]:
+          - heading "Moderación de publicaciones" [level=1] [ref=f138e25]
+          - paragraph [ref=f138e26]: "RF-081: la revisión puede ocurrir antes o después de publicar. Aprobar deja la publicación visible; rechazar oculta la que estaba publicada y devuelve el borrador a borrador; solicitar corrección siempre devuelve la publicación a borrador."
+          - paragraph [ref=f138e27]:
+            - text: La cola por defecto son las publicaciones
+            - strong [ref=f138e28]: en revisión
+            - text: ". Solo esas admiten una decisión: el contrato valida el estado y, fuera de él, responde error interno."
+        - button "Actualizar" [ref=f138e30]
+      - generic [ref=f138e31]:
+        - generic [ref=f138e34]:
+          - generic [ref=f138e35]: Vista
+          - combobox "Vista" [ref=f138e36]:
+            - option "Cola de revisión (En revisión)" [selected]
+            - option "Publicada"
+            - option "Borrador"
+            - option "Pausada"
+            - option "Oculta"
+            - option "Archivada"
+        - paragraph [ref=f138e37]: "El contrato administrativo no expone anfitrión, propiedad ni fotografías: la cola muestra el título, la unidad y el estado reales."
+      - list [ref=f138e38]:
+        - listitem [ref=f138e39]:
+          - generic [ref=f138e40]:
+            - generic [ref=f138e41]:
+              - paragraph [ref=f138e42]: Estudio 502 en Torre M3
+              - paragraph [ref=f138e43]: Unidad cc7025d6-0cac-4f7f-af06-e3504acaf767
+              - paragraph [ref=f138e44]: 8382e888-33b6-4ec5-9239-dabda73270a6
+            - generic [ref=f138e45]: En revisión
+          - button "Cancelar" [active] [ref=f138e49]
+          - generic [ref=f138e50]:
+            - generic [ref=f138e52]:
+              - generic [ref=f138e53]: Decisión
+              - combobox "Decisión" [ref=f138e54]:
+                - option "Aprobar" [selected]
+                - option "Rechazar"
+                - option "Solicitar corrección"
+            - paragraph [ref=f138e55]: Pasa a publicada.
+            - generic [ref=f138e57]:
+              - generic [ref=f138e58]: Nota de la decisión
+              - textbox "Nota de la decisión" [ref=f138e59]
+              - paragraph [ref=f138e60]: Obligatoria salvo al aprobar. Máximo 1000 caracteres.
+            - button "Registrar decisión" [ref=f138e62]

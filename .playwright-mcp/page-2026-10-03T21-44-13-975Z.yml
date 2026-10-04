@@ -1,0 +1,18 @@
+- generic [ref=f40e4]:
+    - banner [ref=f40e5]:
+        - generic [ref=f40e6]:
+            - link "ColivinApp" [ref=f40e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f40e8]: C
+            - generic [ref=f40e10]:
+                - link "Anfitrión" [ref=f40e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f40e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f40e13]
+                - button "Cerrar sesión" [ref=f40e15]
+    - main [ref=f40e16]:
+        - generic [ref=f40e18]:
+            - link "← Área de anfitrión" [ref=f40e19] [cursor=pointer]:
+                - /url: /anfitrion
+            - paragraph [ref=f40e20]: Cargando propiedad…

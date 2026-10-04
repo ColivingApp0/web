@@ -1,0 +1,79 @@
+- generic [ref=f51e4]:
+    - banner [ref=f51e5]:
+        - generic [ref=f51e6]:
+            - link "ColivinApp" [ref=f51e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f51e8]: C
+            - generic [ref=f51e10]:
+                - link "Anfitrión" [ref=f51e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f51e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f51e13]
+                - button "Cerrar sesión" [ref=f51e15]
+    - main [ref=f51e16]:
+        - generic [ref=f51e18]:
+            - generic [ref=f51e19]:
+                - heading "Reservas recibidas" [level=1] [ref=f51e20]
+                - paragraph [ref=f51e21]: Decide sobre las solicitudes de tus unidades. Aceptar bloquea los días y abre un plazo de confirmación para el huésped; rechazar o cancelar los libera.
+            - alert [ref=f51e167]: 'El servidor rechazó la acción (CONFLICT): Day 2026-11-02 is not available (state=BLOQUEADO). Es posible que esas fechas ya estén tomadas o que la reserva haya cambiado de estado; la lista se actualizó con el estado real.'
+            - list [ref=f51e168]:
+                - listitem [ref=f51e169]:
+                    - article [ref=f51e171]:
+                        - generic [ref=f51e172]:
+                            - generic [ref=f51e173]:
+                                - paragraph [ref=f51e174]: 2 nov 2026 → 5 nov 2026
+                                - paragraph [ref=f51e175]: 3 noche(s) · 1 huésped(es) · Estudio 501
+                            - generic [ref=f51e176]: Solicitada
+                        - generic [ref=f51e177]:
+                            - generic [ref=f51e178]:
+                                - term [ref=f51e179]: Precio por noche
+                                - definition [ref=f51e180]: $ 1.200.000
+                            - generic [ref=f51e181]:
+                                - term [ref=f51e182]: Total de la estancia
+                                - definition [ref=f51e183]: $ 3.600.000
+                            - generic [ref=f51e184]:
+                                - term [ref=f51e185]: Política de cancelación
+                                - definition [ref=f51e186]: Moderada
+                            - generic [ref=f51e187]:
+                                - term [ref=f51e188]: Solicitada
+                                - definition [ref=f51e189]: 3 oct 2026, 17:12
+                        - generic [ref=f51e190]:
+                            - button "Aceptar" [ref=f51e192]
+                            - button "Rechazar" [ref=f51e194]
+                            - button "Pedir información" [ref=f51e196]
+                            - button "Cancelar" [ref=f51e198]
+                        - button "Ver historial" [ref=f51e201]
+                    - paragraph [ref=f51e202]:
+                        - link "Gestionar la unidad" [ref=f51e203] [cursor=pointer]:
+                            - /url: /anfitrion/propiedades/8e3c641f-c242-4990-9fc1-6002c78c7a39/unidades/15daa1d6-b385-467a-b471-206c3907d53f
+                - listitem [ref=f51e204]:
+                    - article [ref=f51e206]:
+                        - generic [ref=f51e207]:
+                            - generic [ref=f51e208]:
+                                - paragraph [ref=f51e209]: 1 nov 2026 → 4 nov 2026
+                                - paragraph [ref=f51e210]: 3 noche(s) · 2 huésped(es) · Estudio 501
+                            - generic [ref=f51e211]: Aceptada
+                        - generic [ref=f51e212]:
+                            - generic [ref=f51e213]:
+                                - term [ref=f51e214]: Precio por noche
+                                - definition [ref=f51e215]: $ 1.200.000
+                            - generic [ref=f51e216]:
+                                - term [ref=f51e217]: Total de la estancia
+                                - definition [ref=f51e218]: $ 3.600.000
+                            - generic [ref=f51e219]:
+                                - term [ref=f51e220]: Política de cancelación
+                                - definition [ref=f51e221]: Moderada
+                            - generic [ref=f51e222]:
+                                - term [ref=f51e223]: Solicitada
+                                - definition [ref=f51e224]: 3 oct 2026, 17:12
+                        - paragraph [ref=f51e225]: «Hola, somos dos estudiantes y necesitamos la estancia en noviembre.»
+                        - paragraph [ref=f51e227]:
+                            - text: 'Reserva provisional: confirma antes del'
+                            - strong [ref=f51e228]: 4 oct 2026, 17:13
+                            - text: o el servidor liberará esos días automáticamente.
+                        - button "Cancelar" [ref=f51e231]
+                        - button "Ver historial" [ref=f51e234]
+                    - paragraph [ref=f51e235]:
+                        - link "Gestionar la unidad" [ref=f51e236] [cursor=pointer]:
+                            - /url: /anfitrion/propiedades/8e3c641f-c242-4990-9fc1-6002c78c7a39/unidades/15daa1d6-b385-467a-b471-206c3907d53f

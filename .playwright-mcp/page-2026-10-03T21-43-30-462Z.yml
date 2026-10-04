@@ -1,0 +1,113 @@
+- generic [ref=f37e4]:
+    - banner [ref=f37e5]:
+        - generic [ref=f37e6]:
+            - link "ColivinApp" [ref=f37e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f37e8]: C
+            - generic [ref=f37e10]:
+                - link "Anfitrión" [ref=f37e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f37e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f37e13]
+                - button "Cerrar sesión" [ref=f37e15]
+    - main [ref=f37e16]:
+        - generic [ref=f37e18]:
+            - link "← Volver a alojamientos" [ref=f37e19] [cursor=pointer]:
+                - /url: /alojamientos
+            - generic [ref=f37e21]:
+                - generic [ref=f37e22]:
+                    - heading "Estudio 501 en Torre M3" [level=1] [ref=f37e23]
+                    - button "Guardar en favoritos" [ref=f37e24]: ♡
+                - paragraph [ref=f37e25]:
+                    - strong [ref=f37e26]: $ 1.200.000
+                    - text: por noche (COP)
+                - paragraph [ref=f37e27]: Estancia de 3 a 60 noches
+            - generic [ref=f37e28]:
+                - heading "Sobre el alojamiento" [level=2] [ref=f37e29]
+                - paragraph [ref=f37e30]: Torre nueva creada durante la validacion de M3.
+                - heading "Servicios del inmueble" [level=3] [ref=f37e31]
+                - list [ref=f37e32]:
+                    - listitem [ref=f37e33]: WiFi
+                    - listitem [ref=f37e34]: Gimnasio
+                - heading "Ubicación" [level=3] [ref=f37e35]
+                - paragraph [ref=f37e36]: 'Cra 7 #45-12, Bogota'
+                - heading "Unidad" [level=3] [ref=f37e37]
+                - generic [ref=f37e38]:
+                    - generic [ref=f37e39]:
+                        - term [ref=f37e40]: Huéspedes
+                        - definition [ref=f37e41]: '2'
+                    - generic [ref=f37e42]:
+                        - term [ref=f37e43]: Habitaciones
+                        - definition [ref=f37e44]: '1'
+                    - generic [ref=f37e45]:
+                        - term [ref=f37e46]: Camas
+                        - definition [ref=f37e47]: '1'
+                    - generic [ref=f37e48]:
+                        - term [ref=f37e49]: Baños
+                        - definition [ref=f37e50]: '1'
+                - heading "Reglas de la publicación" [level=3] [ref=f37e51]
+                - list [ref=f37e52]:
+                    - listitem [ref=f37e53]: 'Cancelación: Moderada'
+                    - listitem [ref=f37e54]: 'Check-in: 14:00'
+                    - listitem [ref=f37e55]: 'Check-out: 10:00'
+                    - listitem [ref=f37e56]: 'Estancia: de 3 a 60 noches'
+                - list [ref=f37e57]:
+                    - listitem [ref=f37e58]: No fiestas
+                    - listitem [ref=f37e59]: No mascotas
+            - generic [ref=f37e60]:
+                - heading "Disponibilidad" [level=2] [ref=f37e61]
+                - paragraph [ref=f37e62]: Consulta el estado día a día de la unidad para el rango que te interese.
+                - generic [ref=f37e63]:
+                    - generic [ref=f37e65]:
+                        - generic [ref=f37e66]: Desde
+                        - textbox "Desde" [ref=f37e67]: 2026-10-03
+                    - generic [ref=f37e69]:
+                        - generic [ref=f37e70]: Hasta
+                        - textbox "Hasta" [ref=f37e71]: 2026-10-17
+                    - button "Consultar" [ref=f37e74]
+                - generic [ref=f37e75]:
+                    - list [ref=f37e77]:
+                        - listitem [ref=f37e78]:
+                            - generic [ref=f37e79]: sáb 3 oct 2026
+                            - generic [ref=f37e80]: Disponible
+                        - listitem [ref=f37e81]:
+                            - generic [ref=f37e82]: dom 4 oct 2026
+                            - generic [ref=f37e83]: Disponible
+                        - listitem [ref=f37e84]:
+                            - generic [ref=f37e85]: lun 5 oct 2026
+                            - generic [ref=f37e86]: Disponible
+                        - listitem [ref=f37e87]:
+                            - generic [ref=f37e88]: mar 6 oct 2026
+                            - generic [ref=f37e89]: Disponible
+                        - listitem [ref=f37e90]:
+                            - generic [ref=f37e91]: mié 7 oct 2026
+                            - generic [ref=f37e92]: Disponible
+                        - listitem [ref=f37e93]:
+                            - generic [ref=f37e94]: jue 8 oct 2026
+                            - generic [ref=f37e95]: No disponible
+                        - listitem [ref=f37e96]:
+                            - generic [ref=f37e97]: vie 9 oct 2026
+                            - generic [ref=f37e98]: No disponible
+                        - listitem [ref=f37e99]:
+                            - generic [ref=f37e100]: sáb 10 oct 2026
+                            - generic [ref=f37e101]: No disponible
+                        - listitem [ref=f37e102]:
+                            - generic [ref=f37e103]: dom 11 oct 2026
+                            - generic [ref=f37e104]: Disponible
+                        - listitem [ref=f37e105]:
+                            - generic [ref=f37e106]: lun 12 oct 2026
+                            - generic [ref=f37e107]: Disponible
+                        - listitem [ref=f37e108]:
+                            - generic [ref=f37e109]: mar 13 oct 2026
+                            - generic [ref=f37e110]: Disponible
+                        - listitem [ref=f37e111]:
+                            - generic [ref=f37e112]: mié 14 oct 2026
+                            - generic [ref=f37e113]: Disponible
+                        - listitem [ref=f37e114]:
+                            - generic [ref=f37e115]: jue 15 oct 2026
+                            - generic [ref=f37e116]: Disponible
+                        - listitem [ref=f37e117]:
+                            - generic [ref=f37e118]: vie 16 oct 2026
+                            - generic [ref=f37e119]: Disponible
+                    - paragraph [ref=f37e120]: «No disponible» incluye bloqueos del anfitrión y solicitudes en proceso; «Ocupado» corresponde a reservas confirmadas.

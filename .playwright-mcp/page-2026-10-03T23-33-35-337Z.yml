@@ -1,0 +1,87 @@
+- generic [ref=f114e4]:
+  - banner [ref=f114e5]:
+    - generic [ref=f114e6]:
+      - link "ColivinApp" [ref=f114e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f114e8]: C
+      - generic [ref=f114e10]:
+        - link "Anfitrión" [ref=f114e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f114e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f114e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f114e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f114e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f114e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f114e17]
+        - button "Cerrar sesión" [ref=f114e19]
+  - main [ref=f114e20]:
+    - generic [ref=f114e133]:
+      - generic [ref=f114e134]:
+        - generic [ref=f114e135]:
+          - heading "Reputación del usuario" [level=1] [ref=f114e136]
+          - paragraph [ref=f114e137]: Score con los factores documentados que lo explican, la versión de la fórmula y los beneficios vigentes.
+          - paragraph [ref=f114e138]: 8b60bb10-810d-4199-898e-7de2a68109d4
+        - button "Recalcular" [ref=f114e141]
+      - paragraph [ref=f114e142]: Cada consulta de reputación recalcula el score y guarda una instantánea con la versión de la fórmula usada (comportamiento real del backend), por eso se lee una vez por visita y solo se vuelve a pedir con «Recalcular».
+      - generic [ref=f114e143]:
+        - generic [ref=f114e144]:
+          - generic [ref=f114e145]:
+            - paragraph [ref=f114e146]: Score (escala 0–5)
+            - paragraph [ref=f114e147]: 1,83
+          - generic [ref=f114e148]:
+            - generic [ref=f114e149]:
+              - term [ref=f114e150]: Versión de la fórmula
+              - definition [ref=f114e151]: "1"
+            - generic [ref=f114e152]:
+              - term [ref=f114e153]: Evaluaciones activas
+              - definition [ref=f114e154]: "0"
+            - generic [ref=f114e155]:
+              - term [ref=f114e156]: Evaluaciones disputadas
+              - definition [ref=f114e157]: "0"
+            - generic [ref=f114e158]:
+              - term [ref=f114e159]: Estancias confirmadas
+              - definition [ref=f114e160]: "1"
+            - generic [ref=f114e161]:
+              - term [ref=f114e162]: Calculado
+              - definition [ref=f114e163]: 3 oct 2026, 18:33
+        - heading "Factores que influyen" [level=2] [ref=f114e164]
+        - table [ref=f114e167]:
+          - caption [ref=f114e168]: Factores que influyen en el score de reputación
+          - rowgroup [ref=f114e169]:
+            - row [ref=f114e170]:
+              - columnheader "Factor" [ref=f114e171]
+              - columnheader "Peso" [ref=f114e172]
+              - columnheader "Valor normalizado" [ref=f114e173]
+              - columnheader "Contribución" [ref=f114e174]
+          - rowgroup [ref=f114e175]:
+            - row [ref=f114e176]:
+              - rowheader "Valoraciones recibidas" [ref=f114e177]
+              - cell "0,5" [ref=f114e178]
+              - cell "0" [ref=f114e179]
+              - cell "0" [ref=f114e180]
+            - row [ref=f114e181]:
+              - rowheader "Estancias confirmadas" [ref=f114e182]
+              - cell "0,2" [ref=f114e183]
+              - cell "0,33" [ref=f114e184]
+              - cell "0,07" [ref=f114e185]
+            - row [ref=f114e186]:
+              - rowheader "Verificación de identidad" [ref=f114e187]
+              - cell "0,2" [ref=f114e188]
+              - cell "1" [ref=f114e189]
+              - cell "0,2" [ref=f114e190]
+            - row [ref=f114e191]:
+              - rowheader "Disputas abiertas" [ref=f114e192]
+              - cell "0,1" [ref=f114e193]
+              - cell "1" [ref=f114e194]
+              - cell "0,1" [ref=f114e195]
+        - heading "Beneficios vigentes" [level=2] [ref=f114e196]
+        - paragraph [ref=f114e197]: Ningún beneficio activo para este score (las reglas las configura administración).
+        - paragraph [ref=f114e198]: "Los beneficios se muestran en solo lectura: su administración (reglas por score) pertenece a Administración."
+      - generic [ref=f114e199]:
+        - heading "Evaluaciones recibidas" [level=2] [ref=f114e200]
+        - paragraph [ref=f114e201]: Todavía no hay evaluaciones recibidas.

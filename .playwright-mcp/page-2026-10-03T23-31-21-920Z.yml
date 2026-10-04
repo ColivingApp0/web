@@ -1,0 +1,123 @@
+- generic [ref=f107e4]:
+  - banner [ref=f107e5]:
+    - generic [ref=f107e6]:
+      - link "ColivinApp" [ref=f107e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f107e8]: C
+      - generic [ref=f107e10]:
+        - link "Reservas" [ref=f107e11] [cursor=pointer]:
+          - /url: /reservas
+        - link "Mensajes" [ref=f107e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f107e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f107e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f107e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f107e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m1-20261003@example.com" [ref=f107e17]
+        - button "Cerrar sesión" [ref=f107e19]
+  - main [ref=f107e20]:
+    - generic [ref=f107e139]:
+      - link "← Volver a mis reservas" [ref=f107e140] [cursor=pointer]:
+        - /url: /reservas
+      - generic [ref=f107e141]:
+        - heading "Evaluar la estancia" [level=1] [ref=f107e142]
+        - paragraph [ref=f107e143]: Valora a la contraparte con las cinco categorías definidas. Solo se admite una evaluación por estancia, y la relación debe estar confirmada.
+        - paragraph [ref=f107e144]: Reserva 1ad45bd6-ebaf-4b79-89b7-c61409fba5e8 · 2026-11-01 → 2026-11-04
+      - generic [ref=f107e145]:
+        - heading "Categorías (1 a 5)" [level=2] [ref=f107e146]
+        - generic [ref=f107e147]:
+          - group "Limpieza" [ref=f107e149]:
+            - radiogroup "Limpieza" [ref=f107e151]:
+              - generic [ref=f107e152] [cursor=pointer]:
+                - radio "1" [ref=f107e153]
+                - generic [ref=f107e154]: "1"
+              - generic [ref=f107e155] [cursor=pointer]:
+                - radio "2" [ref=f107e156]
+                - generic [ref=f107e157]: "2"
+              - generic [ref=f107e158] [cursor=pointer]:
+                - radio "3" [ref=f107e159]
+                - generic [ref=f107e160]: "3"
+              - generic [ref=f107e161] [cursor=pointer]:
+                - radio "4" [ref=f107e162]
+                - generic [ref=f107e163]: "4"
+              - generic [ref=f107e164] [cursor=pointer]:
+                - radio "5" [ref=f107e165]
+                - generic [ref=f107e166]: "5"
+          - group "Comunicación" [ref=f107e168]:
+            - radiogroup "Comunicación" [ref=f107e170]:
+              - generic [ref=f107e171] [cursor=pointer]:
+                - radio "1" [ref=f107e172]
+                - generic [ref=f107e173]: "1"
+              - generic [ref=f107e174] [cursor=pointer]:
+                - radio "2" [ref=f107e175]
+                - generic [ref=f107e176]: "2"
+              - generic [ref=f107e177] [cursor=pointer]:
+                - radio "3" [ref=f107e178]
+                - generic [ref=f107e179]: "3"
+              - generic [ref=f107e180] [cursor=pointer]:
+                - radio "4" [ref=f107e181]
+                - generic [ref=f107e182]: "4"
+              - generic [ref=f107e183] [cursor=pointer]:
+                - radio "5" [ref=f107e184]
+                - generic [ref=f107e185]: "5"
+          - group "Exactitud de la información" [ref=f107e187]:
+            - radiogroup "Exactitud de la información" [ref=f107e189]:
+              - generic [ref=f107e190] [cursor=pointer]:
+                - radio "1" [ref=f107e191]
+                - generic [ref=f107e192]: "1"
+              - generic [ref=f107e193] [cursor=pointer]:
+                - radio "2" [ref=f107e194]
+                - generic [ref=f107e195]: "2"
+              - generic [ref=f107e196] [cursor=pointer]:
+                - radio "3" [ref=f107e197]
+                - generic [ref=f107e198]: "3"
+              - generic [ref=f107e199] [cursor=pointer]:
+                - radio "4" [ref=f107e200]
+                - generic [ref=f107e201]: "4"
+              - generic [ref=f107e202] [cursor=pointer]:
+                - radio "5" [ref=f107e203]
+                - generic [ref=f107e204]: "5"
+          - group "Respeto" [ref=f107e206]:
+            - radiogroup "Respeto" [ref=f107e208]:
+              - generic [ref=f107e209] [cursor=pointer]:
+                - radio "1" [ref=f107e210]
+                - generic [ref=f107e211]: "1"
+              - generic [ref=f107e212] [cursor=pointer]:
+                - radio "2" [ref=f107e213]
+                - generic [ref=f107e214]: "2"
+              - generic [ref=f107e215] [cursor=pointer]:
+                - radio "3" [ref=f107e216]
+                - generic [ref=f107e217]: "3"
+              - generic [ref=f107e218] [cursor=pointer]:
+                - radio "4" [ref=f107e219]
+                - generic [ref=f107e220]: "4"
+              - generic [ref=f107e221] [cursor=pointer]:
+                - radio "5" [ref=f107e222]
+                - generic [ref=f107e223]: "5"
+          - group "Cumplimiento de lo acordado" [ref=f107e225]:
+            - radiogroup "Cumplimiento de lo acordado" [ref=f107e227]:
+              - generic [ref=f107e228] [cursor=pointer]:
+                - radio "1" [ref=f107e229]
+                - generic [ref=f107e230]: "1"
+              - generic [ref=f107e231] [cursor=pointer]:
+                - radio "2" [ref=f107e232]
+                - generic [ref=f107e233]: "2"
+              - generic [ref=f107e234] [cursor=pointer]:
+                - radio "3" [ref=f107e235]
+                - generic [ref=f107e236]: "3"
+              - generic [ref=f107e237] [cursor=pointer]:
+                - radio "4" [ref=f107e238]
+                - generic [ref=f107e239]: "4"
+              - generic [ref=f107e240] [cursor=pointer]:
+                - radio "5" [ref=f107e241]
+                - generic [ref=f107e242]: "5"
+        - generic [ref=f107e244]:
+          - generic [ref=f107e246]:
+            - generic [ref=f107e247]: Comentario (opcional)
+            - textbox "Comentario (opcional)" [ref=f107e248]
+            - paragraph [ref=f107e249]: Máximo 1000 caracteres.
+          - button "Enviar evaluación" [ref=f107e251]

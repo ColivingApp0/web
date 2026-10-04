@@ -1,0 +1,32 @@
+- generic [ref=f3e4]:
+    - banner [ref=f3e5]:
+        - generic [ref=f3e6]:
+            - link "ColivinApp" [ref=f3e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f3e8]: C
+            - generic [ref=f3e10]:
+                - generic "e2e-m1-20261003@example.com" [ref=f3e11]
+                - button "Cerrar sesión" [ref=f3e13]
+    - main [ref=f3e14]:
+        - generic [ref=f3e16]:
+            - generic [ref=f3e17]:
+                - heading "Mi perfil" [level=1] [ref=f3e18]
+                - paragraph [ref=f3e19]: Gestiona tu cuenta, tu perfil y tus consentimientos.
+            - generic [ref=f3e20]:
+                - heading "Cuenta" [level=2] [ref=f3e21]
+                - generic [ref=f3e22]:
+                    - generic [ref=f3e23]:
+                        - term [ref=f3e24]: Correo
+                        - definition [ref=f3e25]: e2e-m1-20261003@example.com
+                    - generic [ref=f3e26]:
+                        - term [ref=f3e27]: Correo verificado
+                        - definition [ref=f3e28]: Sí
+                    - generic [ref=f3e29]:
+                        - term [ref=f3e30]: Rol activo
+                        - definition [ref=f3e31]:
+                            - link "Elegir rol" [ref=f3e32] [cursor=pointer]:
+                                - /url: /seleccionar-rol
+                    - generic [ref=f3e33]:
+                        - term [ref=f3e34]: Verificación
+                        - definition [ref=f3e35]: —
+            - generic [ref=f3e36]: Cargando perfil…

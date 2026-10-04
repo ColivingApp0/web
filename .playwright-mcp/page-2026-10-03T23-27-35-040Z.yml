@@ -1,0 +1,32 @@
+- generic [ref=f99e4]:
+  - banner [ref=f99e5]:
+    - generic [ref=f99e6]:
+      - link "ColivinApp" [ref=f99e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f99e8]: C
+      - generic [ref=f99e10]:
+        - link "Reservas" [ref=f99e11] [cursor=pointer]:
+          - /url: /reservas
+        - link "Mensajes" [ref=f99e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f99e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f99e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f99e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f99e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m1-20261003@example.com" [ref=f99e17]
+        - button "Cerrar sesión" [ref=f99e19]
+  - main [ref=f99e20]:
+    - generic [ref=f99e22]:
+      - generic [ref=f99e24]:
+        - heading "Mi comunidad" [level=1] [ref=f99e25]
+        - paragraph [ref=f99e26]: Actividades que el anfitrión habilitó para la comunidad autorizada de tu alojamiento. Confirma tu asistencia o retírate desde cada actividad.
+        - paragraph [ref=f99e27]:
+          - text: Tu consentimiento de privacidad decide si apareces en el resumen agregado de la comunidad (
+          - link "gestionar consentimiento" [ref=f99e28] [cursor=pointer]:
+            - /url: /perfil/privacidad
+          - text: ).
+      - paragraph [ref=f99e29]: Cargando actividades…

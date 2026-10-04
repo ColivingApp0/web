@@ -1,0 +1,71 @@
+- generic [ref=f49e4]:
+    - banner [ref=f49e5]:
+        - generic [ref=f49e6]:
+            - link "ColivinApp" [ref=f49e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f49e8]: C
+            - generic [ref=f49e10]:
+                - link "Reservas" [ref=f49e11] [cursor=pointer]:
+                    - /url: /reservas
+                - link "Favoritos" [ref=f49e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f49e13]
+                - button "Cerrar sesión" [ref=f49e15]
+    - main [ref=f49e16]:
+        - generic [ref=f49e25]:
+            - generic [ref=f49e26]:
+                - generic [ref=f49e27]:
+                    - heading "Mis reservas" [level=1] [ref=f49e28]
+                    - paragraph [ref=f49e29]: 'Solicitudes que enviaste: confirma dentro del plazo provisional o cancela con un motivo.'
+                - link "Buscar alojamientos" [ref=f49e30] [cursor=pointer]:
+                    - /url: /alojamientos
+            - list [ref=f49e31]:
+                - listitem [ref=f49e32]:
+                    - article [ref=f49e34]:
+                        - generic [ref=f49e35]:
+                            - generic [ref=f49e36]:
+                                - paragraph [ref=f49e37]: 2 nov 2026 → 5 nov 2026
+                                - paragraph [ref=f49e38]: 3 noche(s) · 1 huésped(es)
+                            - generic [ref=f49e39]: Solicitada
+                        - generic [ref=f49e40]:
+                            - generic [ref=f49e41]:
+                                - term [ref=f49e42]: Precio por noche
+                                - definition [ref=f49e43]: $ 1.200.000
+                            - generic [ref=f49e44]:
+                                - term [ref=f49e45]: Total de la estancia
+                                - definition [ref=f49e46]: $ 3.600.000
+                            - generic [ref=f49e47]:
+                                - term [ref=f49e48]: Política de cancelación
+                                - definition [ref=f49e49]: Moderada
+                            - generic [ref=f49e50]:
+                                - term [ref=f49e51]: Solicitada
+                                - definition [ref=f49e52]: 3 oct 2026, 17:12
+                        - button "Cancelar" [ref=f49e55]
+                    - paragraph [ref=f49e56]:
+                        - link "Ver el alojamiento" [ref=f49e57] [cursor=pointer]:
+                            - /url: /alojamientos/ff67a5b7-daed-44f0-8809-10a7126d561a
+                - listitem [ref=f49e58]:
+                    - article [ref=f49e60]:
+                        - generic [ref=f49e61]:
+                            - generic [ref=f49e62]:
+                                - paragraph [ref=f49e63]: 1 nov 2026 → 4 nov 2026
+                                - paragraph [ref=f49e64]: 3 noche(s) · 2 huésped(es)
+                            - generic [ref=f49e65]: Solicitada
+                        - generic [ref=f49e66]:
+                            - generic [ref=f49e67]:
+                                - term [ref=f49e68]: Precio por noche
+                                - definition [ref=f49e69]: $ 1.200.000
+                            - generic [ref=f49e70]:
+                                - term [ref=f49e71]: Total de la estancia
+                                - definition [ref=f49e72]: $ 3.600.000
+                            - generic [ref=f49e73]:
+                                - term [ref=f49e74]: Política de cancelación
+                                - definition [ref=f49e75]: Moderada
+                            - generic [ref=f49e76]:
+                                - term [ref=f49e77]: Solicitada
+                                - definition [ref=f49e78]: 3 oct 2026, 17:12
+                        - paragraph [ref=f49e79]: «Hola, somos dos estudiantes y necesitamos la estancia en noviembre.»
+                        - button "Cancelar" [ref=f49e82]
+                    - paragraph [ref=f49e83]:
+                        - link "Ver el alojamiento" [ref=f49e84] [cursor=pointer]:
+                            - /url: /alojamientos/ff67a5b7-daed-44f0-8809-10a7126d561a

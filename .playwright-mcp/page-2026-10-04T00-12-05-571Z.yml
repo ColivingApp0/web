@@ -1,0 +1,47 @@
+- generic [ref=f135e4]:
+  - banner [ref=f135e5]:
+    - generic [ref=f135e6]:
+      - link "ColivinApp" [ref=f135e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f135e8]: C
+      - generic [ref=f135e10]:
+        - link "Anfitrión" [ref=f135e11] [cursor=pointer]:
+          - /url: /anfitrion
+        - link "Mensajes" [ref=f135e12] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f135e13] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f135e14] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f135e15] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Favoritos" [ref=f135e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "e2e-m2-host-1791059611@example.com" [ref=f135e17]
+        - button "Cerrar sesión" [ref=f135e19]
+  - main [ref=f135e20]:
+    - generic [ref=f135e22]:
+      - generic [ref=f135e23]:
+        - generic [ref=f135e24]:
+          - heading "Área de anfitrión" [level=1] [ref=f135e25]
+          - paragraph [ref=f135e26]: Gestiona tus propiedades, unidades, publicaciones, precios y disponibilidad.
+          - paragraph [ref=f135e27]:
+            - link "Reservas recibidas →" [ref=f135e28] [cursor=pointer]:
+              - /url: /anfitrion/reservas
+            - text: ·
+            - link "Comunidad de mis propiedades →" [ref=f135e29] [cursor=pointer]:
+              - /url: /anfitrion/comunidad
+        - button "Nueva propiedad" [ref=f135e31]
+      - list [ref=f135e32]:
+        - listitem [ref=f135e33]:
+          - heading "Edificio Aurora E2E" [level=2] [ref=f135e35]
+          - paragraph [ref=f135e36]: "Calle 45 #12-30, Medellin"
+          - paragraph [ref=f135e37]: Edificio con apartaestudios amoblados cerca del campus.
+          - link "Gestionar propiedad →" [ref=f135e39] [cursor=pointer]:
+            - /url: /anfitrion/propiedades/828e7ede-6e0e-4619-84d2-d09d5585c363
+        - listitem [ref=f135e40]:
+          - heading "Torre M3 E2E (editada)" [level=2] [ref=f135e42]
+          - paragraph [ref=f135e43]: "Cra 7 #45-12, Bogota"
+          - paragraph [ref=f135e44]: Torre nueva creada durante la validacion de M3.
+          - link "Gestionar propiedad →" [ref=f135e46] [cursor=pointer]:
+            - /url: /anfitrion/propiedades/8e3c641f-c242-4990-9fc1-6002c78c7a39

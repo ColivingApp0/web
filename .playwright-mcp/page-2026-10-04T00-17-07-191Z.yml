@@ -1,0 +1,79 @@
+- generic [ref=f149e4]:
+  - banner [ref=f149e5]:
+    - generic [ref=f149e6]:
+      - link "ColivinApp" [ref=f149e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f149e8]: C
+      - generic [ref=f149e10]:
+        - link "Mensajes" [ref=f149e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f149e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f149e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f149e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Administración" [ref=f149e15] [cursor=pointer]:
+          - /url: /admin
+        - link "Favoritos" [ref=f149e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "admin@coliving.local" [ref=f149e17]
+        - button "Cerrar sesión" [ref=f149e19]
+  - main [ref=f149e20]:
+    - generic [ref=f149e22]:
+      - generic [ref=f149e23]:
+        - heading "Administración" [level=1] [ref=f149e24]
+        - paragraph [ref=f149e25]: Verificación de identidad, moderación de publicaciones, cola de casos (reportes y disputas), catálogos del piloto y reglas de beneficio del score.
+        - paragraph [ref=f149e26]:
+          - text: El acceso exige
+          - strong [ref=f149e27]: rol activo
+          - text: "interno (moderador o administrador). El backend revalida el permiso en cada endpoint: si la sesión no lo tiene, responde 403."
+      - generic [ref=f149e28]:
+        - generic [ref=f149e29]:
+          - generic [ref=f149e30]:
+            - heading "Indicadores de la cola de casos" [level=2] [ref=f149e31]
+            - paragraph [ref=f149e32]: Únicos indicadores operativos que el backend expone hoy (RF-084, alcance parcial).
+          - button "Actualizar" [ref=f149e34]
+        - generic [ref=f149e35]:
+          - generic [ref=f149e36]:
+            - term [ref=f149e37]: Casos totales
+            - definition [ref=f149e38]: "2"
+          - generic [ref=f149e39]:
+            - term [ref=f149e40]: Abiertos
+            - definition [ref=f149e41]: "0"
+          - generic [ref=f149e42]:
+            - term [ref=f149e43]: En revisión
+            - definition [ref=f149e44]: "0"
+          - generic [ref=f149e45]:
+            - term [ref=f149e46]: Resueltos
+            - definition [ref=f149e47]: "1"
+          - generic [ref=f149e48]:
+            - term [ref=f149e49]: Rechazados
+            - definition [ref=f149e50]: "1"
+          - generic [ref=f149e51]:
+            - term [ref=f149e52]: Tiempo medio de atención
+            - definition [ref=f149e53]: 1,21 h
+          - generic [ref=f149e54]:
+            - term [ref=f149e55]: Reportes de publicación abiertos
+            - definition [ref=f149e56]: "0"
+      - generic [ref=f149e57]:
+        - link [ref=f149e58] [cursor=pointer]:
+          - /url: /admin/casos
+          - heading "Casos y disputas" [level=2] [ref=f149e59]
+          - paragraph [ref=f149e60]: "RF-082: cola con estados, prioridad y responsable; trazabilidad completa y acciones de asignación, revisión, resolución y rechazo."
+        - link [ref=f149e61] [cursor=pointer]:
+          - /url: /admin/documentos
+          - heading "Verificación de documentos" [level=2] [ref=f149e62]
+          - paragraph [ref=f149e63]: "RF-080: aprobar, rechazar o solicitar corrección; toda decisión exige motivo."
+        - link [ref=f149e64] [cursor=pointer]:
+          - /url: /admin/publicaciones
+          - heading "Moderación de publicaciones" [level=2] [ref=f149e65]
+          - paragraph [ref=f149e66]: "RF-081: revisar las publicaciones en revisión y registrar la decisión con su nota."
+        - link [ref=f149e67] [cursor=pointer]:
+          - /url: /admin/catalogos
+          - heading "Catálogos" [level=2] [ref=f149e68]
+          - paragraph [ref=f149e69]: "RF-083: instituciones, facultades, carreras, ciudades, servicios y reglas. Las entradas se desactivan, nunca se borran."
+        - link [ref=f149e70] [cursor=pointer]:
+          - /url: /admin/beneficios
+          - heading "Reglas de beneficio" [level=2] [ref=f149e71]
+          - paragraph [ref=f149e72]: "RF-073: configuración de beneficios por puntuación mínima del score (la fórmula del score sigue siendo del backend)."

@@ -1,0 +1,28 @@
+- generic [ref=f162e4]:
+  - banner [ref=f162e5]:
+    - generic [ref=f162e6]:
+      - link "ColivinApp" [ref=f162e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f162e8]: C
+      - button "Cerrar sesión" [ref=f162e12]
+  - main [ref=f162e13]:
+    - generic [ref=f162e15]:
+      - generic [ref=f162e16]:
+        - heading "Mi perfil" [level=1] [ref=f162e17]
+        - paragraph [ref=f162e18]: Gestiona tu cuenta, tu perfil y tus consentimientos.
+      - generic [ref=f162e19]:
+        - heading "Cuenta" [level=2] [ref=f162e20]
+        - generic [ref=f162e21]:
+          - generic [ref=f162e22]:
+            - term [ref=f162e23]: Correo
+            - definition [ref=f162e24]: admin@coliving.local
+          - generic [ref=f162e25]:
+            - term [ref=f162e26]: Correo verificado
+            - definition [ref=f162e27]: Sí
+          - generic [ref=f162e28]:
+            - term [ref=f162e29]: Rol activo
+            - definition [ref=f162e30]: Administrador
+          - generic [ref=f162e31]:
+            - term [ref=f162e32]: Verificación
+            - definition [ref=f162e33]: —
+      - generic [ref=f162e34]: Cargando perfil…

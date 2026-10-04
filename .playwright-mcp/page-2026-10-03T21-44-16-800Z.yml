@@ -1,0 +1,68 @@
+- generic [ref=f40e4]:
+    - banner [ref=f40e5]:
+        - generic [ref=f40e6]:
+            - link "ColivinApp" [ref=f40e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f40e8]: C
+            - generic [ref=f40e10]:
+                - link "Anfitrión" [ref=f40e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f40e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f40e13]
+                - button "Cerrar sesión" [ref=f40e15]
+    - main [ref=f40e16]:
+        - generic [ref=f40e18]:
+            - link "← Área de anfitrión" [ref=f40e19] [cursor=pointer]:
+                - /url: /anfitrion
+            - generic [ref=f40e22]:
+                - heading "Torre M3 E2E (editada)" [level=1] [ref=f40e23]
+                - paragraph [ref=f40e24]: 'Cra 7 #45-12, Bogota'
+            - generic [ref=f40e25]:
+                - heading "Datos de la propiedad" [level=2] [ref=f40e26]
+                - generic [ref=f40e28]:
+                    - generic [ref=f40e29]:
+                        - generic [ref=f40e31]:
+                            - generic [ref=f40e32]: Título
+                            - textbox "Título" [ref=f40e33]: Torre M3 E2E (editada)
+                        - generic [ref=f40e35]:
+                            - generic [ref=f40e36]: Dirección
+                            - textbox "Dirección" [ref=f40e37]: 'Cra 7 #45-12, Bogota'
+                    - generic [ref=f40e39]:
+                        - generic [ref=f40e40]: Descripción
+                        - textbox "Descripción" [ref=f40e41]: Torre nueva creada durante la validacion de M3.
+                    - generic [ref=f40e43]:
+                        - generic [ref=f40e44]: Servicios del inmueble
+                        - textbox "Servicios del inmueble" [ref=f40e45]: WiFi, Gimnasio
+                        - paragraph [ref=f40e46]: 'Separados por comas. Por ejemplo: WiFi, cocina, lavadora.'
+                    - paragraph [ref=f40e47]: La ciudad se podrá editar cuando exista el catálogo público (limitación conocida; su valor actual se conserva).
+                    - button "Guardar cambios" [ref=f40e49]
+            - generic [ref=f40e50]:
+                - generic [ref=f40e51]:
+                    - heading "Unidades" [level=2] [ref=f40e52]
+                    - button "Cancelar" [active] [ref=f40e54]
+                - generic [ref=f40e57]:
+                    - generic [ref=f40e59]:
+                        - generic [ref=f40e60]: Nombre de la unidad
+                        - textbox "Nombre de la unidad" [ref=f40e61]
+                    - generic [ref=f40e62]:
+                        - generic [ref=f40e64]:
+                            - generic [ref=f40e65]: Huéspedes
+                            - textbox "Huéspedes" [ref=f40e66]: '1'
+                        - generic [ref=f40e68]:
+                            - generic [ref=f40e69]: Habitaciones
+                            - textbox "Habitaciones" [ref=f40e70]: '0'
+                        - generic [ref=f40e72]:
+                            - generic [ref=f40e73]: Camas
+                            - textbox "Camas" [ref=f40e74]: '1'
+                        - generic [ref=f40e76]:
+                            - generic [ref=f40e77]: Baños
+                            - textbox "Baños" [ref=f40e78]: '1'
+                    - button "Crear unidad" [ref=f40e80]
+                - list [ref=f40e81]:
+                    - listitem [ref=f40e82]:
+                        - generic [ref=f40e83]:
+                            - paragraph [ref=f40e84]: Estudio 501
+                            - paragraph [ref=f40e85]: 2 huésped(es) · 1 hab. · 1 cama(s) · 1 baño(s)
+                        - link "Gestionar →" [ref=f40e86] [cursor=pointer]:
+                            - /url: /anfitrion/propiedades/8e3c641f-c242-4990-9fc1-6002c78c7a39/unidades/15daa1d6-b385-467a-b471-206c3907d53f

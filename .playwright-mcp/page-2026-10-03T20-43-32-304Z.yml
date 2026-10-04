@@ -1,0 +1,21 @@
+- generic [ref=f24e4]:
+    - banner [ref=f24e5]:
+        - generic [ref=f24e6]:
+            - link "ColivinApp" [ref=f24e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f24e8]: C
+            - generic [ref=f24e10]:
+                - link "Favoritos" [ref=f24e11] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m1-20261003@example.com" [ref=f24e12]
+                - button "Cerrar sesión" [ref=f24e14]
+    - main [ref=f24e15]:
+        - generic [ref=f24e17]:
+            - generic [ref=f24e18]:
+                - heading "Mis favoritos" [level=1] [ref=f24e19]
+                - paragraph [ref=f24e20]: Alojamientos que guardaste para decidir después.
+            - generic [ref=f24e31]:
+                - paragraph [ref=f24e32]: Aún no tienes favoritos guardados.
+                - paragraph [ref=f24e33]: Explora alojamientos y guárdalos con el corazón para verlos aquí.
+                - link "Explorar alojamientos" [ref=f24e34] [cursor=pointer]:
+                    - /url: /alojamientos

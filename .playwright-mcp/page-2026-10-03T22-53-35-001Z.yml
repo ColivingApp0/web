@@ -1,0 +1,74 @@
+- generic [ref=f93e4]:
+    - banner [ref=f93e5]:
+        - generic [ref=f93e6]:
+            - link "ColivinApp" [ref=f93e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f93e8]: C
+            - generic [ref=f93e10]:
+                - link "Anfitrión" [ref=f93e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Mensajes" [ref=f93e12] [cursor=pointer]:
+                    - /url: /mensajes
+                - link "Notificaciones" [ref=f93e13] [cursor=pointer]:
+                    - /url: /notificaciones
+                - link "Favoritos" [ref=f93e14] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059253@example.com" [ref=f93e15]
+                - button "Cerrar sesión" [ref=f93e17]
+    - main [ref=f93e18]:
+        - generic [ref=f93e20]:
+            - link "← Volver a alojamientos" [ref=f93e21] [cursor=pointer]:
+                - /url: /alojamientos
+            - generic [ref=f93e22]:
+                - generic [ref=f93e23]:
+                    - heading "Estudio 501 en Torre M3" [level=1] [ref=f93e24]
+                    - button "Guardar en favoritos" [ref=f93e25]: ♡
+                - paragraph [ref=f93e26]:
+                    - strong [ref=f93e27]: $ 1.200.000
+                    - text: por noche (COP)
+                - paragraph [ref=f93e28]: Estancia de 3 a 60 noches
+                - paragraph [ref=f93e30]: Para solicitar una reserva necesitas un rol de huésped activo (huésped estudiante o turista).
+            - generic [ref=f93e31]:
+                - heading "Sobre el alojamiento" [level=2] [ref=f93e32]
+                - paragraph [ref=f93e33]: Torre nueva creada durante la validacion de M3.
+                - heading "Servicios del inmueble" [level=3] [ref=f93e34]
+                - list [ref=f93e35]:
+                    - listitem [ref=f93e36]: WiFi
+                    - listitem [ref=f93e37]: Gimnasio
+                - heading "Ubicación" [level=3] [ref=f93e38]
+                - paragraph [ref=f93e39]: 'Cra 7 #45-12, Bogota'
+                - heading "Unidad" [level=3] [ref=f93e40]
+                - generic [ref=f93e41]:
+                    - generic [ref=f93e42]:
+                        - term [ref=f93e43]: Huéspedes
+                        - definition [ref=f93e44]: '2'
+                    - generic [ref=f93e45]:
+                        - term [ref=f93e46]: Habitaciones
+                        - definition [ref=f93e47]: '1'
+                    - generic [ref=f93e48]:
+                        - term [ref=f93e49]: Camas
+                        - definition [ref=f93e50]: '1'
+                    - generic [ref=f93e51]:
+                        - term [ref=f93e52]: Baños
+                        - definition [ref=f93e53]: '1'
+                - heading "Reglas de la publicación" [level=3] [ref=f93e54]
+                - list [ref=f93e55]:
+                    - listitem [ref=f93e56]: 'Cancelación: Moderada'
+                    - listitem [ref=f93e57]: 'Check-in: 14:00'
+                    - listitem [ref=f93e58]: 'Check-out: 10:00'
+                    - listitem [ref=f93e59]: 'Estancia: de 3 a 60 noches'
+                - list [ref=f93e60]:
+                    - listitem [ref=f93e61]: No fiestas
+                    - listitem [ref=f93e62]: No mascotas
+            - generic [ref=f93e63]:
+                - heading "Disponibilidad" [level=2] [ref=f93e64]
+                - paragraph [ref=f93e65]: Consulta el estado día a día de la unidad para el rango que te interese.
+                - generic [ref=f93e66]:
+                    - generic [ref=f93e68]:
+                        - generic [ref=f93e69]: Desde
+                        - textbox "Desde" [ref=f93e70]: 2026-10-03
+                    - generic [ref=f93e72]:
+                        - generic [ref=f93e73]: Hasta
+                        - textbox "Hasta" [ref=f93e74]: 2026-10-17
+                    - button "Consultar" [ref=f93e77]
+                - paragraph [ref=f93e79]: Aún no has consultado la disponibilidad.

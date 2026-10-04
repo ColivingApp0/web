@@ -1,0 +1,21 @@
+- generic [ref=f63e4]:
+    - banner [ref=f63e5]:
+        - generic [ref=f63e6]:
+            - link "ColivinApp" [ref=f63e7] [cursor=pointer]:
+                - /url: /perfil
+                - generic [aria-hidden] [ref=f63e8]: C
+            - generic [ref=f63e10]:
+                - link "Anfitrión" [ref=f63e11] [cursor=pointer]:
+                    - /url: /anfitrion
+                - link "Favoritos" [ref=f63e12] [cursor=pointer]:
+                    - /url: /favoritos
+                - generic "e2e-m2-host-1791059611@example.com" [ref=f63e13]
+                - button "Cerrar sesión" [ref=f63e15]
+    - main [ref=f63e16]:
+        - generic [ref=f63e18]:
+            - link "← Volver al alojamiento" [ref=f63e19] [cursor=pointer]:
+                - /url: /alojamientos/ff67a5b7-daed-44f0-8809-10a7126d561a
+            - generic [ref=f63e20]:
+                - heading "Solicitar reserva" [level=1] [ref=f63e21]
+                - paragraph [ref=f63e22]: El anfitrión decide si acepta. Si acepta, tendrás un plazo para confirmar y cerrar la reserva.
+            - paragraph [ref=f63e23]: Cargando el alojamiento…
