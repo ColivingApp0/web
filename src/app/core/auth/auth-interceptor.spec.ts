@@ -71,6 +71,31 @@ describe('authInterceptor', () => {
     request.flush({ message: 'no' }, { status: 400, statusText: 'Bad Request' });
   });
 
+  it('should not attach the token to third-party API requests', () => {
+    seedSession();
+    const { http, httpMock } = setup();
+
+    http.get('https://api-colombia.com/api/v1/City').subscribe();
+
+    const request = httpMock.expectOne('https://api-colombia.com/api/v1/City');
+    expect(request.request.headers.has('Authorization')).toBe(false);
+    request.flush([]);
+  });
+
+  it('should ignore a 401 from a third-party API (no session clearing)', () => {
+    seedSession();
+    const { http, httpMock, router, session } = setup();
+    const navigate = vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
+    http.get('https://api-colombia.com/api/v1/City').subscribe({ error: () => undefined });
+    httpMock
+      .expectOne('https://api-colombia.com/api/v1/City')
+      .flush({ message: 'Unauthorized' }, { status: 401, statusText: 'Unauthorized' });
+
+    expect(session.isAuthenticated()).toBe(true);
+    expect(navigate).not.toHaveBeenCalled();
+  });
+
   it('should clear the session and redirect to login on 401 in an authenticated area', async () => {
     seedSession();
     const { http, httpMock, router, session } = setup();
