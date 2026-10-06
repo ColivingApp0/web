@@ -93,6 +93,16 @@ export const routes: Routes = [
           import('./features/listings/pages/favorites-page').then((m) => m.FavoritesPage),
       },
       {
+        // Directorio público de ciudades y universidades (API-Colombia), apoyo al
+        // descubrimiento (RF-030): permite explorar el catálogo real de ciudades y
+        // universidades mientras el filtro del backend no puede consumirlo.
+        path: 'directorio',
+        title: 'Directorio de ciudades y universidades | ColivinApp',
+        loadComponent: () =>
+          import('./features/directory/pages/directory-page').then((m) => m.DirectoryPage),
+      },
+
+      {
         // Reservas del huésped (contexto `booking`): crear y seguir solicitudes.
         path: 'reservas',
         title: 'Mis reservas | ColivinApp',

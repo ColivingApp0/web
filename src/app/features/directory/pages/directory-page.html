@@ -1,0 +1,165 @@
+<div class="space-y-6">
+  <div>
+    <h1 class="font-display text-2xl font-extrabold text-ink">
+      Directorio de ciudades y universidades
+    </h1>
+    <p class="mt-1 text-sm text-muted">
+      Explora las ciudades y universidades de Colombia. Datos abiertos de
+      <a
+        href="https://api-colombia.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-semibold text-brand-700 underline"
+        >API-Colombia</a
+      >.
+    </p>
+  </div>
+
+  <div class="space-y-4 rounded-card border border-line bg-white p-5 shadow-card">
+    <fieldset class="inline-flex rounded-xl border border-line bg-white p-1">
+      <legend class="sr-only">Tipo de directorio</legend>
+      <label class="cursor-pointer">
+        <input
+          type="radio"
+          name="directory-mode"
+          value="cities"
+          class="peer sr-only"
+          [checked]="mode() === 'cities'"
+          (change)="setMode('cities')"
+        />
+        <span
+          class="block rounded-lg px-4 py-2 text-sm font-bold text-muted peer-checked:bg-brand-700 peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"
+        >
+          Ciudades
+        </span>
+      </label>
+      <label class="cursor-pointer">
+        <input
+          type="radio"
+          name="directory-mode"
+          value="universities"
+          class="peer sr-only"
+          [checked]="mode() === 'universities'"
+          (change)="setMode('universities')"
+        />
+        <span
+          class="block rounded-lg px-4 py-2 text-sm font-bold text-muted peer-checked:bg-brand-700 peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"
+        >
+          Universidades
+        </span>
+      </label>
+    </fieldset>
+
+    <div>
+      <label for="directory-query" class="mb-1 block text-sm font-semibold text-ink">
+        @if (mode() === 'cities') {
+          Buscar ciudad
+        } @else {
+          Buscar universidad
+        }
+      </label>
+      <div class="flex gap-3">
+        <input
+          id="directory-query"
+          type="search"
+          autocomplete="off"
+          [value]="query()"
+          [attr.placeholder]="
+            mode() === 'cities' ? 'Ej.: Medellín, Antioquia' : 'Ej.: Universidad de Antioquia'
+          "
+          (input)="onQueryChange($event)"
+          class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        />
+        @if (searching()) {
+          <ui-button variant="secondary" type="button" (click)="clearQuery()">Limpiar</ui-button>
+        }
+      </div>
+      <p class="mt-1 text-xs text-muted">
+        Se admiten coincidencias sin tildes; se muestran hasta {{ resultLimit }} resultados.
+      </p>
+    </div>
+  </div>
+
+  @if (loadError(); as error) {
+    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+      <ui-alert [message]="error" />
+      <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
+    </div>
+  } @else if (!searching()) {
+    <p
+      class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center text-sm text-muted"
+      role="status"
+    >
+      Escribe el nombre de una ciudad o universidad para ver resultados.
+    </p>
+  } @else if (loading()) {
+    <p
+      class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card"
+      role="status"
+    >
+      Consultando el directorio…
+    </p>
+  } @else if (!hasResults()) {
+    <div
+      class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center"
+      role="status"
+    >
+      <p class="font-bold text-ink">Sin coincidencias para «{{ query().trim() }}».</p>
+      <p class="mt-1 text-sm text-muted">Revisa la escritura o prueba con otro término.</p>
+    </div>
+  } @else {
+    <div class="space-y-3">
+      <p class="text-sm text-muted" role="status">
+        {{ resultCount() }} resultado(s) para «{{ query().trim() }}».
+        @if (reachedLimit()) {
+          Se muestran los primeros {{ resultLimit }}; afina la búsqueda para ver más.
+        }
+      </p>
+
+      @if (mode() === 'cities') {
+        <ul class="grid gap-3 md:grid-cols-2">
+          @for (city of cityResults(); track city.id) {
+            <li class="rounded-card border border-line bg-white p-4 shadow-card">
+              <p class="font-bold text-ink">{{ city.name }}</p>
+              @if (city.departmentName) {
+                <p class="mt-0.5 text-sm text-muted">{{ city.departmentName }}</p>
+              }
+            </li>
+          }
+        </ul>
+      } @else {
+        <ul class="grid gap-3 md:grid-cols-2">
+          @for (university of universityResults(); track university.id) {
+            <li class="rounded-card border border-line bg-white p-4 shadow-card">
+              <p class="font-bold text-ink">{{ university.name }}</p>
+              @if (university.cityName) {
+                <p class="mt-0.5 text-sm text-muted">{{ university.cityName }}</p>
+              }
+              <p class="mt-1 text-xs text-muted">
+                {{ university.academicCharacter ?? 'Institución de educación superior' }}
+                @if (university.legalNature) {
+                  · {{ university.legalNature }}
+                }
+              </p>
+              @if (university.highQualityAccredited) {
+                <p class="mt-1 text-xs font-semibold text-brand-700">
+                  Acreditación de alta calidad
+                </p>
+              }
+              @if (websiteUrl(university.website); as site) {
+                <a
+                  [href]="site"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mt-2 inline-block text-sm font-semibold text-brand-700 underline"
+                >
+                  {{ university.website }}
+                </a>
+              }
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  }
+</div>

@@ -66,6 +66,11 @@ import { UiButton } from '../shared/ui/button';
               >
             }
             <a
+              routerLink="/directorio"
+              class="hidden text-sm font-bold text-brand-700 hover:underline sm:block"
+              >Directorio</a
+            >
+            <a
               routerLink="/favoritos"
               class="hidden text-sm font-bold text-brand-700 hover:underline sm:block"
               >Favoritos</a

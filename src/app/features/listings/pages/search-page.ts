@@ -2,7 +2,7 @@ import { Component, computed, inject, linkedSignal, resource, signal } from '@an
 import { CurrencyPipe } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormField as SignalFormField, FormRoot, form } from '@angular/forms/signals';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
@@ -51,7 +51,16 @@ function digits(value: string): number | null {
  */
 @Component({
   selector: 'app-search-page',
-  imports: [CurrencyPipe, UiAlert, UiButton, UiFormField, SignalFormField, FormRoot, ListingCard],
+  imports: [
+    CurrencyPipe,
+    UiAlert,
+    UiButton,
+    UiFormField,
+    SignalFormField,
+    FormRoot,
+    RouterLink,
+    ListingCard,
+  ],
   templateUrl: './search-page.html',
 })
 export class SearchPage {

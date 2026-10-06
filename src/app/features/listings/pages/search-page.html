@@ -7,10 +7,19 @@
   </div>
 
   @if (hasUnmappableFilters()) {
-    <ui-alert
-      variant="info"
-      message="El filtro por ciudad o universidad estará disponible cuando se habilite el catálogo público (limitación conocida del piloto). El resto de filtros sí se aplican."
-    />
+    <div class="space-y-2">
+      <ui-alert
+        variant="info"
+        message="El filtro por ciudad o universidad estará disponible cuando se habilite el catálogo público (limitación conocida del piloto). El resto de filtros sí se aplican."
+      />
+      <p class="text-sm text-muted">
+        Mientras tanto, puedes explorar el
+        <a routerLink="/directorio" class="font-semibold text-brand-700 underline"
+          >directorio de ciudades y universidades</a
+        >
+        (datos abiertos de API-Colombia). Es informativo: no filtra los resultados que ves abajo.
+      </p>
+    </div>
   }
 
   @if (appliedMonthlyBudget(); as budget) {
