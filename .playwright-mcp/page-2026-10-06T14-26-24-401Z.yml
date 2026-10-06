@@ -1,0 +1,70 @@
+- generic [ref=f4e4]:
+  - banner [ref=f4e5]:
+    - generic [ref=f4e6]:
+      - link "ColivinApp" [ref=f4e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f4e8]: C
+      - generic [ref=f4e10]:
+        - link "Mensajes" [ref=f4e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f4e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f4e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f4e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Directorio" [ref=f4e15] [cursor=pointer]:
+          - /url: /directorio
+        - link "Favoritos" [ref=f4e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "check@local.test"
+        - button "Cerrar sesión" [ref=f4e18]
+  - main [ref=f4e19]:
+    - generic [ref=f4e21]:
+      - generic [ref=f4e22]:
+        - heading "Alojamientos" [level=1] [ref=f4e23]
+        - paragraph [ref=f4e24]: Explora publicaciones activas y filtra por precio, fechas y estancia mínima.
+      - generic [ref=f4e25]:
+        - status [ref=f4e27]: El filtro por ciudad o universidad estará disponible cuando se habilite el catálogo público (limitación conocida del piloto). El resto de filtros sí se aplican.
+        - paragraph [ref=f4e28]:
+          - text: Mientras tanto, puedes explorar el
+          - link "directorio de ciudades y universidades" [ref=f4e29] [cursor=pointer]:
+            - /url: /directorio
+          - text: "(datos abiertos de API-Colombia). Es informativo: no filtra los resultados que ves abajo."
+      - generic [ref=f4e30]:
+        - generic [ref=f4e32]:
+          - generic [ref=f4e33]: Precio mínimo (por noche)
+          - textbox "Precio mínimo (por noche)" [ref=f4e34]:
+            - /placeholder: Sin mínimo
+        - generic [ref=f4e36]:
+          - generic [ref=f4e37]: Precio máximo (por noche)
+          - textbox "Precio máximo (por noche)" [ref=f4e38]:
+            - /placeholder: Sin máximo
+        - generic [ref=f4e40]:
+          - generic [ref=f4e41]: Moneda
+          - combobox "Moneda" [ref=f4e42]:
+            - option "Todas" [selected]
+            - option "COP"
+            - option "USD"
+        - generic [ref=f4e44]:
+          - generic [ref=f4e45]: Disponible desde
+          - textbox "Disponible desde" [ref=f4e46]
+        - generic [ref=f4e48]:
+          - generic [ref=f4e49]: Disponible hasta
+          - textbox "Disponible hasta" [ref=f4e50]
+        - generic [ref=f4e52]:
+          - generic [ref=f4e53]: Noches de estancia
+          - textbox "Noches de estancia" [ref=f4e54]:
+            - /placeholder: Sin mínimo
+          - paragraph [ref=f4e55]: Alojamientos cuya estancia mínima la permita.
+        - generic [ref=f4e57]:
+          - generic [ref=f4e58]: Ordenar por
+          - combobox "Ordenar por" [ref=f4e59]:
+            - option "Más recientes" [selected]
+            - option "Más recientes"
+            - 'option "Precio: de menor a mayor"'
+            - 'option "Precio: de mayor a menor"'
+        - generic [ref=f4e60]:
+          - button "Aplicar filtros" [disabled] [ref=f4e62]
+          - button "Limpiar" [ref=f4e65]
+      - paragraph [ref=f4e66]: Buscando alojamientos…

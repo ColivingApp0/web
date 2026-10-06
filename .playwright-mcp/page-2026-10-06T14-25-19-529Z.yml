@@ -1,0 +1,43 @@
+- generic [ref=f3e4]:
+  - banner [ref=f3e5]:
+    - generic [ref=f3e6]:
+      - link "ColivinApp" [ref=f3e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f3e8]: C
+      - generic [ref=f3e10]:
+        - link "Mensajes" [ref=f3e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f3e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f3e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f3e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Directorio" [ref=f3e15] [cursor=pointer]:
+          - /url: /directorio
+        - link "Favoritos" [ref=f3e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "check@local.test"
+        - button "Cerrar sesión" [ref=f3e18]
+  - main [ref=f3e19]:
+    - generic [ref=f3e21]:
+      - generic [ref=f3e22]:
+        - heading "Directorio de ciudades y universidades" [level=1] [ref=f3e23]
+        - paragraph [ref=f3e24]:
+          - text: Explora las ciudades y universidades de Colombia. Datos abiertos de
+          - link "API-Colombia" [ref=f3e25] [cursor=pointer]:
+            - /url: https://api-colombia.com
+          - text: .
+      - generic [ref=f3e26]:
+        - group "Tipo de directorio" [ref=f3e27]:
+          - generic [ref=f3e29] [cursor=pointer]:
+            - radio "Ciudades" [checked] [ref=f3e30]
+            - generic [ref=f3e31]: Ciudades
+          - generic [ref=f3e32] [cursor=pointer]:
+            - radio "Universidades" [ref=f3e33]
+            - generic [ref=f3e34]: Universidades
+        - generic [ref=f3e35]:
+          - generic [ref=f3e36]: Buscar ciudad
+          - searchbox "Buscar ciudad" [ref=f3e38]
+          - paragraph [ref=f3e39]: Se admiten coincidencias sin tildes; se muestran hasta 40 resultados.
+      - status [ref=f3e40]: Escribe el nombre de una ciudad o universidad para ver resultados.

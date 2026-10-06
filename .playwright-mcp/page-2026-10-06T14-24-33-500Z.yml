@@ -1,0 +1,50 @@
+- generic [ref=f1e4]:
+  - banner [ref=f1e5]:
+    - generic [ref=f1e6]:
+      - link "ColivinApp" [ref=f1e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f1e8]: C
+      - generic [ref=f1e10]:
+        - link "Mensajes" [ref=f1e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f1e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f1e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f1e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Directorio" [ref=f1e15] [cursor=pointer]:
+          - /url: /directorio
+        - link "Favoritos" [ref=f1e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "check@local.test"
+        - button "Cerrar sesión" [ref=f1e18]
+  - main [ref=f1e19]:
+    - generic [ref=f1e21]:
+      - generic [ref=f1e22]:
+        - heading "Directorio de ciudades y universidades" [level=1] [ref=f1e23]
+        - paragraph [ref=f1e24]:
+          - text: Explora las ciudades y universidades de Colombia. Datos abiertos de
+          - link "API-Colombia" [ref=f1e25] [cursor=pointer]:
+            - /url: https://api-colombia.com
+          - text: .
+      - generic [ref=f1e26]:
+        - group "Tipo de directorio" [ref=f1e27]:
+          - generic [ref=f1e29] [cursor=pointer]:
+            - radio "Ciudades" [checked] [ref=f1e30]
+            - generic [ref=f1e31]: Ciudades
+          - generic [ref=f1e32] [cursor=pointer]:
+            - radio "Universidades" [ref=f1e33]
+            - generic [ref=f1e34]: Universidades
+        - generic [ref=f1e35]:
+          - generic [ref=f1e36]: Buscar ciudad
+          - generic [ref=f1e37]:
+            - searchbox "Buscar ciudad" [active] [ref=f1e38]: medellin
+            - button "Limpiar" [ref=f1e42]
+            - generic [ref=f1e43]:
+              - status [ref=f1e44]: 1 resultado(s) para «medellin».
+              - list [ref=f1e45]:
+                - listitem [ref=f1e46]:
+                  - paragraph [ref=f1e47]: Medellín
+                  - paragraph [ref=f1e48]: Antioquia
+        - paragraph [ref=f1e40]: Se admiten coincidencias sin tildes; se muestran hasta 40 resultados.

@@ -1,0 +1,122 @@
+- generic [ref=f3e4]:
+  - banner [ref=f3e5]:
+    - generic [ref=f3e6]:
+      - link "ColivinApp" [ref=f3e7] [cursor=pointer]:
+        - /url: /perfil
+        - generic [aria-hidden] [ref=f3e8]: C
+      - generic [ref=f3e10]:
+        - link "Mensajes" [ref=f3e11] [cursor=pointer]:
+          - /url: /mensajes
+        - link "Notificaciones" [ref=f3e12] [cursor=pointer]:
+          - /url: /notificaciones
+        - link "Comunidad" [ref=f3e13] [cursor=pointer]:
+          - /url: /comunidad
+        - link "Reputación" [ref=f3e14] [cursor=pointer]:
+          - /url: /reputacion
+        - link "Directorio" [ref=f3e15] [cursor=pointer]:
+          - /url: /directorio
+        - link "Favoritos" [ref=f3e16] [cursor=pointer]:
+          - /url: /favoritos
+        - generic "check@local.test"
+        - button "Cerrar sesión" [ref=f3e18]
+  - main [ref=f3e19]:
+    - generic [ref=f3e21]:
+      - generic [ref=f3e22]:
+        - heading "Directorio de ciudades y universidades" [level=1] [ref=f3e23]
+        - paragraph [ref=f3e24]:
+          - text: Explora las ciudades y universidades de Colombia. Datos abiertos de
+          - link "API-Colombia" [ref=f3e25] [cursor=pointer]:
+            - /url: https://api-colombia.com
+          - text: .
+      - generic [ref=f3e26]:
+        - group "Tipo de directorio" [ref=f3e27]:
+          - generic [ref=f3e29] [cursor=pointer]:
+            - radio "Ciudades" [ref=f3e30]
+            - generic [ref=f3e31]: Ciudades
+          - generic [ref=f3e32] [cursor=pointer]:
+            - radio "Universidades" [checked] [ref=f3e33]
+            - generic [ref=f3e34]: Universidades
+        - generic [ref=f3e35]:
+          - generic [ref=f3e36]: Buscar universidad
+          - generic [ref=f3e37]:
+            - searchbox "Buscar universidad" [active] [ref=f3e49]: antioquia
+            - button "Limpiar" [ref=f3e42]
+          - paragraph [ref=f3e39]: Se admiten coincidencias sin tildes; se muestran hasta 40 resultados.
+      - generic [ref=f3e43]:
+        - status [ref=f3e44]: 12 resultado(s) para «antioquia».
+        - list [ref=f3e50]:
+          - listitem [ref=f3e56]:
+            - paragraph [ref=f3e57]: COLEGIO MAYOR DE ANTIOQUIA
+            - paragraph [ref=f3e58]: Medellín
+            - paragraph [ref=f3e59]: Institución Universitaria/Escuela Tecnológica · Municipal
+            - paragraph [ref=f3e60]: Acreditación de alta calidad
+            - link "www.colmayor.edu.co" [ref=f3e61] [cursor=pointer]:
+              - /url: https://www.colmayor.edu.co
+          - listitem [ref=f3e232]:
+            - paragraph [ref=f3e233]: CORPORACION TECNOLOGICA CATOLICA DE OCCIDENTE - TECOC -
+            - paragraph [ref=f3e234]: Santafé de Antioquia
+            - paragraph [ref=f3e235]: Institución Tecnológica · Corporación
+            - link "https://www.tecoc.edu.co/" [ref=f3e236] [cursor=pointer]:
+              - /url: https://www.tecoc.edu.co/
+          - listitem [ref=f3e97]:
+            - paragraph [ref=f3e98]: ESCUELA DE TECNOLOGIAS DE ANTIOQUIA -ETA-
+            - paragraph [ref=f3e99]: Medellín
+            - paragraph [ref=f3e100]: Institución Tecnológica · Corporación
+            - link "www.etdea.edu.co" [ref=f3e101] [cursor=pointer]:
+              - /url: https://www.etdea.edu.co
+          - listitem [ref=f3e132]:
+            - paragraph [ref=f3e133]: INSTITUCION UNIVERSITARIA DIGITAL DE ANTIOQUIA -IU. DIGITAL
+            - paragraph [ref=f3e134]: Medellín
+            - paragraph [ref=f3e135]: Institución Universitaria/Escuela Tecnológica · Departamental
+            - link "www.iudigital.edu.co/Paginas/default.aspx" [ref=f3e136] [cursor=pointer]:
+              - /url: https://www.iudigital.edu.co/Paginas/default.aspx
+          - listitem [ref=f3e168]:
+            - paragraph [ref=f3e169]: TECNOLOGICO DE ANTIOQUIA
+            - paragraph [ref=f3e170]: Medellín
+            - paragraph [ref=f3e171]: Institución Universitaria/Escuela Tecnológica · Departamental
+            - paragraph [ref=f3e172]: Acreditación de alta calidad
+            - link "www.tdea.edu.co" [ref=f3e173] [cursor=pointer]:
+              - /url: https://www.tdea.edu.co
+          - listitem [ref=f3e237]:
+            - paragraph [ref=f3e238]: UNIVERSIDAD DE ANTIOQUIA
+            - paragraph [ref=f3e239]: Andes
+            - paragraph [ref=f3e240]: Universidad · Departamental
+            - link "www.udea.edu.co" [ref=f3e241] [cursor=pointer]:
+              - /url: https://www.udea.edu.co
+          - listitem [ref=f3e196]:
+            - paragraph [ref=f3e197]: UNIVERSIDAD DE ANTIOQUIA
+            - paragraph [ref=f3e198]: Medellín
+            - paragraph [ref=f3e199]: Universidad · Departamental
+            - paragraph [ref=f3e200]: Acreditación de alta calidad
+            - link "www.udea.edu.co" [ref=f3e201] [cursor=pointer]:
+              - /url: https://www.udea.edu.co
+          - listitem [ref=f3e242]:
+            - paragraph [ref=f3e243]: UNIVERSIDAD DE ANTIOQUIA
+            - paragraph [ref=f3e244]: El Carmen de Viboral
+            - paragraph [ref=f3e245]: Universidad · Departamental
+            - link "www.udea.edu.co" [ref=f3e246] [cursor=pointer]:
+              - /url: https://www.udea.edu.co
+          - listitem [ref=f3e247]:
+            - paragraph [ref=f3e248]: UNIVERSIDAD DE ANTIOQUIA
+            - paragraph [ref=f3e249]: Caucasia
+            - paragraph [ref=f3e250]: Universidad · Departamental
+            - link "www.udea.edu.co" [ref=f3e251] [cursor=pointer]:
+              - /url: https://www.udea.edu.co
+          - listitem [ref=f3e252]:
+            - paragraph [ref=f3e253]: UNIVERSIDAD DE ANTIOQUIA
+            - paragraph [ref=f3e254]: Puerto Berrío
+            - paragraph [ref=f3e255]: Universidad · Departamental
+            - link "www.udea.edu.co" [ref=f3e256] [cursor=pointer]:
+              - /url: https://www.udea.edu.co
+          - listitem [ref=f3e257]:
+            - paragraph [ref=f3e258]: UNIVERSIDAD DE ANTIOQUIA
+            - paragraph [ref=f3e259]: Turbo
+            - paragraph [ref=f3e260]: Universidad · Departamental
+            - link "www.udea.edu.co" [ref=f3e261] [cursor=pointer]:
+              - /url: https://www.udea.edu.co
+          - listitem [ref=f3e262]:
+            - paragraph [ref=f3e263]: UNIVERSIDAD DE ANTIOQUIA
+            - paragraph [ref=f3e264]: Santafé de Antioquia
+            - paragraph [ref=f3e265]: Universidad · Nacional
+            - link "www.udea.edu.co" [ref=f3e266] [cursor=pointer]:
+              - /url: https://www.udea.edu.co
