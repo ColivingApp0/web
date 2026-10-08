@@ -28,7 +28,13 @@
             "server": "src/main.server.ts",
             "outputMode": "server",
             "security": {
-              "allowedHosts": []
+              "allowedHosts": [
+                "localhost",
+                "127.0.0.1",
+                "*.app.github.dev",
+                "*.preview.app.github.dev",
+                "*.githubpreview.dev"
+              ]
             },
             "ssr": {
               "entry": "src/server.ts"
@@ -36,6 +42,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -61,7 +73,15 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "proxyConfig": "proxy.conf.json"
+            "proxyConfig": "proxy.conf.json",
+            "port": 8080,
+            "allowedHosts": [
+              "localhost",
+              "127.0.0.1",
+              "*.app.github.dev",
+              "*.preview.app.github.dev",
+              "*.githubpreview.dev"
+            ]
           },
           "configurations": {
             "production": {
