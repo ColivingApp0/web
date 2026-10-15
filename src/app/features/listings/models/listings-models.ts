@@ -1,62 +1,72 @@
 /**
- * Contratos del descubrimiento público (contextos search + accommodation).
- * Reflejan los DTOs reales; los campos `*Code` son UUID de catálogos que aún
- * no tienen endpoint público (limitación documentada: no se muestran en UI).
+ * Contratos del descubrimiento público (search + accommodation), alineados con
+ * el modelo real de **renta mensual de habitaciones**. No hay fechas, noches ni
+ * tarifas nocturnas.
  */
 
 export type ListingSort = 'PRICE_ASC' | 'PRICE_DESC' | 'RECENT';
-
 export type Currency = 'COP' | 'USD';
+export type PriceUnit = 'POR_HABITACION' | 'POR_PERSONA';
+export type RoomType = 'INDIVIDUAL' | 'COMPARTIDA';
+export type BathroomType = 'PRIVADO' | 'COMPARTIDO';
 
 export type PublicationStatus =
   'BORRADOR' | 'EN_REVISION' | 'PUBLICADA' | 'PAUSADA' | 'OCULTA' | 'ARCHIVADA';
 
-export type AvailabilityState = 'DISPONIBLE' | 'BLOQUEADO' | 'OCUPADO';
-
-export type CancellationPolicy = 'FLEXIBLE' | 'MODERADA' | 'ESTRICTA';
-
 /** Filtros de `GET /api/v1/search/listings` (todos opcionales y combinables). */
 export interface SearchFilters {
+  q?: string;
   minPrice?: number;
   maxPrice?: number;
   currency?: Currency;
-  availableFrom?: string;
-  availableTo?: string;
   sort?: ListingSort;
-  minNights?: number;
+  minCapacity?: number;
+  availableOnly?: boolean;
+  airConditioning?: boolean;
+  fan?: boolean;
+  bathroomType?: BathroomType;
+  roomType?: RoomType;
+  propertyId?: string;
 }
 
-/**
- * Presupuesto **mensual** → tope **por noche**.
- *
- * El contrato real de búsqueda no tiene concepto de presupuesto mensual:
- * `maxPrice` se compara contra `pricePerNight` (`SearchListingsService`, RF-030).
- * El buscador de la portada expresa la intención del producto («máximo mensual»,
- * que es como razona un estudiante), así que la conversión vive aquí, en una
- * única función pura y documentada, y la UI muestra **ambas** cifras para no
- * comunicar un filtro distinto del que realmente se aplica.
- *
- * No se inventa ningún parámetro nuevo: se sigue enviando `maxPrice`.
- */
-export const NIGHTS_PER_REFERENCE_MONTH = 30;
+/** Escala del control de precio mensual (COP). Es una afordancia de UI. */
+export const MONTHLY_PRICE_MIN = 300_000;
+export const MONTHLY_PRICE_MAX = 5_000_000;
+export const MONTHLY_PRICE_STEP = 100_000;
 
-/** Tope por noche equivalente a un presupuesto mensual (redondeo hacia abajo). */
-export function nightlyCapFromMonthlyBudget(monthlyBudget: number): number {
-  return Math.floor(monthlyBudget / NIGHTS_PER_REFERENCE_MONTH);
+export interface PhotoView {
+  id: string;
+  url: string;
+  position: number;
 }
 
 /** Respuesta de `GET /api/v1/search/listings` (ListingView). */
 export interface ListingView {
   publicationId: string;
   unitId: string;
-  title: string;
+  propertyId: string;
+  roomTitle: string;
+  propertyTitle: string;
+  description: string | null;
   cityId: string | null;
-  pricePerNight: number | null;
+  cityName: string | null;
+  neighborhood: string | null;
+  monthlyPrice: number | null;
   currency: Currency | null;
+  priceUnit: PriceUnit;
+  roomType: RoomType;
+  bathroomType: BathroomType;
+  airConditioning: boolean;
+  fan: boolean;
+  capacity: number;
+  occupiedPlaces: number;
+  availablePlaces: number;
+  photoUrl: string | null;
+  propertyPhotoUrl: string | null;
   serviceCodes: string[];
-  roomTypeCode: string | null;
   accessibilityCodes: string[];
-  minNights: number | null;
+  available: boolean;
+  availabilityLabel: string;
 }
 
 export interface PropertyView {
@@ -65,21 +75,38 @@ export interface PropertyView {
   title: string | null;
   description: string | null;
   cityId: string | null;
+  cityName: string | null;
+  neighborhood: string | null;
   address: string | null;
   amenities: string[];
   archived: boolean;
+  photos: PhotoView[];
 }
 
 export interface UnitView {
   id: string;
   propertyId: string;
   name: string;
+  description: string | null;
   maxGuests: number;
-  bedrooms: number;
-  beds: number;
-  bathrooms: number;
+  monthlyPrice: number | null;
+  currency: Currency;
+  priceUnit: PriceUnit;
+  roomType: RoomType;
+  bathroomType: BathroomType;
+  airConditioning: boolean;
+  fan: boolean;
+  commonAreas: string[];
   typeCode: string | null;
   accessibilityCodes: string[];
+  sortOrder: number;
+  photos: PhotoView[];
+  publication: PublicationSummary | null;
+  occupiedPlaces: number;
+  availablePlaces: number;
+  published: boolean;
+  effectiveAvailable: boolean;
+  availabilityLabel: string;
 }
 
 export interface PublicationSummary {
@@ -93,34 +120,48 @@ export interface PublicationSummary {
 
 export interface PricingView {
   publicationId: string;
-  basePricePerNight: number;
+  monthlyPrice: number | null;
   currency: Currency;
+  priceUnit: PriceUnit;
 }
 
-export interface RulesView {
-  publicationId: string;
-  cancellationPolicy: CancellationPolicy;
-  checkInTime: string;
-  checkOutTime: string;
-  minNights: number;
-  maxNights: number;
-  houseRules: string[];
+export interface PublicUserView {
+  userId: string;
+  name: string | null;
+  avatarUrl: string | null;
 }
 
-/** Respuesta de `GET /api/v1/publications/{id}` (PublicationDetailView). */
+export interface OccupancyView {
+  capacity: number;
+  occupiedPlaces: number;
+  availablePlaces: number;
+  published: boolean;
+  effectiveAvailable: boolean;
+  label: string;
+}
+
+/** Respuesta de `GET /api/v1/properties/{id}`. */
+export interface PropertyDetailView {
+  property: PropertyView;
+  host: PublicUserView | null;
+  rooms: UnitView[];
+}
+
+/** Respuesta de `GET /api/v1/publications/{id}` (detalle de una habitación). */
 export interface PublicationDetailView {
   publication: PublicationSummary;
   property: PropertyView;
   unit: UnitView;
-  pricing: PricingView | null;
-  rules: RulesView | null;
+  host: PublicUserView | null;
+  occupancy: OccupancyView;
+  propertyPhotos: PhotoView[];
 }
 
-/** Respuesta de `GET /api/v1/publications/{id}/availability` (día a día, [from, to)). */
-export interface DayAvailabilityView {
-  date: string;
-  state: AvailabilityState;
-  reserved: boolean;
+/** Respuesta de `GET /api/v1/publications/{id}/roommates` (solo con consentimiento). */
+export interface RoommateView {
+  userId: string;
+  name: string;
+  avatarUrl: string | null;
 }
 
 /** Respuesta de `/api/v1/favorites` (FavoriteView). */
@@ -128,4 +169,16 @@ export interface FavoriteView {
   id: string;
   publicationId: string;
   createdAt: string;
+}
+
+export function priceUnitLabel(unit: PriceUnit): string {
+  return unit === 'POR_PERSONA' ? 'por persona' : 'por habitación';
+}
+
+export function roomTypeLabel(type: RoomType): string {
+  return type === 'COMPARTIDA' ? 'Habitación compartida' : 'Habitación individual';
+}
+
+export function bathroomLabel(type: BathroomType): string {
+  return type === 'PRIVADO' ? 'Baño privado' : 'Baño compartido';
 }
