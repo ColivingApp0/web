@@ -47,8 +47,8 @@ export class FavoritesPage {
               publicationId: favorite.publicationId,
               createdAt: favorite.createdAt,
               title: detail.publication.title,
-              price: detail.pricing?.basePricePerNight ?? null,
-              currency: detail.pricing?.currency ?? null,
+              price: detail.unit.monthlyPrice ?? null,
+              currency: detail.unit.currency ?? null,
               unavailable: false,
             };
           } catch {

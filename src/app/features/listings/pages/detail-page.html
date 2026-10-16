@@ -1,203 +1,346 @@
-<div class="mx-auto max-w-3xl space-y-6">
-  <a routerLink="/alojamientos" class="inline-block text-sm font-bold text-muted hover:text-ink"
-    >← Volver a alojamientos</a
-  >
+<div class="space-y-5">
+  <nav class="flex items-center gap-1.5 text-sm text-muted" aria-label="Migas de pan">
+    <a routerLink="/alojamientos" class="hover:text-ink">Explorar</a>
+    <ui-icon name="chevron-down" size="xs" class="-rotate-90" />
+    @if (detail()?.property; as property) {
+      <a [routerLink]="['/propiedades', property.id]" class="truncate hover:text-ink">{{
+        property.title
+      }}</a>
+      <ui-icon name="chevron-down" size="xs" class="-rotate-90" />
+    }
+    <span class="truncate text-ink">{{ detail()?.unit?.name ?? 'Habitación' }}</span>
+  </nav>
 
   @if (loading()) {
-    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
-      Cargando alojamiento…
-    </p>
+    <div class="space-y-4">
+      <div class="ui-skeleton h-8 w-2/3"></div>
+      <div class="ui-skeleton aspect-[16/8]"></div>
+      <div class="grid gap-4 lg:grid-cols-[1fr_340px]">
+        <div class="ui-skeleton h-64"></div>
+        <div class="ui-skeleton h-80"></div>
+      </div>
+    </div>
   } @else if (errorMessage(); as error) {
-    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+    <div class="ui-card ui-card-pad space-y-3">
       <ui-alert [message]="error" />
       <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
     </div>
-  } @else if (detail(); as publication) {
-    <header>
-      <div class="flex items-start justify-between gap-4">
-        <h1 class="font-display text-3xl font-extrabold tracking-[-0.03em] text-ink">
-          {{ publication.publication.title }}
+  } @else if (detail(); as view) {
+    <header class="flex flex-wrap items-start justify-between gap-4">
+      <div class="min-w-0">
+        <p class="text-sm font-bold text-brand-700">{{ view.property.title }}</p>
+        <h1 class="mt-1 font-display text-3xl font-extrabold tracking-tight text-ink">
+          {{ view.unit.name }}
         </h1>
+        <p class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+          @if (location(); as place) {
+            <span class="flex items-center gap-1"
+              ><ui-icon name="map-pin" size="sm" /> {{ place }}</span
+            >
+          }
+          <span class="flex items-center gap-1"
+            ><ui-icon name="users" size="sm" /> {{ places(view.unit.maxGuests) }}</span
+          >
+          <span class="flex items-center gap-1"
+            ><ui-icon name="bath" size="sm" /> {{ bathroom(view.unit.bathroomType) }}</span
+          >
+        </p>
+      </div>
+      <div class="flex items-center gap-2">
+        <ui-availability-badge
+          [label]="view.occupancy.label"
+          [availablePlaces]="view.occupancy.availablePlaces"
+        />
         <button
           type="button"
-          class="grid size-11 shrink-0 place-items-center rounded-full border border-line text-xl transition hover:bg-soft disabled:opacity-50"
-          [style.color]="favorites.isFavorite(publication.publication.id) ? '#d24d58' : null"
-          [attr.aria-pressed]="favorites.isFavorite(publication.publication.id)"
+          class="grid size-11 place-items-center rounded-full border border-line bg-white text-ink transition hover:bg-soft disabled:opacity-60"
+          [class.text-danger-600]="favorites.isFavorite(view.publication.id)"
+          [attr.aria-pressed]="favorites.isFavorite(view.publication.id)"
           [attr.aria-label]="
-            favorites.isFavorite(publication.publication.id)
+            favorites.isFavorite(view.publication.id)
               ? 'Quitar de favoritos'
               : 'Guardar en favoritos'
           "
-          [disabled]="favorites.isPending(publication.publication.id)"
-          (click)="favorites.toggle(publication.publication.id)"
+          [disabled]="favorites.isPending(view.publication.id)"
+          (click)="favorites.toggle(view.publication.id)"
         >
-          {{ favorites.isFavorite(publication.publication.id) ? '♥' : '♡' }}
+          <ui-icon
+            [name]="favorites.isFavorite(view.publication.id) ? 'heart-filled' : 'heart'"
+            size="md"
+          />
         </button>
       </div>
-      <ui-alert [message]="favorites.error()" />
-      <p class="mt-2 text-lg">
-        @if (publication.pricing; as pricing) {
-          <strong class="font-display text-2xl font-extrabold text-brand-700">{{
-            pricing.basePricePerNight | currency: pricing.currency : 'symbol-narrow' : '1.0-0'
-          }}</strong>
-          <span class="text-muted"> por noche ({{ pricing.currency }})</span>
-        } @else {
-          <span class="text-muted">Precio a consultar con el anfitrión</span>
-        }
-      </p>
-      @if (publication.rules; as rules) {
-        <p class="mt-1 text-sm text-muted">
-          Estancia de {{ rules.minNights }} a {{ rules.maxNights }} noches
-        </p>
-      }
+    </header>
+    <ui-alert [message]="favorites.error()" />
 
-      <div class="mt-4">
-        @if (canRequestReservation()) {
-          <a
-            [routerLink]="['/reservas/nueva']"
-            [queryParams]="{
-              publication: publication.publication.id,
-              unidad: publication.unit.id,
-              desde: selectedDates().from,
-              hasta: selectedDates().to,
-            }"
-            class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
-            >Solicitar reserva</a
-          >
-          <p class="mt-2 text-xs text-muted">
-            El anfitrión decide; si acepta, tendrás un plazo para confirmar.
-            {{ selectedDates().from | date: 'd MMM y' }} →
-            {{ selectedDates().to | date: 'd MMM y' }}.
-          </p>
-        } @else if (!hasGuestRole()) {
-          <p class="text-sm text-muted">
-            Para solicitar una reserva necesitas un rol de huésped activo (huésped estudiante o
-            turista).
-          </p>
+    <section aria-label="Fotografías de la habitación">
+      <div class="overflow-hidden rounded-2xl bg-brand-50">
+        @if (activePhoto(); as photo) {
+          <img
+            [src]="photo.url"
+            [alt]="'Fotografía de ' + view.unit.name"
+            class="h-72 w-full object-cover sm:h-[420px]"
+          />
         } @else {
-          <p class="text-sm text-muted">
-            Esta publicación no admite solicitudes ahora mismo: solo las publicaciones publicadas y
-            con precio configurado pueden recibir solicitudes.
-          </p>
+          <div class="grid h-72 w-full place-items-center text-brand-700 sm:h-[420px]">
+            <ui-icon name="image" size="xl" />
+          </div>
         }
       </div>
-    </header>
-
-    <section class="rounded-card border border-line bg-white p-6 shadow-card">
-      <h2 class="font-display text-lg font-bold text-ink">Sobre el alojamiento</h2>
-      <p class="mt-2 text-sm text-ink">
-        {{ publication.property.description ?? 'El anfitrión aún no ha añadido una descripción.' }}
-      </p>
-
-      @if (publication.property.amenities.length > 0) {
-        <h3 class="mt-5 text-sm font-bold text-ink">Servicios del inmueble</h3>
-        <ul class="mt-2 flex flex-wrap gap-2">
-          @for (amenity of publication.property.amenities; track amenity) {
-            <li class="rounded-md bg-[#f1f5f3] px-2 py-1 text-xs">{{ amenity }}</li>
+      @if (photos().length > 1) {
+        <div class="mt-2 ui-scroll-x">
+          @for (photo of photos(); track photo.id; let index = $index) {
+            <button
+              type="button"
+              class="relative size-20 shrink-0 overflow-hidden rounded-xl border-2 transition"
+              [class.border-brand-700]="photoIndex() === index"
+              [class.border-transparent]="photoIndex() !== index"
+              [attr.aria-label]="'Ver fotografía ' + (index + 1)"
+              [attr.aria-pressed]="photoIndex() === index"
+              (click)="selectPhoto(index)"
+            >
+              <img [src]="photo.url" alt="" class="h-full w-full object-cover" />
+            </button>
           }
-        </ul>
-      }
-
-      @if (publication.property.address; as address) {
-        <h3 class="mt-5 text-sm font-bold text-ink">Ubicación</h3>
-        <p class="mt-1 text-sm text-muted">{{ address }}</p>
-      }
-
-      <h3 class="mt-5 text-sm font-bold text-ink">Unidad</h3>
-      <dl class="mt-2 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
-        <div>
-          <dt class="text-xs font-bold uppercase tracking-wide text-muted">Huéspedes</dt>
-          <dd class="mt-0.5 text-ink">{{ publication.unit.maxGuests }}</dd>
         </div>
-        <div>
-          <dt class="text-xs font-bold uppercase tracking-wide text-muted">Habitaciones</dt>
-          <dd class="mt-0.5 text-ink">{{ publication.unit.bedrooms }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs font-bold uppercase tracking-wide text-muted">Camas</dt>
-          <dd class="mt-0.5 text-ink">{{ publication.unit.beds }}</dd>
-        </div>
-        <div>
-          <dt class="text-xs font-bold uppercase tracking-wide text-muted">Baños</dt>
-          <dd class="mt-0.5 text-ink">{{ publication.unit.bathrooms }}</dd>
-        </div>
-      </dl>
-
-      @if (publication.rules; as rules) {
-        <h3 class="mt-5 text-sm font-bold text-ink">Reglas de la publicación</h3>
-        <ul class="mt-2 grid gap-1 text-sm text-ink sm:grid-cols-2">
-          <li>Cancelación: {{ policyLabels[rules.cancellationPolicy] }}</li>
-          <li>Check-in: {{ formatTime(rules.checkInTime) }}</li>
-          <li>Check-out: {{ formatTime(rules.checkOutTime) }}</li>
-          <li>Estancia: de {{ rules.minNights }} a {{ rules.maxNights }} noches</li>
-        </ul>
-        @if (rules.houseRules.length > 0) {
-          <ul class="mt-3 list-inside list-disc text-sm text-muted">
-            @for (rule of rules.houseRules; track rule) {
-              <li>{{ rule }}</li>
-            }
-          </ul>
-        }
       }
     </section>
 
-    <section class="rounded-card border border-line bg-white p-6 shadow-card">
-      <h2 class="font-display text-lg font-bold text-ink">Disponibilidad</h2>
-      <p class="mt-1 text-sm text-muted">
-        Consulta el estado día a día de la unidad para el rango que te interese.
-      </p>
+    <div class="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start">
+      <div class="space-y-6">
+        <section class="ui-card ui-card-pad">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h2 class="ui-section-title">{{ roomType(view.unit.roomType) }}</h2>
+              <p class="mt-1 text-sm text-muted">
+                {{ places(view.unit.maxGuests) }} en total ·
+                {{ view.occupancy.occupiedPlaces }} ocupadas ·
+                <strong class="text-ink">{{ view.occupancy.availablePlaces }} libres</strong>
+              </p>
+            </div>
+          </div>
 
-      <form [formRoot]="datesForm" class="mt-4 grid gap-4 sm:grid-cols-[1fr_1fr_auto]" novalidate>
-        <ui-form-field htmlFor="availability-from" label="Desde">
-          <input
-            id="availability-from"
-            type="date"
-            [formField]="datesForm.from"
-            class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
-          />
-        </ui-form-field>
-        <ui-form-field htmlFor="availability-to" label="Hasta">
-          <input
-            id="availability-to"
-            type="date"
-            [formField]="datesForm.to"
-            class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
-          />
-        </ui-form-field>
-        <div class="flex items-end">
-          <ui-button [loading]="availabilityLoading()">Consultar</ui-button>
-        </div>
-      </form>
+          <p class="mt-4 text-sm leading-relaxed text-ink-soft">
+            {{
+              view.unit.description ??
+                'El anfitrión aún no ha añadido una descripción de esta habitación.'
+            }}
+          </p>
 
-      <div class="mt-4 space-y-3">
-        <ui-alert [message]="availabilityError()" />
+          <h3 class="mt-6 text-sm font-bold text-ink">Características de la habitación</h3>
+          <dl class="mt-2 grid gap-2 sm:grid-cols-2">
+            <div class="flex items-center gap-2 rounded-xl bg-soft px-3 py-2.5 text-sm">
+              <ui-icon name="users" size="sm" class="text-brand-700" />
+              <dt class="text-muted">Capacidad</dt>
+              <dd class="ml-auto font-bold text-ink">{{ view.unit.maxGuests }}</dd>
+            </div>
+            <div class="flex items-center gap-2 rounded-xl bg-soft px-3 py-2.5 text-sm">
+              <ui-icon name="bath" size="sm" class="text-brand-700" />
+              <dt class="text-muted">Baño</dt>
+              <dd class="ml-auto font-bold text-ink">{{ bathroom(view.unit.bathroomType) }}</dd>
+            </div>
+            <div class="flex items-center gap-2 rounded-xl bg-soft px-3 py-2.5 text-sm">
+              <ui-icon
+                name="snowflake"
+                size="sm"
+                [class.text-brand-700]="view.unit.airConditioning"
+                [class.text-muted]="!view.unit.airConditioning"
+              />
+              <dt class="text-muted">Aire acondicionado</dt>
+              <dd class="ml-auto font-bold text-ink">
+                {{ view.unit.airConditioning ? 'Sí' : 'No' }}
+              </dd>
+            </div>
+            <div class="flex items-center gap-2 rounded-xl bg-soft px-3 py-2.5 text-sm">
+              <ui-icon
+                name="fan"
+                size="sm"
+                [class.text-brand-700]="view.unit.fan"
+                [class.text-muted]="!view.unit.fan"
+              />
+              <dt class="text-muted">Ventilador</dt>
+              <dd class="ml-auto font-bold text-ink">{{ view.unit.fan ? 'Sí' : 'No' }}</dd>
+            </div>
+          </dl>
 
-        @if (availability(); as days) {
-          @if (days.length === 0) {
-            <p class="text-sm text-muted">No hay días en el rango consultado.</p>
-          } @else {
-            <ul class="divide-y divide-line rounded-xl border border-line">
-              @for (day of days; track day.date) {
-                <li class="flex items-center justify-between gap-3 px-4 py-2.5">
-                  <span class="text-sm text-ink">{{ day.date | date: 'EEE d MMM y' }}</span>
-                  <span
-                    class="rounded-full px-3 py-1 text-xs font-bold"
-                    [class]="stateClasses(day.state)"
-                  >
-                    {{ stateLabel(day.state) }}
-                  </span>
-                </li>
+          @if (view.unit.commonAreas.length > 0) {
+            <h3 class="mt-6 text-sm font-bold text-ink">Acceso a zonas comunes</h3>
+            <ul class="mt-2 flex flex-wrap gap-2">
+              @for (area of view.unit.commonAreas; track area) {
+                <li class="ui-chip"><ui-icon name="check" size="xs" /> {{ area }}</li>
               }
             </ul>
-            <p class="text-xs text-muted">
-              «No disponible» incluye bloqueos del anfitrión y solicitudes en proceso; «Ocupado»
-              corresponde a reservas confirmadas.
+          }
+        </section>
+
+        @if (view.unit.roomType === 'COMPARTIDA') {
+          <section class="ui-card ui-card-pad">
+            <h2 class="ui-section-title">Con quién compartirías</h2>
+            <p class="mt-1 text-sm text-muted">
+              Solo mostramos el nombre y la foto de residentes que autorizaron compartir su perfil.
+            </p>
+            @if (roommates().length > 0) {
+              <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+                @for (roommate of roommates(); track roommate.userId) {
+                  <li class="flex items-center gap-3 rounded-xl border border-line p-3">
+                    <ui-avatar [name]="roommate.name" [src]="roommate.avatarUrl" size="md" />
+                    <div class="min-w-0">
+                      <p class="truncate text-sm font-bold text-ink">{{ roommate.name }}</p>
+                      <p class="text-xs text-muted">Residente actual</p>
+                    </div>
+                  </li>
+                }
+              </ul>
+            } @else {
+              <div class="mt-3 rounded-xl bg-soft px-4 py-3 text-sm text-muted">
+                Hay {{ view.occupancy.occupiedPlaces }} plazas ocupadas. Ningún residente actual ha
+                autorizado mostrar su perfil.
+              </div>
+            }
+            @if (roommatesError(); as error) {
+              <div class="mt-3"><ui-alert variant="info" [message]="error" /></div>
+            }
+          </section>
+        }
+
+        <section class="ui-card ui-card-pad">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h2 class="ui-section-title">La propiedad</h2>
+              <p class="mt-1 text-sm text-muted">
+                {{ view.property.description ?? 'Sin descripción general.' }}
+              </p>
+            </div>
+            <a [routerLink]="['/propiedades', view.property.id]" class="ui-link text-sm"
+              >Ver propiedad completa</a
+            >
+          </div>
+          @if (view.property.amenities.length > 0) {
+            <h3 class="mt-5 text-sm font-bold text-ink">Zonas y servicios comunes del inmueble</h3>
+            <ul class="mt-2 flex flex-wrap gap-2">
+              @for (amenity of view.property.amenities; track amenity) {
+                <li class="ui-chip">{{ amenity }}</li>
+              }
+            </ul>
+          }
+          @if (view.property.address; as address) {
+            <p class="mt-4 flex items-center gap-1.5 text-sm text-muted">
+              <ui-icon name="map-pin" size="sm" /> {{ address }}
             </p>
           }
-        } @else if (!availabilityLoading() && availabilityError() === null) {
-          <p class="text-sm text-muted">Aún no has consultado la disponibilidad.</p>
-        }
+          @if (view.propertyPhotos.length > 0) {
+            <div class="mt-4 grid grid-cols-3 gap-2">
+              @for (photo of view.propertyPhotos.slice(0, 3); track photo.id) {
+                <img
+                  [src]="photo.url"
+                  [alt]="'Zona común de ' + (view.property.title ?? 'la propiedad')"
+                  class="h-24 w-full rounded-xl object-cover"
+                />
+              }
+            </div>
+          }
+        </section>
       </div>
-    </section>
+
+      <aside class="space-y-4 lg:sticky lg:top-24">
+        <section class="ui-card ui-card-pad shadow-card">
+          <div class="flex items-end justify-between gap-3">
+            <div>
+              @if (view.unit.monthlyPrice; as price) {
+                <p class="font-display text-3xl font-extrabold tracking-tight text-ink">
+                  {{ price | currency: view.unit.currency : 'symbol-narrow' : '1.0-0' }}
+                  <span class="text-sm font-semibold text-muted">/ mes</span>
+                </p>
+                <p class="mt-1 text-xs font-semibold text-muted">
+                  {{ priceUnit(view.unit.priceUnit) }}
+                </p>
+              } @else {
+                <p class="font-bold text-muted">Precio a consultar</p>
+              }
+            </div>
+            <ui-availability-badge [label]="view.occupancy.label" />
+          </div>
+
+          <dl class="mt-4 grid grid-cols-3 gap-2 text-center">
+            <div class="rounded-xl bg-soft px-2 py-2">
+              <dt class="text-[10px] font-bold uppercase tracking-wide text-muted">Capacidad</dt>
+              <dd class="mt-0.5 font-display text-lg font-extrabold text-ink">
+                {{ view.occupancy.capacity }}
+              </dd>
+            </div>
+            <div class="rounded-xl bg-soft px-2 py-2">
+              <dt class="text-[10px] font-bold uppercase tracking-wide text-muted">Ocupadas</dt>
+              <dd class="mt-0.5 font-display text-lg font-extrabold text-ink">
+                {{ view.occupancy.occupiedPlaces }}
+              </dd>
+            </div>
+            <div class="rounded-xl bg-brand-50 px-2 py-2">
+              <dt class="text-[10px] font-bold uppercase tracking-wide text-brand-700">Libres</dt>
+              <dd class="mt-0.5 font-display text-lg font-extrabold text-brand-800">
+                {{ view.occupancy.availablePlaces }}
+              </dd>
+            </div>
+          </dl>
+
+          <div class="mt-4 space-y-2">
+            @if (canRequest()) {
+              <a
+                [routerLink]="['/reservas/nueva']"
+                [queryParams]="{ publication: view.publication.id, unidad: view.unit.id }"
+                class="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-700 px-4 text-sm font-extrabold text-white transition hover:bg-brand-600"
+              >
+                <ui-icon name="key" size="sm" /> Solicitar una plaza
+              </a>
+              <p class="text-center text-[11px] leading-relaxed text-muted">
+                El anfitrión revisa tu solicitud. Aceptar ocupa una plaza; no se cobra nada aquí.
+              </p>
+            } @else if (!hasGuestRole()) {
+              <div class="rounded-xl bg-soft px-3 py-3 text-xs leading-relaxed text-muted">
+                Para solicitar una plaza necesitas un rol de huésped activo.
+                <a routerLink="/seleccionar-rol" class="ui-link">Elegir rol</a>
+              </div>
+            } @else if (!view.occupancy.published) {
+              <div class="rounded-xl bg-soft px-3 py-3 text-xs leading-relaxed text-muted">
+                La habitación está pausada por el anfitrión y no acepta solicitudes aunque tenga
+                plazas libres.
+              </div>
+            } @else {
+              <div class="rounded-xl bg-soft px-3 py-3 text-xs leading-relaxed text-muted">
+                La habitación está completa. Puedes contactar al anfitrión para consultar próximas
+                plazas.
+              </div>
+            }
+
+            <ui-button
+              variant="secondary"
+              type="button"
+              [full]="true"
+              [loading]="contactBusy()"
+              (click)="contactHost()"
+            >
+              <ui-icon name="message" size="sm" /> Contactar al anfitrión
+            </ui-button>
+            <ui-alert [message]="contactError()" />
+          </div>
+        </section>
+
+        <section class="ui-card ui-card-pad">
+          <h2 class="font-display text-lg font-extrabold text-ink">Tu anfitrión</h2>
+          @if (view.host; as host) {
+            <div class="mt-3 flex items-center gap-3">
+              <ui-avatar [name]="host.name" [src]="host.avatarUrl" size="lg" />
+              <div class="min-w-0">
+                <p class="truncate font-bold text-ink">
+                  {{ host.name ?? 'Anfitrión de ColivinApp' }}
+                </p>
+                <p class="text-xs text-muted">Contacto solo por la mensajería de la app</p>
+              </div>
+            </div>
+          } @else {
+            <p class="mt-2 text-sm text-muted">El anfitrión no ha completado su perfil público.</p>
+          }
+        </section>
+      </aside>
+    </div>
   }
 </div>

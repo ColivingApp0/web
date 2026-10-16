@@ -1,12 +1,14 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Currency, ListingView } from '../models/listings-models';
+import { UiAvailabilityBadge } from './availability-badge';
+import { UiIcon } from '../../../shared/ui/icon';
+import { ListingView, bathroomLabel, priceUnitLabel } from '../models/listings-models';
 
-/** Tarjeta de un resultado real de búsqueda (presentacional; el estado de favorito llega por inputs). */
+/** Tarjeta de una habitación publicada, con foto, precio mensual y plazas. */
 @Component({
   selector: 'app-listing-card',
-  imports: [CurrencyPipe, RouterLink],
+  imports: [CurrencyPipe, RouterLink, UiAvailabilityBadge, UiIcon],
   templateUrl: './listing-card.html',
 })
 export class ListingCard {
@@ -15,8 +17,19 @@ export class ListingCard {
   readonly favoritePending = input(false);
   readonly favoriteToggle = output<string>();
 
-  protected readonly price = computed<{ value: number; currency: Currency } | null>(() => {
-    const { pricePerNight, currency } = this.listing();
-    return pricePerNight !== null && currency !== null ? { value: pricePerNight, currency } : null;
+  protected readonly photo = computed(
+    () => this.listing().photoUrl ?? this.listing().propertyPhotoUrl,
+  );
+  protected readonly location = computed(() => {
+    const listing = this.listing();
+    return [listing.neighborhood, listing.cityName].filter(Boolean).join(', ');
+  });
+  protected readonly priceUnit = computed(() => priceUnitLabel(this.listing().priceUnit));
+  protected readonly bathroom = computed(() => bathroomLabel(this.listing().bathroomType));
+  protected readonly capacityLabel = computed(() => {
+    const listing = this.listing();
+    return listing.roomType === 'COMPARTIDA'
+      ? `${listing.capacity} plazas en total`
+      : 'Para una persona';
   });
 }

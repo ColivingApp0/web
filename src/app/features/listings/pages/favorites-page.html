@@ -19,12 +19,12 @@
     <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
       <p class="font-bold text-ink">Aún no tienes favoritos guardados.</p>
       <p class="mt-1 text-sm text-muted">
-        Explora alojamientos y guárdalos con el corazón para verlos aquí.
+        Explora habitaciones y guárdalas con el corazón para verlas aquí.
       </p>
       <a
         routerLink="/alojamientos"
         class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
-        >Explorar alojamientos</a
+        >Explorar habitaciones</a
       >
     </div>
   } @else {
@@ -35,7 +35,7 @@
         >
           <div class="min-w-0">
             @if (row.unavailable) {
-              <p class="font-bold text-ink">Alojamiento no disponible</p>
+              <p class="font-bold text-ink">Habitación no disponible</p>
               <p class="mt-0.5 text-sm text-muted">
                 Puede haberse pausado o archivado desde que lo guardaste.
               </p>
@@ -43,7 +43,7 @@
               <p class="font-bold text-ink">{{ row.title }}</p>
               <p class="mt-0.5 text-sm text-muted">
                 @if (row.price !== null && row.currency; as currency) {
-                  {{ row.price | currency: currency : 'symbol-narrow' : '1.0-0' }} / noche ·
+                  {{ row.price | currency: currency : 'symbol-narrow' : '1.0-0' }} / mes ·
                 }
                 Guardado el {{ row.createdAt | date: 'mediumDate' }}
               </p>

@@ -1,69 +1,35 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormField as SignalFormField, FormRoot, form } from '@angular/forms/signals';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthSession } from '../../../core/auth/auth-session';
 import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
+import { UiAvailabilityBadge } from '../ui/availability-badge';
+import { UiAvatar } from '../../../shared/ui/avatar';
 import { UiButton } from '../../../shared/ui/button';
-import { UiFormField } from '../../../shared/ui/form-field';
+import { UiIcon } from '../../../shared/ui/icon';
+import { MessagingApi } from '../../messaging/data-access/messaging-api';
 import { ListingsApi } from '../data-access/listings-api';
-import {
-  AvailabilityState,
-  CancellationPolicy,
-  DayAvailabilityView,
-} from '../models/listings-models';
+import { bathroomLabel, priceUnitLabel, roomTypeLabel } from '../models/listings-models';
+import { placesLabel } from '../../../shared/utils/plural';
 import { FavoritesStore } from '../state/favorites-store';
 
-const POLICY_LABELS: Record<CancellationPolicy, string> = {
-  FLEXIBLE: 'Flexible',
-  MODERADA: 'Moderada',
-  ESTRICTA: 'Estricta',
-};
-
-const STATE_META: Record<AvailabilityState, { label: string; classes: string }> = {
-  DISPONIBLE: { label: 'Disponible', classes: 'bg-brand-700/10 text-brand-800' },
-  BLOQUEADO: { label: 'No disponible', classes: 'bg-accent-500/15 text-accent-600' },
-  OCUPADO: { label: 'Ocupado', classes: 'bg-red-100 text-red-800' },
-};
-
-function isoDate(date: Date): string {
-  return date.toISOString().slice(0, 10);
-}
-
-function addDays(date: Date, days: number): Date {
-  const copy = new Date(date);
-  copy.setDate(copy.getDate() + days);
-  return copy;
-}
-
-interface DatesModel {
-  from: string;
-  to: string;
-}
-
 /**
- * Detalle de una publicación (RF-033) y su disponibilidad día a día
- * (`GET /publications/{id}/availability`, intervalo [from, to)).
+ * Detalle de una habitación publicada: fotos propias, características,
+ * capacidad, ocupación, plazas libres, precio mensual, anfitrión, compañeros
+ * autorizados y acciones de contacto/solicitud.
  */
 @Component({
   selector: 'app-detail-page',
-  imports: [
-    RouterLink,
-    CurrencyPipe,
-    DatePipe,
-    UiAlert,
-    UiButton,
-    UiFormField,
-    SignalFormField,
-    FormRoot,
-  ],
+  imports: [CurrencyPipe, RouterLink, UiAlert, UiAvailabilityBadge, UiAvatar, UiButton, UiIcon],
   templateUrl: './detail-page.html',
 })
 export class DetailPage {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly api = inject(ListingsApi);
+  private readonly messaging = inject(MessagingApi);
   protected readonly favorites = inject(FavoritesStore);
   protected readonly session = inject(AuthSession);
 
@@ -86,91 +52,90 @@ export class DetailPage {
     if (!error) return null;
     const apiError = toApiError(error);
     return apiError.code === 'NOT_FOUND'
-      ? 'No encontramos este alojamiento: puede haberse pausado, archivado o no existir.'
+      ? 'No encontramos esta habitación: puede haberse pausado, archivado o no existir.'
       : apiError.message;
   });
 
-  protected readonly policyLabels = POLICY_LABELS;
-
-  private readonly today = new Date();
-  private readonly datesModel = signal<DatesModel>({
-    from: isoDate(this.today),
-    to: isoDate(addDays(this.today, 14)),
-  });
-
-  protected readonly datesForm = form(this.datesModel, {
-    submission: {
-      action: async () => {
-        await this.loadAvailability();
-        return undefined;
-      },
+  protected readonly roommatesResource = resource({
+    params: () => {
+      const detail = this.detail();
+      return detail && detail.unit.roomType === 'COMPARTIDA' ? detail.publication.id : null;
     },
+    loader: ({ params }) => (params === null ? Promise.resolve([]) : this.api.roommates(params)),
   });
 
-  protected readonly availability = signal<readonly DayAvailabilityView[] | null>(null);
-  protected readonly availabilityLoading = signal(false);
-  protected readonly availabilityError = signal<string | null>(null);
+  protected readonly roommates = computed(() => this.roommatesResource.value() ?? []);
+  protected readonly roommatesError = computed(() => {
+    const error = this.roommatesResource.error();
+    return error ? toApiError(error).message : null;
+  });
 
-  /** Fechas que el huésped está consultando: se trasladan a la solicitud de reserva. */
-  protected readonly selectedDates = computed(() => this.datesModel());
+  protected readonly photos = computed(() => this.detail()?.unit.photos ?? []);
+  protected readonly photoIndex = signal(0);
+  protected readonly activePhoto = computed(() => {
+    const photos = this.photos();
+    return photos[this.photoIndex()] ?? photos[0] ?? this.detail()?.propertyPhotos[0] ?? null;
+  });
 
-  /** El usuario tiene algún rol de huésped activo (mismo criterio que el backend). */
+  protected readonly location = computed(() => {
+    const detail = this.detail();
+    if (!detail) return '';
+    return [detail.property.neighborhood, detail.property.cityName].filter(Boolean).join(', ');
+  });
   protected readonly hasGuestRole = computed(() =>
     (this.session.user()?.roles ?? []).some(
       (role) => role.active && role.code.startsWith('HUESPED'),
     ),
   );
-
-  /**
-   * El backend solo admite solicitudes sobre publicaciones `PUBLICADA` con precio
-   * configurado (RN-03 + `UnitBookingQuery`) y con rol de huésped activo; el CTA se
-   * muestra solo cuando esas condiciones reales se cumplen.
-   */
-  protected readonly canRequestReservation = computed(() => {
+  protected readonly canRequest = computed(() => {
     const detail = this.detail();
-    return (
-      detail !== null &&
-      detail.publication.status === 'PUBLICADA' &&
-      detail.pricing !== null &&
-      this.hasGuestRole()
-    );
+    return detail !== null && detail.occupancy.effectiveAvailable && this.hasGuestRole();
   });
 
-  protected stateLabel(state: AvailabilityState): string {
-    return STATE_META[state].label;
+  protected readonly places = placesLabel;
+
+  protected readonly contactBusy = signal(false);
+  protected readonly contactError = signal<string | null>(null);
+
+  protected selectPhoto(index: number): void {
+    this.photoIndex.set(index);
   }
 
-  protected stateClasses(state: AvailabilityState): string {
-    return STATE_META[state].classes;
+  protected priceUnit(unit: 'POR_HABITACION' | 'POR_PERSONA'): string {
+    return priceUnitLabel(unit);
   }
 
-  protected formatTime(value: string): string {
-    return value.slice(0, 5);
+  protected roomType(unit: 'INDIVIDUAL' | 'COMPARTIDA'): string {
+    return roomTypeLabel(unit);
+  }
+
+  protected bathroom(unit: 'PRIVADO' | 'COMPARTIDO'): string {
+    return bathroomLabel(unit);
   }
 
   protected retry(): void {
     this.detailResource.reload();
+    this.roommatesResource.reload();
   }
 
-  private async loadAvailability(): Promise<void> {
-    const { from, to } = this.datesModel();
-    if (from === '' || to === '') {
-      this.availabilityError.set('Indica las fechas «desde» y «hasta».');
-      return;
-    }
-    if (to <= from) {
-      this.availabilityError.set('La fecha «hasta» debe ser posterior a «desde».');
-      return;
-    }
-    this.availabilityLoading.set(true);
-    this.availabilityError.set(null);
+  /** Abre (o reutiliza) el hilo directo sobre esta habitación y navega a él. */
+  protected async contactHost(): Promise<void> {
+    const detail = this.detail();
+    if (!detail || this.contactBusy()) return;
+    this.contactBusy.set(true);
+    this.contactError.set(null);
     try {
-      this.availability.set(await this.api.availability(this.publicationId(), from, to));
+      const conversation = await this.messaging.openConversationForUnit(detail.unit.id);
+      await this.router.navigate(['/mensajes', conversation.conversation.id]);
     } catch (error) {
-      this.availabilityError.set(toApiError(error).message);
-      this.availability.set(null);
+      const apiError = toApiError(error);
+      this.contactError.set(
+        apiError.status === 403
+          ? 'No puedes abrir una conversación con tu propio anuncio.'
+          : apiError.message,
+      );
     } finally {
-      this.availabilityLoading.set(false);
+      this.contactBusy.set(false);
     }
   }
 }
