@@ -3,27 +3,33 @@ import { Service, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { API_BASE } from '../../../core/http/api-base';
 import {
-  DayAvailabilityView,
   FavoriteView,
   ListingView,
+  PropertyDetailView,
   PublicationDetailView,
+  RoommateView,
   SearchFilters,
 } from '../models/listings-models';
 
-/** Lecturas públicas de alojamientos (search + accommodation) y favoritos (RF-030/033/034). */
+/** Lecturas públicas de habitaciones/propiedades y favoritos. */
 @Service()
 export class ListingsApi {
   private readonly http = inject(HttpClient);
 
   list(filters: SearchFilters): Promise<ListingView[]> {
     const query: Record<string, string> = {};
+    if (filters.q) query['q'] = filters.q;
     if (filters.minPrice != null) query['minPrice'] = String(filters.minPrice);
     if (filters.maxPrice != null) query['maxPrice'] = String(filters.maxPrice);
     if (filters.currency) query['currency'] = filters.currency;
-    if (filters.availableFrom) query['availableFrom'] = filters.availableFrom;
-    if (filters.availableTo) query['availableTo'] = filters.availableTo;
     if (filters.sort) query['sort'] = filters.sort;
-    if (filters.minNights != null) query['minNights'] = String(filters.minNights);
+    if (filters.minCapacity != null) query['minCapacity'] = String(filters.minCapacity);
+    if (filters.availableOnly != null) query['availableOnly'] = String(filters.availableOnly);
+    if (filters.airConditioning != null) query['airConditioning'] = String(filters.airConditioning);
+    if (filters.fan != null) query['fan'] = String(filters.fan);
+    if (filters.bathroomType) query['bathroomType'] = filters.bathroomType;
+    if (filters.roomType) query['roomType'] = filters.roomType;
+    if (filters.propertyId) query['propertyId'] = filters.propertyId;
     return firstValueFrom(
       this.http.get<ListingView[]>(`${API_BASE}/search/listings`, {
         params: new HttpParams({ fromObject: query }),
@@ -37,14 +43,15 @@ export class ListingsApi {
     );
   }
 
-  availability(publicationId: string, from: string, to: string): Promise<DayAvailabilityView[]> {
+  property(propertyId: string): Promise<PropertyDetailView> {
     return firstValueFrom(
-      this.http.get<DayAvailabilityView[]>(
-        `${API_BASE}/publications/${publicationId}/availability`,
-        {
-          params: new HttpParams({ fromObject: { from, to } }),
-        },
-      ),
+      this.http.get<PropertyDetailView>(`${API_BASE}/properties/${propertyId}`),
+    );
+  }
+
+  roommates(publicationId: string): Promise<RoommateView[]> {
+    return firstValueFrom(
+      this.http.get<RoommateView[]>(`${API_BASE}/publications/${publicationId}/roommates`),
     );
   }
 
