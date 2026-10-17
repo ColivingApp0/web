@@ -3,49 +3,40 @@ import { Service, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { API_BASE } from '../../../core/http/api-base';
 import {
-  BookingCancellationPolicy,
   BookingContext,
   BookingCurrency,
-  HostUnitRef,
+  BookingPriceUnit,
+  GuestUnitRef,
 } from '../models/bookings-models';
 
-/** Forma mínima que este contexto lee de `GET /publications/{id}`. */
+/** Forma mínima que este contexto lee del detalle público de una habitación. */
 interface PublicationDetailResponse {
   publication: { id: string; unitId: string; title: string; status: string };
-  property: { id: string; title: string | null; address: string | null };
-  unit: { id: string; name: string; maxGuests: number };
-  pricing: { basePricePerNight: number; currency: BookingCurrency } | null;
-  rules: {
-    cancellationPolicy: BookingCancellationPolicy;
-    minNights: number;
-    maxNights: number;
-  } | null;
+  property: {
+    title: string | null;
+    cityName: string | null;
+    neighborhood: string | null;
+    photos: { url: string }[];
+  };
+  unit: {
+    id: string;
+    name: string;
+    maxGuests: number;
+    monthlyPrice: number | null;
+    currency: BookingCurrency;
+    priceUnit: BookingPriceUnit;
+    photos: { url: string }[];
+  };
+  occupancy: {
+    capacity: number;
+    occupiedPlaces: number;
+    availablePlaces: number;
+    published: boolean;
+    effectiveAvailable: boolean;
+  };
 }
 
-/** Forma mínima que este contexto lee de `GET /host/properties[/{id}/units]`. */
-interface HostPropertyResponse {
-  id: string;
-  title: string | null;
-}
-interface HostUnitResponse {
-  id: string;
-  name: string;
-}
-
-/**
- * Lecturas de apoyo del contexto `booking`, deliberadamente **estrechas**:
- *
- * - `bookingContext`: la foto de la publicación que el formulario de solicitud
- *   necesita (capacidad, precio vigente, política, estancias). Es una vista
- *   pública del alojamiento que el huésped está solicitando, no un acceso a la
- *   gestión interna del anfitrión.
- * - `hostUnits`: índice `unitId → nombre` para la bandeja del anfitrión, usando
- *   los endpoints **propios del anfitrión** (nunca rutas públicas para
- *   reconstruir publicaciones: ver ADR-005 y su deuda documentada).
- *
- * Si un tercer consumidor necesita estos contratos, se promueve un modelo
- * transversal; hoy solo `bookings` los usa.
- */
+/** Lecturas de apoyo del formulario de solicitud (proyección estrecha). */
 @Service()
 export class BookingLookupApi {
   private readonly http = inject(HttpClient);
@@ -54,32 +45,35 @@ export class BookingLookupApi {
     const detail = await firstValueFrom(
       this.http.get<PublicationDetailResponse>(`${API_BASE}/publications/${publicationId}`),
     );
-    const pricing = detail.pricing;
     return {
       publicationId: detail.publication.id,
       unitId: detail.unit.id,
       unitName: detail.unit.name,
       propertyTitle: detail.property.title,
-      propertyAddress: detail.property.address,
+      cityName: detail.property.cityName,
+      neighborhood: detail.property.neighborhood,
       maxGuests: detail.unit.maxGuests,
-      // El backend exige pricing para poder reservar (`UnitBookingQuery`); un
-      // valor 0 aquí solo alimenta la previsualización y se anota en la UI.
-      pricePerNight: pricing?.basePricePerNight ?? 0,
-      currency: pricing?.currency ?? 'COP',
-      cancellationPolicy: detail.rules?.cancellationPolicy ?? null,
-      minNights: detail.rules?.minNights ?? null,
-      maxNights: detail.rules?.maxNights ?? null,
+      occupiedPlaces: detail.occupancy.occupiedPlaces,
+      availablePlaces: detail.occupancy.availablePlaces,
+      monthlyPrice: detail.unit.monthlyPrice ?? 0,
+      currency: detail.unit.currency,
+      priceUnit: detail.unit.priceUnit,
+      photoUrl: detail.unit.photos[0]?.url ?? detail.property.photos[0]?.url ?? null,
+      published: detail.occupancy.published,
+      effectiveAvailable: detail.occupancy.effectiveAvailable,
     };
   }
 
-  async hostUnits(): Promise<HostUnitRef[]> {
+  async hostUnits(): Promise<GuestUnitRef[]> {
     const properties = await firstValueFrom(
-      this.http.get<HostPropertyResponse[]>(`${API_BASE}/host/properties`),
+      this.http.get<{ id: string }[]>(`${API_BASE}/host/properties`),
     );
     const unitsPerProperty = await Promise.all(
       properties.map(async (property) => {
         const units = await firstValueFrom(
-          this.http.get<HostUnitResponse[]>(`${API_BASE}/host/properties/${property.id}/units`),
+          this.http.get<{ id: string; name: string }[]>(
+            `${API_BASE}/host/properties/${property.id}/units`,
+          ),
         );
         return units.map((unit) => ({ unitId: unit.id, name: unit.name, propertyId: property.id }));
       }),
