@@ -1,193 +1,123 @@
-<div class="space-y-6">
+<div class="mx-auto max-w-3xl space-y-6">
   <a
     [routerLink]="['/alojamientos', publicationId()]"
-    class="inline-block text-sm font-bold text-muted hover:text-ink"
-    >← Volver al alojamiento</a
+    class="inline-flex items-center gap-1 text-sm font-bold text-muted hover:text-ink"
   >
+    <ui-icon name="arrow-left" size="sm" /> Volver a la habitación
+  </a>
 
-  <div>
-    <h1 class="font-display text-2xl font-extrabold text-ink">Solicitar reserva</h1>
-    <p class="mt-1 text-sm text-muted">
-      El anfitrión decide si acepta. Si acepta, tendrás un plazo para confirmar y cerrar la reserva.
+  <header>
+    <p class="ui-eyebrow">Solicitud mensual</p>
+    <h1 class="mt-1 font-display text-3xl font-extrabold tracking-tight text-ink">
+      Solicitar una plaza
+    </h1>
+    <p class="mt-2 text-sm leading-relaxed text-muted">
+      El anfitrión revisa tu perfil y decide. Si acepta, la plaza queda ocupada; no hay pagos ni
+      calendarios en este paso.
     </p>
-  </div>
+  </header>
 
   @if (publicationId() === '') {
-    <div class="rounded-card border border-line bg-white p-6 shadow-card">
+    <div class="ui-card ui-card-pad space-y-3">
       <ui-alert
-        message="Falta el alojamiento a solicitar. Abre la ficha del alojamiento y usa «Solicitar reserva»."
+        message="Falta la habitación a solicitar. Abre su ficha y usa «Solicitar una plaza»."
       />
-      <div class="mt-4">
-        <a
-          routerLink="/alojamientos"
-          class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
-          >Ver alojamientos</a
-        >
-      </div>
+      <a routerLink="/alojamientos" class="ui-link text-sm">Explorar habitaciones</a>
     </div>
   } @else if (contextLoading()) {
-    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
-      Cargando el alojamiento…
-    </p>
-  } @else if (contextError(); as error) {
-    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
-      <ui-alert [message]="error" />
-      <ui-button type="button" variant="secondary" (click)="retryContext()">Reintentar</ui-button>
+    <div class="ui-card overflow-hidden">
+      <div class="ui-skeleton aspect-[16/7] rounded-none"></div>
+      <div class="space-y-2 p-5">
+        <div class="ui-skeleton h-5 w-1/2"></div>
+        <div class="ui-skeleton h-3 w-2/3"></div>
+      </div>
     </div>
-  } @else if (context(); as unit) {
-    <section class="rounded-card border border-line bg-white p-6 shadow-card">
-      <h2 class="font-display text-lg font-bold text-ink">{{ unit.unitName }}</h2>
-      @if (unit.propertyTitle; as title) {
-        <p class="mt-1 text-sm text-muted">{{ title }}</p>
+  } @else if (contextError(); as error) {
+    <div class="ui-card ui-card-pad space-y-3">
+      <ui-alert [message]="error" />
+      <ui-button variant="secondary" type="button" (click)="retryContext()">Reintentar</ui-button>
+    </div>
+  } @else if (context(); as room) {
+    <section class="ui-card overflow-hidden">
+      @if (room.photoUrl; as photo) {
+        <img [src]="photo" [alt]="room.unitName" class="aspect-[16/7] w-full object-cover" />
       }
-      @if (unit.propertyAddress; as address) {
-        <p class="mt-0.5 text-xs text-muted">{{ address }}</p>
-      }
-
-      <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-        <div>
-          <dt class="text-xs font-semibold uppercase tracking-wide text-muted">Capacidad</dt>
-          <dd class="text-ink">{{ unit.maxGuests }} huésped(es)</dd>
+      <div class="p-5">
+        <p class="text-xs font-bold uppercase tracking-wide text-brand-700">
+          {{ room.propertyTitle }}
+        </p>
+        <h2 class="mt-1 font-display text-xl font-extrabold text-ink">{{ room.unitName }}</h2>
+        <p class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+          @if (room.neighborhood || room.cityName) {
+            <span class="flex items-center gap-1"
+              ><ui-icon name="map-pin" size="sm" /> {{ room.neighborhood
+              }}{{ room.neighborhood && room.cityName ? ', ' : '' }}{{ room.cityName }}</span
+            >
+          }
+          <span class="flex items-center gap-1"
+            ><ui-icon name="users" size="sm" /> {{ room.availablePlaces }} de
+            {{ room.maxGuests }} plazas libres</span
+          >
+        </p>
+        <div class="mt-4 flex items-end justify-between gap-3 rounded-xl bg-soft px-4 py-3">
+          <div>
+            <p class="font-display text-2xl font-extrabold text-ink">
+              {{ room.monthlyPrice | currency: room.currency : 'symbol-narrow' : '1.0-0' }}
+              <span class="text-sm font-semibold text-muted">/ mes</span>
+            </p>
+            <p class="text-xs font-semibold text-muted">{{ priceUnit() }}</p>
+          </div>
+          <span class="ui-chip">Solicitas 1 plaza</span>
         </div>
-        <div>
-          <dt class="text-xs font-semibold uppercase tracking-wide text-muted">Precio por noche</dt>
-          <dd class="text-ink">
-            @if (unit.pricePerNight > 0) {
-              {{ unit.pricePerNight | currency: unit.currency : 'symbol-narrow' : '1.0-2' }}
-            } @else {
-              Sin precio configurado
-            }
-          </dd>
-        </div>
-        <div>
-          <dt class="text-xs font-semibold uppercase tracking-wide text-muted">
-            Política de cancelación
-          </dt>
-          <dd class="text-ink">
-            @if (unit.cancellationPolicy; as policy) {
-              {{ policyLabels[policy] }}
-            } @else {
-              Sin definir
-            }
-          </dd>
-        </div>
-        <div>
-          <dt class="text-xs font-semibold uppercase tracking-wide text-muted">
-            Estancia declarada
-          </dt>
-          <dd class="text-ink">
-            @if (unit.minNights !== null || unit.maxNights !== null) {
-              {{ unit.minNights ?? '—' }}–{{ unit.maxNights ?? '—' }} noches
-            } @else {
-              Sin definir
-            }
-          </dd>
-        </div>
-      </dl>
-
-      @if (missingPricing()) {
-        <div class="mt-4">
-          <ui-alert
-            variant="info"
-            message="Esta publicación no tiene precio configurado: la API rechazará la solicitud (responde 404 porque exige publicación y precio)."
-          />
-        </div>
-      }
-
-      <p class="mt-4 text-xs text-muted">
-        El precio, la moneda y la política se congelan al crear la solicitud (RN-07): cambios
-        posteriores del anfitrión no alteran tu reserva. La API valida el rango, la capacidad y tu
-        verificación; los mínimos/máximos declarados por el anfitrión no se aplican al crear (solo
-        el límite de {{ maxNights }} noches), así que no bloqueamos el envío por ellos.
-      </p>
+      </div>
     </section>
 
-    <section class="rounded-card border border-line bg-white p-6 shadow-card">
-      <h2 class="mb-4 font-display text-lg font-bold text-ink">Datos de la solicitud</h2>
+    @if (!room.effectiveAvailable) {
+      <ui-alert
+        variant="warning"
+        message="Esta habitación ya no tiene plazas libres o el anfitrión la pausó. Vuelve a la ficha para ver su estado actual."
+      />
+    }
 
-      <form [formRoot]="requestForm" class="space-y-4" novalidate>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <ui-form-field htmlFor="booking-from" label="Entrada (desde)" [error]="fromError()">
-            <input
-              id="booking-from"
-              type="date"
-              [formField]="requestForm.from"
-              [attr.aria-describedby]="fromError() ? 'booking-from-error' : null"
-              [attr.aria-invalid]="fromError() ? 'true' : null"
-              class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
-            />
-          </ui-form-field>
-
-          <ui-form-field htmlFor="booking-to" label="Salida (hasta)" [error]="toError()">
-            <input
-              id="booking-to"
-              type="date"
-              [formField]="requestForm.to"
-              [attr.aria-describedby]="toError() ? 'booking-to-error' : null"
-              [attr.aria-invalid]="toError() ? 'true' : null"
-              class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
-            />
-          </ui-form-field>
-        </div>
-
-        <p class="text-xs text-muted">
-          El rango usa la convención [entrada, salida): la noche de la salida no se cuenta.
-          @if (nights() > 0) {
-            Esta solicitud es de <strong>{{ nights() }}</strong> noche(s).
-          }
-        </p>
-
-        <ui-form-field
-          htmlFor="booking-occupants"
-          label="Huéspedes"
-          [error]="occupantsError()"
-          [hint]="'La unidad admite hasta ' + unit.maxGuests + ' huésped(es).'"
-        >
-          <input
-            id="booking-occupants"
-            type="text"
-            inputmode="numeric"
-            [formField]="requestForm.occupants"
-            [attr.aria-describedby]="occupantsError() ? 'booking-occupants-error' : null"
-            [attr.aria-invalid]="occupantsError() ? 'true' : null"
-            class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
-          />
-        </ui-form-field>
-
+    <section class="ui-card ui-card-pad">
+      <h2 class="font-display text-lg font-extrabold text-ink">Cuéntale al anfitrión</h2>
+      <p class="mt-1 text-sm text-muted">
+        Opcional. Puedes explicar tu situación, cuándo te mudarías o resolver dudas de convivencia.
+      </p>
+      <form [formRoot]="requestForm" class="mt-4 space-y-4" novalidate>
         <ui-form-field
           htmlFor="booking-message"
-          label="Mensaje para el anfitrión (opcional)"
-          hint="Cuéntale quién eres y para cuándo necesitas la estancia."
+          label="Mensaje para el anfitrión"
+          [error]="messageError()"
+          hint="Máximo 600 caracteres."
         >
           <textarea
             id="booking-message"
-            rows="3"
+            rows="4"
+            placeholder="Hola, soy estudiante y busco una plaza desde el próximo mes…"
             [formField]="requestForm.message"
-            class="w-full resize-y rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+            [attr.aria-describedby]="messageError() ? 'booking-message-error' : null"
+            [attr.aria-invalid]="messageError() ? 'true' : null"
+            class="ui-textarea"
           ></textarea>
         </ui-form-field>
 
-        @if (estimated(); as total) {
-          <p class="rounded-xl border border-line bg-soft px-4 py-3 text-sm text-ink">
-            Total estimado ({{ nights() }} noche ×
-            {{ unit.pricePerNight | currency: unit.currency : 'symbol-narrow' : '1.0-2' }}):
-            <strong class="text-ink">{{
-              total | currency: unit.currency : 'symbol-narrow' : '1.0-2'
-            }}</strong>
-          </p>
-        }
-
         <ui-alert [message]="actionError()" />
-
         @if (verificationGate()) {
-          <p class="text-sm">
-            <a routerLink="/perfil/verificacion" class="font-bold text-brand-700 hover:underline"
+          <p>
+            <a routerLink="/perfil/verificacion" class="ui-link text-sm"
               >Revisar mi verificación de identidad</a
             >
           </p>
         }
 
-        <ui-button [loading]="submitting()">Enviar solicitud</ui-button>
+        <ui-button [loading]="submitting()" [disabled]="!canSubmit()">
+          <ui-icon name="key" size="sm" /> Enviar solicitud
+        </ui-button>
+        <p class="text-xs text-muted">
+          No se realiza ningún cobro. La solicitud queda pendiente hasta que el anfitrión la acepte
+          o rechace.
+        </p>
       </form>
     </section>
   }

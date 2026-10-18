@@ -1,66 +1,189 @@
 <div class="space-y-6">
-  <div>
-    <h1 class="font-display text-2xl font-extrabold text-ink">Reservas recibidas</h1>
-    <p class="mt-1 text-sm text-muted">
-      Decide sobre las solicitudes de tus unidades. Aceptar bloquea los días y abre un plazo de
-      confirmación para el huésped; rechazar o cancelar los libera.
-    </p>
-  </div>
+  <ui-page-header
+    eyebrow="Anfitrión"
+    title="Solicitudes recibidas"
+    description="Aceptar ocupa una plaza de inmediato. Rechazar o cancelar no consumen plazas. Revisa siempre las plazas libres antes de aceptar."
+  >
+    <a
+      routerLink="/anfitrion"
+      class="flex min-h-11 items-center gap-2 rounded-xl border border-line px-4 text-sm font-bold text-ink transition hover:bg-soft"
+    >
+      <ui-icon name="home" size="sm" /> Panel del anfitrión
+    </a>
+  </ui-page-header>
 
   @if (successMessage(); as message) {
     <ui-alert variant="success" [message]="message" />
   }
   <ui-alert [message]="actionError()" />
 
+  <div class="ui-scroll-x" role="tablist" aria-label="Filtrar solicitudes">
+    <button
+      type="button"
+      role="tab"
+      [attr.aria-selected]="filter() === 'PENDIENTES'"
+      class="flex min-h-10 items-center gap-2 rounded-pill border px-4 text-sm font-bold transition"
+      [class]="
+        filter() === 'PENDIENTES'
+          ? 'border-brand-700 bg-brand-700 text-white'
+          : 'border-line bg-white text-ink hover:bg-soft'
+      "
+      (click)="filter.set('PENDIENTES')"
+    >
+      Pendientes
+      <span
+        class="rounded-full px-1.5 text-[10px]"
+        [class]="filter() === 'PENDIENTES' ? 'bg-white/20' : 'bg-soft'"
+        >{{ pendingCount() }}</span
+      >
+    </button>
+    <button
+      type="button"
+      role="tab"
+      [attr.aria-selected]="filter() === 'TODAS'"
+      class="flex min-h-10 items-center gap-2 rounded-pill border px-4 text-sm font-bold transition"
+      [class]="
+        filter() === 'TODAS'
+          ? 'border-brand-700 bg-brand-700 text-white'
+          : 'border-line bg-white text-ink hover:bg-soft'
+      "
+      (click)="filter.set('TODAS')"
+    >
+      Todas
+    </button>
+  </div>
+
   @if (loading()) {
-    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
-      Cargando reservas recibidas…
-    </p>
+    <div class="space-y-4">
+      @for (item of [1, 2]; track item) {
+        <div class="ui-card p-4">
+          <div class="flex gap-4">
+            <div class="ui-skeleton h-28 w-40"></div>
+            <div class="flex-1 space-y-2">
+              <div class="ui-skeleton h-4 w-1/2"></div>
+              <div class="ui-skeleton h-3 w-2/3"></div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
   } @else if (loadError(); as error) {
-    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+    <div class="ui-card ui-card-pad space-y-3">
       <ui-alert [message]="error" />
-      <ui-button type="button" variant="secondary" (click)="retry()">Reintentar</ui-button>
+      <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
     </div>
-  } @else if (reservations().length === 0) {
-    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
-      <p class="font-bold text-ink">No tienes solicitudes por ahora.</p>
-      <p class="mt-1 text-sm text-muted">
-        Cuando un huésped solicite una de tus unidades publicadas, aparecerá aquí.
-      </p>
-    </div>
+  } @else if (filtered().length === 0) {
+    <ui-empty-state
+      icon="clipboard"
+      title="No hay solicitudes en este filtro"
+      message="Cuando alguien solicite una plaza en tus habitaciones, aparecerá aquí con su perfil y su mensaje."
+    />
   } @else {
     <ul class="space-y-4">
-      @for (reservation of reservations(); track reservation.id) {
+      @for (reservation of filtered(); track reservation.id) {
         <li>
-          <app-reservation-card
-            mode="host"
-            [reservation]="reservation"
-            [unitName]="unitName(reservation)"
-            [history]="historyOf(reservation)"
-            [historyLoading]="historyLoading(reservation)"
-            [busyAction]="busyReservationId() === reservation.id ? busyAction() : null"
-            (action)="run(reservation, $event)"
-            (toggleHistory)="toggleHistory(reservation)"
-          />
-          @if (unitLink(reservation); as link) {
-            <p class="mt-2 text-xs">
-              <a [routerLink]="link" class="font-bold text-brand-700 hover:underline"
-                >Gestionar la unidad</a
+          <app-reservation-card [reservation]="reservation">
+            @for (action of actions(reservation); track action.action) {
+              <ui-button
+                [variant]="action.action === 'accept' ? 'primary' : 'secondary'"
+                size="sm"
+                type="button"
+                [loading]="busyReservationId() === reservation.id"
+                [disabled]="busyReservationId() !== null && busyReservationId() !== reservation.id"
+                (click)="startDecision(reservation, action.action)"
+                >{{ action.label }}</ui-button
               >
-              ·
-              <a
-                [routerLink]="['/mensajes/nueva']"
-                [queryParams]="{ reserva: reservation.id }"
-                class="font-bold text-brand-700 hover:underline"
-                >Conversación</a
-              >
-              ·
-              <a
-                [routerLink]="['/reputacion/usuario', reservation.guestUserId]"
-                class="font-bold text-brand-700 hover:underline"
-                >Reputación del huésped</a
-              >
-            </p>
+            }
+            <a
+              [routerLink]="['/mensajes/nueva']"
+              [queryParams]="{ reserva: reservation.id }"
+              class="flex min-h-9 items-center gap-1 rounded-pill border border-line px-3 text-xs font-bold text-ink transition hover:bg-soft"
+              ><ui-icon name="message" size="xs" /> Conversar</a
+            >
+            <ui-button variant="ghost" size="sm" type="button" (click)="toggleHistory(reservation)">
+              <ui-icon name="clipboard" size="sm" />
+              {{ historyOf(reservation) === null ? 'Historial' : 'Ocultar historial' }}
+            </ui-button>
+          </app-reservation-card>
+
+          @if (decisionTarget(); as target) {
+            @if (target.reservation.id === reservation.id) {
+              <div class="ui-card mt-2 border-brand-200 p-4">
+                <h3 class="font-display text-base font-extrabold text-ink">
+                  {{
+                    target.action === 'reject'
+                      ? 'Rechazar solicitud'
+                      : target.action === 'cancel'
+                        ? 'Cancelar solicitud'
+                        : 'Pedir información'
+                  }}
+                </h3>
+                <p class="mt-1 text-sm text-muted">
+                  {{
+                    target.action === 'request-info'
+                      ? 'Explica qué información necesitas. El huésped verá el motivo en el historial.'
+                      : 'El motivo es obligatorio y quedará registrado en el historial.'
+                  }}
+                </p>
+                <div class="mt-3 space-y-3">
+                  <ui-form-field htmlFor="decision-reason" label="Motivo">
+                    <textarea
+                      id="decision-reason"
+                      rows="2"
+                      class="ui-textarea"
+                      [value]="decisionReason()"
+                      (input)="updateReason($event)"
+                    ></textarea>
+                  </ui-form-field>
+                  <ui-alert [message]="decisionError()" />
+                  <div class="flex flex-wrap gap-2">
+                    <ui-button
+                      [variant]="target.action === 'request-info' ? 'primary' : 'danger'"
+                      type="button"
+                      [loading]="busyReservationId() === reservation.id"
+                      (click)="confirmDecision()"
+                      >Confirmar</ui-button
+                    >
+                    <ui-button variant="ghost" type="button" (click)="closeDecision()"
+                      >Volver</ui-button
+                    >
+                  </div>
+                </div>
+              </div>
+            }
+          }
+
+          @if (historyOf(reservation); as events) {
+            <div class="ui-card mt-2 p-4">
+              <h3 class="font-display text-base font-extrabold text-ink">
+                Historial de la solicitud
+              </h3>
+              @if (events.length === 0) {
+                <p class="mt-2 text-sm text-muted">Sin eventos registrados.</p>
+              } @else {
+                <ol class="mt-3 space-y-3">
+                  @for (event of events; track event.id) {
+                    <li class="flex gap-3">
+                      <span
+                        class="mt-1 size-2 shrink-0 rounded-full bg-brand-600"
+                        aria-hidden="true"
+                      ></span>
+                      <div>
+                        <p class="text-sm font-bold text-ink">{{ eventLabel(event) }}</p>
+                        <p class="text-xs text-muted">
+                          {{ event.occurredAt | date: 'd MMM y, HH:mm' }}
+                        </p>
+                        @if (event.reason; as reason) {
+                          <p class="mt-1 text-sm text-ink-soft">“{{ reason }}”</p>
+                        }
+                      </div>
+                    </li>
+                  }
+                </ol>
+              }
+            </div>
+          } @else if (historyLoading(reservation)) {
+            <p class="mt-2 text-sm text-muted">Cargando historial…</p>
           }
         </li>
       }
