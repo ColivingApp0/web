@@ -1,30 +1,35 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Service, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { API_BASE } from '../../../core/http/api-base';
 import {
   CreatePropertyPayload,
   CreateUnitPayload,
-  HostDayAvailability,
-  HostPricing,
   HostProperty,
+  HostPropertyDetail,
   HostPublication,
   HostPublicationAction,
-  HostRules,
   HostUnit,
   PricingPayload,
-  RulesPayload,
   UpdatePropertyPayload,
   UpdateUnitPayload,
 } from '../models/host-models';
 
-/** Endpoints del anfitrión (`/api/v1/host/**`); permisos y gates los aplica el backend. */
+/** Endpoints del anfitrión; permisos y gates los aplica el backend. */
 @Service()
 export class HostApi {
   private readonly http = inject(HttpClient);
 
+  // ---------- Propiedades ----------
+
   listProperties(): Promise<HostProperty[]> {
     return firstValueFrom(this.http.get<HostProperty[]>(`${API_BASE}/host/properties`));
+  }
+
+  propertyDetail(propertyId: string): Promise<HostPropertyDetail> {
+    return firstValueFrom(
+      this.http.get<HostPropertyDetail>(`${API_BASE}/host/properties/${propertyId}`),
+    );
   }
 
   createProperty(payload: CreatePropertyPayload): Promise<HostProperty> {
@@ -37,10 +42,39 @@ export class HostApi {
     );
   }
 
+  addPropertyPhoto(propertyId: string, url: string, position?: number): Promise<HostProperty> {
+    return firstValueFrom(
+      this.http.post<HostProperty>(`${API_BASE}/host/properties/${propertyId}/photos`, {
+        url,
+        position,
+      }),
+    );
+  }
+
+  deletePropertyPhoto(propertyId: string, photoId: string): Promise<HostProperty> {
+    return firstValueFrom(
+      this.http.delete<HostProperty>(`${API_BASE}/host/properties/${propertyId}/photos/${photoId}`),
+    );
+  }
+
+  reorderPropertyPhotos(propertyId: string, photoIds: string[]): Promise<HostProperty> {
+    return firstValueFrom(
+      this.http.put<HostProperty>(`${API_BASE}/host/properties/${propertyId}/photos/order`, {
+        photoIds,
+      }),
+    );
+  }
+
+  // ---------- Habitaciones ----------
+
   listUnits(propertyId: string): Promise<HostUnit[]> {
     return firstValueFrom(
       this.http.get<HostUnit[]>(`${API_BASE}/host/properties/${propertyId}/units`),
     );
+  }
+
+  unit(unitId: string): Promise<HostUnit> {
+    return firstValueFrom(this.http.get<HostUnit>(`${API_BASE}/host/units/${unitId}`));
   }
 
   createUnit(propertyId: string, payload: CreateUnitPayload): Promise<HostUnit> {
@@ -53,15 +87,31 @@ export class HostApi {
     return firstValueFrom(this.http.patch<HostUnit>(`${API_BASE}/host/units/${unitId}`, payload));
   }
 
-  createPublication(unitId: string, title: string): Promise<HostPublication> {
+  setUnitAvailability(unitId: string, enabled: boolean): Promise<HostUnit> {
     return firstValueFrom(
-      this.http.post<HostPublication>(`${API_BASE}/host/units/${unitId}/publication`, {
-        title,
-        services: [],
-        applicableRuleCodes: [],
-      }),
+      this.http.put<HostUnit>(`${API_BASE}/host/units/${unitId}/availability`, { enabled }),
     );
   }
+
+  addUnitPhoto(unitId: string, url: string, position?: number): Promise<HostUnit> {
+    return firstValueFrom(
+      this.http.post<HostUnit>(`${API_BASE}/host/units/${unitId}/photos`, { url, position }),
+    );
+  }
+
+  deleteUnitPhoto(unitId: string, photoId: string): Promise<HostUnit> {
+    return firstValueFrom(
+      this.http.delete<HostUnit>(`${API_BASE}/host/units/${unitId}/photos/${photoId}`),
+    );
+  }
+
+  reorderUnitPhotos(unitId: string, photoIds: string[]): Promise<HostUnit> {
+    return firstValueFrom(
+      this.http.put<HostUnit>(`${API_BASE}/host/units/${unitId}/photos/order`, { photoIds }),
+    );
+  }
+
+  // ---------- Publicación / precio mensual ----------
 
   runPublicationAction(
     publicationId: string,
@@ -75,38 +125,9 @@ export class HostApi {
     );
   }
 
-  configurePricing(publicationId: string, payload: PricingPayload): Promise<HostPricing> {
+  configurePricing(publicationId: string, payload: PricingPayload): Promise<unknown> {
     return firstValueFrom(
-      this.http.put<HostPricing>(`${API_BASE}/host/publications/${publicationId}/pricing`, payload),
-    );
-  }
-
-  configureRules(publicationId: string, payload: RulesPayload): Promise<HostRules> {
-    return firstValueFrom(
-      this.http.put<HostRules>(`${API_BASE}/host/publications/${publicationId}/rules`, payload),
-    );
-  }
-
-  blockDates(unitId: string, from: string, to: string): Promise<HostDayAvailability[]> {
-    return firstValueFrom(
-      this.http.put<HostDayAvailability[]>(
-        `${API_BASE}/host/units/${unitId}/availability/blocks`,
-        null,
-        {
-          params: new HttpParams({ fromObject: { from, to } }),
-        },
-      ),
-    );
-  }
-
-  releaseDates(unitId: string, from: string, to: string): Promise<HostDayAvailability[]> {
-    return firstValueFrom(
-      this.http.delete<HostDayAvailability[]>(
-        `${API_BASE}/host/units/${unitId}/availability/blocks`,
-        {
-          params: new HttpParams({ fromObject: { from, to } }),
-        },
-      ),
+      this.http.put<unknown>(`${API_BASE}/host/publications/${publicationId}/pricing`, payload),
     );
   }
 }

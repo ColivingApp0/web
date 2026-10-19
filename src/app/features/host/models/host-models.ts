@@ -1,19 +1,24 @@
 /**
- * Contratos del área de anfitrión (`/api/v1/host/**`), reflejando los DTOs reales
- * de `accommodation`. Decisión de límites: esta feature define sus propios tipos
- * (aunque se parezcan a los públicos de `listings`) para no acoplarse a otra feature.
+ * Contratos del área de anfitrión (`/api/v1/host/**`) para renta mensual:
+ * propiedades → habitaciones, fotos propias, precio mensual y disponibilidad
+ * comercial (publicar/pausar). Sin reglas nocturnas ni calendarios.
  */
 
 export type HostPublicationStatus =
   'BORRADOR' | 'EN_REVISION' | 'PUBLICADA' | 'PAUSADA' | 'OCULTA' | 'ARCHIVADA';
 
 export type HostCurrency = 'COP' | 'USD';
-
-export type HostCancellationPolicy = 'FLEXIBLE' | 'MODERADA' | 'ESTRICTA';
-
-export type HostAvailabilityState = 'DISPONIBLE' | 'BLOQUEADO' | 'OCUPADO';
+export type HostPriceUnit = 'POR_HABITACION' | 'POR_PERSONA';
+export type HostRoomType = 'INDIVIDUAL' | 'COMPARTIDA';
+export type HostBathroomType = 'PRIVADO' | 'COMPARTIDO';
 
 export type HostPublicationAction = 'publish' | 'pause' | 'hide' | 'request-review' | 'archive';
+
+export interface HostPhoto {
+  id: string;
+  url: string;
+  position: number;
+}
 
 export interface HostProperty {
   id: string;
@@ -21,21 +26,12 @@ export interface HostProperty {
   title: string | null;
   description: string | null;
   cityId: string | null;
+  cityName: string | null;
+  neighborhood: string | null;
   address: string | null;
   amenities: string[];
   archived: boolean;
-}
-
-export interface HostUnit {
-  id: string;
-  propertyId: string;
-  name: string;
-  maxGuests: number;
-  bedrooms: number;
-  beds: number;
-  bathrooms: number;
-  typeCode: string | null;
-  accessibilityCodes: string[];
+  photos: HostPhoto[];
 }
 
 export interface HostPublication {
@@ -47,63 +43,71 @@ export interface HostPublication {
   applicableRuleCodes: string[];
 }
 
-export interface HostPricing {
-  publicationId: string;
-  basePricePerNight: number;
+export interface HostUnit {
+  id: string;
+  propertyId: string;
+  name: string;
+  description: string | null;
+  maxGuests: number;
+  monthlyPrice: number | null;
   currency: HostCurrency;
+  priceUnit: HostPriceUnit;
+  roomType: HostRoomType;
+  bathroomType: HostBathroomType;
+  airConditioning: boolean;
+  fan: boolean;
+  commonAreas: string[];
+  typeCode: string | null;
+  accessibilityCodes: string[];
+  sortOrder: number;
+  photos: HostPhoto[];
+  publication: HostPublication | null;
+  occupiedPlaces: number;
+  availablePlaces: number;
+  published: boolean;
+  effectiveAvailable: boolean;
+  availabilityLabel: string;
 }
 
-export interface HostRules {
-  publicationId: string;
-  cancellationPolicy: HostCancellationPolicy;
-  checkInTime: string;
-  checkOutTime: string;
-  minNights: number;
-  maxNights: number;
-  houseRules: string[];
-}
-
-export interface HostDayAvailability {
-  date: string;
-  state: HostAvailabilityState;
-  reserved: boolean;
+export interface HostPropertyDetail {
+  property: HostProperty;
+  host: { userId: string; name: string | null; avatarUrl: string | null } | null;
+  rooms: HostUnit[];
 }
 
 export interface CreatePropertyPayload {
   title: string;
   description: string | null;
+  cityId: string | null;
+  cityName: string | null;
+  neighborhood: string | null;
   address: string | null;
   amenities: string[];
 }
 
-/** `PATCH /host/properties/{id}` conserva campos `null`, pero reemplaza `amenities` → envío completo. */
-export interface UpdatePropertyPayload extends CreatePropertyPayload {
-  cityId: string | null;
-}
+export type UpdatePropertyPayload = CreatePropertyPayload;
 
 export interface CreateUnitPayload {
   name: string;
+  description: string | null;
   maxGuests: number;
-  bedrooms: number;
-  beds: number;
-  bathrooms: number;
+  monthlyPrice: number | null;
+  currency: HostCurrency;
+  priceUnit: HostPriceUnit;
+  roomType: HostRoomType;
+  bathroomType: HostBathroomType;
+  airConditioning: boolean;
+  fan: boolean;
+  commonAreas: string[];
+  sortOrder?: number;
 }
 
-/** `PATCH /host/units/{id}` sobrescribe los campos; `typeCode`/`accessibilityCodes` null conservan. */
 export type UpdateUnitPayload = CreateUnitPayload;
 
 export interface PricingPayload {
-  basePricePerNight: number;
+  monthlyPrice: number;
   currency: HostCurrency;
-}
-
-export interface RulesPayload {
-  cancellationPolicy: HostCancellationPolicy;
-  checkInTime: string;
-  checkOutTime: string;
-  minNights: number;
-  maxNights: number;
-  houseRules: string[];
+  priceUnit: HostPriceUnit;
 }
 
 export const PUBLICATION_STATUS_LABELS: Record<HostPublicationStatus, string> = {
@@ -116,12 +120,12 @@ export const PUBLICATION_STATUS_LABELS: Record<HostPublicationStatus, string> = 
 };
 
 export const PUBLICATION_STATUS_CLASSES: Record<HostPublicationStatus, string> = {
-  BORRADOR: 'bg-soft text-muted',
-  EN_REVISION: 'bg-accent-500/15 text-accent-600',
-  PUBLICADA: 'bg-brand-700/10 text-brand-800',
-  PAUSADA: 'bg-accent-500/15 text-accent-600',
-  OCULTA: 'bg-[#eef0f5] text-[#5a6478]',
-  ARCHIVADA: 'bg-red-100 text-red-800',
+  BORRADOR: 'bg-soft text-muted border-line',
+  EN_REVISION: 'bg-sky-soft text-[#0c4a6e] border-[#bae6fd]',
+  PUBLICADA: 'bg-brand-50 text-brand-800 border-brand-200',
+  PAUSADA: 'bg-soft text-ink-soft border-line',
+  OCULTA: 'bg-soft text-muted border-line',
+  ARCHIVADA: 'bg-danger-50 text-danger-700 border-danger-100',
 };
 
 export interface PublicationActionOption {
@@ -130,12 +134,7 @@ export interface PublicationActionOption {
   danger?: boolean;
 }
 
-/**
- * Transiciones del dominio real (`Publication`): publish desde BORRADOR/PAUSADA/OCULTA;
- * pause desde PUBLICADA; hide desde PUBLICADA/PAUSADA; request-review desde
- * BORRADOR/PUBLICADA/PAUSADA; archive sin restricción (la UI no ofrece acciones
- * mientras está EN_REVISION para no interferir con moderación).
- */
+/** Transiciones reales de `Publication`; solo se muestran las válidas. */
 export function publicationActions(
   status: HostPublicationStatus,
 ): readonly PublicationActionOption[] {
@@ -169,4 +168,8 @@ export function publicationActions(
     case 'ARCHIVADA':
       return [];
   }
+}
+
+export function hostPriceUnitLabel(unit: HostPriceUnit): string {
+  return unit === 'POR_PERSONA' ? 'por persona' : 'por habitación';
 }
