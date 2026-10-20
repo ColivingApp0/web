@@ -1,88 +1,145 @@
-import { Component, computed, inject, linkedSignal, resource, signal } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { Component, computed, inject, resource, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
+import { UiIcon } from '../../../shared/ui/icon';
+import { placesLabel } from '../../../shared/utils/plural';
 import { HostApi } from '../data-access/host-api';
-import { HostPublication, HostUnit } from '../models/host-models';
-import { HostPublicationsStore } from '../state/host-publications-store';
-import { HostBlocksForm } from '../ui/blocks-form';
-import { HostPricingForm } from '../ui/pricing-form';
-import { HostPublicationPanel } from '../ui/publication-panel';
-import { HostRulesForm } from '../ui/rules-form';
+import {
+  HostUnit,
+  PUBLICATION_STATUS_CLASSES,
+  PUBLICATION_STATUS_LABELS,
+  hostPriceUnitLabel,
+} from '../models/host-models';
+import { HostPhotoManager } from '../ui/photo-manager';
 import { HostUnitForm } from '../ui/unit-form';
 
-/**
- * Ficha de una unidad: edición, ciclo de vida de la publicación (crear,
- * publicar/pausar/ocultar/revisión/archivar), precio, reglas y bloqueos.
- * La unidad se resuelve desde las unidades de su propiedad (sin GET individual).
- */
+/** Ficha de una habitación: datos, fotos, precio y disponibilidad comercial. */
 @Component({
   selector: 'app-host-unit-page',
-  imports: [
-    RouterLink,
-    UiAlert,
-    UiButton,
-    HostUnitForm,
-    HostPublicationPanel,
-    HostPricingForm,
-    HostRulesForm,
-    HostBlocksForm,
-  ],
+  imports: [CurrencyPipe, RouterLink, UiAlert, UiButton, UiIcon, HostPhotoManager, HostUnitForm],
   templateUrl: './unit-page.html',
 })
 export class HostUnitPage {
   private readonly route = inject(ActivatedRoute);
   private readonly api = inject(HostApi);
-  private readonly publications = inject(HostPublicationsStore);
-
   private readonly params = toSignal(this.route.paramMap, { requireSync: true });
+
   protected readonly propertyId = computed(() => this.params().get('propertyId') ?? '');
   protected readonly unitId = computed(() => this.params().get('unitId') ?? '');
 
-  private readonly unitResource = resource({
-    params: () => ({ propertyId: this.propertyId(), unitId: this.unitId() }),
-    loader: ({ params }) =>
-      this.api
-        .listUnits(params.propertyId)
-        .then((units) => units.find((unit) => unit.id === params.unitId) ?? null),
+  protected readonly unitResource = resource({
+    params: () => this.unitId(),
+    loader: ({ params }) => this.api.unit(params),
   });
 
   protected readonly loading = computed(() => this.unitResource.isLoading());
   protected readonly loadError = computed(() => {
     const error = this.unitResource.error();
-    return error ? toApiError(error).message : null;
+    if (!error) return null;
+    const apiError = toApiError(error);
+    return apiError.status === 404 || apiError.status === 403
+      ? 'No encontramos esta habitación o no pertenece a tus propiedades.'
+      : apiError.message;
   });
+  protected readonly unit = computed<HostUnit | null>(() => this.unitResource.value() ?? null);
 
-  protected readonly unit = linkedSignal(() => this.unitResource.value() ?? null);
-  protected readonly notFound = computed(
-    () => !this.loading() && this.loadError() === null && this.unit() === null,
-  );
-
-  /** Publicación conocida de esta unidad (creada o actualizada durante la sesión de navegación). */
-  protected readonly publication = computed(() => this.publications.findByUnit(this.unitId()));
-
+  protected readonly places = placesLabel;
   protected readonly success = signal<string | null>(null);
+  protected readonly actionError = signal<string | null>(null);
+  protected readonly availabilityBusy = signal(false);
+  protected readonly photoBusy = signal(false);
+  protected readonly photoError = signal<string | null>(null);
+
+  protected readonly statusLabel = computed(() => {
+    const status = this.unit()?.publication?.status;
+    return status ? PUBLICATION_STATUS_LABELS[status] : 'Sin publicación';
+  });
+  protected readonly statusClasses = computed(() => {
+    const status = this.unit()?.publication?.status;
+    return status ? PUBLICATION_STATUS_CLASSES[status] : 'bg-soft text-muted border-line';
+  });
+  protected readonly canToggleAvailability = computed(() => {
+    const status = this.unit()?.publication?.status;
+    return (
+      status === 'PUBLICADA' || status === 'PAUSADA' || status === 'BORRADOR' || status === 'OCULTA'
+    );
+  });
+  protected readonly missingPrice = computed(() => this.unit()?.monthlyPrice == null);
 
   protected retry(): void {
     this.unitResource.reload();
   }
 
-  protected onUnitSaved(updated: HostUnit): void {
-    this.unit.set(updated);
-    this.success.set('Unidad guardada.');
+  protected onSaved(unit: HostUnit): void {
+    this.success.set('Habitación guardada.');
+    this.unitResource.reload();
+    void unit;
   }
 
-  protected onPublicationCreated(publication: HostPublication): void {
-    this.publications.remember(publication);
-    this.success.set(
-      'Publicación creada en borrador. Define precio y reglas, y publícala cuando esté lista.',
-    );
+  protected priceUnit(unit: HostUnit): string {
+    return hostPriceUnitLabel(unit.priceUnit);
   }
 
-  protected onPublicationChanged(publication: HostPublication): void {
-    this.publications.remember(publication);
-    this.success.set('Estado de la publicación actualizado.');
+  protected async toggleAvailability(): Promise<void> {
+    const unit = this.unit();
+    if (!unit || this.availabilityBusy()) return;
+    this.availabilityBusy.set(true);
+    this.actionError.set(null);
+    this.success.set(null);
+    try {
+      const enabled = !unit.published;
+      await this.api.setUnitAvailability(unit.id, enabled);
+      this.success.set(
+        enabled
+          ? 'Habitación habilitada: ya acepta solicitudes si tiene plazas libres.'
+          : 'Habitación pausada: deja de aceptar solicitudes aunque tenga plazas libres.',
+      );
+      this.unitResource.reload();
+    } catch (error) {
+      const apiError = toApiError(error);
+      this.actionError.set(
+        apiError.code === 'CONFLICT'
+          ? `${apiError.message}. Revisa el precio mensual y tu verificación de identidad.`
+          : apiError.message,
+      );
+      this.unitResource.reload();
+    } finally {
+      this.availabilityBusy.set(false);
+    }
+  }
+
+  protected async addPhoto(url: string): Promise<void> {
+    const unit = this.unit();
+    if (!unit) return;
+    await this.runPhotoAction(() => this.api.addUnitPhoto(unit.id, url));
+  }
+
+  protected async deletePhoto(photoId: string): Promise<void> {
+    const unit = this.unit();
+    if (!unit) return;
+    await this.runPhotoAction(() => this.api.deleteUnitPhoto(unit.id, photoId));
+  }
+
+  protected async reorderPhotos(photoIds: string[]): Promise<void> {
+    const unit = this.unit();
+    if (!unit) return;
+    await this.runPhotoAction(() => this.api.reorderUnitPhotos(unit.id, photoIds));
+  }
+
+  private async runPhotoAction(action: () => Promise<HostUnit>): Promise<void> {
+    this.photoBusy.set(true);
+    this.photoError.set(null);
+    try {
+      await action();
+      this.unitResource.reload();
+    } catch (error) {
+      this.photoError.set(toApiError(error).message);
+    } finally {
+      this.photoBusy.set(false);
+    }
   }
 }

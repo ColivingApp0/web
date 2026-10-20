@@ -1,81 +1,160 @@
 <div class="space-y-6">
-  <div class="flex flex-wrap items-end justify-between gap-4">
-    <div>
-      <h1 class="font-display text-2xl font-extrabold text-ink">Área de anfitrión</h1>
-      <p class="mt-1 text-sm text-muted">
-        Gestiona tus propiedades, unidades, publicaciones, precios y disponibilidad.
-      </p>
-      <p class="mt-2 text-sm">
-        <a routerLink="/anfitrion/reservas" class="font-bold text-brand-700 hover:underline"
-          >Reservas recibidas →</a
-        >
-        <span class="text-muted"> · </span>
-        <a routerLink="/anfitrion/comunidad" class="font-bold text-brand-700 hover:underline"
-          >Comunidad de mis propiedades →</a
-        >
-      </p>
-    </div>
+  <ui-page-header
+    eyebrow="Panel del anfitrión"
+    title="Tus propiedades y habitaciones"
+    description="Publica habitaciones con precio mensual, administra sus fotos y revisa las solicitudes de personas interesadas."
+  >
+    <a
+      routerLink="/anfitrion/reservas"
+      class="flex min-h-11 items-center gap-2 rounded-xl border border-line px-4 text-sm font-bold text-ink transition hover:bg-soft"
+    >
+      <ui-icon name="clipboard" size="sm" /> Solicitudes
+      @if (stats().pending > 0) {
+        <span class="rounded-full bg-accent-500 px-1.5 text-[10px] font-black text-brand-900">{{
+          stats().pending
+        }}</span>
+      }
+    </a>
     <ui-button type="button" (click)="showCreate.set(!showCreate())">
+      <ui-icon [name]="showCreate() ? 'close' : 'plus'" size="sm" />
       {{ showCreate() ? 'Cancelar' : 'Nueva propiedad' }}
     </ui-button>
-  </div>
+  </ui-page-header>
 
   @if (success(); as message) {
     <ui-alert variant="success" [message]="message" />
   }
 
   @if (showCreate()) {
-    <section class="rounded-card border border-line bg-white p-6 shadow-card">
-      <h2 class="mb-4 font-display text-lg font-bold text-ink">Nueva propiedad</h2>
-      <app-host-property-form (saved)="onCreated($event)" />
+    <section class="ui-card ui-card-pad">
+      <h2 class="font-display text-lg font-extrabold text-ink">Nueva propiedad</h2>
+      <p class="mt-1 text-sm text-muted">
+        Primero los datos del inmueble; después añadirás sus habitaciones.
+      </p>
+      <div class="mt-4">
+        <app-host-property-form (saved)="onCreated($event)" />
+      </div>
     </section>
   }
 
+  <section class="grid grid-cols-2 gap-3 sm:grid-cols-4" aria-label="Resumen">
+    <div class="ui-card px-4 py-3">
+      <p class="font-display text-2xl font-extrabold text-ink">{{ stats().properties }}</p>
+      <p class="mt-1 text-xs font-semibold text-muted">Propiedades</p>
+    </div>
+    <div class="ui-card px-4 py-3">
+      <p class="font-display text-2xl font-extrabold text-ink">{{ stats().rooms }}</p>
+      <p class="mt-1 text-xs font-semibold text-muted">Habitaciones</p>
+    </div>
+    <div class="ui-card px-4 py-3">
+      <p class="font-display text-2xl font-extrabold text-brand-700">{{ stats().free }}</p>
+      <p class="mt-1 text-xs font-semibold text-muted">Plazas libres</p>
+    </div>
+    <div class="ui-card px-4 py-3">
+      <p class="font-display text-2xl font-extrabold text-accent-600">{{ stats().pending }}</p>
+      <p class="mt-1 text-xs font-semibold text-muted">Solicitudes pendientes</p>
+    </div>
+  </section>
+
   @if (loading()) {
-    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
-      Cargando propiedades…
-    </p>
+    <div class="grid gap-4 md:grid-cols-2">
+      @for (item of [1, 2]; track item) {
+        <div class="ui-card overflow-hidden">
+          <div class="ui-skeleton aspect-[16/8] rounded-none"></div>
+          <div class="space-y-2 p-5">
+            <div class="ui-skeleton h-5 w-2/3"></div>
+            <div class="ui-skeleton h-3 w-1/2"></div>
+          </div>
+        </div>
+      }
+    </div>
   } @else if (loadError(); as error) {
-    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+    <div class="ui-card ui-card-pad space-y-3">
       <ui-alert [message]="error" />
       <ui-button variant="secondary" type="button" (click)="load()">Reintentar</ui-button>
     </div>
-  } @else if (properties().length === 0) {
-    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
-      <p class="font-bold text-ink">Aún no tienes propiedades.</p>
-      <p class="mt-1 text-sm text-muted">
-        Crea tu primera propiedad para empezar a publicar alojamientos.
-      </p>
-      <div class="mt-4 flex justify-center">
-        <ui-button type="button" (click)="showCreate.set(true)"
-          >Crear mi primera propiedad</ui-button
-        >
-      </div>
-    </div>
+  } @else if (cards().length === 0) {
+    <ui-empty-state
+      icon="building"
+      title="Aún no tienes propiedades"
+      message="Crea tu primera propiedad y añade habitaciones con su precio mensual, características y fotografías."
+    >
+      <ui-button type="button" (click)="showCreate.set(true)">Crear mi primera propiedad</ui-button>
+    </ui-empty-state>
   } @else {
     <ul class="grid gap-4 md:grid-cols-2">
-      @for (property of properties(); track property.id) {
-        <li class="flex flex-col rounded-card border border-line bg-white p-5 shadow-card">
-          <div class="flex items-start justify-between gap-3">
-            <h2 class="font-display text-lg font-bold text-ink">{{ property.title }}</h2>
-            @if (property.archived) {
-              <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-800"
-                >Archivada</span
-              >
+      @for (card of cards(); track card.property.id) {
+        <li class="ui-card ui-card-hover overflow-hidden">
+          <div class="relative aspect-[16/8] bg-brand-50">
+            @if (cover(card); as image) {
+              <img
+                [src]="image"
+                [alt]="card.property.title ?? 'Propiedad'"
+                class="h-full w-full object-cover"
+              />
+            } @else {
+              <div class="grid h-full place-items-center text-brand-700">
+                <ui-icon name="building" size="xl" />
+              </div>
             }
+            <div class="absolute left-3 top-3 flex gap-1.5">
+              <span class="ui-chip border-white/40 bg-white/95">{{
+                publishedLabel(card.published)
+              }}</span>
+              @if (card.paused > 0) {
+                <span class="ui-chip border-white/40 bg-white/95">{{
+                  pausedLabel(card.paused)
+                }}</span>
+              }
+            </div>
           </div>
-          @if (property.address; as address) {
-            <p class="mt-1 text-sm text-muted">{{ address }}</p>
-          }
-          @if (property.description; as description) {
-            <p class="mt-2 line-clamp-2 text-sm text-muted">{{ description }}</p>
-          }
-          <div class="mt-4 border-t border-line pt-3">
+          <div class="p-5">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <h2 class="truncate font-display text-lg font-extrabold text-ink">
+                  {{ card.property.title }}
+                </h2>
+                @if (location(card); as place) {
+                  <p class="mt-1 flex items-center gap-1 text-xs text-muted">
+                    <ui-icon name="map-pin" size="xs" /> {{ place }}
+                  </p>
+                }
+              </div>
+              @if (card.property.archived) {
+                <span class="ui-chip border-danger-100 bg-danger-50 text-danger-700"
+                  >Archivada</span
+                >
+              }
+            </div>
+            <dl class="mt-4 grid grid-cols-3 gap-2 rounded-xl bg-soft px-3 py-2.5 text-center">
+              <div>
+                <dt class="text-[10px] font-bold uppercase tracking-wide text-muted">
+                  Habitaciones
+                </dt>
+                <dd class="mt-0.5 font-display text-lg font-extrabold text-ink">
+                  {{ card.rooms }}
+                </dd>
+              </div>
+              <div>
+                <dt class="text-[10px] font-bold uppercase tracking-wide text-muted">
+                  Plazas libres
+                </dt>
+                <dd class="mt-0.5 font-display text-lg font-extrabold text-brand-700">
+                  {{ card.freePlaces }}
+                </dd>
+              </div>
+              <div>
+                <dt class="text-[10px] font-bold uppercase tracking-wide text-muted">Pendientes</dt>
+                <dd class="mt-0.5 font-display text-lg font-extrabold text-accent-600">
+                  {{ card.pending }}
+                </dd>
+              </div>
+            </dl>
             <a
-              [routerLink]="['/anfitrion/propiedades', property.id]"
-              class="text-sm font-extrabold text-brand-700 hover:underline"
-              >Gestionar propiedad →</a
-            >
+              [routerLink]="['/anfitrion/propiedades', card.property.id]"
+              class="mt-4 flex min-h-10 items-center justify-center gap-1.5 rounded-xl border border-line text-sm font-extrabold text-brand-700 transition hover:bg-brand-50"
+              >Gestionar propiedad <ui-icon name="arrow-right" size="sm"
+            /></a>
           </div>
         </li>
       }

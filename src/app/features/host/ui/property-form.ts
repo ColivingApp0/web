@@ -11,15 +11,13 @@ import { CreatePropertyPayload, HostProperty } from '../models/host-models';
 interface PropertyFormModel {
   title: string;
   description: string;
+  cityName: string;
+  neighborhood: string;
   address: string;
   amenities: string;
 }
 
-/**
- * Alta y edición de propiedades. En edición envía el recurso completo porque
- * `PATCH /host/properties/{id}` reemplaza `amenities` cuando se omiten
- * (y `cityId` se conserva reenviando el valor cargado).
- */
+/** Alta y edición de la información general de la propiedad (no de sus habitaciones). */
 @Component({
   selector: 'app-host-property-form',
   imports: [UiAlert, UiButton, UiFormField, SignalFormField, FormRoot],
@@ -41,6 +39,8 @@ export class HostPropertyForm {
     return {
       title: property?.title ?? '',
       description: property?.description ?? '',
+      cityName: property?.cityName ?? '',
+      neighborhood: property?.neighborhood ?? '',
       address: property?.address ?? '',
       amenities: (property?.amenities ?? []).join(', '),
     };
@@ -49,7 +49,7 @@ export class HostPropertyForm {
   protected readonly propertyForm = form(
     this.model,
     (path) => {
-      required(path.title, { message: 'El título es obligatorio.' });
+      required(path.title, { message: 'El nombre de la propiedad es obligatorio.' });
     },
     {
       submission: {
@@ -71,9 +71,12 @@ export class HostPropertyForm {
     this.serverFieldErrors.set({});
     try {
       const model = this.model();
-      const base: CreatePropertyPayload = {
+      const payload: CreatePropertyPayload = {
         title: model.title.trim(),
         description: model.description.trim() || null,
+        cityId: this.property()?.cityId ?? null,
+        cityName: model.cityName.trim() || null,
+        neighborhood: model.neighborhood.trim() || null,
         address: model.address.trim() || null,
         amenities: model.amenities
           .split(',')
@@ -82,8 +85,8 @@ export class HostPropertyForm {
       };
       const existing = this.property();
       const saved = existing
-        ? await this.api.updateProperty(existing.id, { ...base, cityId: existing.cityId })
-        : await this.api.createProperty(base);
+        ? await this.api.updateProperty(existing.id, payload)
+        : await this.api.createProperty(payload);
       this.saved.emit(saved);
     } catch (error) {
       const apiError = toApiError(error);
