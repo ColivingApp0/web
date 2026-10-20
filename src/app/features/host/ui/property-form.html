@@ -1,64 +1,86 @@
-<form [formRoot]="propertyForm" class="space-y-4" novalidate>
+<form [formRoot]="propertyForm" class="space-y-5" novalidate>
+  <ui-form-field
+    htmlFor="host-property-title"
+    label="Nombre de la propiedad"
+    [error]="titleError()"
+    [required]="true"
+  >
+    <input
+      id="host-property-title"
+      type="text"
+      placeholder="Ej. Casa Chapinero Alto"
+      [formField]="propertyForm.title"
+      [attr.aria-describedby]="titleError() ? 'host-property-title-error' : null"
+      [attr.aria-invalid]="titleError() ? 'true' : null"
+      class="ui-input"
+    />
+  </ui-form-field>
+
+  <ui-form-field
+    htmlFor="host-property-description"
+    label="Descripción general"
+    hint="Describe el inmueble y sus zonas comunes. Las características de cada habitación se gestionan aparte."
+  >
+    <textarea
+      id="host-property-description"
+      rows="4"
+      placeholder="Qué hace especial esta propiedad, cómo son los espacios comunes…"
+      [formField]="propertyForm.description"
+      class="ui-textarea"
+    ></textarea>
+  </ui-form-field>
+
   <div class="grid gap-4 sm:grid-cols-2">
-    <ui-form-field htmlFor="host-property-title" label="Título" [error]="titleError()">
+    <ui-form-field htmlFor="host-property-city" label="Ciudad">
       <input
-        id="host-property-title"
+        id="host-property-city"
         type="text"
-        [formField]="propertyForm.title"
-        [attr.aria-describedby]="titleError() ? 'host-property-title-error' : null"
-        [attr.aria-invalid]="titleError() ? 'true' : null"
-        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        placeholder="Bogotá"
+        [formField]="propertyForm.cityName"
+        class="ui-input"
       />
     </ui-form-field>
-
-    <ui-form-field htmlFor="host-property-address" label="Dirección">
+    <ui-form-field htmlFor="host-property-neighborhood" label="Barrio o zona">
       <input
-        id="host-property-address"
+        id="host-property-neighborhood"
         type="text"
-        [formField]="propertyForm.address"
-        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        placeholder="Chapinero Alto"
+        [formField]="propertyForm.neighborhood"
+        class="ui-input"
       />
     </ui-form-field>
   </div>
 
-  <ui-form-field htmlFor="host-property-description" label="Descripción">
-    <textarea
-      id="host-property-description"
-      rows="3"
-      [formField]="propertyForm.description"
-      class="w-full resize-y rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
-    ></textarea>
+  <ui-form-field
+    htmlFor="host-property-address"
+    label="Dirección"
+    hint="Se muestra en el detalle de la propiedad."
+  >
+    <input
+      id="host-property-address"
+      type="text"
+      placeholder="Calle 45 # 12-30"
+      [formField]="propertyForm.address"
+      class="ui-input"
+    />
   </ui-form-field>
 
   <ui-form-field
     htmlFor="host-property-amenities"
-    label="Servicios del inmueble"
-    hint="Separados por comas. Por ejemplo: WiFi, cocina, lavadora."
+    label="Zonas y servicios comunes"
+    hint="Sepáralos con comas. Ej.: Cocina equipada, Terraza, Lavandería, WiFi."
   >
     <input
       id="host-property-amenities"
       type="text"
       [formField]="propertyForm.amenities"
-      class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+      class="ui-input"
     />
   </ui-form-field>
-
-  <p class="text-xs text-muted">
-    La ciudad se podrá editar cuando exista el catálogo público (limitación conocida; su valor
-    actual se conserva).
-  </p>
 
   <ui-alert [message]="serverError()" />
 
   <ui-button [loading]="submitting()">
-    {{
-      isEdit()
-        ? submitting()
-          ? 'Guardando…'
-          : 'Guardar cambios'
-        : submitting()
-          ? 'Creando…'
-          : 'Crear propiedad'
-    }}
+    {{ isEdit() ? 'Guardar propiedad' : 'Crear propiedad' }}
   </ui-button>
 </form>

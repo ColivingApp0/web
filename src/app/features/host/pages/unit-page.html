@@ -1,85 +1,135 @@
 <div class="space-y-6">
   <a
     [routerLink]="['/anfitrion/propiedades', propertyId()]"
-    class="inline-block text-sm font-bold text-muted hover:text-ink"
-    >← Volver a la propiedad</a
+    class="inline-flex items-center gap-1 text-sm font-bold text-muted hover:text-ink"
   >
+    <ui-icon name="arrow-left" size="sm" /> Volver a la propiedad
+  </a>
 
   @if (loading()) {
-    <p class="rounded-card border border-line bg-white p-6 text-sm text-muted shadow-card">
-      Cargando unidad…
-    </p>
+    <div class="space-y-4">
+      <div class="ui-skeleton h-8 w-1/2"></div>
+      <div class="ui-skeleton h-48"></div>
+    </div>
   } @else if (loadError(); as error) {
-    <div class="space-y-3 rounded-card border border-line bg-white p-6 shadow-card">
+    <div class="ui-card ui-card-pad space-y-3">
       <ui-alert [message]="error" />
       <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
     </div>
-  } @else if (notFound()) {
-    <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
-      <p class="font-bold text-ink">No encontramos esta unidad en la propiedad.</p>
-      <a
-        [routerLink]="['/anfitrion/propiedades', propertyId()]"
-        class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
-        >Volver a la propiedad</a
-      >
-    </div>
-  } @else if (unit(); as currentUnit) {
-    <header>
-      <h1 class="font-display text-2xl font-extrabold text-ink">{{ currentUnit.name }}</h1>
-      <p class="mt-1 text-sm text-muted">
-        {{ currentUnit.maxGuests }} huésped(es) · {{ currentUnit.bedrooms }} hab. ·
-        {{ currentUnit.beds }} cama(s) · {{ currentUnit.bathrooms }} baño(s)
-      </p>
+  } @else if (unit(); as room) {
+    <header class="flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <p class="ui-eyebrow">Habitación</p>
+        <h1 class="mt-1 font-display text-3xl font-extrabold tracking-tight text-ink">
+          {{ room.name }}
+        </h1>
+        <p class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+          <span>{{ room.roomType === 'COMPARTIDA' ? 'Compartida' : 'Individual' }}</span>
+          <span>{{ places(room.maxGuests) }}</span>
+          <span>{{ room.occupiedPlaces }} ocupadas</span>
+          <strong class="text-ink">{{ room.availablePlaces }} libres</strong>
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span
+          class="inline-flex items-center gap-1.5 rounded-pill border px-3 py-1 text-xs font-bold"
+          [class]="statusClasses()"
+        >
+          <span class="size-1.5 rounded-full bg-current" aria-hidden="true"></span>
+          {{ statusLabel() }}
+        </span>
+        @if (room.publication; as publication) {
+          <a
+            [routerLink]="['/alojamientos', publication.id]"
+            class="flex min-h-10 items-center gap-1.5 rounded-pill border border-line px-3 text-xs font-bold text-ink transition hover:bg-soft"
+          >
+            <ui-icon name="search" size="xs" /> Ver como huésped
+          </a>
+        }
+      </div>
     </header>
 
     @if (success(); as message) {
       <ui-alert variant="success" [message]="message" />
     }
+    <ui-alert [message]="actionError()" />
 
-    <section class="rounded-card border border-line bg-white p-6 shadow-card">
-      <h2 class="mb-4 font-display text-lg font-bold text-ink">Datos de la unidad</h2>
-      <app-host-unit-form
-        [propertyId]="propertyId()"
-        [unit]="currentUnit"
-        (saved)="onUnitSaved($event)"
-      />
+    <section class="ui-card ui-card-pad">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div class="max-w-xl">
+          <h2 class="font-display text-lg font-extrabold text-ink">Disponibilidad comercial</h2>
+          <p class="mt-1 text-sm leading-relaxed text-muted">
+            Pausar la habitación impide nuevas solicitudes aunque queden plazas. La ocupación se
+            calcula con las solicitudes aceptadas, no con un contador manual.
+          </p>
+          @if (missingPrice()) {
+            <p class="mt-2 text-xs font-semibold text-danger-700">
+              Define el precio mensual antes de habilitarla.
+            </p>
+          }
+        </div>
+        @if (canToggleAvailability()) {
+          <ui-button
+            type="button"
+            [variant]="room.published ? 'secondary' : 'primary'"
+            [loading]="availabilityBusy()"
+            [disabled]="!room.published && missingPrice()"
+            (click)="toggleAvailability()"
+          >
+            <ui-icon [name]="room.published ? 'close' : 'check'" size="sm" />
+            {{ room.published ? 'Pausar habitación' : 'Habilitar habitación' }}
+          </ui-button>
+        }
+      </div>
+
+      <dl class="mt-4 grid grid-cols-3 gap-2 rounded-xl bg-soft px-3 py-3 text-center">
+        <div>
+          <dt class="text-[10px] font-bold uppercase tracking-wide text-muted">Capacidad</dt>
+          <dd class="mt-0.5 font-display text-2xl font-extrabold text-ink">{{ room.maxGuests }}</dd>
+        </div>
+        <div>
+          <dt class="text-[10px] font-bold uppercase tracking-wide text-muted">Ocupadas</dt>
+          <dd class="mt-0.5 font-display text-2xl font-extrabold text-ink">
+            {{ room.occupiedPlaces }}
+          </dd>
+        </div>
+        <div>
+          <dt class="text-[10px] font-bold uppercase tracking-wide text-brand-700">Libres</dt>
+          <dd class="mt-0.5 font-display text-2xl font-extrabold text-brand-700">
+            {{ room.availablePlaces }}
+          </dd>
+        </div>
+      </dl>
     </section>
 
-    <section class="rounded-card border border-line bg-white p-6 shadow-card">
-      <h2 class="mb-4 font-display text-lg font-bold text-ink">Publicación</h2>
-      <app-host-publication-panel
-        [unitId]="currentUnit.id"
-        [publication]="publication()"
-        (created)="onPublicationCreated($event)"
-        (changed)="onPublicationChanged($event)"
-      />
-    </section>
-
-    @if (publication(); as pub) {
-      <section class="rounded-card border border-line bg-white p-6 shadow-card">
-        <h2 class="font-display text-lg font-bold text-ink">Precio</h2>
-        <p class="mb-4 mt-1 text-xs text-muted">
-          Hasta que el backend exponga la lectura de publicaciones del anfitrión, los valores ya
-          guardados no pueden mostrarse al recargar (limitación conocida del piloto).
-        </p>
-        <app-host-pricing-form [publicationId]="pub.id" />
-      </section>
-
-      <section class="rounded-card border border-line bg-white p-6 shadow-card">
-        <h2 class="font-display text-lg font-bold text-ink">Reglas</h2>
-        <p class="mb-4 mt-1 text-xs text-muted">
-          Política de cancelación, horarios y estancias mínima/máxima.
-        </p>
-        <app-host-rules-form [publicationId]="pub.id" />
-      </section>
-    }
-
-    <section class="rounded-card border border-line bg-white p-6 shadow-card">
-      <h2 class="font-display text-lg font-bold text-ink">Disponibilidad (bloqueos)</h2>
-      <p class="mb-4 mt-1 text-sm text-muted">
-        Bloquea fechas concretas (mantenimiento, uso propio) o libera bloqueos existentes.
+    <section class="ui-card ui-card-pad">
+      <h2 class="font-display text-lg font-extrabold text-ink">Datos de la habitación</h2>
+      <p class="mt-1 text-sm text-muted">
+        Capacidad, precio mensual y características propias de esta habitación.
       </p>
-      <app-host-blocks-form [unitId]="currentUnit.id" />
+      <div class="mt-4">
+        <app-host-unit-form [propertyId]="propertyId()" [unit]="room" (saved)="onSaved($event)" />
+      </div>
+      @if (room.monthlyPrice; as price) {
+        <p class="mt-4 rounded-xl bg-brand-50 px-4 py-3 text-sm text-brand-800">
+          Precio actual:
+          <strong>{{ price | currency: room.currency : 'symbol-narrow' : '1.0-0' }} al mes</strong>
+          {{ priceUnit(room) }}.
+        </p>
+      }
+    </section>
+
+    <section class="ui-card ui-card-pad">
+      <app-host-photo-manager
+        title="Fotografías de la habitación"
+        hint="La primera foto es la portada. Se muestran antes que las fotos generales de la propiedad."
+        [photos]="room.photos"
+        [busy]="photoBusy()"
+        [error]="photoError()"
+        (add)="addPhoto($event)"
+        (remove)="deletePhoto($event)"
+        (reorder)="reorderPhotos($event)"
+      />
     </section>
   }
 </div>
