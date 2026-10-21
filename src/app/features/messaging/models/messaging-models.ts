@@ -28,25 +28,34 @@ export interface MessageView {
 /** Resumen de hilo (`ConversationView`); nuevo primero cuando se lista. */
 export interface ConversationView {
   id: string;
-  reservationId: string;
+  reservationId: string | null;
+  unitId: string | null;
+  publicationId: string | null;
+  subject: string | null;
   guestUserId: string;
   hostUserId: string;
   createdAt: string;
   lastMessageAt: string | null;
   messageCount: number;
+  roomTitle: string | null;
+  propertyTitle: string | null;
+  cityName: string | null;
 }
 
-/** Cabecera de estancia del hilo, resuelta desde `booking` (`ReservationStayView`). */
-export interface ReservationStayView {
-  reservationId: string;
-  fromDate: string;
-  toDate: string;
+/** Contexto de la habitación del hilo (resuelto por accommodation). */
+export interface ListingContextView {
+  unitId: string | null;
+  publicationId: string | null;
+  roomTitle: string | null;
+  propertyTitle: string | null;
+  cityName: string | null;
+  reservationId: string | null;
 }
 
 /** Respuesta de `GET /conversations/{id}` y `POST /conversations`. */
 export interface ConversationDetailView {
   conversation: ConversationView;
-  stay: ReservationStayView;
+  listing: ListingContextView;
   messages: MessageView[];
 }
 
@@ -84,9 +93,10 @@ export interface ConversationReportView {
   createdAt: string;
 }
 
-/** Cuerpo de `POST /api/v1/conversations`. */
+/** Cuerpo de `POST /api/v1/conversations`: solicitud o habitación. */
 export interface OpenConversationPayload {
-  reservationId: string;
+  reservationId?: string;
+  unitId?: string;
 }
 
 /** Cuerpo de los endpoints de envío (`SendMessageRequest`). */
@@ -106,6 +116,16 @@ export const NEW_MESSAGE_TITLE = 'Tienes un nuevo mensaje';
 export const NOTIFICATION_TYPE_LABELS: Record<NotificationType, string> = {
   MENSAJE_NUEVO: 'Mensaje nuevo',
 };
+
+/** Título legible del hilo a partir del contexto real. */
+export function conversationTitle(conversation: ConversationView): string {
+  const room = conversation.roomTitle;
+  const property = conversation.propertyTitle;
+  if (room && property) return `${room} · ${property}`;
+  if (room) return room;
+  if (conversation.subject) return conversation.subject;
+  return conversation.reservationId ? 'Conversación de la solicitud' : 'Conversación';
+}
 
 /** ¿El usuario es una de las dos partes del hilo? (misma regla que el dominio). */
 export function isParticipant(conversation: ConversationView, userId: string): boolean {
