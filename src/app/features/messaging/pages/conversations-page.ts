@@ -5,7 +5,8 @@ import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
 import { MessagingApi } from '../data-access/messaging-api';
-import { lastActivityAt } from '../models/messaging-models';
+import { pluralize } from '../../../shared/utils/plural';
+import { conversationTitle, lastActivityAt } from '../models/messaging-models';
 
 /**
  * Bandeja de conversaciones (`GET /conversations`): hilos donde el usuario es
@@ -44,6 +45,14 @@ export class ConversationsPage {
 
   protected activityOf(conversation: Parameters<typeof lastActivityAt>[0]): string {
     return lastActivityAt(conversation);
+  }
+
+  protected messagesLabel(count: number): string {
+    return pluralize(count, 'mensaje', 'mensajes');
+  }
+
+  protected titleOf(conversation: Parameters<typeof conversationTitle>[0]): string {
+    return conversationTitle(conversation);
   }
 
   protected retry(): void {

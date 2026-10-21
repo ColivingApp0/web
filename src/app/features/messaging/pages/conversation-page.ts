@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { FormField as SignalFormField, FormRoot, form, validate } from '@angular/forms/signals';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -16,6 +15,7 @@ import {
   REPORT_REASON_MAX_LENGTH,
   counterpartUserId,
   isOwnMessage,
+  conversationTitle,
   messageBodyError,
   orderedMessages,
   reportReasonError,
@@ -41,16 +41,7 @@ interface ReportModel {
  */
 @Component({
   selector: 'app-conversation-page',
-  imports: [
-    RouterLink,
-    DatePipe,
-    UiAlert,
-    UiButton,
-    UiFormField,
-    MessageBubble,
-    SignalFormField,
-    FormRoot,
-  ],
+  imports: [RouterLink, UiAlert, UiButton, UiFormField, MessageBubble, SignalFormField, FormRoot],
   templateUrl: './conversation-page.html',
 })
 export class ConversationPage {
@@ -82,7 +73,11 @@ export class ConversationPage {
   });
 
   protected readonly myUserId = computed(() => this.session.user()?.userId ?? '');
-  protected readonly stay = computed(() => this.detail()?.stay ?? null);
+  protected readonly listing = computed(() => this.detail()?.listing ?? null);
+  protected readonly title = computed(() => {
+    const detail = this.detail();
+    return detail === null ? 'Conversación' : conversationTitle(detail.conversation);
+  });
   protected readonly counterpart = computed(() => {
     const detail = this.detail();
     return detail === null ? null : counterpartUserId(detail.conversation, this.myUserId());
