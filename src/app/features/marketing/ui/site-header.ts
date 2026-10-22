@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthSession } from '../../../core/auth/auth-session';
+import { UiIcon } from '../../../shared/ui/icon';
 
 interface NavLink {
   label: string;
@@ -17,7 +18,7 @@ const NAV_LINKS: readonly NavLink[] = [
 /** Cabecera pública de la landing: navegación por anclas y acceso/estado de sesión. */
 @Component({
   selector: 'app-site-header',
-  imports: [RouterLink],
+  imports: [RouterLink, UiIcon],
   templateUrl: './site-header.html',
 })
 export class SiteHeader {

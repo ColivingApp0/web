@@ -18,7 +18,7 @@ function setup() {
 
 function fillAndSubmit(
   fixture: ReturnType<typeof TestBed.createComponent<SearchBar>>,
-  values: { city?: string; institution?: string; budget?: string },
+  values: { city?: string; budget?: string },
 ) {
   const host = fixture.nativeElement as HTMLElement;
   const set = (selector: string, value: string) => {
@@ -28,8 +28,7 @@ function fillAndSubmit(
       input.dispatchEvent(new Event('input'));
     }
   };
-  set('#search-city', values.city ?? '');
-  set('#search-institution', values.institution ?? '');
+  set('#search-q', values.city ?? '');
   // El presupuesto es un slider: se mueve disparando `input` con el valor nuevo.
   set('#search-budget', values.budget ?? '');
   host.querySelector('form')?.dispatchEvent(new Event('submit'));
@@ -42,11 +41,11 @@ describe('SearchBar', () => {
     const fixture = TestBed.createComponent(SearchBar);
     await fixture.whenStable();
 
-    fillAndSubmit(fixture, { city: 'Medellín', institution: 'EAFIT', budget: '900000' });
+    fillAndSubmit(fixture, { city: 'Medellín', budget: '900000' });
     await vi.waitFor(() => expect(navigate).toHaveBeenCalled());
 
     expect(navigate).toHaveBeenCalledWith(['/alojamientos'], {
-      queryParams: { ciudad: 'Medellín', universidad: 'EAFIT', presupuesto: '900000' },
+      queryParams: { q: 'Medellín', maxPrice: '900000', availableOnly: 'true' },
     });
   });
 
@@ -59,7 +58,9 @@ describe('SearchBar', () => {
     fillAndSubmit(fixture, {});
     await vi.waitFor(() => expect(navigate).toHaveBeenCalled());
 
-    expect(navigate).toHaveBeenCalledWith(['/alojamientos'], { queryParams: {} });
+    expect(navigate).toHaveBeenCalledWith(['/alojamientos'], {
+      queryParams: { availableOnly: 'true' },
+    });
   });
 
   it('should expose an accessible monthly-budget slider with its visible value', async () => {
@@ -84,7 +85,7 @@ describe('SearchBar', () => {
     slider.dispatchEvent(new Event('input'));
     await fixture.whenStable();
 
-    expect(host.querySelector('#search-budget-value')?.textContent).toContain('Máximo mensual');
+    expect(host.querySelector('#search-budget-value')?.textContent).toContain('Máximo:');
     expect(host.querySelector('#search-budget-value')?.textContent).toContain('1.500.000');
     expect(slider.getAttribute('aria-valuetext')).toContain('Máximo mensual');
     expect(host.textContent).not.toContain('por noche');

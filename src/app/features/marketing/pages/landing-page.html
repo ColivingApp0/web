@@ -27,16 +27,16 @@
 
     <div class="relative z-10 mx-auto w-full max-w-page px-5 pb-24 pt-40">
       <span class="text-xs font-extrabold uppercase tracking-[0.14em] text-[#b9f4dc]"
-        >Tu lugar. Tu gente. Tu comunidad.</span
+        >Renta mensual de habitaciones</span
       >
       <h1
         class="mt-4 max-w-3xl font-display text-[clamp(2.6rem,5vw,5rem)] font-extrabold tracking-tighter text-white"
       >
-        Vive tu mejor<br /><em class="not-italic text-accent-300">experiencia</em> universitaria
+        Tu próximo<br /><em class="not-italic text-accent-300">hogar</em> empieza aquí
       </h1>
       <p class="mt-4 max-w-2xl text-lg text-white/85">
-        Encuentra alojamientos ideales, conecta con personas increíbles y forma parte de una
-        comunidad que te impulsa.
+        Encuentra habitaciones y plazas con precio mensual claro, conoce a tus posibles compañeros y
+        contacta al anfitrión antes de solicitar.
       </p>
       <app-search-bar />
       <div class="mt-6 flex flex-wrap gap-5 text-sm font-bold text-white">
@@ -58,14 +58,14 @@
           <h2
             class="mt-2 max-w-2xl font-display text-3xl font-extrabold tracking-[-0.04em] text-ink sm:text-4xl"
           >
-            Alojamientos que podrían ser para ti
+            Habitaciones que podrían ser para ti
           </h2>
           <p class="mt-2 text-muted">
-            Espacios seleccionados según ubicación, presupuesto y compatibilidad.
+            Precio mensual, plazas libres y características propias de cada habitación.
           </p>
         </div>
         <a routerLink="/alojamientos" class="font-extrabold text-brand-700 hover:underline"
-          >Ver todos →</a
+          >Ver todas →</a
         >
       </div>
       <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
@@ -96,7 +96,9 @@
             routerLink="/alojamientos"
             class="relative rounded-[18px] border border-line bg-white p-7 transition hover:-translate-y-0.5 hover:border-[#9dc7b8]"
           >
-            <span class="mb-6 block text-3xl" aria-hidden="true">{{ category.icon }}</span>
+            <span class="mb-6 grid size-11 place-items-center rounded-xl bg-brand-50 text-brand-700"
+              ><ui-icon [name]="category.icon" size="lg"
+            /></span>
             <h3 class="font-display text-lg font-bold text-ink">{{ category.title }}</h3>
             <p class="mt-1 text-sm text-muted">{{ category.subtitle }}</p>
             <span class="absolute bottom-5 right-5 text-xl text-brand-700" aria-hidden="true"
@@ -135,8 +137,10 @@
           />
         </div>
         <div class="absolute -left-4 bottom-16 z-10 rounded-2xl bg-white px-5 py-4 shadow-card">
-          <strong class="block font-display text-2xl font-extrabold text-brand-700">96%</strong>
-          <span class="text-xs text-muted">compatibilidad</span>
+          <strong class="block font-display text-2xl font-extrabold text-brand-700"
+            >Mes a mes</strong
+          >
+          <span class="text-xs text-muted">precio mensual claro</span>
         </div>
       </div>
 
@@ -186,7 +190,9 @@
             <span class="absolute right-6 top-6 font-black text-[#c7d3ce]" aria-hidden="true">{{
               step.number
             }}</span>
-            <span class="mb-8 block text-3xl" aria-hidden="true">{{ step.icon }}</span>
+            <span class="mb-8 grid size-11 place-items-center rounded-xl bg-brand-50 text-brand-700"
+              ><ui-icon [name]="step.icon" size="lg"
+            /></span>
             <h3 class="font-display text-lg font-bold text-ink">{{ step.title }}</h3>
             <p class="mt-1.5 text-sm text-muted">{{ step.text }}</p>
           </div>
@@ -282,7 +288,7 @@
         <a
           routerLink="/alojamientos"
           class="inline-flex min-h-12 items-center rounded-xl border border-white/35 px-5 font-extrabold text-white transition hover:bg-white/10"
-          >Explorar alojamientos</a
+          >Explorar habitaciones</a
         >
       </div>
     </div>

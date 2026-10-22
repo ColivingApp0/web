@@ -9,6 +9,7 @@ import {
   TESTIMONIALS,
   TRUST_ITEMS,
 } from '../marketing-content';
+import { UiIcon } from '../../../shared/ui/icon';
 import { ExamplePropertyCard } from '../ui/example-property-card';
 import { SearchBar } from '../ui/search-bar';
 import { SiteFooter } from '../ui/site-footer';
@@ -20,7 +21,15 @@ import { SiteHeader } from '../ui/site-header';
  */
 @Component({
   selector: 'app-landing-page',
-  imports: [RouterLink, NgOptimizedImage, SiteHeader, SiteFooter, SearchBar, ExamplePropertyCard],
+  imports: [
+    RouterLink,
+    NgOptimizedImage,
+    SiteHeader,
+    SiteFooter,
+    SearchBar,
+    ExamplePropertyCard,
+    UiIcon,
+  ],
   templateUrl: './landing-page.html',
 })
 export class LandingPage {
