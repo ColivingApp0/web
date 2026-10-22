@@ -1,11 +1,12 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ExampleListing } from '../marketing-content';
 
-/** Tarjeta de ejemplo de la landing (sin precios: el marketing no usa cifras reales). */
+/** Tarjeta ilustrativa de la landing, alineada al modelo mensual. */
 @Component({
   selector: 'app-example-property-card',
-  imports: [RouterLink],
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './example-property-card.html',
 })
 export class ExamplePropertyCard {

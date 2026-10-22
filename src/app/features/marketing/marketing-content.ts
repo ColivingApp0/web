@@ -1,100 +1,99 @@
+import { IconName } from '../../shared/ui/icon';
+
 /**
- * Contenido estático de marketing (Fase A de M2).
- *
- * Nota: las tarjetas de ejemplo ilustran el producto; **no** muestran precios
- * (decisión del proyecto: el marketing no usa cifras reales — el precio real es
- * `basePricePerNight` y vivirá en búsqueda/detalle). Las imágenes remotas son
- * marcadores de posición hasta integrar contenido real (las publicaciones del
- * backend aún no gestionan fotografías).
+ * Contenido estático de marketing. Las tarjetas ilustran habitaciones reales
+ * del modelo mensual (precio por mes, plazas y características) con imágenes
+ * locales de muestra; no son datos de la API.
  */
 
 export interface ExampleListing {
   id: string;
-  title: string;
+  propertyTitle: string;
+  roomTitle: string;
   city: string;
-  institution: string;
-  faculty: string;
-  score: number;
-  compatibility: number;
-  residents: number;
+  neighborhood: string;
+  monthlyPrice: number;
+  priceUnit: 'persona' | 'habitación';
+  capacity: number;
+  availablePlaces: number;
   image: string;
-  services: string[];
+  features: string[];
   badge?: string;
 }
 
 export const EXAMPLE_LISTINGS: readonly ExampleListing[] = [
   {
     id: 'demo-1',
-    title: 'Apartamento universitario en Chapinero',
+    propertyTitle: 'Casa Chapinero Alto',
+    roomTitle: 'Habitación compartida para dos',
     city: 'Bogotá',
-    institution: 'Universidad Javeriana',
-    faculty: 'Ingeniería',
-    score: 4.9,
-    compatibility: 96,
-    residents: 3,
-    image:
-      'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=85',
-    services: ['WiFi', 'Amoblado', 'Cocina', 'Lavadora'],
-    badge: 'Más popular',
+    neighborhood: 'Chapinero Alto',
+    monthlyPrice: 780000,
+    priceUnit: 'persona',
+    capacity: 2,
+    availablePlaces: 1,
+    image: '/images/rooms/room-03.jpg',
+    features: ['Ventilador', 'Baño compartido', 'Cocina'],
+    badge: 'Últimas plazas',
   },
   {
     id: 'demo-2',
-    title: 'Casa compartida cerca del campus',
+    propertyTitle: 'Casa Laureles',
+    roomTitle: 'Habitación compartida para cuatro',
     city: 'Medellín',
-    institution: 'Universidad EAFIT',
-    faculty: 'Negocios',
-    score: 4.8,
-    compatibility: 91,
-    residents: 4,
-    image:
-      'https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=900&q=85',
-    services: ['WiFi', 'Terraza', 'Seguridad', 'Parqueadero'],
-    badge: 'Nuevo',
+    neighborhood: 'Laureles',
+    monthlyPrice: 620000,
+    priceUnit: 'persona',
+    capacity: 4,
+    availablePlaces: 2,
+    image: '/images/rooms/room-04.jpg',
+    features: ['Aire acondicionado', 'Patio', 'WiFi'],
+    badge: 'Disponible',
   },
   {
     id: 'demo-3',
-    title: 'Habitación luminosa para estudiantes',
-    city: 'Cali',
-    institution: 'Universidad del Valle',
-    faculty: 'Ciencias Sociales',
-    score: 4.7,
-    compatibility: 88,
-    residents: 2,
-    image:
-      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=85',
-    services: ['WiFi', 'Escritorio', 'Cocina', 'Balcón'],
+    propertyTitle: 'Habitación El Poblado',
+    roomTitle: 'Habitación privada con baño',
+    city: 'Medellín',
+    neighborhood: 'El Poblado',
+    monthlyPrice: 1550000,
+    priceUnit: 'habitación',
+    capacity: 1,
+    availablePlaces: 1,
+    image: '/images/rooms/room-05.jpg',
+    features: ['Baño privado', 'Aire acondicionado', 'Coworking'],
   },
   {
     id: 'demo-4',
-    title: 'Loft moderno junto a universidades',
+    propertyTitle: 'Loft Norte',
+    roomTitle: 'Habitación compartida Loft Norte',
     city: 'Bogotá',
-    institution: 'Universidad Nacional',
-    faculty: 'Arquitectura',
-    score: 4.9,
-    compatibility: 94,
-    residents: 2,
-    image:
-      'https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=900&q=85',
-    services: ['WiFi', 'Gym', 'Coworking', 'Seguridad'],
+    neighborhood: 'Norte',
+    monthlyPrice: 860000,
+    priceUnit: 'persona',
+    capacity: 2,
+    availablePlaces: 2,
+    image: '/images/rooms/room-09.jpg',
+    features: ['Aire acondicionado', 'Coworking', 'Gimnasio'],
   },
 ];
 
 export interface MarketingCategory {
-  icon: string;
+  icon: IconName;
   title: string;
   subtitle: string;
 }
 
 export const CATEGORIES: readonly MarketingCategory[] = [
-  { icon: '🎓', title: 'Cerca de universidades', subtitle: 'A pocos minutos de tu campus' },
-  { icon: '🧑‍🤝‍🧑', title: 'Compartidos', subtitle: 'Conecta con personas compatibles' },
-  { icon: '🏡', title: 'Habitaciones', subtitle: 'Espacios listos para mudarte' },
-  { icon: '🌆', title: 'Por ciudad', subtitle: 'Bogotá, Medellín, Cali y más' },
+  { icon: 'building', title: 'Cerca de universidades', subtitle: 'A pocos minutos de tu campus' },
+  { icon: 'users', title: 'Compartidas', subtitle: 'Conecta con personas compatibles' },
+  { icon: 'bed', title: 'Habitaciones', subtitle: 'Espacios listos para mudarte' },
+  { icon: 'map-pin', title: 'Por ciudad', subtitle: 'Bogotá, Medellín, Cali y más' },
 ];
 
 export interface MarketingStep {
   number: string;
-  icon: string;
+  icon: IconName;
   title: string;
   text: string;
 }
@@ -102,21 +101,21 @@ export interface MarketingStep {
 export const STEPS: readonly MarketingStep[] = [
   {
     number: '01',
-    icon: '🔎',
+    icon: 'search',
     title: 'Busca',
-    text: 'Indica ciudad, universidad, presupuesto y preferencias.',
+    text: 'Indica ciudad o zona y el presupuesto mensual que tienes.',
   },
   {
     number: '02',
-    icon: '🤝',
+    icon: 'message',
     title: 'Conecta',
-    text: 'Compara espacios y descubre tu compatibilidad social.',
+    text: 'Compara habitaciones, plazas y características; pregunta al anfitrión.',
   },
   {
     number: '03',
-    icon: '🏡',
-    title: 'Reserva',
-    text: 'Habla con el anfitrión y solicita con información clara.',
+    icon: 'key',
+    title: 'Solicita',
+    text: 'Envía una solicitud por una plaza. El anfitrión decide y la ocupación se actualiza.',
   },
 ];
 
@@ -132,31 +131,31 @@ export const TESTIMONIALS: readonly Testimonial[] = [
     name: 'Laura Martínez',
     role: 'Estudiante de Ingeniería',
     initials: 'LM',
-    text: 'Encontré compañeros con gustos muy parecidos a los míos y pude mudarme sin complicaciones.',
+    text: 'Encontré una habitación compartida con un precio mensual claro y pude hablar con la anfitriona antes de solicitar.',
   },
   {
     name: 'Daniel Rojas',
     role: 'Anfitrión',
     initials: 'DR',
-    text: 'La plataforma hace mucho más sencillo gestionar solicitudes y mantener una comunidad sana.',
+    text: 'Publicar cada habitación por separado y pausar la que estoy remodelando hace que todo sea mucho más simple.',
   },
   {
     name: 'Sofía Gómez',
-    role: 'Turista',
+    role: 'Estudiante',
     initials: 'SG',
-    text: 'Me gustó poder comparar hospedajes y conocer las reglas de cada espacio antes de solicitar.',
+    text: 'Me gustó ver cuántas plazas quedan libres y con quién compartiría antes de enviar la solicitud.',
   },
 ];
 
 export const TRUST_ITEMS: readonly string[] = [
-  'Alojamientos verificados',
-  'Comunidad confiable',
-  'Score que te recompensa',
+  'Precio mensual claro',
+  'Plazas y ocupación visibles',
+  'Perfiles de residentes con consentimiento',
 ];
 
 export const COMMUNITY_BENEFITS: readonly string[] = [
-  'Preferencias de convivencia claras',
-  'Score basado en comportamiento y confianza',
-  'Actividades para conocer a tu comunidad',
-  'Mensajería entre estudiantes y anfitriones',
+  'Habitaciones con características propias',
+  'Solicitudes sencillas y sin fechas',
+  'Mensajería directa con el anfitrión',
+  'Compañeros de habitación solo si autorizan su perfil',
 ];
