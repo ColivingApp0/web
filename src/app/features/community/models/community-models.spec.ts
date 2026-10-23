@@ -130,9 +130,9 @@ describe('residentCandidates (proyección del anfitrión)', () => {
       id: 'r1',
       unitId: 'u1',
       guestUserId: 'guestA',
-      status: 'CONFIRMADA',
-      fromDate: '2026-11-01',
-      toDate: '2026-11-04',
+      status: 'ACEPTADA',
+      monthlyPrice: 800000,
+      currency: 'COP',
       ...overrides,
     };
   }

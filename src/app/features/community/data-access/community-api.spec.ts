@@ -18,7 +18,7 @@ const ACTIVITY = {
   createdAt: '2026-11-01T10:00:00Z',
 };
 
-const PARTICIPANT = { userId: 'guest', status: 'CONFIRMADA', registeredAt: '2026-11-02T10:00:00Z' };
+const PARTICIPANT = { userId: 'guest', status: 'ACEPTADA', registeredAt: '2026-11-02T10:00:00Z' };
 
 const DETAIL = {
   activity: { ...ACTIVITY, confirmedCount: 1, freePlaces: 3 },
@@ -52,7 +52,7 @@ describe('CommunityApi (contratos reales)', () => {
     const confirmRequest = http.expectOne('/api/v1/community/activities/a1/confirm');
     expect(confirmRequest.request.method).toBe('POST');
     confirmRequest.flush(PARTICIPANT);
-    await expect(confirm).resolves.toMatchObject({ status: 'CONFIRMADA' });
+    await expect(confirm).resolves.toMatchObject({ status: 'ACEPTADA' });
 
     const withdraw = api.withdrawFromActivity('a1');
     http
@@ -128,9 +128,9 @@ describe('CommunityResidentsApi (proyección estrecha del anfitrión)', () => {
           id: 'r1',
           unitId: 'u1',
           guestUserId: 'guest',
-          status: 'CONFIRMADA',
-          fromDate: '2026-11-01',
-          toDate: '2026-11-04',
+          status: 'ACEPTADA',
+          monthlyPrice: 800000,
+          currency: 'COP',
         },
       ]),
     );
@@ -146,9 +146,9 @@ describe('CommunityResidentsApi (proyección estrecha del anfitrión)', () => {
             id: 'r1',
             unitId: 'u1',
             guestUserId: 'guest',
-            status: 'CONFIRMADA',
-            fromDate: '2026-11-01',
-            toDate: '2026-11-04',
+            status: 'ACEPTADA',
+            monthlyPrice: 800000,
+            currency: 'COP',
           },
         ],
       },

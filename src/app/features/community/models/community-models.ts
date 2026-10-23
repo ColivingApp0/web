@@ -208,8 +208,8 @@ export interface HostReservationRef {
   unitId: string;
   guestUserId: string;
   status: string;
-  fromDate: string;
-  toDate: string;
+  monthlyPrice: number | null;
+  currency: string;
 }
 
 /** Residente habilitable: usuario distinto con al menos una estancia confirmada. */
@@ -221,8 +221,8 @@ export interface ResidentCandidate {
 /**
  * Residentes habilitables de una propiedad, derivados **solo** de los datos
  * propios del anfitrión (`/host/properties` + `/host/reservations`), replicando
- * la regla del backend: huéspedes con reserva `CONFIRMADA` sobre alguna unidad de
- * la propiedad, sin repetir usuario. El backend valida igualmente la pertenencia
+ * la regla del backend: huéspedes con una solicitud `ACEPTADA` (o la histórica `CONFIRMADA`) sobre
+ * alguna unidad de la propiedad, sin repetir usuario. El backend valida igualmente la pertenencia
  * (responde 400 si se habilita a alguien de fuera).
  */
 export function residentCandidates(
@@ -235,7 +235,10 @@ export function residentCandidates(
   );
   const byUser = new Map<string, HostReservationRef[]>();
   for (const reservation of reservations) {
-    if (reservation.status !== 'CONFIRMADA' || !unitIds.has(reservation.unitId)) {
+    if (
+      !['ACEPTADA', 'CONFIRMADA'].includes(reservation.status) ||
+      !unitIds.has(reservation.unitId)
+    ) {
       continue;
     }
     const current = byUser.get(reservation.guestUserId) ?? [];
