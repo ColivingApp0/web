@@ -9,6 +9,7 @@ import { ConfigurePrivacyPayload, ProfileView } from '../models/profile-models';
 interface PrivacyModel {
   affinityVisible: boolean;
   academicVisible: boolean;
+  roommateProfileVisible: boolean;
 }
 
 /** Visibilidad de afinidad y datos académicos (RF-013). Envía ambos valores (contrato real). */
@@ -30,6 +31,7 @@ export class PrivacyForm {
   private readonly model = linkedSignal<PrivacyModel>(() => ({
     affinityVisible: this.profile().affinityVisible,
     academicVisible: this.profile().academicVisible,
+    roommateProfileVisible: this.profile().roommateProfileVisible,
   }));
 
   protected readonly privacyForm = form(this.model, {
@@ -46,8 +48,12 @@ export class PrivacyForm {
     this.success.set(false);
     this.serverError.set(null);
     try {
-      const { affinityVisible, academicVisible } = this.model();
-      const payload: ConfigurePrivacyPayload = { affinityVisible, academicVisible };
+      const { affinityVisible, academicVisible, roommateProfileVisible } = this.model();
+      const payload: ConfigurePrivacyPayload = {
+        affinityVisible,
+        academicVisible,
+        roommateProfileVisible,
+      };
       const updated = await this.profileApi.configurePrivacy(payload);
       this.saved.emit(updated);
       this.success.set(true);
