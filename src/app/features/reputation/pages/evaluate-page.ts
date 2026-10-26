@@ -46,8 +46,6 @@ export class EvaluatePage {
 
   private readonly queryParams = toSignal(this.route.queryParamMap, { requireSync: true });
   protected readonly relationId = computed(() => this.queryParams().get('relacion') ?? '');
-  protected readonly fromDate = computed(() => this.queryParams().get('desde') ?? '');
-  protected readonly toDate = computed(() => this.queryParams().get('hasta') ?? '');
   protected readonly minRating = MIN_RATING;
   protected readonly maxRating = MAX_RATING;
 
