@@ -8,3 +8,6 @@ coverage
 
 # Lockfile generado por npm
 package-lock.json
+
+# Backend Kotlin/Spring (no usa la configuración Prettier del cliente)
+api

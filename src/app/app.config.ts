@@ -11,6 +11,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { routes } from './app.routes';
 import { AuthSession } from './core/auth/auth-session';
 import { authInterceptor } from './core/auth/auth-interceptor';
+import { PushNotifications } from './core/push/push-notifications';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +26,11 @@ export const appConfig: ApplicationConfig = {
       const session = inject(AuthSession);
       session.restore();
       void session.refresh();
+    }),
+    provideAppInitializer(() => {
+      // Registro silencioso de push si el usuario ya concedió permiso. No
+      // bloquea el arranque: la configuración de Firebase es opcional.
+      void inject(PushNotifications).initialize();
     }),
   ],
 };

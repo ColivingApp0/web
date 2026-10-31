@@ -24,8 +24,8 @@ interface HostReservationResponse {
   unitId: string;
   guestUserId: string;
   status: string;
-  fromDate: string;
-  toDate: string;
+  monthlyPrice: number | null;
+  currency: string;
 }
 
 /** Contexto del anfitrión necesario para crear actividades (proyección estrecha). */
@@ -71,8 +71,8 @@ export class CommunityResidentsApi {
         unitId: reservation.unitId,
         guestUserId: reservation.guestUserId,
         status: reservation.status,
-        fromDate: reservation.fromDate,
-        toDate: reservation.toDate,
+        monthlyPrice: reservation.monthlyPrice,
+        currency: reservation.currency,
       })),
     };
   }

@@ -23,6 +23,8 @@ export interface ProfileView {
   academicVisible: boolean;
   stayPreferenceCodes: string[];
   affinityVisible: boolean;
+  avatarUrl: string | null;
+  roommateProfileVisible: boolean;
   verificationLevel: VerificationLevel;
 }
 
@@ -37,10 +39,12 @@ export interface UpdateProfilePayload {
   careerId: string | null;
   academicUnlisted: boolean;
   stayPreferences: string[];
+  avatarUrl?: string | null;
 }
 
 /** Cuerpo de `PUT /api/v1/profile/privacy` (ConfigurePrivacyRequest), envío completo. */
 export interface ConfigurePrivacyPayload {
   affinityVisible: boolean;
   academicVisible: boolean;
+  roommateProfileVisible: boolean;
 }

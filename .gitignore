@@ -42,3 +42,9 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Backend Kotlin/Spring: repositorio git independiente
+/api
+
+# Artefactos locales de Playwright MCP (capturas, trazas y snapshots)
+/.playwright-mcp/

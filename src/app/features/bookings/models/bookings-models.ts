@@ -1,13 +1,9 @@
 /**
- * Contratos del contexto `booking` (RF-040..RF-044). Reflejan los DTOs reales
- * (`booking/application/dto/BookingDtos.kt` y `domain/enums/BookingEnums.kt`).
- *
- * Nota de dominio: una reserva congela sus condiciones económicas al crearse
- * (RN-07), por eso `pricePerNight`, `currency` y `cancellationPolicy` vienen en
- * la propia reserva y no se leen de la publicación.
+ * Contratos del contexto `booking` para **renta mensual**. Una solicitud pide
+ * una plaza de una habitación; no tiene fechas, noches ni total por duración.
+ * El precio mensual se congela al crear la solicitud (RN-07).
  */
 
-/** Ciclo de vida de una reserva (RF-042). Solo el backend cambia de estado. */
 export type ReservationStatus =
   | 'SOLICITADA'
   | 'INFORMACION_SOLICITADA'
@@ -17,7 +13,6 @@ export type ReservationStatus =
   | 'CANCELADA'
   | 'EXPIRADA';
 
-/** Tipos de entrada del historial (`ReservationEventType`). */
 export type ReservationEventType =
   | 'CREADA'
   | 'INFORMACION_SOLICITADA'
@@ -27,35 +22,27 @@ export type ReservationEventType =
   | 'CANCELADA'
   | 'EXPIRADA';
 
-/** Instantánea de la política de cancelación (copia propia del contexto booking). */
-export type BookingCancellationPolicy = 'FLEXIBLE' | 'MODERADA' | 'ESTRICTA';
-
-/** Moneda del snapshot económico (`accommodation` limita a estas dos). */
 export type BookingCurrency = 'COP' | 'USD';
+export type BookingPriceUnit = 'POR_HABITACION' | 'POR_PERSONA';
 
-/** Respuesta de los endpoints de reservas (`ReservationView`). */
 export interface ReservationView {
   id: string;
   unitId: string;
   publicationId: string;
   guestUserId: string;
-  /** Fecha inclusive del primer día ([from, to)). */
-  fromDate: string;
-  /** Fecha exclusiva del último día: las noches son la diferencia. */
-  toDate: string;
-  occupants: number;
+  places: number;
   message: string | null;
   status: ReservationStatus;
-  pricePerNight: number;
-  currency: BookingCurrency;
-  totalPrice: number;
-  cancellationPolicy: BookingCancellationPolicy | null;
-  /** Fin del hold provisional tras la aceptación (null antes de aceptar). */
-  holdExpiresAt: string | null;
+  monthlyPrice: number | null;
+  currency: string;
+  priceUnit: string | null;
+  unitName: string | null;
+  propertyTitle: string | null;
+  cityName: string | null;
+  photoUrl: string | null;
   createdAt: string;
 }
 
-/** Entrada del historial (`ReservationEventView`), en orden cronológico. */
 export interface ReservationEventView {
   id: string;
   reservationId: string;
@@ -68,43 +55,36 @@ export interface ReservationEventView {
 /** Cuerpo de `POST /api/v1/reservations`. */
 export interface CreateReservationPayload {
   unitId: string;
-  fromDate: string;
-  toDate: string;
-  occupants: number;
+  places: number;
   message: string | null;
 }
 
-/**
- * Proyección de lectura mínima que el formulario de solicitud necesita de la
- * publicación elegida (capacidad, precio vigente, política y estancias). El
- * backend hace lo mismo con `UnitBookingInfo`: booking no importa los agregados
- * de accommodation, solo una foto de lo que necesita para validar y previsualizar.
- */
+/** Foto mínima de la habitación que necesita el formulario de solicitud. */
 export interface BookingContext {
   publicationId: string;
   unitId: string;
   unitName: string;
   propertyTitle: string | null;
-  propertyAddress: string | null;
+  cityName: string | null;
+  neighborhood: string | null;
   maxGuests: number;
-  pricePerNight: number;
+  occupiedPlaces: number;
+  availablePlaces: number;
+  monthlyPrice: number;
   currency: BookingCurrency;
-  cancellationPolicy: BookingCancellationPolicy | null;
-  minNights: number | null;
-  maxNights: number | null;
+  priceUnit: BookingPriceUnit;
+  photoUrl: string | null;
+  published: boolean;
+  effectiveAvailable: boolean;
 }
 
-/** Referencia mínima de una unidad del anfitrión (bandeja de reservas). */
-export interface HostUnitRef {
+export interface GuestUnitRef {
   unitId: string;
   name: string;
   propertyId: string;
 }
 
-/** Acción del huésped sobre su propia reserva. */
-export type GuestReservationAction = 'confirm' | 'cancel';
-
-/** Acción del anfitrión sobre una reserva recibida. */
+export type GuestReservationAction = 'cancel';
 export type HostReservationAction = 'accept' | 'reject' | 'request-info' | 'cancel';
 
 export interface ReservationActionOption<T extends string> {
@@ -113,89 +93,49 @@ export interface ReservationActionOption<T extends string> {
   danger: boolean;
 }
 
-const GUEST_ACTION_OPTIONS: Record<
-  GuestReservationAction,
-  ReservationActionOption<GuestReservationAction>
-> = {
-  confirm: { action: 'confirm', label: 'Confirmar reserva', danger: false },
-  cancel: { action: 'cancel', label: 'Cancelar', danger: true },
-};
-
-const HOST_ACTION_OPTIONS: Record<
-  HostReservationAction,
-  ReservationActionOption<HostReservationAction>
-> = {
-  accept: { action: 'accept', label: 'Aceptar', danger: false },
-  reject: { action: 'reject', label: 'Rechazar', danger: true },
-  'request-info': { action: 'request-info', label: 'Pedir información', danger: true },
-  cancel: { action: 'cancel', label: 'Cancelar', danger: true },
-};
-
-/** Estados desde los que se puede cancelar (`Reservation.cancel`). */
-const CANCELLABLE: readonly ReservationStatus[] = [
-  'SOLICITADA',
-  'INFORMACION_SOLICITADA',
-  'ACEPTADA',
-  'CONFIRMADA',
-];
-
-/**
- * Acciones del huésped según el estado real. «Confirmar» solo aparece en
- * `ACEPTADA`: es la transición `ACEPTADA → CONFIRMADA`, que exige estar dentro
- * del hold (`holdExpiresAt`); si venció, el backend expira y responde 409.
- */
 export function guestReservationActions(
   status: ReservationStatus,
 ): readonly ReservationActionOption<GuestReservationAction>[] {
-  const actions: ReservationActionOption<GuestReservationAction>[] = [];
-  if (status === 'ACEPTADA') {
-    actions.push(GUEST_ACTION_OPTIONS.confirm);
-  }
-  if (CANCELLABLE.includes(status)) {
-    actions.push(GUEST_ACTION_OPTIONS.cancel);
-  }
-  return actions;
+  return ['SOLICITADA', 'INFORMACION_SOLICITADA', 'ACEPTADA', 'CONFIRMADA'].includes(status)
+    ? [{ action: 'cancel', label: 'Cancelar solicitud', danger: true }]
+    : [];
 }
 
-/**
- * Acciones del anfitrión según el estado real (RF-041 + RF-044):
- * aceptar/rechazar desde `SOLICITADA` e `INFORMACION_SOLICITADA`, pedir
- * información solo desde `SOLICITADA` y cancelar mientras no sea terminal.
- */
 export function hostReservationActions(
   status: ReservationStatus,
 ): readonly ReservationActionOption<HostReservationAction>[] {
   const actions: ReservationActionOption<HostReservationAction>[] = [];
   if (status === 'SOLICITADA' || status === 'INFORMACION_SOLICITADA') {
-    actions.push(HOST_ACTION_OPTIONS.accept, HOST_ACTION_OPTIONS.reject);
+    actions.push({ action: 'accept', label: 'Aceptar', danger: false });
+    actions.push({ action: 'reject', label: 'Rechazar', danger: true });
   }
   if (status === 'SOLICITADA') {
-    actions.push(HOST_ACTION_OPTIONS['request-info']);
+    actions.push({ action: 'request-info', label: 'Pedir información', danger: false });
   }
-  if (CANCELLABLE.includes(status)) {
-    actions.push(HOST_ACTION_OPTIONS.cancel);
+  if (['SOLICITADA', 'INFORMACION_SOLICITADA', 'ACEPTADA', 'CONFIRMADA'].includes(status)) {
+    actions.push({ action: 'cancel', label: 'Cancelar', danger: true });
   }
   return actions;
 }
 
 export const RESERVATION_STATUS_LABELS: Record<ReservationStatus, string> = {
-  SOLICITADA: 'Solicitada',
+  SOLICITADA: 'Pendiente',
   INFORMACION_SOLICITADA: 'Información solicitada',
   ACEPTADA: 'Aceptada',
-  CONFIRMADA: 'Confirmada',
+  CONFIRMADA: 'Aceptada',
   RECHAZADA: 'Rechazada',
   CANCELADA: 'Cancelada',
   EXPIRADA: 'Expirada',
 };
 
 export const RESERVATION_STATUS_CLASSES: Record<ReservationStatus, string> = {
-  SOLICITADA: 'bg-accent-500/15 text-accent-600',
-  INFORMACION_SOLICITADA: 'bg-accent-500/15 text-accent-600',
-  ACEPTADA: 'bg-brand-700/10 text-brand-800',
-  CONFIRMADA: 'bg-brand-700 text-white',
-  RECHAZADA: 'bg-red-100 text-red-800',
-  CANCELADA: 'bg-red-100 text-red-800',
-  EXPIRADA: 'bg-red-100 text-red-800',
+  SOLICITADA: 'bg-warning-50 text-warning-700 border-accent-200',
+  INFORMACION_SOLICITADA: 'bg-sky-soft text-[#0c4a6e] border-[#bae6fd]',
+  ACEPTADA: 'bg-brand-50 text-brand-800 border-brand-200',
+  CONFIRMADA: 'bg-brand-50 text-brand-800 border-brand-200',
+  RECHAZADA: 'bg-danger-50 text-danger-700 border-danger-100',
+  CANCELADA: 'bg-soft text-muted border-line',
+  EXPIRADA: 'bg-soft text-muted border-line',
 };
 
 export const RESERVATION_EVENT_LABELS: Record<ReservationEventType, string> = {
@@ -203,57 +143,21 @@ export const RESERVATION_EVENT_LABELS: Record<ReservationEventType, string> = {
   INFORMACION_SOLICITADA: 'Información solicitada al huésped',
   ACEPTADA: 'Aceptada por el anfitrión',
   RECHAZADA: 'Rechazada por el anfitrión',
-  CONFIRMADA: 'Confirmada por el huésped',
+  CONFIRMADA: 'Aceptada (registro histórico)',
   CANCELADA: 'Cancelada',
-  EXPIRADA: 'Expirada por falta de confirmación',
+  EXPIRADA: 'Expirada (registro histórico)',
 };
 
-export const CANCELLATION_POLICY_LABELS: Record<BookingCancellationPolicy, string> = {
-  FLEXIBLE: 'Flexible',
-  MODERADA: 'Moderada',
-  ESTRICTA: 'Estricta',
-};
-
-/** Estados terminales: no admiten más acciones (ni del huésped ni del anfitrión). */
 export const TERMINAL_RESERVATION_STATUSES: readonly ReservationStatus[] = [
   'RECHAZADA',
   'CANCELADA',
   'EXPIRADA',
 ];
 
-/**
- * Noches de una estancia en el intervalo `[from, to)` — la misma convención que
- * usan `Reservation.nights` y la disponibilidad. Se parsea en UTC para que el
- * resultado no dependa de la zona horaria del navegador.
- */
-export function stayNights(fromDate: string, toDate: string): number {
-  const from = Date.UTC(
-    Number(fromDate.slice(0, 4)),
-    Number(fromDate.slice(5, 7)) - 1,
-    Number(fromDate.slice(8, 10)),
-  );
-  const to = Date.UTC(
-    Number(toDate.slice(0, 4)),
-    Number(toDate.slice(5, 7)) - 1,
-    Number(toDate.slice(8, 10)),
-  );
-  return Math.round((to - from) / 86_400_000);
+export function priceUnitLabel(unit: string | null): string {
+  return unit === 'POR_PERSONA' ? 'por persona / plaza' : 'por habitación';
 }
 
-/** Total del snapshot: precio por noche × noches (misma fórmula que el backend). */
-export function reservationTotal(pricePerNight: number, nights: number): number {
-  return pricePerNight * nights;
-}
-
-/**
- * Un hold vencido significa que la confirmación del huésped será rechazada: el
- * backend expira la reserva y responde 409. La UI lo muestra como aviso; la
- * limpieza real la hace el `@Scheduled` del servidor (cada 60 s), así que el
- * estado puede seguir en `ACEPTADA` unos segundos después del vencimiento.
- */
-export function isHoldExpired(holdExpiresAt: string | null, now: Date): boolean {
-  if (holdExpiresAt === null) {
-    return false;
-  }
-  return new Date(holdExpiresAt).getTime() < now.getTime();
+export function isActiveReservation(status: ReservationStatus): boolean {
+  return !TERMINAL_RESERVATION_STATUSES.includes(status);
 }

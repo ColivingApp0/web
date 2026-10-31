@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toApiError } from '../../../core/http/api-error';
+import { PushNotifications } from '../../../core/push/push-notifications';
 import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
 import { MessagingApi } from '../data-access/messaging-api';
@@ -30,6 +31,12 @@ import {
 })
 export class NotificationsPage {
   private readonly api = inject(MessagingApi);
+  private readonly push = inject(PushNotifications);
+
+  protected readonly pushSupported = this.push.supported;
+  protected readonly pushEnabled = this.push.enabled;
+  protected readonly pushBusy = this.push.busy;
+  protected readonly pushError = this.push.error;
 
   protected readonly inboxResource = resource({ loader: () => this.api.notificationsInbox() });
   protected readonly inbox = computed(() => this.inboxResource.value() ?? null);
@@ -49,6 +56,14 @@ export class NotificationsPage {
 
   protected retry(): void {
     this.inboxResource.reload();
+  }
+
+  protected async enablePush(): Promise<void> {
+    await this.push.enable();
+  }
+
+  protected async disablePush(): Promise<void> {
+    await this.push.disable();
   }
 
   protected async markRead(notification: NotificationView): Promise<void> {

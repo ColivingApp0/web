@@ -10,6 +10,7 @@ import {
   MessageView,
   NotificationInboxView,
   NotificationView,
+  OpenConversationPayload,
 } from '../models/messaging-models';
 
 /**
@@ -46,30 +47,23 @@ export class MessagingApi {
     );
   }
 
-  /**
-   * Crea el hilo de una reserva **y** escribe el primer mensaje.
-   *
-   * Es el único camino real para crear una conversación: `POST /conversations`
-   * está roto en el backend actual (500 `HV000030`: `@NotBlank` aplicado a un
-   * `UUID` en `OpenConversationRequest`), así que la UI abre el hilo enviando el
-   * primer mensaje, que es además lo que el producto espera (RF-050: conversar
-   * dentro de la solicitud). La respuesta trae el `conversationId` creado.
-   */
+  /** Crea el hilo de una reserva y escribe el primer mensaje. */
   sendMessageToReservation(reservationId: string, body: string): Promise<MessageView> {
     return firstValueFrom(
       this.http.post<MessageView>(`${API_BASE}/reservations/${reservationId}/messages`, { body }),
     );
   }
 
-  /**
-   * `POST /conversations` (idempotente) **no se usa mientras el backend responda
-   * 500**; se conserva aquí para cuando el defecto se corrija y para dejar
-   * constancia del contrato. Ver la guía (§15) y la memoria del proyecto.
-   */
-  openConversation(reservationId: string): Promise<ConversationDetailView> {
+  /** Abre (idempotente) el hilo de una solicitud o de una habitación. */
+  openConversation(payload: OpenConversationPayload): Promise<ConversationDetailView> {
     return firstValueFrom(
-      this.http.post<ConversationDetailView>(`${API_BASE}/conversations`, { reservationId }),
+      this.http.post<ConversationDetailView>(`${API_BASE}/conversations`, payload),
     );
+  }
+
+  /** Hilo directo para preguntar al anfitrión antes de solicitar una plaza. */
+  openConversationForUnit(unitId: string): Promise<ConversationDetailView> {
+    return this.openConversation({ unitId });
   }
 
   // ---------- Notificaciones ----------

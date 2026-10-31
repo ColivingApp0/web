@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard, guestGuard, roleGuard } from './core/auth/auth-guards';
 import { FavoritesStore } from './features/listings/state/favorites-store';
-import { HostPublicationsStore } from './features/host/state/host-publications-store';
 import { AppShell } from './layout/app-shell';
 import { AuthLayout } from './layout/auth-layout';
 
@@ -73,17 +72,25 @@ export const routes: Routes = [
       },
       {
         path: 'alojamientos',
-        title: 'Alojamientos | ColivinApp',
+        title: 'Explorar habitaciones | ColivinApp',
         providers: [FavoritesStore],
         loadComponent: () =>
           import('./features/listings/pages/search-page').then((m) => m.SearchPage),
       },
       {
         path: 'alojamientos/:id',
-        title: 'Alojamiento | ColivinApp',
+        title: 'Habitación | ColivinApp',
         providers: [FavoritesStore],
         loadComponent: () =>
           import('./features/listings/pages/detail-page').then((m) => m.DetailPage),
+      },
+      {
+        path: 'propiedades/:id',
+        title: 'Propiedad | ColivinApp',
+        loadComponent: () =>
+          import('./features/listings/pages/property-detail-page').then(
+            (m) => m.PropertyDetailPage,
+          ),
       },
       {
         path: 'favoritos',
@@ -105,7 +112,7 @@ export const routes: Routes = [
       {
         // Reservas del huésped (contexto `booking`): crear y seguir solicitudes.
         path: 'reservas',
-        title: 'Mis reservas | ColivinApp',
+        title: 'Mis solicitudes | ColivinApp',
         loadComponent: () =>
           import('./features/bookings/pages/my-reservations-page').then(
             (m) => m.MyReservationsPage,
@@ -113,7 +120,7 @@ export const routes: Routes = [
       },
       {
         path: 'reservas/nueva',
-        title: 'Solicitar reserva | ColivinApp',
+        title: 'Solicitar plaza | ColivinApp',
         loadComponent: () =>
           import('./features/bookings/pages/new-reservation-page').then(
             (m) => m.NewReservationPage,
@@ -191,7 +198,6 @@ export const routes: Routes = [
         // Área de anfitrión: exige rol activo ANFITRION (el backend lo revalida en cada endpoint).
         path: 'anfitrion',
         canActivate: [roleGuard('ANFITRION')],
-        providers: [HostPublicationsStore],
         children: [
           {
             path: '',
@@ -207,14 +213,14 @@ export const routes: Routes = [
           },
           {
             path: 'propiedades/:propertyId/unidades/:unitId',
-            title: 'Unidad | ColivinApp',
+            title: 'Habitación | ColivinApp',
             loadComponent: () =>
               import('./features/host/pages/unit-page').then((m) => m.HostUnitPage),
           },
           {
             // Bandeja de reservas recibidas (contexto `booking`, vista del anfitrión).
             path: 'reservas',
-            title: 'Reservas recibidas | ColivinApp',
+            title: 'Solicitudes recibidas | ColivinApp',
             loadComponent: () =>
               import('./features/bookings/pages/host-reservations-page').then(
                 (m) => m.HostReservationsPage,

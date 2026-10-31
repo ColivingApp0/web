@@ -15,15 +15,22 @@
   } @else if (detail(); as conversation) {
     <header class="flex flex-wrap items-start justify-between gap-3">
       <div>
-        <h1 class="font-display text-2xl font-extrabold text-ink">Conversación</h1>
-        @if (stay(); as currentStay) {
-          <p class="mt-1 text-sm text-muted">
-            Estancia: {{ currentStay.fromDate | date: 'd MMM y' }} →
-            {{ currentStay.toDate | date: 'd MMM y' }}
+        <p class="ui-eyebrow">Mensajes</p>
+        <h1 class="mt-1 font-display text-2xl font-extrabold text-ink">{{ title() }}</h1>
+        @if (listing(); as context) {
+          <p class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+            @if (context.cityName) {
+              <span>{{ context.cityName }}</span>
+            }
+            <span>· Consulta directa con el anfitrión</span>
           </p>
         }
-        <p class="mt-0.5 text-xs text-muted">
-          Reserva <span class="font-mono">{{ conversation.conversation.reservationId }}</span>
+        <p class="mt-1 text-xs text-muted">
+          @if (conversation.conversation.reservationId) {
+            Solicitud <span class="font-mono">{{ conversation.conversation.reservationId }}</span>
+          } @else {
+            Consulta sobre una habitación
+          }
         </p>
       </div>
       <div class="flex flex-wrap gap-3">
@@ -37,8 +44,8 @@
     </header>
 
     <p class="text-xs text-muted">
-      La mensajería del backend no ofrece tiempo real: los mensajes nuevos de la contraparte
-      aparecen al usar «Actualizar» o al volver a entrar en la conversación.
+      La mensajería no ofrece tiempo real: los mensajes nuevos de la contraparte aparecen al usar
+      «Actualizar» o al volver a entrar en la conversación.
     </p>
 
     @if (successMessage(); as message) {

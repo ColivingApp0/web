@@ -1,59 +1,62 @@
-# Client
+# ColivinApp — cliente Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.1.
+Frontend de **ColivinApp**, una aplicación de **renta mensual de habitaciones**.
+El cliente Angular está en este repositorio; la API Kotlin/Spring vive en `api/`.
 
-## Development server
+## Requisitos
 
-To start a local development server, run:
+- Node.js 24+ y npm.
+- Java 21+.
+- Docker (PostgreSQL local).
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Arranque local
 
 ```bash
-ng generate component component-name
+# 1. Base de datos
+cd api
+docker compose up -d
+
+# 2. API (:8082 en perfil dev)
+./gradlew bootRun
+
+# 3. Cliente (:8080, proxy /api → :8082)
+cd ..
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Abre `http://localhost:8080/`.
+
+- Swagger de la API: `http://localhost:8082/swagger-ui/index.html`.
+- Liquibase aplica las migraciones al arrancar la API.
+- En el perfil `dev` se siembran datos de prueba reproducibles (ver más abajo).
+- El puerto 8080 se usa para el cliente porque es el que se expone en GitHub
+  Codespaces; `proxy.conf.json` envía `/api` al backend en 8082.
+
+## Datos de desarrollo
+
+La semilla se ejecuta al arrancar la API con `app.seed.enabled=true` (por defecto
+en `dev`) y es idempotente:
+
+- **Anfitriones** (contraseña `Host123!`): `ana@colivin.dev`, `carlos@colivin.dev`,
+  `lucia@colivin.dev`, `diego@colivin.dev`.
+- **Huéspedes** (contraseña `Guest123!`): `huesped01@colivin.dev` …
+  `huesped16@colivin.dev`.
+- 8 propiedades, 17 habitaciones y 20 solicitudes con escenarios variados
+  (vacías, últimas plazas, completas, pausadas, individuales y compartidas).
+- Las fotos están en `public/images/rooms/` y los avatares en
+  `public/images/avatars/`.
+
+## Comandos
 
 ```bash
-ng generate --help
+npm start                 # dev server :8080
+npm run build             # build de producción
+npx ng test --watch=false # Vitest
+npx prettier --check .    # formato
 ```
 
-## Building
+## Documentación
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `docs/frontend-development-guide.md` — convenciones, sistema visual, contratos
+  mensuales, accesibilidad y pruebas.
+- `api/docs/` — diseño de los contextos accommodation, booking, search y mensajería.
