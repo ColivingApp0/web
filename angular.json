@@ -33,7 +33,8 @@
                 "127.0.0.1",
                 "*.app.github.dev",
                 "*.preview.app.github.dev",
-                "*.githubpreview.dev"
+                "*.githubpreview.dev",
+                "*.onrender.com"
               ]
             },
             "ssr": {
@@ -80,7 +81,8 @@
               "127.0.0.1",
               "*.app.github.dev",
               "*.preview.app.github.dev",
-              "*.githubpreview.dev"
+              "*.githubpreview.dev",
+              "*.onrender.com"
             ]
           },
           "configurations": {

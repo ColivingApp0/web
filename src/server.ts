@@ -5,6 +5,8 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
+import { request as httpRequest } from 'node:http';
+import { request as httpsRequest } from 'node:https';
 import { join } from 'node:path';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
@@ -13,16 +15,53 @@ const app = express();
 const angularApp = new AngularNodeAppEngine({ trustProxyHeaders: true });
 
 /**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
+ * Reverse proxy for the API (`API_BASE = '/api/v1'`, same-origin by ADR-001).
  *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
+ * In development the dev-server applies `proxy.conf.json`; in production the
+ * client and the API are separate Render services, so the SSR server forwards
+ * `/api/*` to `API_PROXY_TARGET` and keeps every request same-origin for the
+ * browser. The backend has no CORS on purpose, so this hop is what makes the
+ * deployed app work without changing the API contract.
  */
+const apiProxyTarget = process.env['API_PROXY_TARGET'];
+
+if (apiProxyTarget) {
+  const target = new URL(apiProxyTarget);
+  const transport = target.protocol === 'https:' ? httpsRequest : httpRequest;
+  const targetPort = target.port || (target.protocol === 'https:' ? '443' : '80');
+
+  app.use('/api', (req, res) => {
+    const upstream = transport(
+      {
+        protocol: target.protocol,
+        hostname: target.hostname,
+        port: targetPort,
+        method: req.method,
+        path: req.originalUrl,
+        headers: {
+          ...req.headers,
+          host: target.host,
+          'x-forwarded-host': req.headers['x-forwarded-host'] ?? req.headers.host ?? '',
+          'x-forwarded-proto': req.headers['x-forwarded-proto'] ?? req.protocol,
+        },
+      },
+      (upstreamRes) => {
+        res.writeHead(upstreamRes.statusCode ?? 502, upstreamRes.headers);
+        upstreamRes.pipe(res);
+      },
+    );
+
+    upstream.on('error', (error) => {
+      console.error(`API proxy error for ${req.method} ${req.originalUrl}:`, error.message);
+      if (!res.headersSent) {
+        res.writeHead(502, { 'content-type': 'application/json' });
+      }
+      res.end(JSON.stringify({ error: 'api_unreachable' }));
+    });
+
+    req.pipe(upstream);
+  });
+}
 
 /**
  * Serve static files from /browser
