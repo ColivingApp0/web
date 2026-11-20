@@ -94,6 +94,7 @@
         @for (category of categories; track category.title) {
           <a
             routerLink="/alojamientos"
+            [queryParams]="category.queryParams"
             class="relative rounded-[18px] border border-line bg-white p-7 transition hover:-translate-y-0.5 hover:border-[#9dc7b8]"
           >
             <span class="mb-6 grid size-11 place-items-center rounded-xl bg-brand-50 text-brand-700"

@@ -1,10 +1,13 @@
 import { Component, computed, inject, resource, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
+import { UiIcon } from '../../../shared/ui/icon';
 import { DirectoryApi } from '../data-access/directory-api';
 import {
   DIRECTORY_RESULT_LIMIT,
+  canonicalCityName,
   externalWebsiteUrl,
   searchCities,
   searchUniversities,
@@ -25,7 +28,7 @@ type DirectoryMode = 'cities' | 'universities';
  */
 @Component({
   selector: 'app-directory-page',
-  imports: [UiAlert, UiButton],
+  imports: [RouterLink, UiAlert, UiButton, UiIcon],
   templateUrl: './directory-page.html',
 })
 export class DirectoryPage {
@@ -45,8 +48,27 @@ export class DirectoryPage {
   );
 
   protected readonly resultLimit = DIRECTORY_RESULT_LIMIT;
+  protected readonly cityName = canonicalCityName;
   protected readonly websiteUrl = externalWebsiteUrl;
   protected readonly searching = computed(() => this.query().trim().length > 0);
+  protected readonly suggestedCities = [
+    'Bogotá',
+    'Medellín',
+    'Cali',
+    'Barranquilla',
+    'Bucaramanga',
+    'Pereira',
+    'Manizales',
+    'Cartagena',
+  ] as const;
+  protected readonly suggestedUniversities = [
+    'UNIVERSIDAD DE LOS ANDES',
+    'UNIVERSIDAD EAFIT',
+    'UNIVERSIDAD DE ANTIOQUIA',
+    'UNIVERSIDAD NACIONAL DE COLOMBIA',
+    'PONTIFICIA UNIVERSIDAD JAVERIANA',
+    'UNIVERSIDAD DEL VALLE',
+  ] as const;
   protected readonly loading = computed(() =>
     this.mode() === 'cities'
       ? this.citiesResource.isLoading()

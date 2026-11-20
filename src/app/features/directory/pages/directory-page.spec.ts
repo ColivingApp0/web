@@ -35,11 +35,13 @@ function setup() {
 }
 
 describe('DirectoryPage', () => {
-  it('should invite the user to search before typing', async () => {
+  it('should invite the user to explore before typing', async () => {
     const { fixture, host } = setup();
     await fixture.whenStable();
 
-    expect(host.textContent).toContain('Escribe el nombre');
+    expect(host.textContent).toContain('Explora por ciudad');
+    expect(host.textContent).toContain('Bogotá');
+    expect(host.querySelector('a[href*="/alojamientos"]')).not.toBeNull();
   });
 
   it('should search cities ignoring accents', async () => {
