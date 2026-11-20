@@ -6,13 +6,11 @@
     <div class="mt-6 space-y-4">
       <ui-alert
         variant="success"
-        message="Cuenta creada. Te enviamos un token de verificación a tu correo electrónico."
+        message="Cuenta creada. Revisa tu correo para verificar la cuenta y empezar a explorar."
       />
       <p class="text-sm text-muted">
-        En desarrollo el correo no se envía: el token aparece en los logs del servidor (<code
-          class="rounded bg-soft px-1 py-0.5 text-xs"
-          >[dev-email] verify account … token=…</code
-        >).
+        Después de verificar tu correo, revisa y acepta los consentimientos de tratamiento de datos
+        desde «Mi perfil». Allí puedes decidir qué información compartes.
       </p>
       <div class="flex flex-col gap-3 sm:flex-row">
         <a
@@ -22,6 +20,7 @@
         >
         <a
           routerLink="/entrar"
+          [queryParams]="loginParams"
           class="inline-flex items-center justify-center rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-bold text-brand-700 transition hover:bg-soft"
           >Ir a iniciar sesión</a
         >
@@ -49,16 +48,52 @@
         hint="Entre 8 y 72 caracteres."
         [error]="passwordError()"
       >
-        <input
-          id="password"
-          type="password"
-          autocomplete="new-password"
-          [formField]="registerForm.password"
-          [attr.aria-describedby]="passwordError() ? 'password-error' : null"
-          [attr.aria-invalid]="passwordError() ? 'true' : null"
-          class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
-        />
+        <div class="relative">
+          <input
+            id="password"
+            [type]="showPassword() ? 'text' : 'password'"
+            autocomplete="new-password"
+            [formField]="registerForm.password"
+            [attr.aria-describedby]="passwordError() ? 'password-error' : null"
+            [attr.aria-invalid]="passwordError() ? 'true' : null"
+            class="w-full rounded-xl border border-line bg-white px-3 py-2.5 pr-12 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+          />
+          <button
+            type="button"
+            class="absolute right-1 top-1 grid size-10 place-items-center rounded-lg text-muted transition hover:bg-soft hover:text-ink"
+            [attr.aria-pressed]="showPassword()"
+            [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            (click)="showPassword.set(!showPassword())"
+          >
+            <ui-icon [name]="showPassword() ? 'eye-off' : 'eye'" size="sm" />
+          </button>
+        </div>
       </ui-form-field>
+
+      <div>
+        <label class="flex items-start gap-2.5 text-sm text-ink">
+          <input
+            type="checkbox"
+            [formField]="registerForm.acceptTerms"
+            class="mt-0.5 size-4 shrink-0 accent-brand-700"
+          />
+          <span>
+            He leído y acepto los
+            <a routerLink="/terminos" class="font-bold text-brand-700 hover:underline"
+              >términos de uso</a
+            >
+            y la
+            <a routerLink="/privacidad" class="font-bold text-brand-700 hover:underline"
+              >política de privacidad</a
+            >. Entiendo cómo se tratan mis datos para gestionar mi cuenta y mis solicitudes.
+          </span>
+        </label>
+        @if (termsError(); as error) {
+          <p class="mt-1.5 flex items-start gap-1 text-xs font-semibold text-danger-700">
+            <span aria-hidden="true">·</span>{{ error }}
+          </p>
+        }
+      </div>
 
       <ui-button [full]="true" [loading]="submitting()">
         {{ submitting() ? 'Creando cuenta…' : 'Crear cuenta' }}
@@ -67,7 +102,12 @@
 
     <p class="mt-6 text-sm text-muted">
       ¿Ya tienes cuenta?
-      <a routerLink="/entrar" class="font-bold text-brand-700 hover:underline">Inicia sesión</a>
+      <a
+        routerLink="/entrar"
+        [queryParams]="loginParams"
+        class="font-bold text-brand-700 hover:underline"
+        >Inicia sesión</a
+      >
     </p>
   }
 </section>

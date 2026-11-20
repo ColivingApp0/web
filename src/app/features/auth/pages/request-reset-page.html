@@ -5,23 +5,27 @@
     <div class="mt-6 space-y-4">
       <ui-alert
         variant="success"
-        message="Si el correo está registrado, recibirás las instrucciones para restablecer tu contraseña."
+        message="Revisa tu correo. Si la dirección está registrada, recibirás un enlace para crear una contraseña nueva."
       />
-      <p class="text-xs text-muted">
-        En desarrollo el correo no se envía: el token aparece en los logs del servidor (<code
-          class="rounded bg-soft px-1 py-0.5"
-          >[dev-email] reset password … token=…</code
-        >).
+      <p class="text-sm text-muted">
+        El enlace caduca por seguridad. Si no lo encuentras, revisa la carpeta de correo no deseado
+        o vuelve a solicitarlo.
       </p>
-      <a
-        routerLink="/restablecer-password"
-        class="inline-flex items-center justify-center rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600"
-        >Ya tengo el token</a
-      >
+      @if (development) {
+        <p class="rounded-xl border border-line bg-soft px-3 py-2 text-xs text-muted">
+          Entorno de desarrollo: el correo no se envía realmente. El equipo técnico puede generar el
+          enlace de recuperación.
+        </p>
+      }
+      <p class="text-sm text-muted">
+        <a routerLink="/entrar" class="font-bold text-brand-700 hover:underline"
+          >Volver a iniciar sesión</a
+        >
+      </p>
     </div>
   } @else {
     <p class="mt-1 text-sm text-muted">
-      Te enviaremos un token de un solo uso para crear una contraseña nueva.
+      Escribe el correo de tu cuenta y te enviaremos un enlace para crear una contraseña nueva.
     </p>
 
     <form [formRoot]="requestForm" class="mt-6 space-y-4" novalidate>

@@ -12,6 +12,7 @@ import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
 import { firstFieldError } from '../../../shared/ui/field-errors';
 import { UiFormField } from '../../../shared/ui/form-field';
+import { environment } from '../../../../environments/environment';
 import { AuthApi } from '../data-access/auth-api';
 
 interface RequestResetModel {
@@ -29,6 +30,7 @@ export class RequestResetPage {
   protected readonly submitting = signal(false);
   protected readonly sent = signal(false);
   protected readonly serverError = signal<string | null>(null);
+  protected readonly development = !environment.production;
 
   private readonly model = signal<RequestResetModel>({ email: '' });
 

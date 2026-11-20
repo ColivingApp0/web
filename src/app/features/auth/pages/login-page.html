@@ -1,6 +1,12 @@
 <section class="rounded-card border border-line bg-white p-6 shadow-card sm:p-8">
   <h1 class="font-display text-2xl font-extrabold text-ink">Inicia sesión</h1>
-  <p class="mt-1 text-sm text-muted">Accede para gestionar tu perfil y alojamientos.</p>
+  <p class="mt-1 text-sm text-muted">
+    @if (accessReason(); as reason) {
+      {{ reason }}
+    } @else {
+      Accede para gestionar tu perfil, tus solicitudes y tus alojamientos.
+    }
+  </p>
 
   <form [formRoot]="loginForm" class="mt-6 space-y-4" novalidate>
     <ui-alert [message]="serverError()" />
@@ -18,15 +24,26 @@
     </ui-form-field>
 
     <ui-form-field htmlFor="password" label="Contraseña" [error]="passwordError()">
-      <input
-        id="password"
-        type="password"
-        autocomplete="current-password"
-        [formField]="loginForm.password"
-        [attr.aria-describedby]="passwordError() ? 'password-error' : null"
-        [attr.aria-invalid]="passwordError() ? 'true' : null"
-        class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
-      />
+      <div class="relative">
+        <input
+          id="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          autocomplete="current-password"
+          [formField]="loginForm.password"
+          [attr.aria-describedby]="passwordError() ? 'password-error' : null"
+          [attr.aria-invalid]="passwordError() ? 'true' : null"
+          class="w-full rounded-xl border border-line bg-white px-3 py-2.5 pr-12 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
+        />
+        <button
+          type="button"
+          class="absolute right-1 top-1 grid size-10 place-items-center rounded-lg text-muted transition hover:bg-soft hover:text-ink"
+          [attr.aria-pressed]="showPassword()"
+          [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          (click)="showPassword.set(!showPassword())"
+        >
+          <ui-icon [name]="showPassword() ? 'eye-off' : 'eye'" size="sm" />
+        </button>
+      </div>
     </ui-form-field>
 
     <ui-button [full]="true" [loading]="submitting()">
@@ -37,7 +54,12 @@
   <div class="mt-6 space-y-2 text-sm">
     <p class="text-muted">
       ¿No tienes cuenta?
-      <a routerLink="/registro" class="font-bold text-brand-700 hover:underline">Regístrate</a>
+      <a
+        routerLink="/registro"
+        [queryParams]="registerParams"
+        class="font-bold text-brand-700 hover:underline"
+        >Regístrate</a
+      >
     </p>
     <p class="text-muted">
       ¿Olvidaste tu contraseña?

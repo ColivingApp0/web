@@ -12,17 +12,13 @@
     </div>
   } @else {
     <p class="mt-1 text-sm text-muted">
-      Introduce el token que enviamos a tu correo al crear la cuenta.
-    </p>
-    <p class="mt-2 text-xs text-muted">
-      En desarrollo el correo no se envía: busca en los logs del servidor la línea
-      <code class="rounded bg-soft px-1 py-0.5">[dev-email] verify account … token=…</code>.
+      Introduce el código que enviamos a tu correo al crear la cuenta.
     </p>
 
     <form [formRoot]="verifyForm" class="mt-6 space-y-4" novalidate>
       <ui-alert [message]="serverError()" />
 
-      <ui-form-field htmlFor="token" label="Token de verificación" [error]="tokenError()">
+      <ui-form-field htmlFor="token" label="Código de verificación" [error]="tokenError()">
         <input
           id="token"
           type="text"
