@@ -2,7 +2,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UiIcon } from '../../../shared/ui/icon';
-import { placesLabel } from '../../../shared/utils/plural';
+import { requestedPlacesLabel } from '../../../shared/utils/plural';
 import {
   RESERVATION_STATUS_CLASSES,
   RESERVATION_STATUS_LABELS,
@@ -19,7 +19,7 @@ import {
 export class ReservationCard {
   readonly reservation = input.required<ReservationView>();
 
-  protected readonly places = placesLabel;
+  protected readonly requestedPlaces = requestedPlacesLabel;
   protected readonly statusLabel = computed(
     () => RESERVATION_STATUS_LABELS[this.reservation().status],
   );

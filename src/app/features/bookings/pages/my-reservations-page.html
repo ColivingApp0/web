@@ -46,6 +46,12 @@
     }
   </div>
 
+  @if (filter() === 'CERRADAS') {
+    <p class="text-xs text-muted">
+      Finalizadas incluye las solicitudes rechazadas, canceladas y expiradas.
+    </p>
+  }
+
   @if (loading()) {
     <div class="space-y-4">
       @for (item of [1, 2]; track item) {
