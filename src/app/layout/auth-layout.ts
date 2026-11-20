@@ -13,11 +13,11 @@ import { RouterOutlet } from '@angular/router';
           class="mx-auto flex max-w-md items-center gap-2 font-display text-xl font-extrabold text-ink"
         >
           <span
-            class="grid size-9 place-items-center rounded-xl bg-accent-500 font-black text-brand-800"
+            class="grid size-9 place-items-center rounded-xl bg-brand-700 font-black text-white"
             aria-hidden="true"
             >C</span
           >
-          <span>Colivin<span class="text-accent-600">App</span></span>
+          <span>Colivin<span class="text-brand-600">App</span></span>
         </a>
       </header>
 

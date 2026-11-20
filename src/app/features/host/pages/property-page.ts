@@ -9,7 +9,12 @@ import { UiEmptyState } from '../../../shared/ui/empty-state';
 import { UiIcon } from '../../../shared/ui/icon';
 import { UiPageHeader } from '../../../shared/ui/page-header';
 import { HostApi } from '../data-access/host-api';
-import { placesLabel, roomsLabel } from '../../../shared/utils/plural';
+import {
+  freePlacesLabel,
+  occupiedPlacesLabel,
+  placesLabel,
+  roomsLabel,
+} from '../../../shared/utils/plural';
 import {
   HostProperty,
   HostPropertyDetail,
@@ -67,6 +72,8 @@ export class HostPropertyPage {
   protected readonly rooms = computed<HostUnit[]>(() => this.detail()?.rooms ?? []);
 
   protected readonly places = placesLabel;
+  protected readonly occupiedPlaces = occupiedPlacesLabel;
+  protected readonly freePlaces = freePlacesLabel;
   protected readonly roomsCount = roomsLabel;
   protected readonly showCreateUnit = signal(false);
   protected readonly success = signal<string | null>(null);

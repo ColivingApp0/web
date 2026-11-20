@@ -13,7 +13,7 @@
         @if (statusFor(doc.type); as status) {
           <p class="mt-1 text-xs" [class]="status.accepted ? 'text-brand-700' : 'text-muted'">
             @if (status.accepted) {
-              Aceptado el {{ status.timestamp | date: 'medium' }}
+              Aceptado el {{ status.timestamp | date: 'd MMM y' }}
             } @else {
               No aceptado
             }

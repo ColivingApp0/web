@@ -26,8 +26,8 @@
         <p class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
           <span>{{ room.roomType === 'COMPARTIDA' ? 'Compartida' : 'Individual' }}</span>
           <span>{{ places(room.maxGuests) }}</span>
-          <span>{{ room.occupiedPlaces }} ocupadas</span>
-          <strong class="text-ink">{{ room.availablePlaces }} libres</strong>
+          <span>{{ occupiedPlaces(room.occupiedPlaces) }}</span>
+          <strong class="text-ink">{{ freePlaces(room.availablePlaces) }}</strong>
         </p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
