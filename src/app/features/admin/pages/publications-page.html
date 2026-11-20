@@ -3,13 +3,11 @@
     <div>
       <h1 class="font-display text-2xl font-extrabold text-ink">Moderación de publicaciones</h1>
       <p class="mt-1 text-sm text-muted">
-        RF-081: la revisión puede ocurrir antes o después de publicar. Aprobar deja la publicación
-        visible; rechazar oculta la que estaba publicada y devuelve el borrador a borrador;
-        solicitar corrección siempre devuelve la publicación a borrador.
+        Revisa las publicaciones en revisión. Aprobar deja la publicación visible; rechazar la
+        oculta; pedir corrección la devuelve a borrador.
       </p>
       <p class="mt-1 text-xs text-muted">
-        La cola por defecto son las publicaciones <strong>en revisión</strong>. Solo esas admiten
-        una decisión: el contrato valida el estado y, fuera de él, responde error interno.
+        La cola por defecto son las publicaciones en revisión. Solo esas admiten una decisión.
       </p>
     </div>
     <ui-button type="button" variant="secondary" (click)="retry()">Actualizar</ui-button>
@@ -37,8 +35,7 @@
       </ui-form-field>
     </div>
     <p class="mt-2 text-xs text-muted">
-      El contrato administrativo no expone anfitrión, propiedad ni fotografías: la cola muestra el
-      título, la unidad y el estado reales.
+      La vista muestra el título, la unidad y el estado de cada publicación.
     </p>
   </section>
 
@@ -55,8 +52,7 @@
     <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
       <p class="font-bold text-ink">No hay publicaciones en esta vista.</p>
       <p class="mt-1 text-sm text-muted">
-        Las publicaciones llegan aquí cuando el anfitrión las envía a revisión con
-        <code class="font-mono text-xs">request-review</code>.
+        Las publicaciones aparecen aquí cuando el anfitrión las envía a revisión.
       </p>
     </div>
   } @else {
@@ -66,10 +62,6 @@
           <div class="flex flex-wrap items-start justify-between gap-3">
             <div class="min-w-0">
               <p class="text-sm font-semibold text-ink">{{ publication.title }}</p>
-              <p class="mt-1 text-xs text-muted">
-                Unidad <span class="font-mono">{{ publication.unitId }}</span>
-              </p>
-              <p class="mt-0.5 font-mono text-xs text-muted">{{ publication.id }}</p>
             </div>
             <span class="rounded-full bg-soft px-3 py-1 text-xs font-bold text-ink">
               {{ statusLabels[publication.status] }}
@@ -124,8 +116,7 @@
             }
           } @else {
             <p class="mt-3 text-xs text-muted">
-              Esta publicación no está en revisión: el contrato solo admite una decisión sobre las
-              que están en la cola.
+              Esta publicación no está en revisión; no admite una decisión ahora.
             </p>
           }
         </li>

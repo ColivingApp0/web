@@ -2,12 +2,11 @@
   <div>
     <h1 class="font-display text-2xl font-extrabold text-ink">Administración</h1>
     <p class="mt-1 text-sm text-muted">
-      Verificación de identidad, moderación de publicaciones, cola de casos (reportes y disputas),
-      catálogos del piloto y reglas de beneficio del score.
+      Verifica identidades, modera publicaciones, revisa casos y disputas, y mantén los catálogos y
+      las reglas de beneficio del piloto.
     </p>
     <p class="mt-1 text-xs text-muted">
-      El acceso exige <strong>rol activo</strong> interno (moderador o administrador). El backend
-      revalida el permiso en cada endpoint: si la sesión no lo tiene, responde 403.
+      Solo las personas con un rol interno pueden acceder a esta área.
     </p>
   </div>
 
@@ -16,7 +15,7 @@
       <div>
         <h2 class="font-display text-lg font-bold text-ink">Indicadores de la cola de casos</h2>
         <p class="mt-1 text-xs text-muted">
-          Únicos indicadores operativos que el backend expone hoy (RF-084, alcance parcial).
+          Resumen de los casos y reportes que requieren atención.
         </p>
       </div>
       <ui-button type="button" variant="secondary" (click)="retry()">Actualizar</ui-button>
@@ -80,8 +79,7 @@
     >
       <h2 class="font-display text-lg font-bold text-ink">Casos y disputas</h2>
       <p class="mt-1 text-sm text-muted">
-        RF-082: cola con estados, prioridad y responsable; trazabilidad completa y acciones de
-        asignación, revisión, resolución y rechazo.
+        Revisa reportes y disputas, asigna responsable y ciérralos con una resolución motivada.
       </p>
     </a>
     <a
@@ -90,7 +88,7 @@
     >
       <h2 class="font-display text-lg font-bold text-ink">Verificación de documentos</h2>
       <p class="mt-1 text-sm text-muted">
-        RF-080: aprobar, rechazar o solicitar corrección; toda decisión exige motivo.
+        Aprueba, rechaza o pide corrección de los documentos de identidad y académicos.
       </p>
     </a>
     <a
@@ -99,7 +97,7 @@
     >
       <h2 class="font-display text-lg font-bold text-ink">Moderación de publicaciones</h2>
       <p class="mt-1 text-sm text-muted">
-        RF-081: revisar las publicaciones en revisión y registrar la decisión con su nota.
+        Revisa las publicaciones pendientes y registra la decisión con su nota.
       </p>
     </a>
     <a
@@ -108,8 +106,7 @@
     >
       <h2 class="font-display text-lg font-bold text-ink">Catálogos</h2>
       <p class="mt-1 text-sm text-muted">
-        RF-083: instituciones, facultades, carreras, ciudades, servicios y reglas. Las entradas se
-        desactivan, nunca se borran.
+        Gestiona ciudades, instituciones, facultades, carreras, servicios y reglas del piloto.
       </p>
     </a>
     <a
@@ -118,8 +115,7 @@
     >
       <h2 class="font-display text-lg font-bold text-ink">Reglas de beneficio</h2>
       <p class="mt-1 text-sm text-muted">
-        RF-073: configuración de beneficios por puntuación mínima del score (la fórmula del score
-        sigue siendo del backend).
+        Define qué beneficios se conceden a partir de cada puntuación del score.
       </p>
     </a>
   </section>
