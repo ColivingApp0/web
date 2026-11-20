@@ -8,6 +8,12 @@ import { UiButton } from '../../../shared/ui/button';
 import { UiEmptyState } from '../../../shared/ui/empty-state';
 import { UiFormField } from '../../../shared/ui/form-field';
 import { UiIcon } from '../../../shared/ui/icon';
+import { DirectoryApi } from '../../directory/data-access/directory-api';
+import {
+  DirectoryCity,
+  DirectoryUniversity,
+  normalizeText,
+} from '../../directory/models/directory-models';
 import { ListingsApi } from '../data-access/listings-api';
 import {
   BathroomType,
@@ -19,13 +25,24 @@ import {
   RoomType,
   SearchFilters,
 } from '../models/listings-models';
+import {
+  LocationFilter,
+  locationQueryParams,
+  locationResultsLabel,
+  parseLocationParams,
+  resolveCityLocation,
+  resolveUniversityLocation,
+} from '../models/location-filter';
+import { searchFiltersFromParams } from '../models/search-params';
 import { roomsFoundLabel, roomsLabel } from '../../../shared/utils/plural';
 import { FavoritesStore } from '../state/favorites-store';
 import { ListingCard } from '../ui/listing-card';
+import { LocationPicker } from '../ui/location-picker';
 import { MonthlyPriceSlider } from '../ui/monthly-price-slider';
 
 interface FiltersModel {
   q: string;
+  location: LocationFilter | null;
   minPrice: number;
   maxPrice: number;
   minCapacity: string;
@@ -71,6 +88,7 @@ function clampMonthlyPrice(value: number): number {
     SignalFormField,
     FormRoot,
     ListingCard,
+    LocationPicker,
     MonthlyPriceSlider,
   ],
   templateUrl: './search-page.html',
@@ -79,6 +97,7 @@ export class SearchPage {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly api = inject(ListingsApi);
+  private readonly directory = inject(DirectoryApi);
   protected readonly favorites = inject(FavoritesStore);
 
   constructor() {
@@ -90,38 +109,87 @@ export class SearchPage {
   protected readonly roomsFound = roomsFoundLabel;
   private readonly queryParams = toSignal(this.route.queryParamMap, { requireSync: true });
 
-  protected readonly appliedFilters = computed<SearchFilters>(() => {
+  /** Ubicación tal como viene en la URL, antes de resolverla contra el directorio. */
+  protected readonly urlLocation = computed(() => {
     const raw = this.queryParams();
-    const filters: SearchFilters = { availableOnly: true };
-    const q = raw.get('q') ?? raw.get('ciudad') ?? raw.get('universidad');
-    if (q?.trim()) filters.q = q.trim();
-    const minPrice = digits(raw.get('minPrice'));
-    const maxPrice = digits(raw.get('maxPrice')) ?? digits(raw.get('presupuesto'));
-    if (minPrice !== null) filters.minPrice = minPrice;
-    if (maxPrice !== null) filters.maxPrice = maxPrice;
-    const currency = raw.get('currency');
-    if (currency === 'COP' || currency === 'USD') filters.currency = currency;
-    const sort = raw.get('sort');
-    if (sort === 'PRICE_ASC' || sort === 'PRICE_DESC' || sort === 'RECENT') filters.sort = sort;
-    const minCapacity = digits(raw.get('minCapacity'));
-    if (minCapacity !== null) filters.minCapacity = minCapacity;
-    if (raw.get('availableOnly') === 'false') filters.availableOnly = false;
-    if (raw.get('airConditioning') === 'true') filters.airConditioning = true;
-    if (raw.get('fan') === 'true') filters.fan = true;
-    const bathroom = raw.get('bathroomType');
-    if (bathroom === 'PRIVADO' || bathroom === 'COMPARTIDO') filters.bathroomType = bathroom;
-    const roomType = raw.get('roomType');
-    if (roomType === 'INDIVIDUAL' || roomType === 'COMPARTIDA') filters.roomType = roomType;
+    return parseLocationParams(raw.get('ciudad'), raw.get('universidad'));
+  });
+
+  private readonly citiesResource = resource({
+    params: () => this.urlLocation()?.kind === 'city',
+    loader: ({ params }) =>
+      params ? this.directory.cities() : Promise.resolve<DirectoryCity[]>([]),
+  });
+  private readonly universitiesResource = resource({
+    params: () => this.urlLocation()?.kind === 'university',
+    loader: ({ params }) =>
+      params ? this.directory.universities() : Promise.resolve<DirectoryUniversity[]>([]),
+  });
+
+  /** Ubicación de la URL completada con departamento/ciudad del directorio. */
+  protected readonly resolvedUrlLocation = computed<LocationFilter | null>(() => {
+    const location = this.urlLocation();
+    if (!location) return null;
+    return location.kind === 'city'
+      ? resolveCityLocation(location, this.citiesResource.value() ?? [])
+      : resolveUniversityLocation(location, this.universitiesResource.value() ?? []);
+  });
+
+  /** Filtros que dependen solo de la URL (sin resolver la universidad). */
+  private readonly urlFilters = computed<SearchFilters>(() =>
+    searchFiltersFromParams(this.queryParams()),
+  );
+
+  /** Ciudad efectiva: directa para una ciudad; resuelta para una universidad. */
+  private readonly activeCityName = computed<string | null>(() => {
+    const location = this.urlLocation();
+    if (!location) return null;
+    return location.kind === 'city'
+      ? location.cityName
+      : (this.resolvedUrlLocation()?.cityName ?? null);
+  });
+
+  protected readonly appliedFilters = computed<SearchFilters>(() => {
+    const filters = { ...this.urlFilters() };
+    const cityName = this.activeCityName();
+    if (cityName) filters.cityName = cityName;
     return filters;
   });
 
+  /** Aviso cuando una universidad de la URL no se puede traducir a una ciudad. */
+  protected readonly locationNotice = computed(() => {
+    const location = this.urlLocation();
+    if (!location || location.kind !== 'university') return null;
+    if (this.universitiesResource.isLoading()) return null;
+    if (this.universitiesResource.error()) return null;
+    if (this.resolvedUrlLocation()?.cityName) return null;
+    const known = (this.universitiesResource.value() ?? []).some(
+      (university) => normalizeText(university.name) === normalizeText(location.name),
+    );
+    return known
+      ? `No tenemos la ciudad de «${location.name}»; elige una ciudad u otra universidad.`
+      : `No encontramos «${location.name}» en el directorio; elige otra ubicación.`;
+  });
+
+  protected readonly searchParams = computed<SearchFilters | undefined>(() => {
+    const location = this.urlLocation();
+    if (location?.kind === 'university') {
+      const status = this.universitiesResource.status();
+      // Espera a resolver la ciudad de la universidad para no buscar sin filtro.
+      if (status === 'idle' || status === 'loading') return undefined;
+    }
+    return this.appliedFilters();
+  });
+
   protected readonly searchResource = resource({
-    params: () => this.appliedFilters(),
+    params: () => this.searchParams(),
     loader: ({ params }) => this.api.list(params),
   });
 
   protected readonly listings = computed(() => this.searchResource.value() ?? []);
-  protected readonly loading = computed(() => this.searchResource.isLoading());
+  protected readonly loading = computed(
+    () => this.searchResource.isLoading() || this.searchParams() === undefined,
+  );
   protected readonly errorMessage = computed(() => {
     const error = this.searchResource.error();
     return error ? toApiError(error).message : null;
@@ -130,6 +198,7 @@ export class SearchPage {
     const filters = this.appliedFilters();
     return [
       filters.q,
+      filters.cityName,
       filters.minPrice,
       filters.maxPrice,
       filters.minCapacity,
@@ -143,9 +212,10 @@ export class SearchPage {
   });
 
   protected readonly model = linkedSignal<FiltersModel>(() => {
-    const filters = this.appliedFilters();
+    const filters = this.urlFilters();
     return {
       q: filters.q ?? '',
+      location: this.urlLocation(),
       minPrice: clampMonthlyPrice(filters.minPrice ?? MONTHLY_PRICE_MIN),
       maxPrice: clampMonthlyPrice(filters.maxPrice ?? MONTHLY_PRICE_MAX),
       minCapacity: filters.minCapacity != null ? String(filters.minCapacity) : '',
@@ -161,6 +231,27 @@ export class SearchPage {
 
   protected readonly formError = signal<string | null>(null);
   protected readonly filterOpen = signal(false);
+
+  /** Ubicación del formulario, completada con el directorio cuando aplica. */
+  protected readonly selectedLocation = computed<LocationFilter | null>(() => {
+    const selected = this.model().location;
+    if (!selected) return null;
+    const resolved = this.resolvedUrlLocation();
+    if (
+      resolved &&
+      resolved.kind === selected.kind &&
+      normalizeText(resolved.name) === normalizeText(selected.name)
+    ) {
+      return resolved;
+    }
+    return selected;
+  });
+
+  protected readonly resultsSummary = computed(() => {
+    const location = this.resolvedUrlLocation();
+    const count = this.listings().length;
+    return location ? locationResultsLabel(count, location) : this.roomsFound(count);
+  });
 
   protected readonly filterForm = form(this.model, {
     submission: {
@@ -191,7 +282,12 @@ export class SearchPage {
     if (model.fan) queryParams['fan'] = 'true';
     if (!model.availableOnly) queryParams['availableOnly'] = 'false';
     if (model.sort !== '') queryParams['sort'] = model.sort;
+    Object.assign(queryParams, locationQueryParams(model.location));
     void this.router.navigate([], { queryParams, relativeTo: this.route });
+  }
+
+  protected setLocation(location: LocationFilter | null): void {
+    this.model.update((current) => ({ ...current, location }));
   }
 
   protected setPriceMin(value: number): void {

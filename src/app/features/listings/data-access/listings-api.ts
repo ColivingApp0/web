@@ -19,6 +19,7 @@ export class ListingsApi {
   list(filters: SearchFilters): Promise<ListingView[]> {
     const query: Record<string, string> = {};
     if (filters.q) query['q'] = filters.q;
+    if (filters.cityName) query['cityName'] = filters.cityName;
     if (filters.minPrice != null) query['minPrice'] = String(filters.minPrice);
     if (filters.maxPrice != null) query['maxPrice'] = String(filters.maxPrice);
     if (filters.currency) query['currency'] = filters.currency;

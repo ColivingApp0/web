@@ -40,7 +40,7 @@
             >
           </div>
 
-          <ui-form-field htmlFor="filter-q" label="Ciudad, barrio o propiedad">
+          <ui-form-field htmlFor="filter-q" label="Barrio, propiedad o palabra clave">
             <div class="relative">
               <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted">
                 <ui-icon name="search" size="sm" />
@@ -48,12 +48,18 @@
               <input
                 id="filter-q"
                 type="search"
-                placeholder="Ej. Bogotá, Laureles…"
+                placeholder="Ej. Laureles, balcón…"
                 [formField]="filterForm.q"
                 class="ui-input pl-9"
               />
             </div>
           </ui-form-field>
+
+          <app-location-picker
+            [location]="selectedLocation()"
+            (locationChange)="setLocation($event)"
+          />
+          <ui-alert variant="warning" [message]="locationNotice()" />
 
           <app-monthly-price-slider
             [currency]="model().currency === 'USD' ? 'USD' : 'COP'"
@@ -132,11 +138,11 @@
 
     <section class="min-w-0 space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-3">
-        <p class="text-sm font-semibold text-ink">
+        <p class="text-sm font-semibold text-ink" role="status" aria-live="polite">
           @if (loading()) {
             Buscando habitaciones…
           } @else {
-            {{ roomsFound(listings().length) }}
+            {{ resultsSummary() }}
           }
         </p>
         <label class="flex items-center gap-2 text-sm text-muted">
