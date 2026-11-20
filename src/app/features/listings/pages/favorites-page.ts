@@ -1,25 +1,25 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
 import { ListingsApi } from '../data-access/listings-api';
+import { ListingView } from '../models/listings-models';
 import { FavoritesStore } from '../state/favorites-store';
+import { ListingCard } from '../ui/listing-card';
 
 interface FavoriteRow {
   publicationId: string;
   createdAt: string;
-  title: string | null;
-  price: number | null;
-  currency: string | null;
+  listing: ListingView | null;
   unavailable: boolean;
 }
 
 /** Lista de favoritos guardados (RF-034) con estado de cada publicación. */
 @Component({
   selector: 'app-favorites-page',
-  imports: [RouterLink, CurrencyPipe, DatePipe, UiAlert, UiButton],
+  imports: [RouterLink, DatePipe, UiAlert, UiButton, ListingCard],
   templateUrl: './favorites-page.html',
 })
 export class FavoritesPage {
@@ -43,12 +43,37 @@ export class FavoritesPage {
         favorites.map(async (favorite): Promise<FavoriteRow> => {
           try {
             const detail = await this.api.detail(favorite.publicationId);
+            const listing: ListingView = {
+              publicationId: detail.publication.id,
+              unitId: detail.unit.id,
+              propertyId: detail.property.id,
+              roomTitle: detail.unit.name,
+              propertyTitle: detail.property.title ?? 'Propiedad',
+              description: detail.unit.description,
+              cityId: detail.property.cityId,
+              cityName: detail.property.cityName,
+              neighborhood: detail.property.neighborhood,
+              monthlyPrice: detail.unit.monthlyPrice,
+              currency: detail.unit.currency,
+              priceUnit: detail.unit.priceUnit,
+              roomType: detail.unit.roomType,
+              bathroomType: detail.unit.bathroomType,
+              airConditioning: detail.unit.airConditioning,
+              fan: detail.unit.fan,
+              capacity: detail.occupancy.capacity,
+              occupiedPlaces: detail.occupancy.occupiedPlaces,
+              availablePlaces: detail.occupancy.availablePlaces,
+              photoUrl: detail.unit.photos[0]?.url ?? null,
+              propertyPhotoUrl: detail.property.photos[0]?.url ?? null,
+              serviceCodes: detail.publication.services,
+              accessibilityCodes: detail.unit.accessibilityCodes,
+              available: detail.occupancy.effectiveAvailable,
+              availabilityLabel: detail.occupancy.label,
+            };
             return {
               publicationId: favorite.publicationId,
               createdAt: favorite.createdAt,
-              title: detail.publication.title,
-              price: detail.unit.monthlyPrice ?? null,
-              currency: detail.unit.currency ?? null,
+              listing,
               unavailable: false,
             };
           } catch {
@@ -56,9 +81,7 @@ export class FavoritesPage {
             return {
               publicationId: favorite.publicationId,
               createdAt: favorite.createdAt,
-              title: null,
-              price: null,
-              currency: null,
+              listing: null,
               unavailable: true,
             };
           }

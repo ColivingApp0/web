@@ -11,10 +11,20 @@
       <div class="ui-skeleton aspect-[16/7]"></div>
     </div>
   } @else if (errorMessage(); as error) {
-    <div class="ui-card ui-card-pad space-y-3">
-      <ui-alert [message]="error" />
-      <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
-    </div>
+    <ui-empty-state
+      icon="building"
+      [title]="notFound() ? 'No encontramos esta propiedad' : 'No pudimos cargar la propiedad'"
+      [message]="error"
+    >
+      <div class="flex flex-wrap justify-center gap-2">
+        <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
+        <a
+          routerLink="/alojamientos"
+          class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line px-4 text-sm font-bold text-ink transition hover:bg-soft"
+          >Volver a la búsqueda</a
+        >
+      </div>
+    </ui-empty-state>
   } @else if (detail(); as view) {
     <header class="flex flex-wrap items-end justify-between gap-4">
       <div>
@@ -29,13 +39,10 @@
             >
           }
           <span class="flex items-center gap-1">
-            <ui-icon name="door" size="sm" /> {{ rooms(view.rooms.length) }} publicadas
+            <ui-icon name="door" size="sm" /> {{ publishedRooms(view.rooms.length) }}
           </span>
         </p>
       </div>
-      <ui-button variant="secondary" type="button" (click)="retry()">
-        <ui-icon name="sparkles" size="sm" /> Actualizar
-      </ui-button>
     </header>
 
     @if (mainPhoto(); as photo) {
@@ -78,10 +85,12 @@
               }
             </ul>
           }
-          @if (view.property.address; as address) {
-            <h3 class="mt-5 text-sm font-bold text-ink">Dirección</h3>
-            <p class="mt-1 text-sm text-muted">{{ address }}</p>
-          }
+          <p class="mt-5 flex items-start gap-1.5 text-sm text-muted">
+            <ui-icon name="map-pin" size="sm" class="mt-0.5" />
+            <span>
+              La ficha muestra barrio y ciudad. La dirección exacta no se publica en la ficha.
+            </span>
+          </p>
         </section>
 
         <section class="space-y-3">
@@ -130,8 +139,8 @@
                       {{ roomType(room.roomType) }} · {{ bathroom(room.bathroomType) }} ·
                       {{ places(room.maxGuests) }}
                     </p>
-                    <div class="mt-3 flex items-center justify-between gap-3">
-                      <p class="font-display text-lg font-extrabold text-ink">
+                    <div class="mt-3 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
+                      <p class="whitespace-nowrap font-display text-lg font-extrabold text-ink">
                         @if (room.monthlyPrice; as price) {
                           {{ price | currency: room.currency : 'symbol-narrow' : '1.0-0' }}
                           <span class="text-xs font-semibold text-muted">/ mes</span>
@@ -140,7 +149,9 @@
                         }
                       </p>
                       @if (room.publication; as publication) {
-                        <a [routerLink]="['/alojamientos', publication.id]" class="ui-link text-xs"
+                        <a
+                          [routerLink]="['/alojamientos', publication.id]"
+                          class="shrink-0 whitespace-nowrap text-xs font-bold text-brand-700 underline-offset-4 hover:underline"
                           >Ver detalle →</a
                         >
                       }
