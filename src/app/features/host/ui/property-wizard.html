@@ -7,7 +7,7 @@
             class="grid size-6 shrink-0 place-items-center rounded-full border border-current text-[11px] font-black"
             aria-hidden="true"
           >
-            @if (index < step()) {
+            @if (index < step() && isStepComplete(index)) {
               <ui-icon name="check" size="xs" />
             } @else {
               {{ index + 1 }}
@@ -19,6 +19,17 @@
       }
     </ol>
     <p class="mt-2 text-xs font-semibold text-muted">{{ progressLabel() }}</p>
+    @if (restoredDraft()) {
+      <p
+        class="mt-1 flex flex-wrap items-center gap-2 text-xs font-semibold text-brand-700"
+        role="status"
+      >
+        Recuperamos el borrador que dejaste sin terminar.
+        <button type="button" class="underline underline-offset-4" (click)="discardDraft()">
+          Descartar borrador
+        </button>
+      </p>
+    }
     <p class="sr-only" aria-live="polite" aria-atomic="true">{{ liveMessage() }}</p>
   </div>
 
@@ -74,7 +85,13 @@
 
       @case (1) {
         <div class="space-y-4">
-          <ui-form-field htmlFor="host-property-wizard-city" label="Ciudad" [hint]="cityHint()">
+          <ui-form-field
+            htmlFor="host-property-wizard-city"
+            label="Ciudad"
+            [hint]="cityHint()"
+            [error]="cityError()"
+            [required]="true"
+          >
             <div class="relative">
               <input
                 id="host-property-wizard-city"
@@ -88,6 +105,8 @@
                 [formField]="propertyForm.cityName"
                 [attr.aria-expanded]="cityOpen()"
                 [attr.aria-activedescendant]="activeCityOptionId()"
+                [attr.aria-describedby]="cityError() ? 'host-property-wizard-city-error' : null"
+                [attr.aria-invalid]="cityError() ? 'true' : null"
                 (focus)="onCityFocus()"
                 (input)="onCityInput()"
                 (blur)="onCityBlur()"
@@ -113,7 +132,7 @@
                           : 'cursor-pointer rounded-lg px-3 py-2 text-sm text-ink hover:bg-soft'
                       "
                     >
-                      <span class="font-bold">{{ city.name }}</span>
+                      <span class="font-bold">{{ cityLabel(city) }}</span>
                       @if (city.departmentName; as department) {
                         <span class="text-xs text-muted"> · {{ department }}</span>
                       }
@@ -125,12 +144,21 @@
           </ui-form-field>
 
           <div class="grid gap-4 sm:grid-cols-2">
-            <ui-form-field htmlFor="host-property-wizard-neighborhood" label="Barrio o zona">
+            <ui-form-field
+              htmlFor="host-property-wizard-neighborhood"
+              label="Barrio o zona"
+              [error]="neighborhoodError()"
+              [required]="true"
+            >
               <input
                 id="host-property-wizard-neighborhood"
                 type="text"
                 placeholder="Chapinero Alto"
                 [formField]="propertyForm.neighborhood"
+                [attr.aria-describedby]="
+                  neighborhoodError() ? 'host-property-wizard-neighborhood-error' : null
+                "
+                [attr.aria-invalid]="neighborhoodError() ? 'true' : null"
                 class="ui-input"
               />
             </ui-form-field>
@@ -221,6 +249,18 @@
             </button>
           </div>
         </dl>
+
+        @if (!hasLocation()) {
+          <ui-alert
+            variant="warning"
+            message="Faltan la ciudad o el barrio. Completa la ubicación para poder crear la propiedad."
+          />
+          <div class="mt-2">
+            <ui-button type="button" variant="secondary" size="sm" (click)="editStep(1)">
+              Completar ubicación
+            </ui-button>
+          </div>
+        }
       }
     }
   </section>
@@ -233,7 +273,7 @@
     </ui-button>
 
     @if (isLastStep()) {
-      <ui-button [loading]="submitting()">
+      <ui-button [loading]="submitting()" [disabled]="!canCreate()">
         <ui-icon name="check" size="sm" /> Crear propiedad
       </ui-button>
     } @else {

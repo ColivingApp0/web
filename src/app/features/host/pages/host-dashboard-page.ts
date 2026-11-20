@@ -1,4 +1,4 @@
-import { Component, computed, inject, resource, signal } from '@angular/core';
+import { Component, computed, inject, resource, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
@@ -41,6 +41,7 @@ export class HostDashboardPage {
   protected readonly showCreate = signal(false);
   protected readonly success = signal<string | null>(null);
   protected readonly createdProperty = signal<HostProperty | null>(null);
+  private readonly wizard = viewChild(HostPropertyWizard);
 
   protected readonly dashboardResource = resource<Dashboard, void>({
     loader: async () => {
@@ -97,6 +98,21 @@ export class HostDashboardPage {
 
   protected pausedLabel(count: number): string {
     return pluralize(count, 'pausada', 'pausadas');
+  }
+
+  protected toggleCreate(): void {
+    if (!this.showCreate()) {
+      this.showCreate.set(true);
+      return;
+    }
+    const wizard = this.wizard();
+    if (wizard?.hasDraft()) {
+      const discard = confirm(
+        'El alta tiene datos sin guardar. Se guardó un borrador local para recuperarlo más adelante. ¿Quieres cerrar el alta ahora?',
+      );
+      if (!discard) return;
+    }
+    this.showCreate.set(false);
   }
 
   protected load(): void {

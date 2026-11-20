@@ -1,3 +1,4 @@
+import { canonicalCityName } from '../../directory/models/directory-models';
 import { CreatePropertyPayload, HostProperty } from '../models/host-models';
 import { HostApi } from '../data-access/host-api';
 
@@ -57,7 +58,7 @@ export function propertyFormModel(property: HostProperty | null): PropertyFormMo
     title: property?.title ?? '',
     description: property?.description ?? '',
     cityId: property?.cityId ?? null,
-    cityName: property?.cityName ?? '',
+    cityName: canonicalCityName(property?.cityName ?? ''),
     neighborhood: property?.neighborhood ?? '',
     address: property?.address ?? '',
     amenities: [...(property?.amenities ?? [])],
@@ -100,7 +101,7 @@ export function buildPropertyPayload(model: PropertyFormModel): CreatePropertyPa
     title: model.title.trim(),
     description: model.description.trim() || null,
     cityId: model.cityId,
-    cityName: model.cityName.trim() || null,
+    cityName: canonicalCityName(model.cityName) || null,
     neighborhood: model.neighborhood.trim() || null,
     address: model.address.trim() || null,
     amenities: normalizeAmenities(model.amenities),

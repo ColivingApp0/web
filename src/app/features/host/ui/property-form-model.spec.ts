@@ -25,7 +25,7 @@ describe('property-form-model', () => {
     const model = propertyFormModel(PROPERTY);
 
     expect(model.cityId).toBe('city-uuid');
-    expect(model.cityName).toBe('Bogotá D.C.');
+    expect(model.cityName).toBe('Bogotá');
     expect(model.amenities).toEqual(['WiFi', 'Terraza']);
   });
 
@@ -42,7 +42,7 @@ describe('property-form-model', () => {
       title: 'Casa Norte',
       description: null,
       cityId: 'city-uuid',
-      cityName: 'Bogotá D.C.',
+      cityName: 'Bogotá',
       neighborhood: null,
       address: 'Calle 1 # 2-3',
       amenities: ['WiFi', 'Terraza'],

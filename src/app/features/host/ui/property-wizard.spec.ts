@@ -3,7 +3,7 @@ import { DirectoryApi } from '../../directory/data-access/directory-api';
 import { DirectoryCity } from '../../directory/models/directory-models';
 import { HostApi } from '../data-access/host-api';
 import { HostProperty } from '../models/host-models';
-import { HostPropertyWizard } from './property-wizard';
+import { HostPropertyWizard, PROPERTY_DRAFT_STORAGE_KEY } from './property-wizard';
 
 const CITIES: DirectoryCity[] = [
   { id: 1, name: 'Bogotá D.C.', departmentName: 'Cundinamarca', population: 7901653 },
@@ -84,6 +84,10 @@ async function goToLocation(fixture: ComponentFixture<HostPropertyWizard>): Prom
 }
 
 describe('HostPropertyWizard', () => {
+  beforeEach(() => {
+    localStorage.removeItem(PROPERTY_DRAFT_STORAGE_KEY);
+  });
+
   it('bloquea el avance sin nombre y conserva lo escrito al retroceder', async () => {
     const { fixture, host } = setup();
     await settle(fixture);
@@ -113,6 +117,29 @@ describe('HostPropertyWizard', () => {
     expect(title.value).toBe('Casa Norte');
   });
 
+  it('exige ciudad y barrio en el paso de ubicación', async () => {
+    const { api, fixture, host } = setup();
+    await settle(fixture);
+
+    await goToLocation(fixture);
+    expect(stepHeading(host)).toBe('Ubicación');
+
+    buttonByText(host, 'Continuar').click();
+    await settle(fixture);
+
+    expect(stepHeading(host)).toBe('Ubicación');
+    expect(host.textContent).toContain('La ciudad es obligatoria');
+    expect(host.querySelector('[aria-current="step"]')?.textContent).toContain('Ubicación');
+
+    await type(fixture, '#host-property-wizard-city', 'Cali');
+    buttonByText(host, 'Continuar').click();
+    await settle(fixture);
+
+    expect(stepHeading(host)).toBe('Ubicación');
+    expect(host.textContent).toContain('El barrio o zona es obligatorio');
+    expect(api.createProperty).not.toHaveBeenCalled();
+  });
+
   it('recorre los cuatro pasos y crea la propiedad con servicios sugeridos y propios', async () => {
     const { api, fixture, host } = setup();
     const saved = vi.fn();
@@ -129,7 +156,7 @@ describe('HostPropertyWizard', () => {
     const option = host.querySelector<HTMLElement>('[role="option"]')!;
     option.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
     await settle(fixture);
-    expect(city.value).toBe('Bogotá D.C.');
+    expect(city.value).toBe('Bogotá');
 
     await type(fixture, '#host-property-wizard-neighborhood', 'Chapinero');
     await type(fixture, '#host-property-wizard-address', 'Calle 1 # 2-3');
@@ -152,7 +179,7 @@ describe('HostPropertyWizard', () => {
 
     expect(stepHeading(host)).toBe('Revisión');
     expect(host.textContent).toContain('Casa Norte');
-    expect(host.textContent).toContain('Bogotá D.C. · Chapinero · Calle 1 # 2-3');
+    expect(host.textContent).toContain('Bogotá · Chapinero · Calle 1 # 2-3');
     expect(host.textContent).toContain('WiFi');
     expect(host.textContent).toContain('Piscina');
 
@@ -163,7 +190,7 @@ describe('HostPropertyWizard', () => {
       title: 'Casa Norte',
       description: 'Una casa tranquila.',
       cityId: null,
-      cityName: 'Bogotá D.C.',
+      cityName: 'Bogotá',
       neighborhood: 'Chapinero',
       address: 'Calle 1 # 2-3',
       amenities: ['WiFi', 'Piscina'],
@@ -180,6 +207,7 @@ describe('HostPropertyWizard', () => {
     await vi.waitFor(() => expect(host.textContent).toContain('Escribe la ciudad manualmente'));
 
     await type(fixture, '#host-property-wizard-city', 'Cali');
+    await type(fixture, '#host-property-wizard-neighborhood', 'Granada');
     buttonByText(host, 'Continuar').click();
     await settle(fixture);
     expect(stepHeading(host)).toBe('Servicios y zonas comunes');
