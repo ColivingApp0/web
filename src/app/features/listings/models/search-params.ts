@@ -1,3 +1,4 @@
+import { canonicalCityName } from '../../directory/models/directory-models';
 import { SearchFilters } from './listings-models';
 
 /** Lector mínimo de parámetros (compatible con `ParamMap` y `URLSearchParams`). */
@@ -22,8 +23,8 @@ export function searchFiltersFromParams(params: QueryParamReader): SearchFilters
   const filters: SearchFilters = { availableOnly: true };
   const q = params.get('q');
   if (q?.trim()) filters.q = q.trim();
-  const city = params.get('ciudad');
-  if (city?.trim()) filters.cityName = city.trim();
+  const city = canonicalCityName(params.get('ciudad') ?? '');
+  if (city !== '') filters.cityName = city;
   const minPrice = digits(params.get('minPrice'));
   const maxPrice = digits(params.get('maxPrice')) ?? digits(params.get('presupuesto'));
   if (minPrice !== null) filters.minPrice = minPrice;

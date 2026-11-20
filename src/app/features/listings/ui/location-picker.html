@@ -147,7 +147,8 @@
             }
           </ul>
           <p class="mt-1 text-xs text-muted" role="status">
-            {{ options().length }} resultado(s).
+            {{ options().length }}
+            {{ options().length === 1 ? 'resultado' : 'resultados' }}.
             @if (options().length >= resultLimit) {
               Afina la búsqueda para ver más.
             }

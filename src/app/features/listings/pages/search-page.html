@@ -40,7 +40,11 @@
             >
           </div>
 
-          <ui-form-field htmlFor="filter-q" label="Barrio, propiedad o palabra clave">
+          <ui-form-field
+            htmlFor="filter-q"
+            label="Barrio, propiedad o palabra clave"
+            hint="Pulsa Enter o «Aplicar filtros» para actualizar la lista."
+          >
             <div class="relative">
               <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted">
                 <ui-icon name="search" size="sm" />
@@ -69,13 +73,21 @@
             (maxValueChange)="setPriceMax($event)"
           />
 
-          <ui-form-field htmlFor="filter-capacity" label="Capacidad mínima">
+          <ui-form-field
+            htmlFor="filter-capacity"
+            label="Capacidad mínima"
+            [error]="capacityError()"
+            hint="Escribe un número entero o déjalo vacío."
+          >
             <input
               id="filter-capacity"
               type="text"
               inputmode="numeric"
               placeholder="Cualquier capacidad"
               [formField]="filterForm.minCapacity"
+              [attr.aria-describedby]="capacityError() ? 'filter-capacity-error' : null"
+              [attr.aria-invalid]="capacityError() ? 'true' : null"
+              (input)="capacityError.set(null)"
               class="ui-input"
             />
           </ui-form-field>
@@ -129,9 +141,11 @@
             </select>
           </ui-form-field>
 
-          <ui-alert [message]="formError()" />
-
-          <ui-button [full]="true" [loading]="loading()">Aplicar filtros</ui-button>
+          <div
+            class="sticky bottom-20 -mx-1 -mb-1 rounded-xl border-t border-line bg-surface/95 px-1 py-2 backdrop-blur lg:static lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none"
+          >
+            <ui-button [full]="true" [loading]="loading()">Aplicar filtros</ui-button>
+          </div>
         </form>
       </div>
     </aside>
@@ -177,20 +191,29 @@
             </div>
           }
         </div>
-      } @else if (errorMessage(); as error) {
+      } @else if (searchError(); as error) {
         <div class="ui-card ui-card-pad space-y-3">
-          <ui-alert [message]="error" />
-          <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
+          <h2 class="font-display text-lg font-extrabold text-ink">{{ error.title }}</h2>
+          <ui-alert [message]="error.message" />
+          <div class="flex flex-wrap gap-2">
+            <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
+            <ui-button variant="ghost" type="button" (click)="clearFilters()"
+              >Limpiar filtros</ui-button
+            >
+          </div>
         </div>
       } @else if (listings().length === 0) {
-        <ui-empty-state
-          icon="search"
-          title="No encontramos habitaciones con esos filtros"
-          message="Prueba a ampliar el rango de precio mensual, quitar características o buscar en otra ciudad."
-        >
-          <ui-button variant="secondary" type="button" (click)="clearFilters()"
-            >Limpiar filtros</ui-button
-          >
+        <ui-empty-state icon="search" [title]="emptyState().title" [message]="emptyState().message">
+          <div class="flex flex-wrap justify-center gap-2">
+            <ui-button variant="secondary" type="button" (click)="clearFilters()"
+              >Limpiar filtros</ui-button
+            >
+            <a
+              routerLink="/directorio"
+              class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line px-4 text-sm font-bold text-ink transition hover:bg-soft"
+              >Explorar otras ciudades</a
+            >
+          </div>
         </ui-empty-state>
       } @else {
         <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">

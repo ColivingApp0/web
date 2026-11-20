@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { DirectoryCity, DirectoryUniversity } from '../../directory/models/directory-models';
+import {
+  DirectoryCity,
+  DirectoryUniversity,
+  canonicalCityName,
+} from '../../directory/models/directory-models';
 import {
   LocationFilter,
   cityLocation,
@@ -40,12 +44,68 @@ const SIN_CIUDAD: DirectoryUniversity = {
 };
 
 describe('location-filter', () => {
+  describe('canonicalCityName', () => {
+    it('should treat Bogotá D.C. and its variants as Bogotá', () => {
+      expect(canonicalCityName('Bogotá D.C.')).toBe('Bogotá');
+      expect(canonicalCityName('  bogota dc ')).toBe('Bogotá');
+      expect(canonicalCityName('Distrito Capital')).toBe('Bogotá');
+      expect(canonicalCityName('Santa Fe de Bogotá')).toBe('Bogotá');
+    });
+
+    it('should preserve other city names', () => {
+      expect(canonicalCityName('Medellín')).toBe('Medellín');
+      expect(canonicalCityName('Cali')).toBe('Cali');
+      expect(canonicalCityName('Bogotá')).toBe('Bogotá');
+    });
+
+    it('should canonicalize the city sent to the backend', () => {
+      const bogota: DirectoryCity = {
+        id: 167,
+        name: 'Bogotá D.C.',
+        departmentName: 'Cundinamarca',
+        population: 7901653,
+      };
+      expect(cityLocation(bogota)).toEqual({
+        kind: 'city',
+        name: 'Bogotá',
+        cityName: 'Bogotá',
+        detail: 'Cundinamarca',
+      });
+    });
+
+    it('should map a university seat to the canonical city', () => {
+      const andes: DirectoryUniversity = {
+        id: 5,
+        name: 'UNIVERSIDAD DE LOS ANDES',
+        cityName: 'Bogotá D.C.',
+        legalNature: null,
+        academicCharacter: null,
+        website: null,
+        highQualityAccredited: true,
+      };
+      expect(universityLocation(andes).cityName).toBe('Bogotá');
+      const fromUrl = parseLocationParams(null, 'Universidad de los Andes');
+      expect(resolveUniversityLocation(fromUrl, [andes])?.cityName).toBe('Bogotá');
+    });
+
+    it('should resolve Bogotá D.C. from the URL to the canonical directory city', () => {
+      const bogota: DirectoryCity = {
+        id: 167,
+        name: 'Bogotá D.C.',
+        departmentName: 'Cundinamarca',
+        population: 7901653,
+      };
+      const fromUrl = parseLocationParams('Bogotá D.C.', null);
+      expect(resolveCityLocation(fromUrl, [bogota])?.cityName).toBe('Bogotá');
+    });
+  });
+
   describe('parseLocationParams', () => {
     it('should read a city from the URL and trim it', () => {
       expect(parseLocationParams('  Bogotá D.C. ', null)).toEqual({
         kind: 'city',
-        name: 'Bogotá D.C.',
-        cityName: 'Bogotá D.C.',
+        name: 'Bogotá',
+        cityName: 'Bogotá',
         detail: null,
       });
     });
