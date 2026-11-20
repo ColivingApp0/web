@@ -13,6 +13,7 @@ import { MessagingApi } from '../../messaging/data-access/messaging-api';
 import { ListingsApi } from '../data-access/listings-api';
 import { bathroomLabel, priceUnitLabel, roomTypeLabel } from '../models/listings-models';
 import { placesLabel } from '../../../shared/utils/plural';
+import { amenityIcon } from '../../../shared/utils/amenity-icon';
 import { FavoritesStore } from '../state/favorites-store';
 
 /**
@@ -93,6 +94,7 @@ export class DetailPage {
   });
 
   protected readonly places = placesLabel;
+  protected readonly amenityIcon = amenityIcon;
 
   protected readonly contactBusy = signal(false);
   protected readonly contactError = signal<string | null>(null);

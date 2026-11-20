@@ -12,6 +12,7 @@ import { UiIcon } from '../../../shared/ui/icon';
 import { ListingsApi } from '../data-access/listings-api';
 import { bathroomLabel, priceUnitLabel, roomTypeLabel } from '../models/listings-models';
 import { placesLabel, roomsLabel } from '../../../shared/utils/plural';
+import { amenityIcon } from '../../../shared/utils/amenity-icon';
 
 /** Detalle de una propiedad con sus habitaciones publicadas. */
 @Component({
@@ -61,6 +62,7 @@ export class PropertyDetailPage {
 
   protected readonly places = placesLabel;
   protected readonly rooms = roomsLabel;
+  protected readonly amenityIcon = amenityIcon;
 
   protected priceUnit(unit: 'POR_HABITACION' | 'POR_PERSONA'): string {
     return priceUnitLabel(unit);
