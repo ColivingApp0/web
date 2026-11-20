@@ -14,6 +14,20 @@ export const routes: Routes = [
       import('./features/marketing/pages/landing-page').then((m) => m.LandingPage),
   },
 
+  // Documentos legales públicos (enlazados desde el registro).
+  {
+    path: 'terminos',
+    title: 'Términos de uso | ColivinApp',
+    data: { document: 'terms' },
+    loadComponent: () => import('./features/legal/pages/legal-page').then((m) => m.LegalPage),
+  },
+  {
+    path: 'privacidad',
+    title: 'Política de privacidad | ColivinApp',
+    data: { document: 'privacy' },
+    loadComponent: () => import('./features/legal/pages/legal-page').then((m) => m.LegalPage),
+  },
+
   // Zona pública de acceso (solo invitados).
   {
     path: '',
@@ -296,8 +310,19 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/auth/pages/select-role-page').then((m) => m.SelectRolePage),
       },
+      {
+        path: 'acceso-restringido',
+        title: 'Acceso restringido | ColivinApp',
+        loadComponent: () =>
+          import('./features/errors/access-denied-page').then((m) => m.AccessDeniedPage),
+      },
     ],
   },
 
-  { path: '**', redirectTo: '' },
+  // Cualquier ruta desconocida muestra una 404 real (sin redirigir a la landing).
+  {
+    path: '**',
+    title: 'Página no encontrada | ColivinApp',
+    loadComponent: () => import('./features/errors/not-found-page').then((m) => m.NotFoundPage),
+  },
 ];
