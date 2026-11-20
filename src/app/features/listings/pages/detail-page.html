@@ -167,7 +167,7 @@
             <h3 class="mt-6 text-sm font-bold text-ink">Acceso a zonas comunes</h3>
             <ul class="mt-2 flex flex-wrap gap-2">
               @for (area of view.unit.commonAreas; track area) {
-                <li class="ui-chip"><ui-icon name="check" size="xs" /> {{ area }}</li>
+                <li class="ui-chip"><ui-icon [name]="amenityIcon(area)" size="xs" /> {{ area }}</li>
               }
             </ul>
           }
@@ -219,7 +219,9 @@
             <h3 class="mt-5 text-sm font-bold text-ink">Zonas y servicios comunes del inmueble</h3>
             <ul class="mt-2 flex flex-wrap gap-2">
               @for (amenity of view.property.amenities; track amenity) {
-                <li class="ui-chip">{{ amenity }}</li>
+                <li class="ui-chip">
+                  <ui-icon [name]="amenityIcon(amenity)" size="xs" /> {{ amenity }}
+                </li>
               }
             </ul>
           }
