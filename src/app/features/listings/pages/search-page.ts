@@ -186,13 +186,28 @@ export class SearchPage {
     loader: ({ params }) => this.api.list(params),
   });
 
-  protected readonly listings = computed(() => this.searchResource.value() ?? []);
-  protected readonly loading = computed(
-    () => this.searchResource.isLoading() || this.searchParams() === undefined,
+  protected readonly listings = computed(() =>
+    this.searchResource.hasValue() ? this.searchResource.value() : [],
   );
-  protected readonly errorMessage = computed(() => {
+  protected readonly loading = computed(() => {
+    const status = this.searchResource.status();
+    return this.searchParams() === undefined || status === 'loading' || status === 'reloading';
+  });
+  protected readonly searchError = computed(() => {
     const error = this.searchResource.error();
-    return error ? toApiError(error).message : null;
+    if (!error) return null;
+    const apiError = toApiError(error);
+    return apiError.status === 0
+      ? {
+          title: 'No pudimos conectar con el servidor',
+          message:
+            'Revisa tu conexión a internet y vuelve a intentarlo. La búsqueda no ha cambiado.',
+        }
+      : {
+          title: 'No pudimos cargar las habitaciones',
+          message:
+            'Ha ocurrido un problema al consultar las habitaciones. Puedes reintentar o limpiar los filtros.',
+        };
   });
   protected readonly activeFilterCount = computed(() => {
     const filters = this.appliedFilters();
@@ -229,7 +244,7 @@ export class SearchPage {
     };
   });
 
-  protected readonly formError = signal<string | null>(null);
+  protected readonly capacityError = signal<string | null>(null);
   protected readonly filterOpen = signal(false);
 
   /** Ubicación del formulario, completada con el directorio cuando aplica. */
@@ -253,6 +268,48 @@ export class SearchPage {
     return location ? locationResultsLabel(count, location) : this.roomsFound(count);
   });
 
+  /** Vacío explicado según el filtro que el usuario aplicó (no un texto genérico). */
+  protected readonly emptyState = computed(() => {
+    const location = this.resolvedUrlLocation() ?? this.urlLocation();
+    const filters = this.appliedFilters();
+    if (location?.kind === 'city') {
+      return {
+        title: `No hay habitaciones en ${location.name}`,
+        message: `Ahora mismo no hay habitaciones publicadas en ${location.name}. Prueba con otra ciudad o limpia el filtro para ver todas las opciones.`,
+      };
+    }
+    if (location?.kind === 'university') {
+      return {
+        title: `No hay habitaciones cerca de ${location.name}`,
+        message: location.cityName
+          ? `No encontramos habitaciones disponibles en ${location.cityName}. Explora otra universidad o ciudad, o limpia el filtro.`
+          : 'No pudimos ubicar la ciudad de esta universidad. Elige otra universidad o una ciudad.',
+      };
+    }
+    if (filters.q) {
+      return {
+        title: `No encontramos habitaciones para «${filters.q}»`,
+        message:
+          'Revisa la palabra clave, amplía el rango de precio o quita alguna característica para ver más opciones.',
+      };
+    }
+    if (filters.roomType === 'COMPARTIDA' || filters.roomType === 'INDIVIDUAL') {
+      return {
+        title:
+          filters.roomType === 'COMPARTIDA'
+            ? 'No hay habitaciones compartidas con estos filtros'
+            : 'No hay habitaciones individuales con estos filtros',
+        message:
+          'Prueba con otro tipo de habitación, amplía el precio mensual o cambia la ubicación.',
+      };
+    }
+    return {
+      title: 'No encontramos habitaciones con esos filtros',
+      message:
+        'Prueba a ampliar el rango de precio mensual, quitar características o revisar otra zona.',
+    };
+  });
+
   protected readonly filterForm = form(this.model, {
     submission: {
       action: async () => {
@@ -266,10 +323,10 @@ export class SearchPage {
     const model = this.model();
     const capacity = digits(model.minCapacity);
     if (model.minCapacity.trim() !== '' && (capacity === null || capacity < 1)) {
-      this.formError.set('La capacidad mínima debe ser un número entero mayor que cero.');
+      this.capacityError.set('La capacidad mínima debe ser un número entero mayor que cero.');
       return;
     }
-    this.formError.set(null);
+    this.capacityError.set(null);
     const queryParams: Record<string, string> = {};
     if (model.q.trim()) queryParams['q'] = model.q.trim();
     if (model.minPrice > MONTHLY_PRICE_MIN) queryParams['minPrice'] = String(model.minPrice);
@@ -283,11 +340,14 @@ export class SearchPage {
     if (!model.availableOnly) queryParams['availableOnly'] = 'false';
     if (model.sort !== '') queryParams['sort'] = model.sort;
     Object.assign(queryParams, locationQueryParams(model.location));
+    this.filterOpen.set(false);
     void this.router.navigate([], { queryParams, relativeTo: this.route });
   }
 
+  /** Elegir ciudad o universidad aplica el filtro de inmediato. */
   protected setLocation(location: LocationFilter | null): void {
     this.model.update((current) => ({ ...current, location }));
+    this.apply();
   }
 
   protected setPriceMin(value: number): void {
@@ -299,7 +359,7 @@ export class SearchPage {
   }
 
   protected clearFilters(): void {
-    this.formError.set(null);
+    this.capacityError.set(null);
     void this.router.navigate([], { queryParams: {}, relativeTo: this.route });
   }
 

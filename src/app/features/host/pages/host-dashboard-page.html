@@ -15,7 +15,7 @@
         }}</span>
       }
     </a>
-    <ui-button type="button" (click)="showCreate.set(!showCreate())">
+    <ui-button type="button" (click)="toggleCreate()">
       <ui-icon [name]="showCreate() ? 'close' : 'plus'" size="sm" />
       {{ showCreate() ? 'Cancelar' : 'Nueva propiedad' }}
     </ui-button>

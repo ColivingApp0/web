@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthSession } from '../../../core/auth/auth-session';
 
 /** Pie público de la landing: navegación real (sin enlaces muertos). */
 @Component({
@@ -38,15 +39,27 @@ import { RouterLink } from '@angular/router';
 
         <nav aria-label="Tu cuenta">
           <h4 class="font-display text-base font-bold">Tu cuenta</h4>
-          <a routerLink="/perfil" class="mt-3 block text-sm text-white/75 hover:text-white"
-            >Mi perfil</a
-          >
-          <a routerLink="/entrar" class="mt-2 block text-sm text-white/75 hover:text-white"
-            >Iniciar sesión</a
-          >
-          <a routerLink="/registro" class="mt-2 block text-sm text-white/75 hover:text-white"
-            >Crear cuenta</a
-          >
+          @if (session.isAuthenticated()) {
+            <a routerLink="/perfil" class="mt-3 block text-sm text-white/75 hover:text-white"
+              >Mi perfil</a
+            >
+            <a routerLink="/reservas" class="mt-2 block text-sm text-white/75 hover:text-white"
+              >Mis solicitudes</a
+            >
+            <a routerLink="/favoritos" class="mt-2 block text-sm text-white/75 hover:text-white"
+              >Mis favoritos</a
+            >
+          } @else {
+            <a routerLink="/perfil" class="mt-3 block text-sm text-white/75 hover:text-white"
+              >Mi perfil</a
+            >
+            <a routerLink="/entrar" class="mt-2 block text-sm text-white/75 hover:text-white"
+              >Iniciar sesión</a
+            >
+            <a routerLink="/registro" class="mt-2 block text-sm text-white/75 hover:text-white"
+              >Crear cuenta</a
+            >
+          }
         </nav>
       </div>
 
@@ -59,4 +72,6 @@ import { RouterLink } from '@angular/router';
     </footer>
   `,
 })
-export class SiteFooter {}
+export class SiteFooter {
+  protected readonly session = inject(AuthSession);
+}

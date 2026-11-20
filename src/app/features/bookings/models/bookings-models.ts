@@ -113,7 +113,7 @@ export function hostReservationActions(
     actions.push({ action: 'request-info', label: 'Pedir información', danger: false });
   }
   if (['SOLICITADA', 'INFORMACION_SOLICITADA', 'ACEPTADA', 'CONFIRMADA'].includes(status)) {
-    actions.push({ action: 'cancel', label: 'Cancelar', danger: true });
+    actions.push({ action: 'cancel', label: 'Cancelar solicitud', danger: false });
   }
   return actions;
 }

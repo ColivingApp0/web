@@ -14,6 +14,10 @@ describe('searchFiltersFromParams', () => {
     });
   });
 
+  it('should canonicalize Bogotá D.C. to the backend name', () => {
+    expect(searchFiltersFromParams(params({ ciudad: 'Bogotá D.C.' })).cityName).toBe('Bogotá');
+  });
+
   it('should not fold a university into the free-text query', () => {
     expect(searchFiltersFromParams(params({ universidad: 'Universidad de Antioquia' }))).toEqual({
       availableOnly: true,

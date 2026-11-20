@@ -3,13 +3,8 @@
     <div>
       <h1 class="font-display text-2xl font-extrabold text-ink">Verificación de documentos</h1>
       <p class="mt-1 text-sm text-muted">
-        RF-080: el moderador revisa los documentos pendientes y decide. Aprobar no exige motivo;
-        rechazar y solicitar corrección sí (queda registrado con el revisor).
-      </p>
-      <p class="mt-1 text-xs text-muted">
-        El contrato solo expone el tipo, el estado y las fechas del documento: la API no informa de
-        qué usuario es ni permite ver el archivo, así que esta cola no muestra identidad ni
-        contenido.
+        Revisa los documentos pendientes y decide. Aprobar no exige motivo; rechazar o solicitar
+        corrección sí, y la decisión queda registrada con el revisor.
       </p>
     </div>
     <ui-button type="button" variant="secondary" (click)="retry()">Actualizar</ui-button>
@@ -37,7 +32,7 @@
       </ui-form-field>
     </div>
     <p class="mt-2 text-xs text-muted">
-      El filtro se guarda en la URL. Para trabajar la cola, «Pendiente» es la vista útil.
+      Elige «Pendiente» para ver los documentos que esperan revisión.
     </p>
   </section>
 
@@ -54,7 +49,7 @@
     <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
       <p class="font-bold text-ink">No hay documentos con este filtro.</p>
       <p class="mt-1 text-sm text-muted">
-        Los documentos llegan desde el perfil del usuario (`POST /users/me/verification-documents`).
+        Cuando alguien suba un documento desde su perfil, aparecerá aquí para revisión.
       </p>
     </div>
   } @else {
@@ -64,7 +59,6 @@
           <div class="flex flex-wrap items-start justify-between gap-3">
             <div class="min-w-0">
               <p class="text-sm font-semibold text-ink">{{ typeLabels[document.type] }}</p>
-              <p class="mt-1 font-mono text-xs text-muted">{{ document.id }}</p>
               <p class="mt-1 text-xs text-muted">
                 Subido {{ document.uploadedAt | date: 'd MMM y, HH:mm' }}
                 @if (document.reviewedAt; as reviewedAt) {
@@ -124,9 +118,7 @@
               </div>
             }
           } @else {
-            <p class="mt-3 text-xs text-muted">
-              Este documento ya está resuelto: el backend solo admite revisar los pendientes.
-            </p>
+            <p class="mt-3 text-xs text-muted">Este documento ya está resuelto.</p>
           }
         </li>
       }

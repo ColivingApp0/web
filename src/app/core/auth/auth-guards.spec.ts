@@ -97,11 +97,11 @@ describe('roleGuard', () => {
     expect(router.serializeUrl(result as UrlTree)).toContain('/entrar');
   });
 
-  it('should redirect users without the required active role to the profile', () => {
+  it('should send users without the required active role to the access page', () => {
     const { router } = setup(true);
     const result = TestBed.runInInjectionContext(() => roleGuard('ANFITRION')(route, state));
     expect(result).toBeInstanceOf(UrlTree);
-    expect(router.serializeUrl(result as UrlTree)).toContain('/perfil');
+    expect(router.serializeUrl(result as UrlTree)).toContain('/acceso-restringido');
   });
 
   it('should allow users whose active role matches', () => {

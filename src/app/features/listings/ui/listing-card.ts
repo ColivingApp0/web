@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { UiAvailabilityBadge } from './availability-badge';
 import { UiIcon } from '../../../shared/ui/icon';
 import { ListingView, bathroomLabel, priceUnitLabel } from '../models/listings-models';
+import { canonicalCityName } from '../../directory/models/directory-models';
 
 /** Tarjeta de una habitación publicada, con foto, precio mensual y plazas. */
 @Component({
@@ -22,7 +23,9 @@ export class ListingCard {
   );
   protected readonly location = computed(() => {
     const listing = this.listing();
-    return [listing.neighborhood, listing.cityName].filter(Boolean).join(', ');
+    return [listing.neighborhood, canonicalCityName(listing.cityName ?? '')]
+      .filter(Boolean)
+      .join(', ');
   });
   protected readonly priceUnit = computed(() => priceUnitLabel(this.listing().priceUnit));
   protected readonly bathroom = computed(() => bathroomLabel(this.listing().bathroomType));

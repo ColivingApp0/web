@@ -49,6 +49,8 @@ export type IconName =
   | 'tree'
   | 'sofa'
   | 'lock'
+  | 'eye'
+  | 'eye-off'
   | 'tv'
   | 'elevator'
   | 'pool'
@@ -292,6 +294,18 @@ const ICONS: Record<IconName, IconDefinition> = {
       'M6 11h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1Z',
       'M8 11V8a4 4 0 0 1 8 0v3',
       'M12 15v2',
+    ],
+  },
+  eye: {
+    paths: ['M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z'],
+    circles: [{ cx: 12, cy: 12, r: 3 }],
+  },
+  'eye-off': {
+    paths: [
+      'M3 3l18 18',
+      'M10.6 6.1A9.9 9.9 0 0 1 12 6c6 0 9.5 6 9.5 6a16 16 0 0 1-2.3 3',
+      'M6.4 6.8A16.4 16.4 0 0 0 2.5 12S6 18 12 18a9.6 9.6 0 0 0 3.1-.5',
+      'M9.9 9.9a3 3 0 0 0 4.2 4.2',
     ],
   },
   tv: {

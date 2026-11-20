@@ -6,7 +6,7 @@ import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
 import { UiIcon } from '../../../shared/ui/icon';
-import { placesLabel } from '../../../shared/utils/plural';
+import { freePlacesLabel, occupiedPlacesLabel, placesLabel } from '../../../shared/utils/plural';
 import { HostApi } from '../data-access/host-api';
 import {
   HostUnit,
@@ -48,6 +48,8 @@ export class HostUnitPage {
   protected readonly unit = computed<HostUnit | null>(() => this.unitResource.value() ?? null);
 
   protected readonly places = placesLabel;
+  protected readonly occupiedPlaces = occupiedPlacesLabel;
+  protected readonly freePlaces = freePlacesLabel;
   protected readonly success = signal<string | null>(null);
   protected readonly actionError = signal<string | null>(null);
   protected readonly availabilityBusy = signal(false);

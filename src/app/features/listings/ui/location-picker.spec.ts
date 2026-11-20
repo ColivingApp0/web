@@ -89,7 +89,7 @@ describe('LocationPicker', () => {
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
     fixture.detectChanges();
 
-    expect(emitted[0]?.name).toBe('Bogotá D.C.');
+    expect(emitted[0]?.name).toBe('Bogotá');
   });
 
   it('should resolve a university to its city', async () => {

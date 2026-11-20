@@ -7,34 +7,48 @@ import {
   maxLength,
   minLength,
   required,
+  validate,
 } from '@angular/forms/signals';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiError, toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
 import { firstFieldError } from '../../../shared/ui/field-errors';
 import { UiFormField } from '../../../shared/ui/form-field';
+import { UiIcon } from '../../../shared/ui/icon';
 import { AuthApi } from '../data-access/auth-api';
 
 interface RegisterModel {
   email: string;
   password: string;
+  acceptTerms: boolean;
 }
 
 @Component({
   selector: 'app-register-page',
-  imports: [RouterLink, UiButton, UiFormField, UiAlert, SignalFormField, FormRoot],
+  imports: [RouterLink, UiButton, UiFormField, UiAlert, UiIcon, SignalFormField, FormRoot],
   templateUrl: './register-page.html',
 })
 export class RegisterPage {
   private readonly authApi = inject(AuthApi);
+  private readonly route = inject(ActivatedRoute);
 
   protected readonly submitting = signal(false);
   protected readonly registered = signal(false);
   protected readonly serverError = signal<string | null>(null);
   protected readonly serverFieldErrors = signal<Record<string, string>>({});
+  protected readonly showPassword = signal(false);
 
-  private readonly model = signal<RegisterModel>({ email: '', password: '' });
+  private readonly returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+  protected readonly loginParams = this.returnUrl
+    ? { returnUrl: this.returnUrl }
+    : ({} as Record<string, string>);
+
+  private readonly model = signal<RegisterModel>({
+    email: '',
+    password: '',
+    acceptTerms: false,
+  });
 
   protected readonly registerForm = form(
     this.model,
@@ -44,6 +58,14 @@ export class RegisterPage {
       required(path.password, { message: 'La contraseña es obligatoria.' });
       minLength(path.password, 8, { message: 'La contraseña debe tener al menos 8 caracteres.' });
       maxLength(path.password, 72, { message: 'La contraseña no puede superar 72 caracteres.' });
+      validate(path.acceptTerms, ({ value }) =>
+        value()
+          ? null
+          : {
+              kind: 'terms-required',
+              message: 'Acepta los términos y la política de privacidad para crear la cuenta.',
+            },
+      );
     },
     {
       submission: {
@@ -62,6 +84,7 @@ export class RegisterPage {
     () =>
       firstFieldError(this.registerForm.password) ?? this.serverFieldErrors()['password'] ?? null,
   );
+  protected readonly termsError = computed(() => firstFieldError(this.registerForm.acceptTerms));
 
   private async submit(): Promise<void> {
     this.submitting.set(true);

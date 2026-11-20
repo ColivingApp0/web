@@ -1,6 +1,7 @@
 import {
   DirectoryCity,
   DirectoryUniversity,
+  canonicalCityName,
   normalizeText,
 } from '../../directory/models/directory-models';
 
@@ -23,33 +24,38 @@ export interface LocationFilter {
 
 /** Construye la ubicación a partir de una ciudad del directorio. */
 export function cityLocation(city: DirectoryCity): LocationFilter {
+  const cityName = canonicalCityName(city.name);
   return {
     kind: 'city',
-    name: city.name,
-    cityName: city.name,
+    name: cityName,
+    cityName,
     detail: city.departmentName,
   };
 }
 
 /** Construye la ubicación a partir de una universidad del directorio. */
 export function universityLocation(university: DirectoryUniversity): LocationFilter {
+  const cityName = university.cityName
+    ? canonicalCityName(university.cityName)
+    : university.cityName;
   return {
     kind: 'university',
     name: university.name,
-    cityName: university.cityName,
-    detail: university.cityName,
+    cityName,
+    detail: cityName,
   };
 }
 
 /**
  * Lee la ubicación de la URL. `ciudad` tiene prioridad sobre `universidad` si
- * ambas vienen informadas; los valores vacíos se ignoran.
+ * ambas vienen informadas; los valores vacíos se ignoran. La ciudad se canoniza
+ * para que «Bogotá D.C.» y «Bogotá» produzcan la misma búsqueda.
  */
 export function parseLocationParams(
   cityName: string | null,
   universityName: string | null,
 ): LocationFilter | null {
-  const city = cityName?.trim() ?? '';
+  const city = canonicalCityName(cityName ?? '');
   if (city !== '') {
     return { kind: 'city', name: city, cityName: city, detail: null };
   }
@@ -72,7 +78,8 @@ export function resolveCityLocation(
   cities: readonly DirectoryCity[],
 ): LocationFilter | null {
   if (!location || location.kind !== 'city') return location;
-  const match = cities.find((city) => normalizeText(city.name) === normalizeText(location.name));
+  const key = normalizeText(canonicalCityName(location.name));
+  const match = cities.find((city) => normalizeText(canonicalCityName(city.name)) === key);
   return match ? cityLocation(match) : location;
 }
 

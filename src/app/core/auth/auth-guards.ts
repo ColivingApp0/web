@@ -23,14 +23,18 @@ export const guestGuard: CanActivateFn = () => {
 };
 
 export function roleGuard(...roles: readonly RoleCode[]): CanActivateFn {
-  return () => {
+  return (_route, state) => {
     const session = inject(AuthSession);
     if (!session.isAuthenticated()) {
-      return inject(Router).createUrlTree(['/entrar']);
+      return inject(Router).createUrlTree(['/entrar'], {
+        queryParams: { returnUrl: state.url },
+      });
     }
     const activeRole = session.activeRole()?.code;
     if (activeRole !== undefined && roles.includes(activeRole)) return true;
-    // Sin el rol requerido se vuelve al perfil, donde se puede cambiar de rol (RF-004).
-    return inject(Router).createUrlTree(['/perfil']);
+    // Sin el rol requerido se explica el motivo y se ofrece cambiar de rol.
+    return inject(Router).createUrlTree(['/acceso-restringido'], {
+      queryParams: { recurso: state.url },
+    });
   };
 }
