@@ -11,7 +11,7 @@ import { ReservationView } from '../../bookings/models/bookings-models';
 import { pluralize } from '../../../shared/utils/plural';
 import { HostApi } from '../data-access/host-api';
 import { HostProperty, HostPropertyDetail } from '../models/host-models';
-import { HostPropertyForm } from '../ui/property-form';
+import { HostPropertyWizard } from '../ui/property-wizard';
 
 interface Dashboard {
   properties: HostProperty[];
@@ -31,7 +31,7 @@ interface PropertyCard {
 /** Panel del anfitrión: resumen real de propiedades, habitaciones y solicitudes. */
 @Component({
   selector: 'app-host-dashboard-page',
-  imports: [RouterLink, UiAlert, UiButton, UiEmptyState, UiIcon, UiPageHeader, HostPropertyForm],
+  imports: [RouterLink, UiAlert, UiButton, UiEmptyState, UiIcon, UiPageHeader, HostPropertyWizard],
   templateUrl: './host-dashboard-page.html',
 })
 export class HostDashboardPage {
@@ -40,6 +40,7 @@ export class HostDashboardPage {
 
   protected readonly showCreate = signal(false);
   protected readonly success = signal<string | null>(null);
+  protected readonly createdProperty = signal<HostProperty | null>(null);
 
   protected readonly dashboardResource = resource<Dashboard, void>({
     loader: async () => {
@@ -104,6 +105,7 @@ export class HostDashboardPage {
 
   protected onCreated(property: HostProperty): void {
     this.showCreate.set(false);
+    this.createdProperty.set(property);
     this.success.set('Propiedad creada. Ahora añade sus habitaciones, fotos y precios mensuales.');
     this.dashboardResource.reload();
   }

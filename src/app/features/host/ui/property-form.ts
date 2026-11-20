@@ -6,21 +6,14 @@ import { UiButton } from '../../../shared/ui/button';
 import { firstFieldError } from '../../../shared/ui/field-errors';
 import { UiFormField } from '../../../shared/ui/form-field';
 import { HostApi } from '../data-access/host-api';
-import { CreatePropertyPayload, HostProperty } from '../models/host-models';
+import { HostProperty } from '../models/host-models';
+import { HostAmenityPicker } from './amenity-picker';
+import { PropertyFormModel, persistProperty, propertyFormModel } from './property-form-model';
 
-interface PropertyFormModel {
-  title: string;
-  description: string;
-  cityName: string;
-  neighborhood: string;
-  address: string;
-  amenities: string;
-}
-
-/** Alta y edición de la información general de la propiedad (no de sus habitaciones). */
+/** Edición de la información general de la propiedad (no de sus habitaciones). */
 @Component({
   selector: 'app-host-property-form',
-  imports: [UiAlert, UiButton, UiFormField, SignalFormField, FormRoot],
+  imports: [HostAmenityPicker, UiAlert, UiButton, UiFormField, SignalFormField, FormRoot],
   templateUrl: './property-form.html',
 })
 export class HostPropertyForm {
@@ -34,17 +27,9 @@ export class HostPropertyForm {
   protected readonly serverFieldErrors = signal<Record<string, string>>({});
   protected readonly isEdit = computed(() => this.property() !== null);
 
-  private readonly model = linkedSignal<PropertyFormModel>(() => {
-    const property = this.property();
-    return {
-      title: property?.title ?? '',
-      description: property?.description ?? '',
-      cityName: property?.cityName ?? '',
-      neighborhood: property?.neighborhood ?? '',
-      address: property?.address ?? '',
-      amenities: (property?.amenities ?? []).join(', '),
-    };
-  });
+  protected readonly model = linkedSignal<PropertyFormModel>(() =>
+    propertyFormModel(this.property()),
+  );
 
   protected readonly propertyForm = form(
     this.model,
@@ -70,23 +55,7 @@ export class HostPropertyForm {
     this.serverError.set(null);
     this.serverFieldErrors.set({});
     try {
-      const model = this.model();
-      const payload: CreatePropertyPayload = {
-        title: model.title.trim(),
-        description: model.description.trim() || null,
-        cityId: this.property()?.cityId ?? null,
-        cityName: model.cityName.trim() || null,
-        neighborhood: model.neighborhood.trim() || null,
-        address: model.address.trim() || null,
-        amenities: model.amenities
-          .split(',')
-          .map((amenity) => amenity.trim())
-          .filter((amenity) => amenity !== ''),
-      };
-      const existing = this.property();
-      const saved = existing
-        ? await this.api.updateProperty(existing.id, payload)
-        : await this.api.createProperty(payload);
+      const saved = await persistProperty(this.api, this.model(), this.property());
       this.saved.emit(saved);
     } catch (error) {
       const apiError = toApiError(error);
@@ -95,5 +64,9 @@ export class HostPropertyForm {
     } finally {
       this.submitting.set(false);
     }
+  }
+
+  protected setAmenities(amenities: string[]): void {
+    this.model.update((model) => ({ ...model, amenities }));
   }
 }
