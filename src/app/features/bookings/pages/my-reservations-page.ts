@@ -85,6 +85,10 @@ export class MyReservationsPage {
     return isActiveReservation(reservation.status);
   }
 
+  protected isAccepted(reservation: ReservationView): boolean {
+    return ACCEPTED.includes(reservation.status);
+  }
+
   protected startCancel(reservation: ReservationView): void {
     this.cancelTarget.set(reservation.id);
     this.cancelReason.set('');

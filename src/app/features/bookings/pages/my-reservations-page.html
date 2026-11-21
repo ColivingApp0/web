@@ -100,6 +100,33 @@
             }
           </app-reservation-card>
 
+          @if (isAccepted(reservation)) {
+            <section class="mt-2 rounded-card border border-brand-200 bg-brand-50 p-5">
+              <h3 class="font-display text-base font-extrabold text-ink">Siguientes pasos</h3>
+              <ul class="mt-2 space-y-1.5 text-sm text-ink-soft">
+                <li>
+                  La plaza queda ocupada. Acuerda la fecha de llegada y los detalles de convivencia
+                  con el anfitrión por la conversación.
+                </li>
+                <li>
+                  La dirección exacta y el contacto se comparten por la mensajería; no se publican
+                  en la ficha.
+                </li>
+                <li>
+                  Este flujo no genera contrato, depósito ni pago dentro de la plataforma. Cualquier
+                  acuerdo adicional lo debes confirmar directamente con el anfitrión.
+                </li>
+              </ul>
+              <a
+                [routerLink]="['/mensajes/nueva']"
+                [queryParams]="{ reserva: reservation.id }"
+                class="mt-4 inline-flex min-h-10 items-center gap-2 rounded-xl bg-brand-700 px-4 text-sm font-bold text-white transition hover:bg-brand-600"
+              >
+                <ui-icon name="message" size="sm" /> Abrir conversación
+              </a>
+            </section>
+          }
+
           @if (cancelTarget() === reservation.id) {
             <div class="ui-card mt-2 border-danger-100 p-4">
               <h3 class="font-display text-base font-extrabold text-ink">Cancelar solicitud</h3>
