@@ -55,13 +55,21 @@ describe('DocumentsPage', () => {
 
     expect(api.listDocuments).toHaveBeenCalledWith(null);
     expect(host.textContent).toContain('Identidad');
-    expect(host.textContent).toContain('Certificado académico');
     expect(host.textContent).toContain('Pendiente');
-    expect(host.textContent).toContain('Este documento ya está resuelto');
+    expect(host.textContent).not.toContain('Certificado académico');
+    expect(host.textContent).toContain('La plataforma todavía no envía el nombre');
     expect(
       Array.from(host.querySelectorAll('button')).filter((b) => b.textContent?.includes('Aprobar'))
         .length,
     ).toBe(1);
+
+    Array.from(host.querySelectorAll('button'))
+      .find((button) => button.textContent?.includes('Mostrar 1 resueltos'))!
+      .click();
+    await fixture.whenStable();
+
+    expect(host.textContent).toContain('Certificado académico');
+    expect(host.textContent).toContain('Este documento ya está resuelto');
   });
 
   it('should read the status filter from the URL', async () => {
