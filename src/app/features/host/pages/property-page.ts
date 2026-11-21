@@ -19,6 +19,7 @@ import {
   HostProperty,
   HostPropertyDetail,
   HostUnit,
+  PUBLICATION_STATUS_LABELS,
   hostPriceUnitLabel,
 } from '../models/host-models';
 import { HostPhotoManager } from '../ui/photo-manager';
@@ -79,6 +80,9 @@ export class HostPropertyPage {
   protected readonly success = signal<string | null>(null);
   protected readonly photoBusy = signal(false);
   protected readonly photoError = signal<string | null>(null);
+  protected readonly pauseAllBusy = signal(false);
+  protected readonly pauseAllError = signal<string | null>(null);
+  protected readonly publishedRooms = computed(() => this.rooms().filter((room) => room.published));
 
   protected retry(): void {
     this.detailResource.reload();
@@ -98,6 +102,30 @@ export class HostPropertyPage {
     void unit;
   }
 
+  protected async pauseAllRooms(): Promise<void> {
+    const rooms = this.publishedRooms();
+    if (rooms.length === 0 || this.pauseAllBusy()) return;
+    const confirmed = confirm(
+      `Se pausarán ${rooms.length} ${rooms.length === 1 ? 'habitación publicada' : 'habitaciones publicadas'}. Dejarán de recibir solicitudes nuevas, pero conservarán su historial y podrás publicarlas de nuevo una a una. ¿Continuar?`,
+    );
+    if (!confirmed) return;
+    this.pauseAllBusy.set(true);
+    this.pauseAllError.set(null);
+    this.success.set(null);
+    try {
+      await Promise.all(rooms.map((room) => this.api.setUnitAvailability(room.id, false)));
+      this.success.set(
+        'Habitaciones pausadas: la propiedad deja de aparecer en la búsqueda. El archivado completo de la propiedad todavía no está disponible.',
+      );
+      this.detailResource.reload();
+    } catch (error) {
+      this.pauseAllError.set(toApiError(error).message);
+      this.detailResource.reload();
+    } finally {
+      this.pauseAllBusy.set(false);
+    }
+  }
+
   protected location(property: HostProperty): string {
     return [property.neighborhood, property.cityName].filter(Boolean).join(', ');
   }
@@ -108,6 +136,20 @@ export class HostPropertyPage {
 
   protected cover(unit: HostUnit): string | null {
     return unit.photos[0]?.url ?? null;
+  }
+
+  protected roomStatusLabel(unit: HostUnit): string {
+    const status = unit.publication?.status;
+    if (!status) return 'Sin publicación';
+    if (status === 'PUBLICADA') return PUBLICATION_STATUS_LABELS.PUBLICADA;
+    return PUBLICATION_STATUS_LABELS[status];
+  }
+
+  protected roomStatusClasses(unit: HostUnit): string {
+    const status = unit.publication?.status;
+    if (status === 'PUBLICADA') return 'border-brand-200 bg-brand-50 text-brand-800';
+    if (status === 'BORRADOR') return 'border-line bg-white/95 text-accent-600';
+    return 'border-line bg-white/95 text-ink-soft';
   }
 
   protected async addPhoto(url: string): Promise<void> {

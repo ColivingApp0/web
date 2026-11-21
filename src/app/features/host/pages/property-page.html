@@ -39,6 +39,35 @@
     @if (success(); as message) {
       <ui-alert variant="success" [message]="message" />
     }
+    <ui-alert [message]="pauseAllError()" />
+
+    <section class="ui-card ui-card-pad">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div class="max-w-2xl">
+          <h2 class="font-display text-lg font-extrabold text-ink">Estado de la propiedad</h2>
+          <p class="mt-1 text-sm leading-relaxed text-muted">
+            Puedes retirar la propiedad de la búsqueda pausando sus habitaciones publicadas. El
+            archivado completo del inmueble todavía no está disponible en la plataforma; pausarlas
+            conserva el historial de solicitudes.
+          </p>
+          @if (publishedRooms().length === 0) {
+            <p class="mt-2 text-xs font-semibold text-muted">
+              No hay habitaciones publicadas en este momento.
+            </p>
+          }
+        </div>
+        @if (publishedRooms().length > 0) {
+          <ui-button
+            type="button"
+            variant="secondary"
+            [loading]="pauseAllBusy()"
+            (click)="pauseAllRooms()"
+          >
+            <ui-icon name="close" size="sm" /> Pausar habitaciones publicadas
+          </ui-button>
+        }
+      </div>
+    </section>
 
     @if (view.property.photos.length > 0) {
       <div class="grid grid-cols-2 gap-2 overflow-hidden rounded-2xl sm:grid-cols-3">
@@ -125,18 +154,14 @@
                 }
                 <span
                   class="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-pill border px-2.5 py-1 text-xs font-bold"
-                  [class]="
-                    room.published
-                      ? 'border-brand-200 bg-brand-50 text-brand-800'
-                      : 'border-line bg-white/95 text-ink-soft'
-                  "
+                  [class]="roomStatusClasses(room)"
                 >
                   <span
                     class="size-1.5 rounded-full"
                     [class]="room.published ? 'bg-brand-600' : 'bg-muted'"
                     aria-hidden="true"
                   ></span>
-                  {{ room.published ? 'Publicada' : 'Pausada / borrador' }}
+                  {{ roomStatusLabel(room) }}
                 </span>
               </div>
               <div class="p-4">
