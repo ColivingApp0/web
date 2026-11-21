@@ -1,4 +1,12 @@
-import { Component, computed, inject, linkedSignal, resource, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  linkedSignal,
+  resource,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormField as SignalFormField, FormRoot, form } from '@angular/forms/signals';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -246,6 +254,7 @@ export class SearchPage {
 
   protected readonly capacityError = signal<string | null>(null);
   protected readonly filterOpen = signal(false);
+  private readonly locationPicker = viewChild(LocationPicker);
 
   /** Ubicación del formulario, completada con el directorio cuando aplica. */
   protected readonly selectedLocation = computed<LocationFilter | null>(() => {
@@ -272,6 +281,13 @@ export class SearchPage {
   protected readonly emptyState = computed(() => {
     const location = this.resolvedUrlLocation() ?? this.urlLocation();
     const filters = this.appliedFilters();
+    if (filters.currency === 'USD') {
+      return {
+        title: 'No hay habitaciones publicadas en USD',
+        message:
+          'Los precios del catálogo se publican en COP. El filtro de moneda USD solo muestra habitaciones anunciadas en dólares, y ahora mismo no hay ninguna.',
+      };
+    }
     if (location?.kind === 'city') {
       return {
         title: `No hay habitaciones en ${location.name}`,
@@ -319,6 +335,12 @@ export class SearchPage {
     },
   });
 
+  protected updateQuickQuery(event: Event): void {
+    if (!(event.target instanceof HTMLInputElement)) return;
+    const value = event.target.value;
+    this.model.update((current) => ({ ...current, q: value }));
+  }
+
   protected apply(): void {
     const model = this.model();
     const capacity = digits(model.minCapacity);
@@ -327,10 +349,25 @@ export class SearchPage {
       return;
     }
     this.capacityError.set(null);
+
+    let location = model.location;
+    const picker = this.locationPicker();
+    if (picker?.hasPendingQuery()) {
+      const resolved = picker.resolveTypedLocation();
+      if (resolved === null) {
+        this.filterOpen.set(true);
+        return;
+      }
+      location = resolved;
+      this.model.update((current) => ({ ...current, location: resolved }));
+    }
+
     const queryParams: Record<string, string> = {};
     if (model.q.trim()) queryParams['q'] = model.q.trim();
-    if (model.minPrice > MONTHLY_PRICE_MIN) queryParams['minPrice'] = String(model.minPrice);
-    if (model.maxPrice < MONTHLY_PRICE_MAX) queryParams['maxPrice'] = String(model.maxPrice);
+    if (model.currency !== 'USD') {
+      if (model.minPrice > MONTHLY_PRICE_MIN) queryParams['minPrice'] = String(model.minPrice);
+      if (model.maxPrice < MONTHLY_PRICE_MAX) queryParams['maxPrice'] = String(model.maxPrice);
+    }
     if (capacity !== null) queryParams['minCapacity'] = String(capacity);
     if (model.currency !== '') queryParams['currency'] = model.currency;
     if (model.bathroomType !== '') queryParams['bathroomType'] = model.bathroomType;
@@ -339,7 +376,7 @@ export class SearchPage {
     if (model.fan) queryParams['fan'] = 'true';
     if (!model.availableOnly) queryParams['availableOnly'] = 'false';
     if (model.sort !== '') queryParams['sort'] = model.sort;
-    Object.assign(queryParams, locationQueryParams(model.location));
+    Object.assign(queryParams, locationQueryParams(location));
     this.filterOpen.set(false);
     void this.router.navigate([], { queryParams, relativeTo: this.route });
   }
@@ -361,6 +398,11 @@ export class SearchPage {
   protected clearFilters(): void {
     this.capacityError.set(null);
     void this.router.navigate([], { queryParams: {}, relativeTo: this.route });
+  }
+
+  protected clearCurrency(): void {
+    this.model.update((current) => ({ ...current, currency: '' }));
+    this.apply();
   }
 
   protected retry(): void {

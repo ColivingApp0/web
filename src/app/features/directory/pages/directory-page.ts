@@ -9,6 +9,7 @@ import {
   DIRECTORY_RESULT_LIMIT,
   canonicalCityName,
   externalWebsiteUrl,
+  normalizeText,
   searchCities,
   searchUniversities,
 } from '../models/directory-models';
@@ -50,6 +51,11 @@ export class DirectoryPage {
   protected readonly resultLimit = DIRECTORY_RESULT_LIMIT;
   protected readonly cityName = canonicalCityName;
   protected readonly websiteUrl = externalWebsiteUrl;
+
+  protected cityDepartment(name: string, department: string | null): string | null {
+    if (!department) return null;
+    return normalizeText(department) === normalizeText(canonicalCityName(name)) ? null : department;
+  }
   protected readonly searching = computed(() => this.query().trim().length > 0);
   protected readonly suggestedCities = [
     'Bogotá',

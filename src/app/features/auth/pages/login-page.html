@@ -13,6 +13,7 @@
 
     <ui-form-field htmlFor="email" label="Correo electrónico" [error]="emailError()">
       <input
+        #emailInput
         id="email"
         type="email"
         autocomplete="email"
@@ -26,6 +27,7 @@
     <ui-form-field htmlFor="password" label="Contraseña" [error]="passwordError()">
       <div class="relative">
         <input
+          #passwordInput
           id="password"
           [type]="showPassword() ? 'text' : 'password'"
           autocomplete="current-password"

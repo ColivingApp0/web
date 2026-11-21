@@ -132,6 +132,34 @@ describe('LocationPicker', () => {
     expect(host.textContent).toContain('No tenemos la ciudad');
   });
 
+  it('should resolve a typed city on apply, including Bogotá D.C.', async () => {
+    const { fixture, host } = setup();
+    await fixture.whenStable();
+
+    await type(host, 'Bogotá D.C.');
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.hasPendingQuery()).toBe(true);
+    expect(fixture.componentInstance.resolveTypedLocation()).toMatchObject({
+      kind: 'city',
+      name: 'Bogotá',
+      cityName: 'Bogotá',
+    });
+    expect(fixture.componentInstance.hasPendingQuery()).toBe(false);
+  });
+
+  it('should not resolve an ambiguous typed city', async () => {
+    const { fixture, host } = setup();
+    await fixture.whenStable();
+
+    await type(host, 'd');
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.resolveTypedLocation()).toBeNull();
+    fixture.detectChanges();
+    expect(host.textContent).toContain('varias coincidencias');
+  });
+
   it('should close the list with Escape', async () => {
     const { fixture, host } = setup();
     await fixture.whenStable();

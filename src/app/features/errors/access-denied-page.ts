@@ -17,16 +17,29 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
             El área de administración requiere un rol interno activo (moderador o administrador). Tu
             cuenta puede seguir usando el resto de la plataforma con normalidad.
           } @else {
-            Esta sección requiere un rol activo distinto al tuyo. Puedes cambiar de rol desde tu
-            perfil o volver a explorar.
+            Esta sección requiere un rol activo distinto al tuyo. Puedes cambiarlo ahora y volver a
+            intentarlo, o seguir explorando con tu rol actual.
           }
         </p>
         <div class="mt-6 flex flex-wrap gap-3">
-          <a
-            routerLink="/perfil"
-            class="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand-700 px-4 text-sm font-bold text-white transition hover:bg-brand-600"
-            >Ir a mi perfil</a
-          >
+          @if (isAdminArea()) {
+            <a
+              routerLink="/perfil"
+              class="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand-700 px-4 text-sm font-bold text-white transition hover:bg-brand-600"
+              >Ir a mi perfil</a
+            >
+          } @else {
+            <a
+              routerLink="/seleccionar-rol"
+              class="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand-700 px-4 text-sm font-bold text-white transition hover:bg-brand-600"
+              >Cambiar de rol</a
+            >
+            <a
+              routerLink="/perfil"
+              class="inline-flex min-h-11 items-center justify-center rounded-xl border border-line px-4 text-sm font-bold text-ink transition hover:bg-soft"
+              >Ver mi perfil</a
+            >
+          }
           <a
             routerLink="/alojamientos"
             class="inline-flex min-h-11 items-center justify-center rounded-xl border border-line px-4 text-sm font-bold text-ink transition hover:bg-soft"

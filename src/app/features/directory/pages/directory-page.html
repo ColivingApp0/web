@@ -151,10 +151,12 @@
         <ul class="grid gap-3 md:grid-cols-2">
           @for (city of cityResults(); track city.id) {
             <li class="rounded-card border border-line bg-white p-4 shadow-card">
-              <p class="font-bold text-ink">{{ cityName(city.name) }}</p>
-              @if (city.departmentName) {
-                <p class="mt-0.5 text-sm text-muted">{{ city.departmentName }}</p>
-              }
+              <p class="font-bold text-ink">
+                {{ cityName(city.name) }}
+                @if (cityDepartment(city.name, city.departmentName); as department) {
+                  <span class="font-normal text-muted"> · {{ department }}</span>
+                }
+              </p>
               <a
                 [routerLink]="['/alojamientos']"
                 [queryParams]="{ ciudad: cityName(city.name) }"

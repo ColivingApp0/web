@@ -52,6 +52,18 @@ export const PROPERTY_WIZARD_STEPS: readonly PropertyWizardStep[] = [
   },
 ];
 
+/** ¿Hay datos escritos que merezca la pena conservar como borrador? */
+export function hasPropertyDraftContent(model: PropertyFormModel): boolean {
+  return (
+    model.title.trim() !== '' ||
+    model.description.trim() !== '' ||
+    model.cityName.trim() !== '' ||
+    model.neighborhood.trim() !== '' ||
+    model.address.trim() !== '' ||
+    model.amenities.length > 0
+  );
+}
+
 /** Modelo inicial para el alta o para editar una propiedad existente. */
 export function propertyFormModel(property: HostProperty | null): PropertyFormModel {
   return {

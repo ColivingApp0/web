@@ -1,3 +1,4 @@
+import { DatePipe, isPlatformBrowser } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,7 +13,6 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import {
   FormField as SignalFormField,
   FormRoot,
@@ -38,39 +38,14 @@ import { HostAmenityPicker } from './amenity-picker';
 import {
   PROPERTY_WIZARD_STEPS,
   PropertyFormModel,
+  hasPropertyDraftContent,
   normalizeAmenities,
   persistProperty,
   propertyFormModel,
 } from './property-form-model';
+import { PropertyDraftStore } from '../state/property-draft-store';
 
 const MAX_CITY_SUGGESTIONS = 8;
-
-/** Clave del borrador local del alta; se borra al crear la propiedad o descartarlo. */
-export const PROPERTY_DRAFT_STORAGE_KEY = 'colivinapp.property-draft.v1';
-
-function hasDraftContent(model: PropertyFormModel): boolean {
-  return (
-    model.title.trim() !== '' ||
-    model.description.trim() !== '' ||
-    model.cityName.trim() !== '' ||
-    model.neighborhood.trim() !== '' ||
-    model.address.trim() !== '' ||
-    model.amenities.length > 0
-  );
-}
-
-function isPropertyDraft(value: unknown): value is PropertyFormModel {
-  if (typeof value !== 'object' || value === null) return false;
-  const record = value as Record<string, unknown>;
-  return (
-    typeof record['title'] === 'string' &&
-    typeof record['description'] === 'string' &&
-    typeof record['cityName'] === 'string' &&
-    typeof record['neighborhood'] === 'string' &&
-    typeof record['address'] === 'string' &&
-    Array.isArray(record['amenities'])
-  );
-}
 
 /**
  * Alta de una propiedad en cuatro pasos: datos básicos, ubicación, servicios y
@@ -79,7 +54,16 @@ function isPropertyDraft(value: unknown): value is PropertyFormModel {
  */
 @Component({
   selector: 'app-host-property-wizard',
-  imports: [FormRoot, HostAmenityPicker, SignalFormField, UiAlert, UiButton, UiFormField, UiIcon],
+  imports: [
+    DatePipe,
+    FormRoot,
+    HostAmenityPicker,
+    SignalFormField,
+    UiAlert,
+    UiButton,
+    UiFormField,
+    UiIcon,
+  ],
   templateUrl: './property-wizard.html',
 })
 export class HostPropertyWizard {
@@ -89,6 +73,7 @@ export class HostPropertyWizard {
   private readonly directory = inject(DirectoryApi);
   private readonly injector = inject(Injector);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly draftStore = inject(PropertyDraftStore);
 
   protected readonly steps = PROPERTY_WIZARD_STEPS;
   protected readonly step = signal(0);
@@ -96,21 +81,24 @@ export class HostPropertyWizard {
   protected readonly serverError = signal<string | null>(null);
   protected readonly serverFieldErrors = signal<Record<string, string>>({});
   protected readonly restoredDraft = signal(false);
+  protected readonly restoredAt = signal<string | null>(null);
 
   constructor() {
-    const draft = this.readDraft();
+    const draft = this.draftStore.draft();
     if (draft) {
       this.model.set(draft.model);
+      this.step.set(Math.min(draft.step, this.steps.length - 1));
       this.restoredDraft.set(true);
+      this.restoredAt.set(draft.savedAt);
     }
     effect(
       () => {
         if (!isPlatformBrowser(this.platformId)) return;
         const current = this.model();
-        if (hasDraftContent(current)) {
-          localStorage.setItem(PROPERTY_DRAFT_STORAGE_KEY, JSON.stringify(current));
+        if (hasPropertyDraftContent(current)) {
+          this.draftStore.save(current, this.step());
         } else {
-          localStorage.removeItem(PROPERTY_DRAFT_STORAGE_KEY);
+          this.draftStore.clear();
         }
       },
       { injector: this.injector },
@@ -209,11 +197,13 @@ export class HostPropertyWizard {
 
   protected readonly locationSummary = computed(() => {
     const model = this.model();
-    const parts = [model.cityName, model.neighborhood, model.address]
+    const parts = [model.cityName, model.neighborhood]
       .map((part) => part.trim())
       .filter((part) => part !== '');
     return parts.length > 0 ? parts.join(' · ') : null;
   });
+
+  protected readonly privateAddress = computed(() => this.model().address.trim() || null);
 
   private readonly announcement = signal('');
   protected readonly liveMessage = this.announcement.asReadonly();
@@ -368,7 +358,7 @@ export class HostPropertyWizard {
 
   /** ¿Hay datos escritos que se perderían al cerrar el alta? */
   hasDraft(): boolean {
-    return hasDraftContent(this.model());
+    return hasPropertyDraftContent(this.model());
   }
 
   /** Descarta el borrador y deja el asistente listo para un alta nueva. */
@@ -376,25 +366,10 @@ export class HostPropertyWizard {
     this.model.set(propertyFormModel(null));
     this.step.set(0);
     this.restoredDraft.set(false);
+    this.restoredAt.set(null);
     this.serverError.set(null);
     this.serverFieldErrors.set({});
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem(PROPERTY_DRAFT_STORAGE_KEY);
-    }
-  }
-
-  private readDraft(): { model: PropertyFormModel } | null {
-    if (!isPlatformBrowser(this.platformId)) return null;
-    const raw = localStorage.getItem(PROPERTY_DRAFT_STORAGE_KEY);
-    if (!raw) return null;
-    try {
-      const parsed: unknown = JSON.parse(raw);
-      if (!isPropertyDraft(parsed)) return null;
-      return { model: parsed };
-    } catch {
-      localStorage.removeItem(PROPERTY_DRAFT_STORAGE_KEY);
-      return null;
-    }
+    this.draftStore.clear();
   }
 
   private goToStep(index: number): void {
@@ -432,9 +407,7 @@ export class HostPropertyWizard {
     this.serverFieldErrors.set({});
     try {
       const saved = await persistProperty(this.api, this.model(), null);
-      if (isPlatformBrowser(this.platformId)) {
-        localStorage.removeItem(PROPERTY_DRAFT_STORAGE_KEY);
-      }
+      this.draftStore.clear();
       this.saved.emit(saved);
     } catch (error) {
       const apiError = toApiError(error);

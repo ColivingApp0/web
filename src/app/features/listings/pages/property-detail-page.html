@@ -17,12 +17,20 @@
       [message]="error"
     >
       <div class="flex flex-wrap justify-center gap-2">
-        <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
-        <a
-          routerLink="/alojamientos"
-          class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line px-4 text-sm font-bold text-ink transition hover:bg-soft"
-          >Volver a la búsqueda</a
-        >
+        @if (notFound()) {
+          <a
+            routerLink="/alojamientos"
+            class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand-700 px-4 text-sm font-bold text-white transition hover:bg-brand-600"
+            >Volver a la búsqueda</a
+          >
+        } @else {
+          <ui-button type="button" (click)="retry()">Reintentar</ui-button>
+          <a
+            routerLink="/alojamientos"
+            class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line px-4 text-sm font-bold text-ink transition hover:bg-soft"
+            >Volver a la búsqueda</a
+          >
+        }
       </div>
     </ui-empty-state>
   } @else if (detail(); as view) {
@@ -173,7 +181,7 @@
               <ui-avatar [name]="host.name" [src]="host.avatarUrl" size="lg" />
               <div>
                 <p class="font-bold text-ink">{{ host.name ?? 'Anfitrión de ColivinApp' }}</p>
-                <p class="text-xs text-muted">Gestiona las habitaciones de esta propiedad</p>
+                <p class="text-xs text-muted">Anfitrión de esta propiedad</p>
               </div>
             </div>
           } @else {

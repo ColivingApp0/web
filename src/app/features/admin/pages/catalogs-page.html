@@ -23,12 +23,13 @@
       <ui-form-field htmlFor="catalog-category" label="Categoría">
         <select
           id="catalog-category"
-          [value]="category()"
           (change)="changeCategory($event)"
           class="w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-600/20"
         >
           @for (option of categories; track option) {
-            <option [value]="option">{{ categoryLabels[option] }}</option>
+            <option [value]="option" [selected]="option === category()">
+              {{ categoryLabels[option] }}
+            </option>
           }
         </select>
       </ui-form-field>

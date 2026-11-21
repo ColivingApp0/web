@@ -17,6 +17,16 @@
   }
   <ui-alert [message]="actionError()" />
 
+  <section class="rounded-card border border-line bg-soft px-4 py-3 text-sm text-ink-soft">
+    <p class="font-bold text-ink">Qué incluye una solicitud</p>
+    <p class="mt-1 leading-relaxed">
+      La solicitud muestra la habitación, las plazas pedidas, el mensaje de la persona y la fecha de
+      envío. La plataforma todavía no comparte aquí su nombre, foto ni verificación: usa «Conversar»
+      para pedir los datos que necesites antes de aceptar. No hay fecha de mudanza ni duración
+      estimada como campos estructurados.
+    </p>
+  </section>
+
   <div class="ui-scroll-x" role="tablist" aria-label="Filtrar solicitudes">
     <button
       type="button"
@@ -76,18 +86,16 @@
     <ui-empty-state
       icon="clipboard"
       title="No hay solicitudes en este filtro"
-      message="Cuando alguien solicite una plaza en tus habitaciones, aparecerá aquí con su perfil y su mensaje."
+      message="Cuando alguien solicite una plaza en tus habitaciones, aparecerá aquí con su mensaje y las plazas pedidas."
     />
   } @else {
     <ul class="space-y-4">
       @for (reservation of filtered(); track reservation.id) {
         <li>
           <app-reservation-card [reservation]="reservation">
-            @for (action of actions(reservation); track action.action) {
+            @if (acceptAction(reservation); as action) {
               <ui-button
-                [variant]="
-                  action.action === 'accept' ? 'primary' : action.danger ? 'danger' : 'secondary'
-                "
+                variant="primary"
                 size="sm"
                 type="button"
                 [loading]="busyReservationId() === reservation.id"
@@ -96,16 +104,70 @@
                 >{{ action.label }}</ui-button
               >
             }
-            <a
-              [routerLink]="['/mensajes/nueva']"
-              [queryParams]="{ reserva: reservation.id }"
-              class="flex min-h-9 items-center gap-1 rounded-pill border border-line px-3 text-xs font-bold text-ink transition hover:bg-soft"
-              ><ui-icon name="message" size="xs" /> Conversar</a
-            >
-            <ui-button variant="ghost" size="sm" type="button" (click)="toggleHistory(reservation)">
-              <ui-icon name="clipboard" size="sm" />
-              {{ historyOf(reservation) === null ? 'Historial' : 'Ocultar historial' }}
-            </ui-button>
+            @if (rejectAction(reservation); as action) {
+              <ui-button
+                variant="danger"
+                size="sm"
+                type="button"
+                [loading]="busyReservationId() === reservation.id"
+                [disabled]="busyReservationId() !== null && busyReservationId() !== reservation.id"
+                (click)="startDecision(reservation, action.action)"
+                >{{ action.label }}</ui-button
+              >
+            }
+            @if (secondaryActions(reservation).length > 0) {
+              <details class="relative min-w-48">
+                <summary
+                  class="flex min-h-9 cursor-pointer list-none items-center gap-1 rounded-pill border border-line px-3 text-xs font-bold text-ink transition hover:bg-soft"
+                >
+                  Más acciones
+                </summary>
+                <div class="mt-2 w-64 rounded-xl border border-line bg-white p-2 shadow-soft">
+                  @for (action of secondaryActions(reservation); track action.action) {
+                    <button
+                      type="button"
+                      class="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-xs font-semibold text-ink hover:bg-soft disabled:opacity-50"
+                      [disabled]="
+                        busyReservationId() !== null && busyReservationId() !== reservation.id
+                      "
+                      (click)="startDecision(reservation, action.action)"
+                    >
+                      {{ action.label }}
+                    </button>
+                  }
+                  <a
+                    [routerLink]="['/mensajes/nueva']"
+                    [queryParams]="{ reserva: reservation.id }"
+                    class="flex min-h-9 items-center gap-1 rounded-lg px-3 text-xs font-semibold text-ink hover:bg-soft"
+                    ><ui-icon name="message" size="xs" /> Abrir conversación</a
+                  >
+                  <button
+                    type="button"
+                    class="flex min-h-9 w-full items-center gap-1 rounded-lg px-3 text-left text-xs font-semibold text-ink hover:bg-soft"
+                    (click)="toggleHistory(reservation)"
+                  >
+                    <ui-icon name="clipboard" size="xs" />
+                    {{ historyOf(reservation) === null ? 'Ver historial' : 'Ocultar historial' }}
+                  </button>
+                </div>
+              </details>
+            } @else {
+              <a
+                [routerLink]="['/mensajes/nueva']"
+                [queryParams]="{ reserva: reservation.id }"
+                class="flex min-h-9 items-center gap-1 rounded-pill border border-line px-3 text-xs font-bold text-ink transition hover:bg-soft"
+                ><ui-icon name="message" size="xs" /> Abrir conversación</a
+              >
+              <ui-button
+                variant="ghost"
+                size="sm"
+                type="button"
+                (click)="toggleHistory(reservation)"
+              >
+                <ui-icon name="clipboard" size="sm" />
+                {{ historyOf(reservation) === null ? 'Ver historial' : 'Ocultar historial' }}
+              </ui-button>
+            }
           </app-reservation-card>
 
           @if (decisionTarget(); as target) {

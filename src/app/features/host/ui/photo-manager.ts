@@ -70,14 +70,14 @@ import { HostPhoto } from '../models/host-models';
         <p
           class="rounded-xl border border-dashed border-line bg-soft px-4 py-6 text-center text-sm text-muted"
         >
-          Aún no hay fotografías. Añade una URL de imagen para que la habitación se vea en
-          búsquedas.
+          Aún no hay fotografías. Sin una foto de portada la habitación se ve vacía en la búsqueda;
+          añade al menos una para publicarla.
         </p>
       }
 
       <div class="flex flex-col gap-2 sm:flex-row sm:items-end">
         <div class="min-w-0 flex-1">
-          <label for="photo-url" class="ui-label">URL de la fotografía</label>
+          <label for="photo-url" class="ui-label">Enlace público de la fotografía</label>
           <input
             id="photo-url"
             type="url"
@@ -98,6 +98,10 @@ import { HostPhoto } from '../models/host-models';
           <ui-icon name="plus" size="sm" /> Añadir foto
         </ui-button>
       </div>
+      <p class="text-xs leading-relaxed text-muted">
+        La subida directa desde el teléfono u ordenador todavía no está disponible: el servidor aún
+        no almacena archivos. Por ahora pega el enlace público de una imagen ya alojada.
+      </p>
       @if (error(); as message) {
         <p class="text-xs font-semibold text-danger-700">{{ message }}</p>
       }

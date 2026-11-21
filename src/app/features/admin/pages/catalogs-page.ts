@@ -84,14 +84,27 @@ export class CatalogsPage {
     description: '',
     parentId: '',
   });
+  protected readonly createAttempted = signal(false);
   protected readonly createValues = computed(() => this.createModel());
-  protected readonly createCodeError = computed(() => catalogCodeError(this.createModel().code));
-  protected readonly createNameError = computed(() => catalogNameError(this.createModel().name));
-  protected readonly createDescriptionError = computed(() =>
+  private readonly codeValidation = computed(() => catalogCodeError(this.createModel().code));
+  private readonly nameValidation = computed(() => catalogNameError(this.createModel().name));
+  private readonly descriptionValidation = computed(() =>
     catalogDescriptionError(this.createModel().description),
   );
-  protected readonly createParentError = computed(() =>
+  private readonly parentValidation = computed(() =>
     catalogParentError(this.category(), this.createModel().parentId),
+  );
+  protected readonly createCodeError = computed(() =>
+    this.createAttempted() ? this.codeValidation() : null,
+  );
+  protected readonly createNameError = computed(() =>
+    this.createAttempted() ? this.nameValidation() : null,
+  );
+  protected readonly createDescriptionError = computed(() =>
+    this.createAttempted() ? this.descriptionValidation() : null,
+  );
+  protected readonly createParentError = computed(() =>
+    this.createAttempted() ? this.parentValidation() : null,
   );
   protected readonly creating = signal(false);
   protected readonly createError = signal<string | null>(null);
@@ -119,6 +132,8 @@ export class CatalogsPage {
 
   protected changeCategory(event: Event): void {
     const value = event.target instanceof HTMLSelectElement ? event.target.value : '';
+    this.createAttempted.set(false);
+    this.createError.set(null);
     void this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { ...this.currentParams(), categoria: value },
@@ -156,12 +171,13 @@ export class CatalogsPage {
   }
 
   protected async submitCreate(): Promise<void> {
+    this.createAttempted.set(true);
     const values = this.createModel();
     const invalid =
-      this.createCodeError() ??
-      this.createNameError() ??
-      this.createDescriptionError() ??
-      this.createParentError();
+      this.codeValidation() ??
+      this.nameValidation() ??
+      this.descriptionValidation() ??
+      this.parentValidation();
     if (invalid !== null) {
       this.createError.set(invalid);
       return;

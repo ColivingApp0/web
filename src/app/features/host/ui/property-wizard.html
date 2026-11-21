@@ -24,7 +24,13 @@
         class="mt-1 flex flex-wrap items-center gap-2 text-xs font-semibold text-brand-700"
         role="status"
       >
-        Recuperamos el borrador que dejaste sin terminar.
+        Recuperamos tu borrador
+        @if (restoredAt(); as savedAt) {
+          <span class="font-normal text-muted"
+            >(guardado el {{ savedAt | date: 'd MMM y, HH:mm' }})</span
+          >
+        }
+        . Puedes seguir donde lo dejaste.
         <button type="button" class="underline underline-offset-4" (click)="discardDraft()">
           Descartar borrador
         </button>
@@ -164,8 +170,8 @@
             </ui-form-field>
             <ui-form-field
               htmlFor="host-property-wizard-address"
-              label="Dirección"
-              hint="Se muestra en el detalle de la propiedad."
+              label="Dirección exacta (privada)"
+              hint="Solo la usas tú para gestionar el inmueble. En la ficha pública se muestran el barrio y la ciudad, nunca la dirección."
             >
               <input
                 id="host-property-wizard-address"
@@ -219,6 +225,11 @@
                   {{ location }}
                 } @else {
                   <span class="text-muted">Sin ubicación</span>
+                }
+                @if (privateAddress(); as address) {
+                  <span class="mt-1 block text-xs text-muted">
+                    Dirección exacta (solo para ti, no se publica): {{ address }}
+                  </span>
                 }
               </dd>
             </div>

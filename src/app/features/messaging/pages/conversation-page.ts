@@ -153,7 +153,9 @@ export class ConversationPage {
         this.composerModel().body.trim(),
       );
       this.sentMessages.update((current) => [...current, created]);
+      this.composerForm.body().reset('');
       this.composerModel.set({ body: '' });
+      this.successMessage.set('Mensaje enviado.');
       this.conversationResource.reload();
     } catch (error) {
       this.sendError.set(this.describeSendError(error));

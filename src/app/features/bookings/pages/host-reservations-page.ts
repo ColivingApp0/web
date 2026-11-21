@@ -77,6 +77,20 @@ export class HostReservationsPage {
     return hostReservationActions(reservation.status);
   }
 
+  protected acceptAction(reservation: ReservationView) {
+    return this.actions(reservation).find((action) => action.action === 'accept') ?? null;
+  }
+
+  protected rejectAction(reservation: ReservationView) {
+    return this.actions(reservation).find((action) => action.action === 'reject') ?? null;
+  }
+
+  protected secondaryActions(reservation: ReservationView) {
+    return this.actions(reservation).filter(
+      (action) => action.action !== 'accept' && action.action !== 'reject',
+    );
+  }
+
   protected requiresReason(action: HostReservationAction): boolean {
     return action !== 'accept';
   }
