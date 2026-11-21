@@ -19,8 +19,8 @@ import { ScoreFactor, scoreFactorLabel } from '../models/reputation-models';
         <tr class="text-left text-xs uppercase tracking-wide text-muted">
           <th scope="col" class="py-2">Factor</th>
           <th scope="col" class="py-2">Peso</th>
-          <th scope="col" class="py-2">Valor normalizado</th>
-          <th scope="col" class="py-2">Contribución</th>
+          <th scope="col" class="py-2">Valor</th>
+          <th scope="col" class="py-2">Aporte al score</th>
         </tr>
       </thead>
       <tbody>

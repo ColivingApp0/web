@@ -43,9 +43,13 @@
           >
         }
       } @else {
-        <span class="rounded-full bg-soft px-3 py-1 text-xs font-bold text-muted">
-          No disponible
-        </span>
+        <div class="max-w-sm rounded-xl border border-line bg-soft px-3 py-2 text-xs text-muted">
+          <p class="font-bold text-ink">No disponible en este dispositivo</p>
+          <p class="mt-0.5 leading-relaxed">
+            El navegador no admite avisos push o la instalación no los tiene configurados. Puedes
+            seguir viendo las novedades en esta bandeja.
+          </p>
+        </div>
       }
     </div>
     @if (pushError(); as error) {
@@ -68,7 +72,7 @@
     <div class="rounded-card border border-dashed border-[#bfd0c9] bg-[#fbfdfc] p-10 text-center">
       <p class="font-bold text-ink">No tienes notificaciones.</p>
       <p class="mt-1 text-sm text-muted">
-        El backend solo notifica mensajes nuevos en las conversaciones de una reserva.
+        Solo avisamos de mensajes nuevos en las conversaciones de una reserva.
       </p>
     </div>
   } @else {

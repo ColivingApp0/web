@@ -50,7 +50,7 @@
       htmlFor="activity-scheduled-at"
       label="Fecha y hora"
       [error]="scheduledAtError()"
-      hint="Debe ser futura (el backend rechaza el pasado)."
+      hint="Debe ser una fecha futura."
     >
       <input
         id="activity-scheduled-at"
@@ -85,7 +85,7 @@
     <p class="mb-3 text-xs text-muted">
       Se listan los residentes con estancia confirmada en las unidades de la propiedad, derivados de
       tus propias reservas. Se muestran por identificador: la API no expone nombres de terceros. El
-      backend volverá a validar la pertenencia al crear la actividad.
+      La plataforma volverá a comprobar la pertenencia al crear la actividad.
     </p>
 
     @if (properties().length === 0) {
