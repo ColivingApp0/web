@@ -48,9 +48,3 @@ Thumbs.db
 
 # Artefactos locales de Playwright MCP (capturas, trazas y snapshots)
 /.playwright-mcp/
-
-# Playwright (suite e2e)
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
