@@ -3,7 +3,8 @@ import { DirectoryApi } from '../../directory/data-access/directory-api';
 import { DirectoryCity } from '../../directory/models/directory-models';
 import { HostApi } from '../data-access/host-api';
 import { HostProperty } from '../models/host-models';
-import { HostPropertyWizard, PROPERTY_DRAFT_STORAGE_KEY } from './property-wizard';
+import { PROPERTY_DRAFT_STORAGE_KEY } from '../state/property-draft-store';
+import { HostPropertyWizard } from './property-wizard';
 
 const CITIES: DirectoryCity[] = [
   { id: 1, name: 'Bogotá D.C.', departmentName: 'Cundinamarca', population: 7901653 },
@@ -117,6 +118,50 @@ describe('HostPropertyWizard', () => {
     expect(title.value).toBe('Casa Norte');
   });
 
+  it('guarda el borrador en localStorage y lo recupera al reabrir el alta', async () => {
+    const first = setup();
+    await settle(first.fixture);
+
+    await type(first.fixture, '#host-property-wizard-title', 'Casa Norte');
+    buttonByText(first.host, 'Continuar').click();
+    await settle(first.fixture);
+    await type(first.fixture, '#host-property-wizard-city', 'Bogotá D.C.');
+    await type(first.fixture, '#host-property-wizard-neighborhood', 'Chapinero');
+    await settle(first.fixture);
+
+    const stored = JSON.parse(localStorage.getItem(PROPERTY_DRAFT_STORAGE_KEY) ?? '{}');
+    expect(stored.version).toBe(2);
+    expect(stored.model.title).toBe('Casa Norte');
+    expect(stored.model.neighborhood).toBe('Chapinero');
+    expect(stored.step).toBe(1);
+
+    first.fixture.destroy();
+
+    const second = TestBed.createComponent(HostPropertyWizard);
+    await settle(second);
+    const reopened = second.nativeElement as HTMLElement;
+
+    expect(reopened.textContent).toContain('Recuperamos tu borrador');
+    expect(reopened.querySelector<HTMLInputElement>('#host-property-wizard-city')?.value).toBe(
+      'Bogotá D.C.',
+    );
+    expect(
+      reopened.querySelector<HTMLInputElement>('#host-property-wizard-neighborhood')?.value,
+    ).toBe('Chapinero');
+    expect(stepHeading(reopened)).toBe('Ubicación');
+
+    buttonByText(reopened, 'Descartar borrador').click();
+    await settle(second);
+    expect(localStorage.getItem(PROPERTY_DRAFT_STORAGE_KEY)).toBeNull();
+    second.destroy();
+
+    const third = TestBed.createComponent(HostPropertyWizard);
+    await settle(third);
+    const clean = third.nativeElement as HTMLElement;
+    expect(clean.textContent).not.toContain('Recuperamos tu borrador');
+    expect(clean.querySelector<HTMLInputElement>('#host-property-wizard-title')?.value).toBe('');
+  });
+
   it('exige ciudad y barrio en el paso de ubicación', async () => {
     const { api, fixture, host } = setup();
     await settle(fixture);
@@ -179,7 +224,10 @@ describe('HostPropertyWizard', () => {
 
     expect(stepHeading(host)).toBe('Revisión');
     expect(host.textContent).toContain('Casa Norte');
-    expect(host.textContent).toContain('Bogotá · Chapinero · Calle 1 # 2-3');
+    expect(host.textContent).toContain('Bogotá · Chapinero');
+    expect(host.textContent).toContain(
+      'Dirección exacta (solo para ti, no se publica): Calle 1 # 2-3',
+    );
     expect(host.textContent).toContain('WiFi');
     expect(host.textContent).toContain('Piscina');
 

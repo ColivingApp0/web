@@ -37,6 +37,30 @@
     </div>
   }
 
+  @if (!showCreate() && draft(); as savedDraft) {
+    <section
+      class="flex flex-wrap items-center justify-between gap-4 rounded-card border border-brand-200 bg-brand-50 p-5"
+      aria-label="Borrador de propiedad"
+    >
+      <div class="min-w-0">
+        <p class="text-xs font-extrabold uppercase tracking-wide text-brand-700">
+          Borrador guardado
+        </p>
+        <p class="mt-1 truncate font-display text-lg font-extrabold text-ink">
+          {{ draftTitle() }}
+        </p>
+        <p class="mt-0.5 text-sm text-muted">
+          {{ draftStepLabel() }} · guardado el
+          {{ savedDraft.savedAt | date: 'd MMM y, HH:mm' }}
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <ui-button type="button" (click)="continueDraft()">Continuar borrador</ui-button>
+        <ui-button type="button" variant="secondary" (click)="discardDraft()">Descartar</ui-button>
+      </div>
+    </section>
+  }
+
   @if (showCreate()) {
     <section class="ui-card ui-card-pad">
       <h2 class="font-display text-lg font-extrabold text-ink">Nueva propiedad</h2>
