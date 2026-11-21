@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, computed, inject, signal, viewChild } from '@angular/core';
 import {
   FormField as SignalFormField,
   FormRoot,
@@ -36,6 +36,8 @@ export class LoginPage {
   protected readonly serverError = signal<string | null>(null);
   protected readonly serverFieldErrors = signal<Record<string, string>>({});
   protected readonly showPassword = signal(false);
+  private readonly emailInput = viewChild<ElementRef<HTMLInputElement>>('emailInput');
+  private readonly passwordInput = viewChild<ElementRef<HTMLInputElement>>('passwordInput');
 
   private readonly returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
   protected readonly registerParams = this.returnUrl
@@ -89,6 +91,7 @@ export class LoginPage {
       const apiError = toApiError(error);
       this.serverFieldErrors.set(apiError.fieldErrors);
       this.serverError.set(this.messageFor(apiError));
+      this.focusFirstInvalid(apiError);
     } finally {
       this.submitting.set(false);
     }
@@ -100,6 +103,15 @@ export class LoginPage {
       return requested;
     }
     return hasRole ? '/perfil' : '/seleccionar-rol';
+  }
+
+  private focusFirstInvalid(error: ApiError): void {
+    const fields = error.fieldErrors;
+    if (fields['password']) {
+      this.passwordInput()?.nativeElement.focus();
+      return;
+    }
+    this.emailInput()?.nativeElement.focus();
   }
 
   private messageFor(error: ApiError): string {

@@ -8,18 +8,35 @@
     <h2 class="font-display text-lg font-bold text-ink">Cuenta</h2>
     <dl class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <div class="min-w-0">
+        <dt class="text-xs font-bold uppercase tracking-wide text-muted">Nombre visible</dt>
+        <dd class="mt-1 truncate text-sm text-ink">
+          @if (profile()?.name; as name) {
+            {{ name }}
+          } @else {
+            <span class="text-muted">Sin nombre en el perfil</span>
+          }
+        </dd>
+      </div>
+      <div class="min-w-0">
         <dt class="text-xs font-bold uppercase tracking-wide text-muted">Correo</dt>
         <dd class="mt-1 truncate text-sm text-ink">{{ session.user()?.email }}</dd>
       </div>
       <div>
-        <dt class="text-xs font-bold uppercase tracking-wide text-muted">Correo verificado</dt>
-        <dd class="mt-1 text-sm text-ink">{{ session.emailVerified() ? 'Sí' : 'No' }}</dd>
+        <dt class="text-xs font-bold uppercase tracking-wide text-muted">Estado del correo</dt>
+        <dd class="mt-1 text-sm text-ink">
+          {{ session.emailVerified() ? 'Verificado' : 'Sin verificar' }}
+        </dd>
       </div>
       <div>
         <dt class="text-xs font-bold uppercase tracking-wide text-muted">Rol activo</dt>
         <dd class="mt-1 text-sm text-ink">
           @if (session.activeRole(); as role) {
-            {{ role.name }}
+            <span>{{ role.name }}</span>
+            <a
+              routerLink="/seleccionar-rol"
+              class="ml-2 text-xs font-bold text-brand-700 hover:underline"
+              >Cambiar rol</a
+            >
           } @else {
             <a routerLink="/seleccionar-rol" class="font-bold text-brand-700 hover:underline"
               >Elegir rol</a
@@ -66,7 +83,10 @@
 
     <section class="rounded-card border border-line bg-white p-6 shadow-card">
       <h2 class="font-display text-lg font-bold text-ink">Consentimientos</h2>
-      <p class="mb-4 mt-1 text-sm text-muted">Puedes aceptar o revocar cada autorización.</p>
+      <p class="mb-4 mt-1 text-sm text-muted">
+        Aquí se registra qué aceptaste y cuándo. Puedes aceptar o revocar cada autorización; los
+        documentos siguen disponibles para consulta.
+      </p>
       <app-consents-panel />
     </section>
 

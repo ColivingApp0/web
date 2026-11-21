@@ -7,7 +7,6 @@ import {
   maxLength,
   minLength,
   required,
-  validate,
 } from '@angular/forms/signals';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiError, toApiError } from '../../../core/http/api-error';
@@ -21,7 +20,6 @@ import { AuthApi } from '../data-access/auth-api';
 interface RegisterModel {
   email: string;
   password: string;
-  acceptTerms: boolean;
 }
 
 @Component({
@@ -47,7 +45,6 @@ export class RegisterPage {
   private readonly model = signal<RegisterModel>({
     email: '',
     password: '',
-    acceptTerms: false,
   });
 
   protected readonly registerForm = form(
@@ -58,14 +55,6 @@ export class RegisterPage {
       required(path.password, { message: 'La contraseña es obligatoria.' });
       minLength(path.password, 8, { message: 'La contraseña debe tener al menos 8 caracteres.' });
       maxLength(path.password, 72, { message: 'La contraseña no puede superar 72 caracteres.' });
-      validate(path.acceptTerms, ({ value }) =>
-        value()
-          ? null
-          : {
-              kind: 'terms-required',
-              message: 'Acepta los términos y la política de privacidad para crear la cuenta.',
-            },
-      );
     },
     {
       submission: {
@@ -84,8 +73,6 @@ export class RegisterPage {
     () =>
       firstFieldError(this.registerForm.password) ?? this.serverFieldErrors()['password'] ?? null,
   );
-  protected readonly termsError = computed(() => firstFieldError(this.registerForm.acceptTerms));
-
   private async submit(): Promise<void> {
     this.submitting.set(true);
     this.serverError.set(null);
