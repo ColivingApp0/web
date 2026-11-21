@@ -53,16 +53,7 @@ npm start                 # dev server :8080
 npm run build             # build de producción
 npx ng test --watch=false # Vitest
 npx prettier --check .    # formato
-
-# E2E de experiencia (requiere API en :8082 con la semilla dev y la app en :8080)
-npx playwright install chromium  # una vez por máquina
-npm run test:e2e                 # escritorio + móvil
-npm run test:e2e:mobile          # solo móvil 390×844
 ```
-
-La suite `e2e/` cubre búsqueda por ciudad/universidad, filtros, detalle móvil,
-alta multipaso, borrador, recuperación de contraseña, 404, descubrimiento y
-responsive. Usa las cuentas de la semilla dev documentadas arriba.
 
 ## Documentación
 

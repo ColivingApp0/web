@@ -7,9 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:client": "node dist/client/server/server.mjs",
-    "test:e2e": "playwright test",
-    "test:e2e:mobile": "playwright test --project=mobile"
+    "serve:ssr:client": "node dist/client/server/server.mjs"
   },
   "private": true,
   "packageManager": "npm@11.19.0",
@@ -39,8 +37,7 @@
     "prettier": "^3.8.1",
     "tailwindcss": "^4.1.12",
     "typescript": "~6.0.2",
-    "vitest": "^5.0.0",
-    "@playwright/test": "1.65.1"
+    "vitest": "^5.0.0"
   },
   "allowScripts": {
     "@parcel/watcher@2.6.0": true,
