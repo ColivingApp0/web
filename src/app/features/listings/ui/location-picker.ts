@@ -8,6 +8,8 @@ import {
   DIRECTORY_RESULT_LIMIT,
   DirectoryCity,
   DirectoryUniversity,
+  canonicalCityName,
+  normalizeText,
   searchCities,
   searchUniversities,
 } from '../../directory/models/directory-models';
@@ -52,7 +54,7 @@ export class LocationPicker {
   protected readonly query = signal('');
   protected readonly open = signal(false);
   protected readonly activeIndex = signal(-1);
-  protected readonly universityWarning = signal<string | null>(null);
+  protected readonly locationWarning = signal<string | null>(null);
 
   protected readonly resultLimit = DIRECTORY_RESULT_LIMIT;
 
@@ -68,6 +70,7 @@ export class LocationPicker {
   });
 
   protected readonly options = computed<LocationOption[]>(() => {
+    if (this.query().trim() === '') return [];
     if (this.mode() === 'city') {
       return searchCities(this.citiesResource.value() ?? [], this.query()).map((city) => ({
         key: `city-${city.id}`,
@@ -113,7 +116,7 @@ export class LocationPicker {
     this.query.set(target.value);
     this.open.set(target.value.trim().length > 0);
     this.activeIndex.set(-1);
-    this.universityWarning.set(null);
+    this.locationWarning.set(null);
   }
 
   protected onFocus(): void {
@@ -150,7 +153,52 @@ export class LocationPicker {
     this.query.set('');
     this.open.set(false);
     this.activeIndex.set(-1);
-    this.universityWarning.set(null);
+    this.locationWarning.set(null);
+  }
+
+  /** ¿Hay texto escrito pendiente de convertir en filtro al pulsar «Aplicar»? */
+  hasPendingQuery(): boolean {
+    return this.query().trim() !== '';
+  }
+
+  /**
+   * Convierte el texto escrito en una ubicación al aplicar los filtros.
+   * Acepta coincidencia exacta (incluida «Bogotá D.C.» → «Bogotá») o una única
+   * sugerencia. Si hay ambigüedad no filtra: pide elegir una sugerencia.
+   */
+  resolveTypedLocation(): LocationFilter | null {
+    const raw = this.query().trim();
+    if (raw === '') return this.location();
+    if (this.loading()) {
+      this.locationWarning.set(
+        'Estamos cargando el directorio. Espera un momento y vuelve a aplicar.',
+      );
+      return null;
+    }
+    const options = this.options();
+    const query =
+      this.mode() === 'city' ? normalizeText(canonicalCityName(raw)) : normalizeText(raw);
+    const exact = options.find((option) =>
+      this.mode() === 'city'
+        ? normalizeText(canonicalCityName(option.name)) === query
+        : normalizeText(option.name) === query,
+    );
+    const chosen = exact ?? (options.length === 1 ? options[0] : null);
+    if (!chosen) {
+      this.open.set(false);
+      this.activeIndex.set(-1);
+      this.locationWarning.set(
+        options.length === 0
+          ? `No encontramos «${raw}» en el directorio. Revisa la escritura o elige una sugerencia.`
+          : `Hay varias coincidencias para «${raw}». Elige una sugerencia para aplicar el filtro.`,
+      );
+      return null;
+    }
+    this.locationWarning.set(null);
+    this.query.set('');
+    this.open.set(false);
+    this.activeIndex.set(-1);
+    return chosen.location;
   }
 
   protected selectAt(index: number): void {
@@ -158,14 +206,14 @@ export class LocationPicker {
     if (!option) return;
     const selected = option.location;
     if (selected.kind === 'university' && !selected.cityName) {
-      this.universityWarning.set(
+      this.locationWarning.set(
         `No tenemos la ciudad de «${selected.name}». Elige una ciudad o prueba otra universidad.`,
       );
       this.open.set(false);
       this.activeIndex.set(-1);
       return;
     }
-    this.universityWarning.set(null);
+    this.locationWarning.set(null);
     this.locationChange.emit(selected);
     this.query.set('');
     this.open.set(false);
@@ -173,7 +221,7 @@ export class LocationPicker {
   }
 
   protected clear(): void {
-    this.universityWarning.set(null);
+    this.locationWarning.set(null);
     this.locationChange.emit(null);
   }
 

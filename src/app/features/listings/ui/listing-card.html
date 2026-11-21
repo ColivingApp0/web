@@ -8,8 +8,13 @@
         class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
       />
     } @else {
-      <div class="grid h-full w-full place-items-center text-brand-700" aria-hidden="true">
-        <ui-icon name="image" size="xl" />
+      <div
+        class="grid h-full w-full place-items-center bg-[radial-gradient(circle_at_center,#d1fae5_0%,#ecfdf5_70%)] text-center"
+      >
+        <div class="px-6 text-brand-800">
+          <ui-icon name="image" size="xl" class="mx-auto" />
+          <p class="mt-2 text-xs font-bold">El anfitrión aún no añadió fotos</p>
+        </div>
       </div>
     }
 

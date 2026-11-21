@@ -18,6 +18,25 @@
     </a>
   </header>
 
+  <div class="flex gap-2 lg:hidden">
+    <div class="relative min-w-0 flex-1">
+      <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted">
+        <ui-icon name="search" size="sm" />
+      </span>
+      <label for="quick-search" class="sr-only">Buscar por barrio, propiedad o palabra clave</label>
+      <input
+        id="quick-search"
+        type="search"
+        placeholder="Barrio, propiedad o palabra clave"
+        [value]="model().q"
+        (input)="updateQuickQuery($event)"
+        (keydown.enter)="apply()"
+        class="ui-input pl-9"
+      />
+    </div>
+    <ui-button type="button" (click)="apply()">Buscar</ui-button>
+  </div>
+
   <div class="lg:grid lg:grid-cols-[286px_1fr] lg:items-start lg:gap-8">
     <aside class="lg:sticky lg:top-24">
       <div class="mb-3 flex items-center justify-end lg:hidden">
@@ -65,13 +84,20 @@
           />
           <ui-alert variant="warning" [message]="locationNotice()" />
 
-          <app-monthly-price-slider
-            [currency]="model().currency === 'USD' ? 'USD' : 'COP'"
-            [minValue]="model().minPrice"
-            (minValueChange)="setPriceMin($event)"
-            [maxValue]="model().maxPrice"
-            (maxValueChange)="setPriceMax($event)"
-          />
+          @if (model().currency === 'USD') {
+            <ui-alert
+              variant="info"
+              message="El catálogo publica sus precios en COP. Si buscas en USD solo verás anuncios hechos en dólares; el rango de precio queda en pausa para no mezclar monedas."
+            />
+          } @else {
+            <app-monthly-price-slider
+              currency="COP"
+              [minValue]="model().minPrice"
+              (minValueChange)="setPriceMin($event)"
+              [maxValue]="model().maxPrice"
+              (maxValueChange)="setPriceMax($event)"
+            />
+          }
 
           <ui-form-field
             htmlFor="filter-capacity"
@@ -133,7 +159,11 @@
             </label>
           </fieldset>
 
-          <ui-form-field htmlFor="filter-currency" label="Moneda">
+          <ui-form-field
+            htmlFor="filter-currency"
+            label="Moneda"
+            hint="Los precios habituales del catálogo están en COP. USD solo muestra anuncios hechos en dólares."
+          >
             <select id="filter-currency" [formField]="filterForm.currency" class="ui-select">
               <option value="">Todas</option>
               <option value="COP">COP</option>
@@ -205,6 +235,9 @@
       } @else if (listings().length === 0) {
         <ui-empty-state icon="search" [title]="emptyState().title" [message]="emptyState().message">
           <div class="flex flex-wrap justify-center gap-2">
+            @if (appliedFilters().currency === 'USD') {
+              <ui-button type="button" (click)="clearCurrency()">Ver todas las monedas</ui-button>
+            }
             <ui-button variant="secondary" type="button" (click)="clearFilters()"
               >Limpiar filtros</ui-button
             >
