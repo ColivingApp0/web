@@ -205,7 +205,15 @@ forma consistente en `angular.json`/`proxy.conf.json` y `application-dev.yml`.
 
 ## 9. Limitaciones conocidas
 
-- Fotos por URL; no hay subida/almacenamiento de archivos en este alcance.
+- Fotos por URL; no hay subida/almacenamiento de archivos en este alcance. La UI
+  exige al menos una foto antes de habilitar una habitación y declara la limitación.
+- No existe endpoint para archivar una propiedad completa. La gestión permite
+  pausar todas sus habitaciones publicadas; el panel lo explica en lugar de simular
+  un archivado.
+- La solicitud del anfitrión solo expone `guestUserId`, plazas, mensaje y fecha: no
+  incluye nombre, foto, verificación ni fecha de mudanza. La bandeja lo advierte y
+  remite a la conversación. La cola administrativa de documentos tampoco expone
+  solicitante ni archivo; muestra un identificador estable y la limitación.
 - Sin paginación en búsqueda, solicitudes ni mensajería (volumen de piloto).
 - Mensajería sin tiempo real ni estados de lectura por mensaje.
 - Los catálogos académicos y de ciudad siguen sin endpoint público; la ubicación

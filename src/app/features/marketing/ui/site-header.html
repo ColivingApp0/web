@@ -5,6 +5,15 @@
   Saltar al contenido
 </a>
 
+@if (open()) {
+  <button
+    type="button"
+    class="fixed inset-0 z-10 bg-ink/55 lg:hidden"
+    aria-label="Cerrar menú"
+    (click)="close()"
+  ></button>
+}
+
 <header
   class="absolute inset-x-0 top-0 z-20 bg-linear-to-b from-brand-800/75 to-transparent text-white"
 >
@@ -50,15 +59,15 @@
       class="grid size-11 place-items-center rounded-xl text-white lg:hidden"
       [attr.aria-expanded]="open()"
       aria-controls="mobile-menu"
-      aria-label="Abrir menú"
+      [attr.aria-label]="open() ? 'Cerrar menú' : 'Abrir menú'"
       (click)="toggle()"
     >
-      <ui-icon name="menu" size="lg" />
+      <ui-icon [name]="open() ? 'close' : 'menu'" size="lg" />
     </button>
   </div>
 
   @if (open()) {
-    <div id="mobile-menu" class="border-t border-white/10 bg-brand-800/95 px-5 py-4 lg:hidden">
+    <div id="mobile-menu" class="border-t border-white/10 bg-brand-800 px-5 py-4 lg:hidden">
       <nav class="grid" aria-label="Secciones (móvil)">
         @for (link of links; track link.fragment) {
           <a

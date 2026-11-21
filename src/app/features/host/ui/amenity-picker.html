@@ -1,0 +1,67 @@
+<fieldset class="space-y-3 rounded-xl border border-line p-4">
+  <legend class="px-1 text-sm font-bold text-ink">Servicios y zonas comunes</legend>
+  <p class="text-xs leading-relaxed text-muted">
+    Toca los servicios que ofrece el inmueble. Los seleccionados aparecen resaltados; puedes
+    quitarlos volviendo a tocarlos.
+  </p>
+
+  @if (available().length > 0) {
+    <div class="flex flex-wrap gap-2" role="group" aria-label="Servicios sugeridos">
+      @for (suggestion of available(); track suggestion) {
+        <button type="button" [class]="classes(false)" (click)="toggle(suggestion)">
+          <ui-icon name="plus" size="xs" />
+          {{ suggestion }}
+        </button>
+      }
+    </div>
+  }
+
+  @if (selected().length > 0) {
+    <div class="space-y-2">
+      <p class="text-xs font-bold text-ink">Seleccionados</p>
+      <ul class="flex flex-wrap gap-2">
+        @for (amenity of selected(); track amenity) {
+          <li>
+            <button
+              type="button"
+              [class]="classes(true)"
+              [attr.aria-label]="'Quitar ' + amenity"
+              (click)="remove(amenity)"
+            >
+              <ui-icon name="check" size="xs" />
+              {{ amenity }}
+              <ui-icon name="close" size="xs" />
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-end">
+    <div class="min-w-0 flex-1">
+      <ui-form-field
+        htmlFor="host-property-custom-amenity"
+        label="Añadir otro servicio"
+        hint="Ej.: Piscina, BBQ, ascensor."
+        [error]="customError()"
+      >
+        <input
+          id="host-property-custom-amenity"
+          type="text"
+          maxlength="60"
+          placeholder="Escribe un servicio"
+          [value]="custom()"
+          [attr.aria-describedby]="customError() ? 'host-property-custom-amenity-error' : null"
+          [attr.aria-invalid]="customError() ? 'true' : null"
+          (input)="onCustomInput($event)"
+          (keydown.enter)="addCustom($event)"
+          class="ui-input"
+        />
+      </ui-form-field>
+    </div>
+    <ui-button type="button" variant="secondary" (click)="addCustom()">Añadir</ui-button>
+  </div>
+
+  <p class="text-xs text-muted" aria-live="polite">{{ countLabel() }}</p>
+</fieldset>

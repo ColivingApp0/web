@@ -18,6 +18,25 @@
     </a>
   </header>
 
+  <div class="flex gap-2 lg:hidden">
+    <div class="relative min-w-0 flex-1">
+      <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted">
+        <ui-icon name="search" size="sm" />
+      </span>
+      <label for="quick-search" class="sr-only">Buscar por barrio, propiedad o palabra clave</label>
+      <input
+        id="quick-search"
+        type="search"
+        placeholder="Barrio, propiedad o palabra clave"
+        [value]="model().q"
+        (input)="updateQuickQuery($event)"
+        (keydown.enter)="apply()"
+        class="ui-input pl-9"
+      />
+    </div>
+    <ui-button type="button" (click)="apply()">Buscar</ui-button>
+  </div>
+
   <div class="lg:grid lg:grid-cols-[286px_1fr] lg:items-start lg:gap-8">
     <aside class="lg:sticky lg:top-24">
       <div class="mb-3 flex items-center justify-end lg:hidden">
@@ -40,7 +59,11 @@
             >
           </div>
 
-          <ui-form-field htmlFor="filter-q" label="Ciudad, barrio o propiedad">
+          <ui-form-field
+            htmlFor="filter-q"
+            label="Barrio, propiedad o palabra clave"
+            hint="Pulsa Enter o «Aplicar filtros» para actualizar la lista."
+          >
             <div class="relative">
               <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted">
                 <ui-icon name="search" size="sm" />
@@ -48,28 +71,49 @@
               <input
                 id="filter-q"
                 type="search"
-                placeholder="Ej. Bogotá, Laureles…"
+                placeholder="Ej. Laureles, balcón…"
                 [formField]="filterForm.q"
                 class="ui-input pl-9"
               />
             </div>
           </ui-form-field>
 
-          <app-monthly-price-slider
-            [currency]="model().currency === 'USD' ? 'USD' : 'COP'"
-            [minValue]="model().minPrice"
-            (minValueChange)="setPriceMin($event)"
-            [maxValue]="model().maxPrice"
-            (maxValueChange)="setPriceMax($event)"
+          <app-location-picker
+            [location]="selectedLocation()"
+            (locationChange)="setLocation($event)"
           />
+          <ui-alert variant="warning" [message]="locationNotice()" />
 
-          <ui-form-field htmlFor="filter-capacity" label="Capacidad mínima">
+          @if (model().currency === 'USD') {
+            <ui-alert
+              variant="info"
+              message="El catálogo publica sus precios en COP. Si buscas en USD solo verás anuncios hechos en dólares; el rango de precio queda en pausa para no mezclar monedas."
+            />
+          } @else {
+            <app-monthly-price-slider
+              currency="COP"
+              [minValue]="model().minPrice"
+              (minValueChange)="setPriceMin($event)"
+              [maxValue]="model().maxPrice"
+              (maxValueChange)="setPriceMax($event)"
+            />
+          }
+
+          <ui-form-field
+            htmlFor="filter-capacity"
+            label="Capacidad mínima"
+            [error]="capacityError()"
+            hint="Escribe un número entero o déjalo vacío."
+          >
             <input
               id="filter-capacity"
               type="text"
               inputmode="numeric"
               placeholder="Cualquier capacidad"
               [formField]="filterForm.minCapacity"
+              [attr.aria-describedby]="capacityError() ? 'filter-capacity-error' : null"
+              [attr.aria-invalid]="capacityError() ? 'true' : null"
+              (input)="capacityError.set(null)"
               class="ui-input"
             />
           </ui-form-field>
@@ -115,7 +159,11 @@
             </label>
           </fieldset>
 
-          <ui-form-field htmlFor="filter-currency" label="Moneda">
+          <ui-form-field
+            htmlFor="filter-currency"
+            label="Moneda"
+            hint="Los precios habituales del catálogo están en COP. USD solo muestra anuncios hechos en dólares."
+          >
             <select id="filter-currency" [formField]="filterForm.currency" class="ui-select">
               <option value="">Todas</option>
               <option value="COP">COP</option>
@@ -123,20 +171,22 @@
             </select>
           </ui-form-field>
 
-          <ui-alert [message]="formError()" />
-
-          <ui-button [full]="true" [loading]="loading()">Aplicar filtros</ui-button>
+          <div
+            class="sticky bottom-20 -mx-1 -mb-1 rounded-xl border-t border-line bg-surface/95 px-1 py-2 backdrop-blur lg:static lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none"
+          >
+            <ui-button [full]="true" [loading]="loading()">Aplicar filtros</ui-button>
+          </div>
         </form>
       </div>
     </aside>
 
     <section class="min-w-0 space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-3">
-        <p class="text-sm font-semibold text-ink">
+        <p class="text-sm font-semibold text-ink" role="status" aria-live="polite">
           @if (loading()) {
             Buscando habitaciones…
           } @else {
-            {{ roomsFound(listings().length) }}
+            {{ resultsSummary() }}
           }
         </p>
         <label class="flex items-center gap-2 text-sm text-muted">
@@ -171,20 +221,32 @@
             </div>
           }
         </div>
-      } @else if (errorMessage(); as error) {
+      } @else if (searchError(); as error) {
         <div class="ui-card ui-card-pad space-y-3">
-          <ui-alert [message]="error" />
-          <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
+          <h2 class="font-display text-lg font-extrabold text-ink">{{ error.title }}</h2>
+          <ui-alert [message]="error.message" />
+          <div class="flex flex-wrap gap-2">
+            <ui-button variant="secondary" type="button" (click)="retry()">Reintentar</ui-button>
+            <ui-button variant="ghost" type="button" (click)="clearFilters()"
+              >Limpiar filtros</ui-button
+            >
+          </div>
         </div>
       } @else if (listings().length === 0) {
-        <ui-empty-state
-          icon="search"
-          title="No encontramos habitaciones con esos filtros"
-          message="Prueba a ampliar el rango de precio mensual, quitar características o buscar en otra ciudad."
-        >
-          <ui-button variant="secondary" type="button" (click)="clearFilters()"
-            >Limpiar filtros</ui-button
-          >
+        <ui-empty-state icon="search" [title]="emptyState().title" [message]="emptyState().message">
+          <div class="flex flex-wrap justify-center gap-2">
+            @if (appliedFilters().currency === 'USD') {
+              <ui-button type="button" (click)="clearCurrency()">Ver todas las monedas</ui-button>
+            }
+            <ui-button variant="secondary" type="button" (click)="clearFilters()"
+              >Limpiar filtros</ui-button
+            >
+            <a
+              routerLink="/directorio"
+              class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line px-4 text-sm font-bold text-ink transition hover:bg-soft"
+              >Explorar otras ciudades</a
+            >
+          </div>
         </ui-empty-state>
       } @else {
         <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">

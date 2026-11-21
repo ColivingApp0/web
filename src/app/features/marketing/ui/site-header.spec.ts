@@ -59,6 +59,13 @@ describe('SiteHeader', () => {
     await fixture.whenStable();
 
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    expect(toggle.getAttribute('aria-label')).toBe('Cerrar menú');
     expect(host.querySelector('#mobile-menu')).not.toBeNull();
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    await fixture.whenStable();
+
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(host.querySelector('#mobile-menu')).toBeNull();
   });
 });

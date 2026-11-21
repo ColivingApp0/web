@@ -82,13 +82,35 @@ export interface MarketingCategory {
   icon: IconName;
   title: string;
   subtitle: string;
+  /** Filtros reales de `/alojamientos` que representa la tarjeta. */
+  queryParams: Record<string, string>;
 }
 
 export const CATEGORIES: readonly MarketingCategory[] = [
-  { icon: 'building', title: 'Cerca de universidades', subtitle: 'A pocos minutos de tu campus' },
-  { icon: 'users', title: 'Compartidas', subtitle: 'Conecta con personas compatibles' },
-  { icon: 'bed', title: 'Habitaciones', subtitle: 'Espacios listos para mudarte' },
-  { icon: 'map-pin', title: 'Por ciudad', subtitle: 'Bogotá, Medellín, Cali y más' },
+  {
+    icon: 'building',
+    title: 'Cerca de universidades',
+    subtitle: 'A pocos minutos de tu campus',
+    queryParams: { universidad: 'Universidad de los Andes' },
+  },
+  {
+    icon: 'users',
+    title: 'Compartidas',
+    subtitle: 'Conecta con personas compatibles',
+    queryParams: { roomType: 'COMPARTIDA' },
+  },
+  {
+    icon: 'bed',
+    title: 'Habitaciones individuales',
+    subtitle: 'Espacios listos para mudarte',
+    queryParams: { roomType: 'INDIVIDUAL' },
+  },
+  {
+    icon: 'map-pin',
+    title: 'Por ciudad',
+    subtitle: 'Bogotá, Medellín, Cali y más',
+    queryParams: { ciudad: 'Bogotá' },
+  },
 ];
 
 export interface MarketingStep {

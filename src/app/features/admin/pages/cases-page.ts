@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -30,7 +31,7 @@ import { CaseBadges } from '../ui/case-badges';
  */
 @Component({
   selector: 'app-cases-page',
-  imports: [RouterLink, UiAlert, UiButton, UiFormField, CaseBadges],
+  imports: [RouterLink, DatePipe, UiAlert, UiButton, UiFormField, CaseBadges],
   templateUrl: './cases-page.html',
 })
 export class CasesPage {
@@ -110,12 +111,8 @@ export class CasesPage {
     this.metricsResource.reload();
   }
 
-  protected openedBy(caseView: CaseView): string {
-    return caseView.openedByUserId ?? 'Sistema';
-  }
-
   protected assignee(caseView: CaseView): string {
-    return caseView.assigneeUserId ?? 'Sin responsable';
+    return caseView.assigneeUserId === null ? 'Sin responsable' : 'Responsable asignado';
   }
 }
 

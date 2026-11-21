@@ -5,8 +5,7 @@
         {{ isSelf() ? 'Mi reputación' : 'Reputación del usuario' }}
       </h1>
       <p class="mt-1 text-sm text-muted">
-        Score con los factores documentados que lo explican, la versión de la fórmula y los
-        beneficios vigentes.
+        Tu puntuación de 0 a 5, los factores que la explican y los beneficios vigentes.
       </p>
       @if (!isSelf()) {
         <p class="mt-0.5 font-mono text-xs text-muted">{{ targetUserId() }}</p>
@@ -25,9 +24,8 @@
   </div>
 
   <p class="text-xs text-muted">
-    Cada consulta de reputación recalcula el score y guarda una instantánea con la versión de la
-    fórmula usada (comportamiento real del backend), por eso se lee una vez por visita y solo se
-    vuelve a pedir con «Recalcular».
+    Cada visita calcula una instantánea del score con la versión vigente. Si algo cambia, usa
+    «Recalcular» para actualizarla.
   </p>
 
   @if (loading()) {
@@ -51,7 +49,7 @@
         <dl class="grid gap-3 text-sm sm:grid-cols-3">
           <div>
             <dt class="text-xs font-semibold uppercase tracking-wide text-muted">
-              Versión de la fórmula
+              Versión del cálculo
             </dt>
             <dd class="text-ink">{{ current.formulaVersion }}</dd>
           </div>
@@ -81,14 +79,23 @@
       </div>
 
       <h2 class="mt-6 font-display text-lg font-bold text-ink">Factores que influyen</h2>
-      <div class="mt-2 overflow-x-auto">
-        <app-score-factors-table [factors]="current.factors" />
-      </div>
+      <p class="mt-1 text-sm text-muted">
+        Cada factor aporta una parte del score. Los detalles internos están disponibles para
+        consulta, pero no necesitas interpretarlos para usar la plataforma.
+      </p>
+      <details class="mt-2 rounded-xl border border-line px-4 py-3">
+        <summary class="cursor-pointer text-sm font-bold text-brand-700">
+          Ver detalle del cálculo
+        </summary>
+        <div class="mt-3 overflow-x-auto">
+          <app-score-factors-table [factors]="current.factors" />
+        </div>
+      </details>
 
       <h2 class="mt-6 font-display text-lg font-bold text-ink">Beneficios vigentes</h2>
       @if (current.benefits.length === 0) {
         <p class="mt-1 text-sm text-muted">
-          Ningún beneficio activo para este score (las reglas las configura administración).
+          Ahora mismo no hay beneficios activos para este score.
         </p>
       } @else {
         <ul class="mt-2 flex flex-wrap gap-2">
@@ -100,8 +107,8 @@
         </ul>
       }
       <p class="mt-3 text-xs text-muted">
-        Los beneficios se muestran en solo lectura: su administración (reglas por score) pertenece a
-        Administración.
+        Los beneficios se asignan automáticamente según las reglas vigentes y se muestran en solo
+        lectura.
       </p>
     </section>
 

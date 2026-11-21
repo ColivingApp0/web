@@ -74,6 +74,26 @@ export class DocumentsPage {
   protected readonly busyId = signal<string | null>(null);
   protected readonly actionError = signal<string | null>(null);
   protected readonly successMessage = signal<string | null>(null);
+  protected readonly showResolved = signal(false);
+
+  protected readonly resolvedCount = computed(
+    () => this.documents().filter((document) => document.status !== 'PENDIENTE').length,
+  );
+
+  /** Sin filtro explícito, la cola prioriza los pendientes y esconde los resueltos. */
+  protected readonly visibleDocuments = computed(() => {
+    const documents = this.documents();
+    if (this.statusFilter() !== null || this.showResolved()) return documents;
+    return documents.filter((document) => document.status === 'PENDIENTE');
+  });
+
+  protected toggleResolved(): void {
+    this.showResolved.update((visible) => !visible);
+  }
+
+  protected shortId(id: string): string {
+    return id.slice(0, 8);
+  }
 
   protected canReview(document: AdminDocumentSummary): boolean {
     return canReviewDocument(document.status);

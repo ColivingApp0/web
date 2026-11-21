@@ -56,6 +56,9 @@ describe('CatalogsPage', () => {
     const host = fixture.nativeElement as HTMLElement;
 
     expect(api.listCatalog).toHaveBeenCalledWith('CIUDAD', true);
+    expect(host.querySelector<HTMLSelectElement>('#catalog-category')?.value).toBe('CIUDAD');
+    expect(host.textContent).toContain('Nueva entrada en Ciudades');
+    expect(host.textContent).not.toContain('El código es obligatorio');
     expect(host.textContent).toContain('MEDELLIN');
     expect(host.querySelector('#catalog-parent')).toBeNull();
     expect(host.textContent).toContain('Activa');

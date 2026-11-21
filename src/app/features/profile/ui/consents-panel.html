@@ -13,13 +13,14 @@
         @if (statusFor(doc.type); as status) {
           <p class="mt-1 text-xs" [class]="status.accepted ? 'text-brand-700' : 'text-muted'">
             @if (status.accepted) {
-              Aceptado el {{ status.timestamp | date: 'medium' }}
+              Aceptado el {{ status.timestamp | date: 'd MMM y' }} · versión {{ status.version }}
             } @else {
-              No aceptado
+              No aceptado · última actualización
+              {{ status.timestamp | date: 'd MMM y' }}
             }
           </p>
         } @else {
-          <p class="mt-1 text-xs text-muted">No aceptado</p>
+          <p class="mt-1 text-xs font-semibold text-accent-600">Pendiente de aceptar</p>
         }
       </div>
       <ui-button

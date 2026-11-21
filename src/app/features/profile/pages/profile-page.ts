@@ -4,6 +4,7 @@ import { AuthSession } from '../../../core/auth/auth-session';
 import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
+import { AccountProfileStore } from '../data-access/account-profile-store';
 import { ProfileApi } from '../data-access/profile-api';
 import { ProfileView, VerificationLevel } from '../models/profile-models';
 import { ConsentsPanel } from '../ui/consents-panel';
@@ -25,6 +26,7 @@ const LEVEL_LABELS: Record<VerificationLevel, string> = {
 export class ProfilePage {
   protected readonly session = inject(AuthSession);
   private readonly profileApi = inject(ProfileApi);
+  private readonly accountProfile = inject(AccountProfileStore);
 
   protected readonly loading = signal(true);
   protected readonly loadError = signal<string | null>(null);
@@ -38,7 +40,9 @@ export class ProfilePage {
     this.loading.set(true);
     this.loadError.set(null);
     try {
-      this.profile.set(await this.profileApi.get());
+      const profile = await this.profileApi.get();
+      this.profile.set(profile);
+      this.accountProfile.set(profile);
     } catch (error) {
       this.loadError.set(toApiError(error).message);
     } finally {
@@ -48,6 +52,7 @@ export class ProfilePage {
 
   protected onProfileSaved(updated: ProfileView): void {
     this.profile.set(updated);
+    this.accountProfile.set(updated);
   }
 
   protected levelLabel(level: VerificationLevel): string {

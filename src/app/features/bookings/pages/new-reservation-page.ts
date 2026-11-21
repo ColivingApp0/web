@@ -84,9 +84,10 @@ export class NewReservationPage {
   );
 
   protected readonly messageError = computed(() => firstFieldError(this.requestForm.message));
+  protected readonly messageLength = computed(() => this.model().message.length);
   protected readonly canSubmit = computed(() => {
     const context = this.context();
-    return context !== null && context.effectiveAvailable;
+    return context !== null && context.effectiveAvailable && this.messageLength() <= 600;
   });
   protected readonly priceUnit = computed(() => priceUnitLabel(this.context()?.priceUnit ?? null));
 

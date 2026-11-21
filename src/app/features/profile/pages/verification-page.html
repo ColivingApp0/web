@@ -77,7 +77,7 @@
             <div class="min-w-0">
               <p class="font-bold text-ink">{{ typeLabel(doc.type) }}</p>
               <p class="mt-0.5 text-xs text-muted">
-                Subido el {{ doc.uploadedAt | date: 'medium' }}
+                Subido el {{ doc.uploadedAt | date: 'd MMM y' }}
               </p>
               @if (doc.reviewReason; as reason) {
                 <p class="mt-1 text-xs text-red-700">Motivo: {{ reason }}</p>

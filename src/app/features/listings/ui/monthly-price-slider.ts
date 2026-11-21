@@ -63,8 +63,10 @@ import {
         <output for="filter-max-price" class="font-bold text-ink">{{ maxText() }}</output>
       </div>
 
+      <p class="mt-1 text-xs font-semibold text-ink" aria-live="polite">{{ rangeText() }}</p>
       <p id="price-range-hint" class="mt-1 text-xs text-muted">
-        Arrastra los extremos. «Sin límite» incluye habitaciones de cualquier precio.
+        Arrastra los extremos; el rango no puede invertirse. «Sin límite» incluye habitaciones de
+        cualquier precio.
       </p>
     </fieldset>
   `,
@@ -136,6 +138,9 @@ export class MonthlyPriceSlider {
   protected readonly maxText = computed(() =>
     this.maxValue() >= MONTHLY_PRICE_MAX ? 'Sin límite' : this.format(this.maxValue()),
   );
+  protected readonly rangeText = computed(
+    () => `Rango aplicado: ${this.minText()} a ${this.maxText()}`,
+  );
   protected readonly minAriaText = computed(() => `Precio mínimo mensual: ${this.minText()}`);
   protected readonly maxAriaText = computed(() =>
     this.maxValue() >= MONTHLY_PRICE_MAX
@@ -148,13 +153,15 @@ export class MonthlyPriceSlider {
   protected onMinInput(event: Event): void {
     const value = this.valueFrom(event);
     if (value === null) return;
-    this.minValue.set(Math.min(value, this.maxValue()));
+    const ceiling = Math.max(MONTHLY_PRICE_MIN, this.maxValue() - MONTHLY_PRICE_STEP);
+    this.minValue.set(Math.min(value, ceiling));
   }
 
   protected onMaxInput(event: Event): void {
     const value = this.valueFrom(event);
     if (value === null) return;
-    this.maxValue.set(Math.max(value, this.minValue()));
+    const floor = Math.min(MONTHLY_PRICE_MAX, this.minValue() + MONTHLY_PRICE_STEP);
+    this.maxValue.set(Math.max(value, floor));
   }
 
   private valueFrom(event: Event): number | null {

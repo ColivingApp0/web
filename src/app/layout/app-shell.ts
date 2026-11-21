@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthSession } from '../core/auth/auth-session';
+import { AccountProfileStore } from '../features/profile/data-access/account-profile-store';
 import { UiAvatar } from '../shared/ui/avatar';
 import { UiButton } from '../shared/ui/button';
 import { UiIcon } from '../shared/ui/icon';
@@ -48,11 +49,12 @@ import { UiIcon } from '../shared/ui/icon';
               <ui-icon name="heart" size="sm" /> Favoritos
             </a>
             <a
-              routerLink="/reservas"
+              [routerLink]="isHost() ? '/anfitrion/reservas' : '/reservas'"
               routerLinkActive="bg-soft text-ink"
               class="flex min-h-10 items-center gap-2 rounded-pill px-4 text-sm font-bold text-muted transition hover:bg-soft hover:text-ink"
             >
-              <ui-icon name="clipboard" size="sm" /> Solicitudes
+              <ui-icon name="clipboard" size="sm" />
+              {{ isHost() ? 'Solicitudes recibidas' : 'Mis solicitudes' }}
             </a>
             <a
               routerLink="/mensajes"
@@ -67,7 +69,7 @@ import { UiIcon } from '../shared/ui/icon';
             @if (session.activeRole()?.code === 'ANFITRION') {
               <a
                 routerLink="/anfitrion"
-                class="hidden min-h-10 items-center gap-2 rounded-pill border border-line px-4 text-sm font-bold text-ink transition hover:border-line-strong hover:bg-soft xl:flex"
+                class="hidden min-h-10 items-center gap-2 rounded-pill border border-line px-4 text-sm font-bold text-ink transition hover:border-line-strong hover:bg-soft lg:flex"
               >
                 <ui-icon name="home" size="sm" /> Modo anfitrión
               </a>
@@ -176,7 +178,13 @@ import { UiIcon } from '../shared/ui/icon';
         class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 px-2 py-2 backdrop-blur lg:hidden"
         aria-label="Navegación móvil"
       >
-        <div class="mx-auto grid max-w-md grid-cols-5 text-center">
+        <div
+          [class]="
+            isHost()
+              ? 'mx-auto grid max-w-md grid-cols-6 text-center'
+              : 'mx-auto grid max-w-md grid-cols-5 text-center'
+          "
+        >
           <a
             routerLink="/alojamientos"
             routerLinkActive="text-brand-700"
@@ -191,8 +199,19 @@ import { UiIcon } from '../shared/ui/icon';
           >
             <ui-icon name="heart" size="md" /> Favoritos
           </a>
+          @if (isHost()) {
+            <a
+              routerLink="/anfitrion"
+              routerLinkActive="text-brand-700"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="flex flex-col items-center gap-0.5 py-1 text-[10px] font-bold text-muted"
+              aria-label="Panel del anfitrión"
+            >
+              <ui-icon name="home" size="md" /> Anfitrión
+            </a>
+          }
           <a
-            routerLink="/reservas"
+            [routerLink]="isHost() ? '/anfitrion/reservas' : '/reservas'"
             routerLinkActive="text-brand-700"
             class="flex flex-col items-center gap-0.5 py-1 text-[10px] font-bold text-muted"
           >
@@ -220,9 +239,14 @@ import { UiIcon } from '../shared/ui/icon';
 export class AppShell {
   protected readonly session = inject(AuthSession);
   private readonly router = inject(Router);
+  private readonly accountProfile = inject(AccountProfileStore);
   protected readonly menuOpen = signal(false);
 
+  protected readonly isHost = computed(() => this.session.activeRole()?.code === 'ANFITRION');
+
   protected readonly displayName = computed(() => {
+    const name = this.accountProfile.displayName();
+    if (name) return name;
     const email = this.session.user()?.email ?? 'Mi cuenta';
     return email.split('@')[0].replace(/[._-]+/g, ' ');
   });
@@ -232,9 +256,14 @@ export class AppShell {
     return active === 'MODERADOR' || active === 'ADMINISTRADOR';
   });
 
+  constructor() {
+    void this.accountProfile.load();
+  }
+
   protected async logout(): Promise<void> {
     this.menuOpen.set(false);
     await this.session.logout();
+    this.accountProfile.clear();
     await this.router.navigate(['/entrar']);
   }
 }

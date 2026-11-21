@@ -16,6 +16,8 @@ export type PublicationStatus =
 /** Filtros de `GET /api/v1/search/listings` (todos opcionales y combinables). */
 export interface SearchFilters {
   q?: string;
+  /** Ciudad por nombre; el backend la compara sin distinguir tildes ni mayúsculas. */
+  cityName?: string;
   minPrice?: number;
   maxPrice?: number;
   currency?: Currency;

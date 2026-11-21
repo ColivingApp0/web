@@ -6,7 +6,7 @@ import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
 import { UiIcon } from '../../../shared/ui/icon';
-import { placesLabel } from '../../../shared/utils/plural';
+import { freePlacesLabel, occupiedPlacesLabel, placesLabel } from '../../../shared/utils/plural';
 import { HostApi } from '../data-access/host-api';
 import {
   HostUnit,
@@ -48,6 +48,8 @@ export class HostUnitPage {
   protected readonly unit = computed<HostUnit | null>(() => this.unitResource.value() ?? null);
 
   protected readonly places = placesLabel;
+  protected readonly occupiedPlaces = occupiedPlacesLabel;
+  protected readonly freePlaces = freePlacesLabel;
   protected readonly success = signal<string | null>(null);
   protected readonly actionError = signal<string | null>(null);
   protected readonly availabilityBusy = signal(false);
@@ -69,6 +71,8 @@ export class HostUnitPage {
     );
   });
   protected readonly missingPrice = computed(() => this.unit()?.monthlyPrice == null);
+  protected readonly hasPhotos = computed(() => (this.unit()?.photos.length ?? 0) > 0);
+  protected readonly missingPhotos = computed(() => !this.hasPhotos());
 
   protected retry(): void {
     this.unitResource.reload();
@@ -87,11 +91,18 @@ export class HostUnitPage {
   protected async toggleAvailability(): Promise<void> {
     const unit = this.unit();
     if (!unit || this.availabilityBusy()) return;
+    const enabled = !unit.published;
+    if (enabled && unit.photos.length === 0) {
+      this.actionError.set(
+        'Añade al menos una fotografía antes de habilitar la habitación. Sin foto, la búsqueda se ve vacía y no transmite confianza.',
+      );
+      this.focusPhotoManager();
+      return;
+    }
     this.availabilityBusy.set(true);
     this.actionError.set(null);
     this.success.set(null);
     try {
-      const enabled = !unit.published;
       await this.api.setUnitAvailability(unit.id, enabled);
       this.success.set(
         enabled
@@ -109,6 +120,14 @@ export class HostUnitPage {
       this.unitResource.reload();
     } finally {
       this.availabilityBusy.set(false);
+    }
+  }
+
+  protected focusPhotoManager(): void {
+    const input = document.getElementById('photo-url');
+    if (input instanceof HTMLInputElement) {
+      input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      input.focus();
     }
   }
 

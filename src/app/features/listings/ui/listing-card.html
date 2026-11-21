@@ -8,8 +8,13 @@
         class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
       />
     } @else {
-      <div class="grid h-full w-full place-items-center text-brand-700" aria-hidden="true">
-        <ui-icon name="image" size="xl" />
+      <div
+        class="grid h-full w-full place-items-center bg-[radial-gradient(circle_at_center,#d1fae5_0%,#ecfdf5_70%)] text-center"
+      >
+        <div class="px-6 text-brand-800">
+          <ui-icon name="image" size="xl" class="mx-auto" />
+          <p class="mt-2 text-xs font-bold">El anfitrión aún no añadió fotos</p>
+        </div>
       </div>
     }
 
@@ -61,21 +66,21 @@
       }
     </div>
 
-    <div class="mt-4 flex items-end justify-between gap-3 border-t border-line pt-3">
-      <div>
+    <div class="mt-4 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3 border-t border-line pt-3">
+      <div class="min-w-0">
         @if (listing().monthlyPrice; as price) {
-          <p class="font-display text-lg font-extrabold text-ink">
+          <p class="whitespace-nowrap font-display text-lg font-extrabold text-ink">
             {{ price | currency: listing().currency ?? 'COP' : 'symbol-narrow' : '1.0-0' }}
             <span class="text-xs font-semibold text-muted">/ mes</span>
           </p>
-          <p class="text-[11px] font-semibold text-muted">{{ priceUnit() }}</p>
+          <p class="truncate text-[11px] font-semibold text-muted">{{ priceUnit() }}</p>
         } @else {
           <p class="text-sm font-semibold text-muted">Precio a consultar</p>
         }
       </div>
       <a
         [routerLink]="['/alojamientos', listing().publicationId]"
-        class="flex min-h-10 items-center gap-1 rounded-pill bg-soft px-3 text-xs font-extrabold text-brand-700 transition hover:bg-brand-50"
+        class="flex min-h-10 shrink-0 items-center gap-1 whitespace-nowrap rounded-pill bg-soft px-3 text-xs font-extrabold text-brand-700 transition hover:bg-brand-50"
         [attr.aria-label]="'Ver ' + listing().roomTitle"
       >
         Ver habitación <ui-icon name="arrow-right" size="xs" />

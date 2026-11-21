@@ -12,8 +12,8 @@
       Solicitar una plaza
     </h1>
     <p class="mt-2 text-sm leading-relaxed text-muted">
-      El anfitrión revisa tu perfil y decide. Si acepta, la plaza queda ocupada; no hay pagos ni
-      calendarios en este paso.
+      El anfitrión revisa tu mensaje y las plazas solicitadas, y puede pedirte más información por
+      la conversación. Si acepta, la plaza queda ocupada; no hay pagos ni calendarios en este paso.
     </p>
   </header>
 
@@ -55,8 +55,11 @@
             >
           }
           <span class="flex items-center gap-1"
-            ><ui-icon name="users" size="sm" /> {{ room.availablePlaces }} de
-            {{ room.maxGuests }} plazas libres</span
+            ><ui-icon name="users" size="sm" />
+            {{
+              room.availablePlaces === 1 ? '1 plaza libre' : room.availablePlaces + ' plazas libres'
+            }}
+            de {{ room.maxGuests }}</span
           >
         </p>
         <div class="mt-4 flex items-end justify-between gap-3 rounded-xl bg-soft px-4 py-3">
@@ -82,7 +85,8 @@
     <section class="ui-card ui-card-pad">
       <h2 class="font-display text-lg font-extrabold text-ink">Cuéntale al anfitrión</h2>
       <p class="mt-1 text-sm text-muted">
-        Opcional. Puedes explicar tu situación, cuándo te mudarías o resolver dudas de convivencia.
+        Opcional. Cuéntale cuándo te mudarías, cuánto tiempo te quedarías y cualquier duda de
+        convivencia: la solicitud todavía no tiene campos separados para esas fechas.
       </p>
       <form [formRoot]="requestForm" class="mt-4 space-y-4" novalidate>
         <ui-form-field
@@ -96,10 +100,19 @@
             rows="4"
             placeholder="Hola, soy estudiante y busco una plaza desde el próximo mes…"
             [formField]="requestForm.message"
-            [attr.aria-describedby]="messageError() ? 'booking-message-error' : null"
+            [attr.aria-describedby]="
+              messageError() ? 'booking-message-error' : 'booking-message-counter'
+            "
             [attr.aria-invalid]="messageError() ? 'true' : null"
             class="ui-textarea"
           ></textarea>
+          <p
+            id="booking-message-counter"
+            class="mt-1 text-right text-xs font-semibold text-muted"
+            [class.text-danger-700]="messageLength() >= 600"
+          >
+            {{ messageLength() }}/600 caracteres
+          </p>
         </ui-form-field>
 
         <ui-alert [message]="actionError()" />

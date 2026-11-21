@@ -132,5 +132,8 @@ describe('LoginPage', () => {
         'Correo o contraseña incorrectos.',
       ),
     );
+    expect(document.activeElement).toBe(
+      (fixture.nativeElement as HTMLElement).querySelector('#email'),
+    );
   });
 });

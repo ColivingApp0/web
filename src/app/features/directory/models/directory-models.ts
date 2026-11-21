@@ -108,6 +108,38 @@ export function normalizeText(value: string): string {
     .trim();
 }
 
+/** Variantes con las que API-Colombia y el backend nombran la capital. */
+const BOGOTA_KEYS = new Set([
+  'bogota',
+  'bogota dc',
+  'distrito capital',
+  'santa fe de bogota',
+  'santafe de bogota',
+]);
+
+/**
+ * Canoniza el nombre de una ciudad para que el directorio (API-Colombia) y el
+ * catálogo del backend hablen del mismo lugar. API-Colombia llama «Bogotá D.C.»
+ * a la capital mientras las propiedades se publican como «Bogotá»; el backend
+ * compara el nombre de forma literal, así que la traducción ocurre en el cliente.
+ *
+ * Solo se normaliza lo que es inequívoco: la capital y los sufijos de distrito.
+ * El resto de nombres conserva su escritura (`Medellín`, `Cali`, …).
+ */
+export function canonicalCityName(value: string): string {
+  const trimmed = value.trim().replace(/\s+/g, ' ');
+  if (trimmed === '') return '';
+  const key = normalizeText(trimmed).replace(/[.,]/g, '').replace(/\s+/g, ' ');
+  if (BOGOTA_KEYS.has(key)) return 'Bogotá';
+
+  const withoutDistrictSuffix = trimmed
+    .replace(/[\s,]+(?:d\.?\s*c\.?|distrito\s+capital)$/i, '')
+    .trim();
+  const baseKey = normalizeText(withoutDistrictSuffix).replace(/[.,]/g, '');
+  if (baseKey === 'bogota' || baseKey === 'santa fe de bogota') return 'Bogotá';
+  return withoutDistrictSuffix === '' ? trimmed : withoutDistrictSuffix;
+}
+
 /** Búsqueda de ciudades por nombre o departamento. */
 export function searchCities(cities: readonly DirectoryCity[], query: string): DirectoryCity[] {
   return rankedMatches(

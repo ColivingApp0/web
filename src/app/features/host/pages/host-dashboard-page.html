@@ -15,24 +15,60 @@
         }}</span>
       }
     </a>
-    <ui-button type="button" (click)="showCreate.set(!showCreate())">
+    <ui-button type="button" (click)="toggleCreate()">
       <ui-icon [name]="showCreate() ? 'close' : 'plus'" size="sm" />
       {{ showCreate() ? 'Cancelar' : 'Nueva propiedad' }}
     </ui-button>
   </ui-page-header>
 
   @if (success(); as message) {
-    <ui-alert variant="success" [message]="message" />
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="min-w-0 flex-1">
+        <ui-alert variant="success" [message]="message" />
+      </div>
+      @if (createdProperty(); as property) {
+        <a
+          [routerLink]="['/anfitrion/propiedades', property.id]"
+          class="flex min-h-11 items-center gap-2 rounded-xl bg-brand-700 px-4 text-sm font-bold text-white transition hover:bg-brand-600"
+        >
+          Añadir habitaciones <ui-icon name="arrow-right" size="sm" />
+        </a>
+      }
+    </div>
+  }
+
+  @if (!showCreate() && draft(); as savedDraft) {
+    <section
+      class="flex flex-wrap items-center justify-between gap-4 rounded-card border border-brand-200 bg-brand-50 p-5"
+      aria-label="Borrador de propiedad"
+    >
+      <div class="min-w-0">
+        <p class="text-xs font-extrabold uppercase tracking-wide text-brand-700">
+          Borrador guardado
+        </p>
+        <p class="mt-1 truncate font-display text-lg font-extrabold text-ink">
+          {{ draftTitle() }}
+        </p>
+        <p class="mt-0.5 text-sm text-muted">
+          {{ draftStepLabel() }} · guardado el
+          {{ savedDraft.savedAt | date: 'd MMM y, HH:mm' }}
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <ui-button type="button" (click)="continueDraft()">Continuar borrador</ui-button>
+        <ui-button type="button" variant="secondary" (click)="discardDraft()">Descartar</ui-button>
+      </div>
+    </section>
   }
 
   @if (showCreate()) {
     <section class="ui-card ui-card-pad">
       <h2 class="font-display text-lg font-extrabold text-ink">Nueva propiedad</h2>
       <p class="mt-1 text-sm text-muted">
-        Primero los datos del inmueble; después añadirás sus habitaciones.
+        Completa los pasos para presentar el inmueble; después añadirás sus habitaciones.
       </p>
       <div class="mt-4">
-        <app-host-property-form (saved)="onCreated($event)" />
+        <app-host-property-wizard (saved)="onCreated($event)" />
       </div>
     </section>
   }

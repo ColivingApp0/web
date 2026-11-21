@@ -1,0 +1,160 @@
+<div class="space-y-3">
+  <div class="flex items-center justify-between gap-3">
+    <h3 class="text-sm font-semibold text-ink">Ubicación</h3>
+    @if (chipLabel(); as label) {
+      <button
+        type="button"
+        class="rounded-lg px-2 py-1 text-xs font-bold text-brand-700 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+        (click)="clear()"
+      >
+        Quitar
+      </button>
+    }
+  </div>
+
+  <fieldset class="inline-flex rounded-xl border border-line bg-white p-1">
+    <legend class="sr-only">Buscar alojamiento por</legend>
+    <label class="cursor-pointer">
+      <input
+        type="radio"
+        name="location-mode"
+        value="city"
+        class="peer sr-only"
+        [checked]="mode() === 'city'"
+        (change)="setMode('city')"
+      />
+      <span
+        class="block rounded-lg px-4 py-2 text-sm font-bold text-muted peer-checked:bg-brand-700 peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"
+      >
+        Ciudad
+      </span>
+    </label>
+    <label class="cursor-pointer">
+      <input
+        type="radio"
+        name="location-mode"
+        value="university"
+        class="peer sr-only"
+        [checked]="mode() === 'university'"
+        (change)="setMode('university')"
+      />
+      <span
+        class="block rounded-lg px-4 py-2 text-sm font-bold text-muted peer-checked:bg-brand-700 peer-checked:text-white peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"
+      >
+        Universidad
+      </span>
+    </label>
+  </fieldset>
+
+  @if (chipLabel(); as label) {
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="ui-chip-brand">
+        <ui-icon [name]="location()?.kind === 'university' ? 'building' : 'map-pin'" size="sm" />
+        {{ label }}
+      </span>
+    </div>
+  }
+
+  <div>
+    <label [for]="inputId" class="mb-1 block text-sm font-semibold text-ink">
+      @if (mode() === 'city') {
+        Buscar ciudad
+      } @else {
+        Buscar universidad
+      }
+    </label>
+    <div class="relative">
+      <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted">
+        <ui-icon name="search" size="sm" />
+      </span>
+      <input
+        [id]="inputId"
+        type="search"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-haspopup="listbox"
+        [attr.aria-expanded]="expanded()"
+        [attr.aria-controls]="listboxId"
+        [attr.aria-activedescendant]="activeOptionId()"
+        [attr.aria-describedby]="helpId"
+        autocomplete="off"
+        [value]="query()"
+        [attr.placeholder]="
+          mode() === 'city' ? 'Ej.: Medellín, Antioquia' : 'Ej.: Universidad de Antioquia'
+        "
+        class="ui-input pl-9"
+        (input)="onInput($event)"
+        (focus)="onFocus()"
+        (keydown)="onKeydown($event)"
+      />
+    </div>
+    <p [id]="helpId" class="mt-1 text-xs text-muted">
+      Coincidencias sin tildes; hasta {{ resultLimit }} resultados.
+    </p>
+
+    @if (locationWarning(); as warning) {
+      <div class="mt-2">
+        <ui-alert variant="warning" [message]="warning" />
+      </div>
+    }
+
+    <div class="mt-2" aria-live="polite">
+      @if (searching()) {
+        @if (loading()) {
+          <p
+            class="rounded-xl border border-line bg-soft px-3 py-2 text-sm text-muted"
+            role="status"
+          >
+            Consultando el directorio…
+          </p>
+        } @else if (loadError(); as error) {
+          <div class="space-y-2">
+            <ui-alert [message]="error" />
+            <ui-button variant="secondary" size="sm" type="button" (click)="retry()">
+              Reintentar
+            </ui-button>
+          </div>
+        } @else if (options().length === 0) {
+          <p
+            class="rounded-xl border border-dashed border-line px-3 py-2 text-sm text-muted"
+            role="status"
+          >
+            Sin coincidencias para «{{ query().trim() }}». Revisa la escritura o prueba otro
+            término.
+          </p>
+        } @else {
+          <ul
+            [id]="listboxId"
+            role="listbox"
+            [attr.aria-label]="mode() === 'city' ? 'Ciudades' : 'Universidades'"
+            class="max-h-64 overflow-auto rounded-xl border border-line bg-white p-1 shadow-card"
+          >
+            @for (option of options(); track option.key; let index = $index) {
+              <li
+                [id]="optionId(index)"
+                role="option"
+                [attr.aria-selected]="index === activeIndex()"
+                class="cursor-pointer rounded-lg px-3 py-2 text-sm transition hover:bg-soft"
+                [class.bg-soft]="index === activeIndex()"
+                (mousedown)="$event.preventDefault()"
+                (click)="selectAt(index)"
+              >
+                <span class="block truncate font-semibold text-ink">{{ option.name }}</span>
+                <span class="block truncate text-xs text-muted">{{
+                  option.detail ?? 'Sin departamento'
+                }}</span>
+              </li>
+            }
+          </ul>
+          <p class="mt-1 text-xs text-muted" role="status">
+            {{ options().length }}
+            {{ options().length === 1 ? 'resultado' : 'resultados' }}.
+            @if (options().length >= resultLimit) {
+              Afina la búsqueda para ver más.
+            }
+          </p>
+        }
+      }
+    </div>
+  </div>
+</div>

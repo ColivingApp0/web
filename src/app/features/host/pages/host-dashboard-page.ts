@@ -1,4 +1,5 @@
-import { Component, computed, inject, resource, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, computed, inject, resource, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toApiError } from '../../../core/http/api-error';
 import { UiAlert } from '../../../shared/ui/alert';
@@ -11,7 +12,8 @@ import { ReservationView } from '../../bookings/models/bookings-models';
 import { pluralize } from '../../../shared/utils/plural';
 import { HostApi } from '../data-access/host-api';
 import { HostProperty, HostPropertyDetail } from '../models/host-models';
-import { HostPropertyForm } from '../ui/property-form';
+import { HostPropertyWizard } from '../ui/property-wizard';
+import { PropertyDraftStore } from '../state/property-draft-store';
 
 interface Dashboard {
   properties: HostProperty[];
@@ -31,15 +33,28 @@ interface PropertyCard {
 /** Panel del anfitrión: resumen real de propiedades, habitaciones y solicitudes. */
 @Component({
   selector: 'app-host-dashboard-page',
-  imports: [RouterLink, UiAlert, UiButton, UiEmptyState, UiIcon, UiPageHeader, HostPropertyForm],
+  imports: [
+    DatePipe,
+    RouterLink,
+    UiAlert,
+    UiButton,
+    UiEmptyState,
+    UiIcon,
+    UiPageHeader,
+    HostPropertyWizard,
+  ],
   templateUrl: './host-dashboard-page.html',
 })
 export class HostDashboardPage {
   private readonly api = inject(HostApi);
   private readonly bookings = inject(BookingsApi);
+  private readonly draftStore = inject(PropertyDraftStore);
 
+  protected readonly draft = this.draftStore.draft;
   protected readonly showCreate = signal(false);
   protected readonly success = signal<string | null>(null);
+  protected readonly createdProperty = signal<HostProperty | null>(null);
+  private readonly wizard = viewChild(HostPropertyWizard);
 
   protected readonly dashboardResource = resource<Dashboard, void>({
     loader: async () => {
@@ -91,11 +106,47 @@ export class HostDashboardPage {
   });
 
   protected publishedLabel(count: number): string {
-    return pluralize(count, 'publicada', 'publicadas');
+    return `${count} ${pluralize(count, 'habitación publicada', 'habitaciones publicadas')}`;
   }
 
   protected pausedLabel(count: number): string {
-    return pluralize(count, 'pausada', 'pausadas');
+    return `${count} ${pluralize(count, 'habitación pausada', 'habitaciones pausadas')}`;
+  }
+
+  protected toggleCreate(): void {
+    if (!this.showCreate()) {
+      this.showCreate.set(true);
+      return;
+    }
+    const wizard = this.wizard();
+    if (wizard?.hasDraft()) {
+      const draft = this.draft();
+      const savedAt = draft ? new Date(draft.savedAt).toLocaleString('es-CO') : 'hace un momento';
+      const close = confirm(
+        `Tu borrador se guardó el ${savedAt} y puedes continuarlo desde el panel. ¿Cerrar el alta ahora?`,
+      );
+      if (!close) return;
+    }
+    this.showCreate.set(false);
+  }
+
+  protected continueDraft(): void {
+    this.showCreate.set(true);
+  }
+
+  protected discardDraft(): void {
+    if (!confirm('¿Descartar el borrador del alta? Esta acción no se puede deshacer.')) return;
+    this.draftStore.clear();
+    this.showCreate.set(false);
+  }
+
+  protected draftTitle(): string {
+    return this.draft()?.model.title.trim() || 'Alta de propiedad sin título';
+  }
+
+  protected draftStepLabel(): string {
+    const step = this.draft()?.step ?? 0;
+    return `Paso ${step + 1} de 4`;
   }
 
   protected load(): void {
@@ -104,6 +155,7 @@ export class HostDashboardPage {
 
   protected onCreated(property: HostProperty): void {
     this.showCreate.set(false);
+    this.createdProperty.set(property);
     this.success.set('Propiedad creada. Ahora añade sus habitaciones, fotos y precios mensuales.');
     this.dashboardResource.reload();
   }

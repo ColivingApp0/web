@@ -18,7 +18,7 @@ const FILTERS: readonly { value: Filter; label: string }[] = [
   { value: 'TODAS', label: 'Todas' },
   { value: 'PENDIENTES', label: 'Pendientes' },
   { value: 'ACEPTADAS', label: 'Aceptadas' },
-  { value: 'CERRADAS', label: 'Cerradas' },
+  { value: 'CERRADAS', label: 'Finalizadas' },
 ];
 
 const PENDING: readonly ReservationStatus[] = ['SOLICITADA', 'INFORMACION_SOLICITADA'];
@@ -83,6 +83,10 @@ export class MyReservationsPage {
 
   protected canCancel(reservation: ReservationView): boolean {
     return isActiveReservation(reservation.status);
+  }
+
+  protected isAccepted(reservation: ReservationView): boolean {
+    return ACCEPTED.includes(reservation.status);
   }
 
   protected startCancel(reservation: ReservationView): void {

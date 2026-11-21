@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, computed, inject, resource, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toApiError } from '../../../core/http/api-error';
@@ -25,6 +25,7 @@ type Filter = 'PENDIENTES' | 'TODAS';
   selector: 'app-host-reservations-page',
   imports: [
     RouterLink,
+    CurrencyPipe,
     DatePipe,
     UiAlert,
     UiButton,
@@ -76,13 +77,29 @@ export class HostReservationsPage {
     return hostReservationActions(reservation.status);
   }
 
+  protected acceptAction(reservation: ReservationView) {
+    return this.actions(reservation).find((action) => action.action === 'accept') ?? null;
+  }
+
+  protected rejectAction(reservation: ReservationView) {
+    return this.actions(reservation).find((action) => action.action === 'reject') ?? null;
+  }
+
+  protected secondaryActions(reservation: ReservationView) {
+    return this.actions(reservation).filter(
+      (action) => action.action !== 'accept' && action.action !== 'reject',
+    );
+  }
+
   protected requiresReason(action: HostReservationAction): boolean {
     return action !== 'accept';
   }
 
   protected startDecision(reservation: ReservationView, action: HostReservationAction): void {
     if (action === 'accept') {
-      void this.run(reservation, 'accept', null);
+      this.decisionTarget.set({ reservation, action });
+      this.decisionReason.set('');
+      this.decisionError.set(null);
       return;
     }
     this.decisionTarget.set({ reservation, action });
@@ -103,6 +120,10 @@ export class HostReservationsPage {
   protected confirmDecision(): void {
     const target = this.decisionTarget();
     if (!target) return;
+    if (target.action === 'accept') {
+      void this.run(target.reservation, 'accept', null);
+      return;
+    }
     if (this.decisionReason().trim() === '') {
       this.decisionError.set('Indica un motivo para esta acción.');
       return;

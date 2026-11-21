@@ -13,6 +13,7 @@ import { UiAlert } from '../../../shared/ui/alert';
 import { UiButton } from '../../../shared/ui/button';
 import { firstFieldError } from '../../../shared/ui/field-errors';
 import { UiFormField } from '../../../shared/ui/form-field';
+import { UiIcon } from '../../../shared/ui/icon';
 import { AuthApi } from '../data-access/auth-api';
 
 interface ResetPasswordModel {
@@ -22,7 +23,7 @@ interface ResetPasswordModel {
 
 @Component({
   selector: 'app-reset-password-page',
-  imports: [RouterLink, UiButton, UiFormField, UiAlert, SignalFormField, FormRoot],
+  imports: [RouterLink, UiButton, UiFormField, UiAlert, UiIcon, SignalFormField, FormRoot],
   templateUrl: './reset-password-page.html',
 })
 export class ResetPasswordPage {
@@ -32,6 +33,7 @@ export class ResetPasswordPage {
   protected readonly submitting = signal(false);
   protected readonly done = signal(false);
   protected readonly serverError = signal<string | null>(null);
+  protected readonly showPassword = signal(false);
 
   private readonly model = signal<ResetPasswordModel>({
     token: this.route.snapshot.queryParamMap.get('token') ?? '',
@@ -60,6 +62,11 @@ export class ResetPasswordPage {
 
   protected readonly tokenError = computed(() => firstFieldError(this.resetForm.token));
   protected readonly newPasswordError = computed(() => firstFieldError(this.resetForm.newPassword));
+
+  /** Al corregir un campo se retira el error del intento anterior. */
+  protected clearServerError(): void {
+    this.serverError.set(null);
+  }
 
   private async submit(): Promise<void> {
     this.submitting.set(true);

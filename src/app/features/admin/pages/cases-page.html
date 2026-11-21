@@ -3,11 +3,11 @@
     <div>
       <h1 class="font-display text-2xl font-extrabold text-ink">Casos y disputas</h1>
       <p class="mt-1 text-sm text-muted">
-        Cola de moderación (RF-082): cada caso se asigna a una persona y se cierra con resolución o
+        Revisa los reportes y disputas, asigna un responsable y ciérralos con una resolución o un
         rechazo motivados. La trazabilidad completa está en el detalle.
       </p>
       <p class="mt-1 text-xs text-muted">
-        Los filtros se guardan en la URL, así que puedes compartir o recargar la cola sin perderlos.
+        Los filtros se guardan en la dirección para que puedas compartir la vista.
       </p>
     </div>
     <ui-button type="button" variant="secondary" (click)="retry()">Actualizar</ui-button>
@@ -141,11 +141,8 @@
               </p>
               <p class="mt-1 text-sm text-ink">{{ caseView.description }}</p>
               <p class="mt-1 text-xs text-muted">
-                Objeto <span class="font-mono">{{ caseView.subjectId }}</span> · abierto por
-                <span class="font-mono">{{ openedBy(caseView) }}</span>
-              </p>
-              <p class="mt-0.5 text-xs text-muted">
-                Responsable <span class="font-mono">{{ assignee(caseView) }}</span>
+                Abierto el {{ caseView.openedAt | date: 'd MMM y, HH:mm' }} ·
+                {{ assignee(caseView) }}
               </p>
             </div>
             <div class="flex flex-col items-end gap-1">

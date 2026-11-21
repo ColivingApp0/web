@@ -20,6 +20,9 @@ const NAV_LINKS: readonly NavLink[] = [
   selector: 'app-site-header',
   imports: [RouterLink, UiIcon],
   templateUrl: './site-header.html',
+  host: {
+    '(document:keydown.escape)': 'close()',
+  },
 })
 export class SiteHeader {
   protected readonly session = inject(AuthSession);

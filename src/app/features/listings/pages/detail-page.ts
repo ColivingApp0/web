@@ -8,11 +8,14 @@ import { UiAlert } from '../../../shared/ui/alert';
 import { UiAvailabilityBadge } from '../ui/availability-badge';
 import { UiAvatar } from '../../../shared/ui/avatar';
 import { UiButton } from '../../../shared/ui/button';
+import { UiEmptyState } from '../../../shared/ui/empty-state';
 import { UiIcon } from '../../../shared/ui/icon';
 import { MessagingApi } from '../../messaging/data-access/messaging-api';
+import { canonicalCityName } from '../../directory/models/directory-models';
 import { ListingsApi } from '../data-access/listings-api';
 import { bathroomLabel, priceUnitLabel, roomTypeLabel } from '../models/listings-models';
-import { placesLabel } from '../../../shared/utils/plural';
+import { freePlacesLabel, occupiedPlacesLabel, placesLabel } from '../../../shared/utils/plural';
+import { amenityIcon } from '../../../shared/utils/amenity-icon';
 import { FavoritesStore } from '../state/favorites-store';
 
 /**
@@ -22,7 +25,16 @@ import { FavoritesStore } from '../state/favorites-store';
  */
 @Component({
   selector: 'app-detail-page',
-  imports: [CurrencyPipe, RouterLink, UiAlert, UiAvailabilityBadge, UiAvatar, UiButton, UiIcon],
+  imports: [
+    CurrencyPipe,
+    RouterLink,
+    UiAlert,
+    UiAvailabilityBadge,
+    UiAvatar,
+    UiButton,
+    UiEmptyState,
+    UiIcon,
+  ],
   templateUrl: './detail-page.html',
 })
 export class DetailPage {
@@ -45,21 +57,37 @@ export class DetailPage {
     loader: ({ params }) => this.api.detail(params),
   });
 
-  protected readonly detail = computed(() => this.detailResource.value() ?? null);
-  protected readonly loading = computed(() => this.detailResource.isLoading());
+  protected readonly detail = computed(() =>
+    this.detailResource.hasValue() ? this.detailResource.value() : null,
+  );
+  protected readonly loading = computed(() => {
+    const status = this.detailResource.status();
+    return status === 'loading' || status === 'reloading' || status === 'idle';
+  });
+  protected readonly notFound = computed(() => {
+    const error = this.detailResource.error();
+    if (!error) return false;
+    const { status } = toApiError(error);
+    return status === 404 || status === 400;
+  });
   protected readonly errorMessage = computed(() => {
     const error = this.detailResource.error();
     if (!error) return null;
     const apiError = toApiError(error);
-    return apiError.code === 'NOT_FOUND'
-      ? 'No encontramos esta habitación: puede haberse pausado, archivado o no existir.'
-      : apiError.message;
+    if (apiError.status === 404 || apiError.status === 400) {
+      return 'Puede haberse pausado, archivado o no existir. Revisa el enlace o vuelve a la búsqueda.';
+    }
+    if (apiError.status === 0) {
+      return 'No pudimos conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.';
+    }
+    return 'No pudimos cargar esta habitación en este momento. Vuelve a intentarlo en unos segundos.';
   });
 
   protected readonly roommatesResource = resource({
     params: () => {
-      const detail = this.detail();
-      return detail && detail.unit.roomType === 'COMPARTIDA' ? detail.publication.id : null;
+      if (!this.detailResource.hasValue()) return null;
+      const detail = this.detailResource.value();
+      return detail.unit.roomType === 'COMPARTIDA' ? detail.publication.id : null;
     },
     loader: ({ params }) => (params === null ? Promise.resolve([]) : this.api.roommates(params)),
   });
@@ -80,7 +108,9 @@ export class DetailPage {
   protected readonly location = computed(() => {
     const detail = this.detail();
     if (!detail) return '';
-    return [detail.property.neighborhood, detail.property.cityName].filter(Boolean).join(', ');
+    return [detail.property.neighborhood, canonicalCityName(detail.property.cityName ?? '')]
+      .filter(Boolean)
+      .join(', ');
   });
   protected readonly hasGuestRole = computed(() =>
     (this.session.user()?.roles ?? []).some(
@@ -93,6 +123,9 @@ export class DetailPage {
   });
 
   protected readonly places = placesLabel;
+  protected readonly occupiedPlaces = occupiedPlacesLabel;
+  protected readonly freePlaces = freePlacesLabel;
+  protected readonly amenityIcon = amenityIcon;
 
   protected readonly contactBusy = signal(false);
   protected readonly contactError = signal<string | null>(null);

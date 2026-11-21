@@ -48,7 +48,7 @@
         } @else {
           <p class="text-sm font-semibold text-muted">Precio no disponible</p>
         }
-        <p class="text-xs text-muted">{{ places(reservation().places) }} solicitadas</p>
+        <p class="text-xs text-muted">{{ requestedPlaces(reservation().places) }}</p>
         <p class="text-xs text-muted">Enviada el {{ reservation().createdAt | date: 'd MMM y' }}</p>
       </div>
 

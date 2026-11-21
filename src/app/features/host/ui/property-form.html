@@ -53,8 +53,8 @@
 
   <ui-form-field
     htmlFor="host-property-address"
-    label="Dirección"
-    hint="Se muestra en el detalle de la propiedad."
+    label="Dirección exacta (privada)"
+    hint="Solo la usas tú para gestionar el inmueble. En la ficha pública se muestran el barrio y la ciudad, nunca la dirección exacta."
   >
     <input
       id="host-property-address"
@@ -65,18 +65,7 @@
     />
   </ui-form-field>
 
-  <ui-form-field
-    htmlFor="host-property-amenities"
-    label="Zonas y servicios comunes"
-    hint="Sepáralos con comas. Ej.: Cocina equipada, Terraza, Lavandería, WiFi."
-  >
-    <input
-      id="host-property-amenities"
-      type="text"
-      [formField]="propertyForm.amenities"
-      class="ui-input"
-    />
-  </ui-form-field>
+  <app-host-amenity-picker [value]="model().amenities" (changed)="setAmenities($event)" />
 
   <ui-alert [message]="serverError()" />
 
