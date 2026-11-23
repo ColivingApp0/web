@@ -169,7 +169,9 @@ export class SearchPage {
     const location = this.urlLocation();
     if (!location || location.kind !== 'university') return null;
     if (this.universitiesResource.isLoading()) return null;
-    if (this.universitiesResource.error()) return null;
+    if (this.universitiesResource.error()) {
+      return 'No pudimos consultar el directorio de universidades: los resultados no están filtrados por ubicación. Prueba con una ciudad.';
+    }
     if (this.resolvedUrlLocation()?.cityName) return null;
     const known = (this.universitiesResource.value() ?? []).some(
       (university) => normalizeText(university.name) === normalizeText(location.name),

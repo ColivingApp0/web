@@ -22,6 +22,17 @@ export const guestGuard: CanActivateFn = () => {
   return inject(Router).createUrlTree(['/perfil']);
 };
 
+/**
+ * La portada es contenido de marketing para invitados. Con sesión activa, el
+ * «home» real es el catálogo (`/alojamientos`), que muestra las habitaciones
+ * publicadas y aplica los filtros contra el backend.
+ */
+export const homeGuard: CanActivateFn = () => {
+  const session = inject(AuthSession);
+  if (!session.isAuthenticated()) return true;
+  return inject(Router).createUrlTree(['/alojamientos']);
+};
+
 export function roleGuard(...roles: readonly RoleCode[]): CanActivateFn {
   return (_route, state) => {
     const session = inject(AuthSession);

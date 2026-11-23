@@ -1,7 +1,10 @@
 import { HostProperty } from '../models/host-models';
 import {
   buildPropertyPayload,
+  hasPropertyDraftContent,
+  isValidPhotoUrl,
   normalizeAmenities,
+  normalizePhotoUrls,
   propertyFormModel,
   toggleAmenity,
 } from './property-form-model';
@@ -21,12 +24,42 @@ const PROPERTY: HostProperty = {
 };
 
 describe('property-form-model', () => {
-  it('conserva ciudad y servicios al abrir la edición', () => {
-    const model = propertyFormModel(PROPERTY);
+  it('conserva ciudad, servicios y fotos al abrir la edición', () => {
+    const model = propertyFormModel({
+      ...PROPERTY,
+      photos: [{ id: 'photo-1', url: '/images/rooms/room-01.jpg', position: 0 }],
+    });
 
     expect(model.cityId).toBe('city-uuid');
     expect(model.cityName).toBe('Bogotá');
     expect(model.amenities).toEqual(['WiFi', 'Terraza']);
+    expect(model.photoUrls).toEqual(['/images/rooms/room-01.jpg']);
+  });
+
+  it('valida y normaliza los enlaces de fotos del alta', () => {
+    expect(isValidPhotoUrl('/images/rooms/room-01.jpg')).toBe(true);
+    expect(isValidPhotoUrl('https://cdn.example.com/foto.jpg')).toBe(true);
+    expect(isValidPhotoUrl('ftp://example.com/foto.jpg')).toBe(false);
+    expect(isValidPhotoUrl('  ')).toBe(false);
+
+    expect(
+      normalizePhotoUrls([
+        ' /images/rooms/room-01.jpg ',
+        '/images/rooms/room-01.jpg',
+        'https://cdn.example.com/foto.jpg',
+        'ftp://invalida',
+        '',
+      ]),
+    ).toEqual(['/images/rooms/room-01.jpg', 'https://cdn.example.com/foto.jpg']);
+  });
+
+  it('considera las fotos como contenido del borrador', () => {
+    expect(
+      hasPropertyDraftContent({
+        ...propertyFormModel(null),
+        photoUrls: ['/images/rooms/room-01.jpg'],
+      }),
+    ).toBe(true);
   });
 
   it('normaliza el payload y respeta cityId al editar', () => {

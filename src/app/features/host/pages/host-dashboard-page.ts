@@ -13,6 +13,7 @@ import { pluralize } from '../../../shared/utils/plural';
 import { HostApi } from '../data-access/host-api';
 import { HostProperty, HostPropertyDetail } from '../models/host-models';
 import { HostPropertyWizard } from '../ui/property-wizard';
+import { PROPERTY_WIZARD_STEPS } from '../ui/property-form-model';
 import { PropertyDraftStore } from '../state/property-draft-store';
 
 interface Dashboard {
@@ -53,6 +54,7 @@ export class HostDashboardPage {
   protected readonly draft = this.draftStore.draft;
   protected readonly showCreate = signal(false);
   protected readonly success = signal<string | null>(null);
+  protected readonly createWarning = signal<string | null>(null);
   protected readonly createdProperty = signal<HostProperty | null>(null);
   private readonly wizard = viewChild(HostPropertyWizard);
 
@@ -146,18 +148,50 @@ export class HostDashboardPage {
 
   protected draftStepLabel(): string {
     const step = this.draft()?.step ?? 0;
-    return `Paso ${step + 1} de 4`;
+    return `Paso ${step + 1} de ${PROPERTY_WIZARD_STEPS.length}`;
   }
 
   protected load(): void {
     this.dashboardResource.reload();
   }
 
+  protected onPhotoWarning(message: string): void {
+    this.createWarning.set(message);
+  }
+
   protected onCreated(property: HostProperty): void {
     this.showCreate.set(false);
     this.createdProperty.set(property);
-    this.success.set('Propiedad creada. Ahora añade sus habitaciones, fotos y precios mensuales.');
+    const warning = this.createWarning();
+    this.success.set(
+      warning ??
+        'Propiedad creada. Para que aparezca en la búsqueda, añade una habitación con foto y precio mensual, y publícala.',
+    );
+    this.createWarning.set(null);
     this.dashboardResource.reload();
+  }
+
+  /** La búsqueda muestra propiedades con al menos una habitación publicada. */
+  protected searchVisibility(card: PropertyCard): 'visible' | 'no-free' | 'hidden' {
+    if (card.published === 0) return 'hidden';
+    return card.freePlaces > 0 ? 'visible' : 'no-free';
+  }
+
+  protected visibilityLabel(card: PropertyCard): string {
+    switch (this.searchVisibility(card)) {
+      case 'visible':
+        return 'Visible en la búsqueda';
+      case 'no-free':
+        return 'Publicada sin plazas libres';
+      default:
+        return 'No aparece en la búsqueda';
+    }
+  }
+
+  protected visibilityClasses(card: PropertyCard): string {
+    return this.searchVisibility(card) === 'visible'
+      ? 'border-brand-200 bg-brand-50 text-brand-800'
+      : 'border-accent-200 bg-warning-50 text-warning-700';
   }
 
   protected cover(card: PropertyCard): string | null {

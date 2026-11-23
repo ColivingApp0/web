@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, guestGuard, roleGuard } from './core/auth/auth-guards';
+import { authGuard, guestGuard, homeGuard, roleGuard } from './core/auth/auth-guards';
 import { FavoritesStore } from './features/listings/state/favorites-store';
 import { AppShell } from './layout/app-shell';
 import { AuthLayout } from './layout/auth-layout';
@@ -10,6 +10,7 @@ export const routes: Routes = [
     path: '',
     pathMatch: 'full',
     title: 'ColivinApp | Vive, conecta y comparte',
+    canActivate: [homeGuard],
     loadComponent: () =>
       import('./features/marketing/pages/landing-page').then((m) => m.LandingPage),
   },

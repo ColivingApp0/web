@@ -11,6 +11,11 @@ export interface PropertyFormModel {
   neighborhood: string;
   address: string;
   amenities: string[];
+  /**
+   * URLs de las fotos generales del inmueble. En el alta se guardan al crear la
+   * propiedad; en la edición se gestionan desde la ficha de la propiedad.
+   */
+  photoUrls: string[];
 }
 
 /** Servicios y zonas comunes que se ofrecen como atajos en el alta. */
@@ -47,6 +52,11 @@ export const PROPERTY_WIZARD_STEPS: readonly PropertyWizardStep[] = [
     description: 'Selecciona lo que incluye el inmueble. Podrás ajustarlo más adelante.',
   },
   {
+    title: 'Fotos',
+    description:
+      'Añade fotos generales del inmueble. La primera será la portada; puedes añadirlas ahora o después.',
+  },
+  {
     title: 'Revisión',
     description: 'Comprueba la información antes de crear la propiedad.',
   },
@@ -60,7 +70,8 @@ export function hasPropertyDraftContent(model: PropertyFormModel): boolean {
     model.cityName.trim() !== '' ||
     model.neighborhood.trim() !== '' ||
     model.address.trim() !== '' ||
-    model.amenities.length > 0
+    model.amenities.length > 0 ||
+    model.photoUrls.length > 0
   );
 }
 
@@ -74,7 +85,31 @@ export function propertyFormModel(property: HostProperty | null): PropertyFormMo
     neighborhood: property?.neighborhood ?? '',
     address: property?.address ?? '',
     amenities: [...(property?.amenities ?? [])],
+    photoUrls: (property?.photos ?? []).map((photo) => photo.url),
   };
+}
+
+/**
+ * URL admitida por el backend: ruta pública (`/…`) o enlace http(s). En este
+ * alcance no hay subida de archivos, solo enlaces ya alojados.
+ */
+export function isValidPhotoUrl(value: string): boolean {
+  const url = value.trim();
+  if (url === '' || url.length > 1000) return false;
+  return url.startsWith('/') || url.startsWith('https://') || url.startsWith('http://');
+}
+
+/** Limpia vacíos y duplicados de las fotos del alta conservando el orden. */
+export function normalizePhotoUrls(values: readonly string[]): string[] {
+  const seen = new Set<string>();
+  const result: string[] = [];
+  for (const value of values) {
+    const url = value.trim();
+    if (!isValidPhotoUrl(url) || seen.has(url)) continue;
+    seen.add(url);
+    result.push(url);
+  }
+  return result;
 }
 
 /** Clave tolerante para comparar servicios sin duplicar mayúsculas ni espacios. */

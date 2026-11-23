@@ -12,10 +12,18 @@ export interface PropertyDraft {
 }
 
 interface StoredDraft extends PropertyDraft {
+  version: 3;
+}
+
+interface LegacyStoredDraft extends PropertyDraft {
   version: 2;
 }
 
-function isPropertyFormModel(value: unknown): value is PropertyFormModel {
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((entry) => typeof entry === 'string');
+}
+
+function isFormModelRecord(value: unknown): value is Record<string, unknown> {
   if (typeof value !== 'object' || value === null) return false;
   const record = value as Record<string, unknown>;
   return (
@@ -24,17 +32,33 @@ function isPropertyFormModel(value: unknown): value is PropertyFormModel {
     typeof record['cityName'] === 'string' &&
     typeof record['neighborhood'] === 'string' &&
     typeof record['address'] === 'string' &&
-    Array.isArray(record['amenities']) &&
-    record['amenities'].every((amenity) => typeof amenity === 'string')
+    isStringArray(record['amenities'])
   );
+}
+
+function isPropertyFormModel(value: unknown): value is PropertyFormModel {
+  return isFormModelRecord(value) && isStringArray(value['photoUrls']);
 }
 
 function isStoredDraft(value: unknown): value is StoredDraft {
   if (typeof value !== 'object' || value === null) return false;
   const record = value as Record<string, unknown>;
   return (
-    record['version'] === 2 &&
+    record['version'] === 3 &&
     isPropertyFormModel(record['model']) &&
+    typeof record['step'] === 'number' &&
+    Number.isInteger(record['step']) &&
+    record['step'] >= 0 &&
+    typeof record['savedAt'] === 'string'
+  );
+}
+
+function isLegacyStoredDraft(value: unknown): value is LegacyStoredDraft {
+  if (typeof value !== 'object' || value === null) return false;
+  const record = value as Record<string, unknown>;
+  return (
+    record['version'] === 2 &&
+    isFormModelRecord(record['model']) &&
     typeof record['step'] === 'number' &&
     Number.isInteger(record['step']) &&
     record['step'] >= 0 &&
@@ -64,12 +88,16 @@ export class PropertyDraftStore {
 
   save(model: PropertyFormModel, step: number): void {
     const draft: PropertyDraft = {
-      model: { ...model, amenities: [...model.amenities] },
+      model: {
+        ...model,
+        amenities: [...model.amenities],
+        photoUrls: [...model.photoUrls],
+      },
       step,
       savedAt: new Date().toISOString(),
     };
     this.state.set(draft);
-    this.persist({ ...draft, version: 2 });
+    this.persist({ ...draft, version: 3 });
   }
 
   clear(): void {
@@ -88,9 +116,21 @@ export class PropertyDraftStore {
       if (isStoredDraft(parsed)) {
         return { model: parsed.model, step: parsed.step, savedAt: parsed.savedAt };
       }
-      // Compatibilidad con el borrador plano de la versión anterior.
-      if (isPropertyFormModel(parsed)) {
-        return { model: parsed, step: 0, savedAt: new Date().toISOString() };
+      // Compatibilidad con borradores anteriores a las fotos en el alta.
+      if (isLegacyStoredDraft(parsed)) {
+        return {
+          model: { ...(parsed.model as PropertyFormModel), photoUrls: [] },
+          step: parsed.step,
+          savedAt: parsed.savedAt,
+        };
+      }
+      // Compatibilidad con el borrador plano de la primera versión.
+      if (isFormModelRecord(parsed)) {
+        return {
+          model: { ...(parsed as unknown as PropertyFormModel), photoUrls: [] },
+          step: 0,
+          savedAt: new Date().toISOString(),
+        };
       }
       localStorage.removeItem(PROPERTY_DRAFT_STORAGE_KEY);
       return null;
