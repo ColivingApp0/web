@@ -33,6 +33,7 @@ describe('LandingPage', () => {
     expect(compiled.querySelectorAll('app-example-property-card').length).toBe(4);
     expect(compiled.textContent).toContain('$');
     expect(compiled.textContent).toContain('/ mes');
+    expect(compiled.textContent).toContain('Ejemplos ilustrativos');
     expect(compiled.textContent?.toLowerCase()).not.toContain('por noche');
   });
 

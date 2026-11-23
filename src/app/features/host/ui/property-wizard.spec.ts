@@ -29,6 +29,7 @@ function setup(cities: Promise<DirectoryCity[]> = Promise.resolve(CITIES)) {
   const api = {
     createProperty: vi.fn().mockResolvedValue(CREATED),
     updateProperty: vi.fn().mockResolvedValue(CREATED),
+    addPropertyPhoto: vi.fn().mockResolvedValue(CREATED),
   };
   const directory = {
     cities: vi.fn().mockReturnValue(cities),
@@ -130,9 +131,10 @@ describe('HostPropertyWizard', () => {
     await settle(first.fixture);
 
     const stored = JSON.parse(localStorage.getItem(PROPERTY_DRAFT_STORAGE_KEY) ?? '{}');
-    expect(stored.version).toBe(2);
+    expect(stored.version).toBe(3);
     expect(stored.model.title).toBe('Casa Norte');
     expect(stored.model.neighborhood).toBe('Chapinero');
+    expect(stored.model.photoUrls).toEqual([]);
     expect(stored.step).toBe(1);
 
     first.fixture.destroy();
@@ -185,7 +187,7 @@ describe('HostPropertyWizard', () => {
     expect(api.createProperty).not.toHaveBeenCalled();
   });
 
-  it('recorre los cuatro pasos y crea la propiedad con servicios sugeridos y propios', async () => {
+  it('recorre los cinco pasos y crea la propiedad con servicios y fotos', async () => {
     const { api, fixture, host } = setup();
     const saved = vi.fn();
     fixture.componentInstance.saved.subscribe(saved);
@@ -222,6 +224,22 @@ describe('HostPropertyWizard', () => {
     buttonByText(host, 'Continuar').click();
     await settle(fixture);
 
+    expect(stepHeading(host)).toBe('Fotos');
+    expect(host.textContent).toContain('Aún no hay fotos');
+
+    await type(fixture, '#host-property-wizard-photo-url', 'ftp://invalida');
+    buttonByText(host, 'Añadir foto').click();
+    await settle(fixture);
+    expect(host.textContent).toContain('Usa una ruta pública');
+
+    await type(fixture, '#host-property-wizard-photo-url', '/images/rooms/room-01.jpg');
+    buttonByText(host, 'Añadir foto').click();
+    await settle(fixture);
+    expect(host.textContent).toContain('1 foto');
+
+    buttonByText(host, 'Continuar').click();
+    await settle(fixture);
+
     expect(stepHeading(host)).toBe('Revisión');
     expect(host.textContent).toContain('Casa Norte');
     expect(host.textContent).toContain('Bogotá · Chapinero');
@@ -230,9 +248,13 @@ describe('HostPropertyWizard', () => {
     );
     expect(host.textContent).toContain('WiFi');
     expect(host.textContent).toContain('Piscina');
+    expect(host.textContent).toContain('1 foto');
 
     buttonByText(host, 'Crear propiedad').click();
     await vi.waitFor(() => expect(api.createProperty).toHaveBeenCalledTimes(1));
+    await vi.waitFor(() =>
+      expect(api.addPropertyPhoto).toHaveBeenCalledWith(CREATED.id, '/images/rooms/room-01.jpg'),
+    );
 
     expect(api.createProperty).toHaveBeenCalledWith({
       title: 'Casa Norte',
@@ -262,6 +284,11 @@ describe('HostPropertyWizard', () => {
 
     buttonByText(host, 'Continuar').click();
     await settle(fixture);
+    expect(stepHeading(host)).toBe('Fotos');
+
+    buttonByText(host, 'Continuar').click();
+    await settle(fixture);
+    expect(stepHeading(host)).toBe('Revisión');
     buttonByText(host, 'Crear propiedad').click();
 
     await vi.waitFor(() => expect(api.createProperty).toHaveBeenCalledTimes(1));

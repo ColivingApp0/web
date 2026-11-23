@@ -6,7 +6,7 @@ import {
   UrlTree,
   provideRouter,
 } from '@angular/router';
-import { authGuard, guestGuard, roleGuard } from './auth-guards';
+import { authGuard, guestGuard, homeGuard, roleGuard } from './auth-guards';
 import { AuthSession } from './auth-session';
 import { RoleCode } from './identity-contract';
 import { SessionApi } from './session-api';
@@ -61,6 +61,18 @@ describe('auth guards', () => {
     const result = TestBed.runInInjectionContext(() => guestGuard(route, state));
     expect(result).toBeInstanceOf(UrlTree);
     expect(router.serializeUrl(result as UrlTree)).toContain('/perfil');
+  });
+
+  it('homeGuard should keep the marketing landing for guests', () => {
+    setup(false);
+    expect(TestBed.runInInjectionContext(() => homeGuard(route, state))).toBe(true);
+  });
+
+  it('homeGuard should send authenticated users to the real catalog', () => {
+    const { router } = setup(true);
+    const result = TestBed.runInInjectionContext(() => homeGuard(route, state));
+    expect(result).toBeInstanceOf(UrlTree);
+    expect(router.serializeUrl(result as UrlTree)).toContain('/alojamientos');
   });
 });
 

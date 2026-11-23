@@ -39,7 +39,9 @@ import {
   PROPERTY_WIZARD_STEPS,
   PropertyFormModel,
   hasPropertyDraftContent,
+  isValidPhotoUrl,
   normalizeAmenities,
+  normalizePhotoUrls,
   persistProperty,
   propertyFormModel,
 } from './property-form-model';
@@ -48,9 +50,10 @@ import { PropertyDraftStore } from '../state/property-draft-store';
 const MAX_CITY_SUGGESTIONS = 8;
 
 /**
- * Alta de una propiedad en cuatro pasos: datos básicos, ubicación, servicios y
- * revisión. La edición de una propiedad existente se hace en una sola página
- * (`HostPropertyForm`) para no obligar a recorrer el asistente.
+ * Alta de una propiedad en cinco pasos: datos básicos, ubicación, servicios,
+ * fotos y revisión. Las fotos se recogen aquí y se guardan al crear la
+ * propiedad, para no obligar a salir del asistente. La edición posterior se
+ * hace en una sola página (`HostPropertyForm`).
  */
 @Component({
   selector: 'app-host-property-wizard',
@@ -68,6 +71,8 @@ const MAX_CITY_SUGGESTIONS = 8;
 })
 export class HostPropertyWizard {
   readonly saved = output<HostProperty>();
+  /** Error no bloqueante: la propiedad se creó pero alguna foto no se guardó. */
+  readonly photoWarning = output<string>();
 
   private readonly api = inject(HostApi);
   private readonly directory = inject(DirectoryApi);
@@ -194,6 +199,9 @@ export class HostPropertyWizard {
   );
 
   protected readonly amenities = computed(() => normalizeAmenities(this.model().amenities));
+  protected readonly photoUrls = computed(() => this.model().photoUrls);
+  protected readonly photoUrlDraft = signal('');
+  protected readonly photoUrlError = signal<string | null>(null);
 
   protected readonly locationSummary = computed(() => {
     const model = this.model();
@@ -241,6 +249,49 @@ export class HostPropertyWizard {
 
   protected setAmenities(amenities: string[]): void {
     this.model.update((model) => ({ ...model, amenities }));
+  }
+
+  protected onPhotoUrlInput(event: Event): void {
+    if (!(event.target instanceof HTMLInputElement)) return;
+    this.photoUrlDraft.set(event.target.value);
+    this.photoUrlError.set(null);
+  }
+
+  protected addPhotoUrl(event?: Event): void {
+    event?.preventDefault();
+    const url = this.photoUrlDraft().trim();
+    if (url === '') return;
+    if (!isValidPhotoUrl(url)) {
+      this.photoUrlError.set(
+        'Usa una ruta pública que empiece por «/» o un enlace completo http(s).',
+      );
+      return;
+    }
+    if (this.model().photoUrls.includes(url)) {
+      this.photoUrlError.set('Esa foto ya está en la lista.');
+      return;
+    }
+    this.model.update((model) => ({ ...model, photoUrls: [...model.photoUrls, url] }));
+    this.photoUrlDraft.set('');
+    this.photoUrlError.set(null);
+    this.announce('Fotografía añadida al borrador.');
+  }
+
+  protected removePhotoUrl(index: number): void {
+    this.model.update((model) => ({
+      ...model,
+      photoUrls: model.photoUrls.filter((_url, position) => position !== index),
+    }));
+    this.announce('Fotografía eliminada del borrador.');
+  }
+
+  protected movePhotoUrl(index: number, delta: number): void {
+    const urls = [...this.model().photoUrls];
+    const target = index + delta;
+    if (target < 0 || target >= urls.length) return;
+    [urls[index], urls[target]] = [urls[target], urls[index]];
+    this.model.update((model) => ({ ...model, photoUrls: urls }));
+    this.announce('Orden de las fotografías actualizado.');
   }
 
   protected next(): void {
@@ -369,6 +420,8 @@ export class HostPropertyWizard {
     this.restoredAt.set(null);
     this.serverError.set(null);
     this.serverFieldErrors.set({});
+    this.photoUrlDraft.set('');
+    this.photoUrlError.set(null);
     this.draftStore.clear();
   }
 
@@ -406,8 +459,22 @@ export class HostPropertyWizard {
     this.serverError.set(null);
     this.serverFieldErrors.set({});
     try {
-      const saved = await persistProperty(this.api, this.model(), null);
+      let saved = await persistProperty(this.api, this.model(), null);
+      const failedPhotos: string[] = [];
+      for (const url of normalizePhotoUrls(this.model().photoUrls)) {
+        try {
+          saved = await this.api.addPropertyPhoto(saved.id, url);
+        } catch {
+          failedPhotos.push(url);
+        }
+      }
       this.draftStore.clear();
+      if (failedPhotos.length > 0) {
+        const noun = failedPhotos.length === 1 ? 'una foto' : `${failedPhotos.length} fotos`;
+        this.photoWarning.emit(
+          `La propiedad se creó, pero no pudimos guardar ${noun}. Puedes añadirla desde la ficha de la propiedad.`,
+        );
+      }
       this.saved.emit(saved);
     } catch (error) {
       const apiError = toApiError(error);

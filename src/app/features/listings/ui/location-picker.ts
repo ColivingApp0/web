@@ -185,6 +185,17 @@ export class LocationPicker {
     );
     const chosen = exact ?? (options.length === 1 ? options[0] : null);
     if (!chosen) {
+      // La ciudad escrita se puede filtrar aunque el directorio no la conozca o
+      // no esté disponible: el backend compara por nombre de ciudad. Sólo se
+      // pide elegir una sugerencia cuando hay varias coincidencias posibles.
+      const fallbackCity = this.mode() === 'city' ? canonicalCityName(raw) : '';
+      if (fallbackCity !== '' && options.length <= 1) {
+        this.locationWarning.set(null);
+        this.query.set('');
+        this.open.set(false);
+        this.activeIndex.set(-1);
+        return { kind: 'city', name: fallbackCity, cityName: fallbackCity, detail: null };
+      }
       this.open.set(false);
       this.activeIndex.set(-1);
       this.locationWarning.set(

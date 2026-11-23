@@ -148,6 +148,21 @@ describe('LocationPicker', () => {
     expect(fixture.componentInstance.hasPendingQuery()).toBe(false);
   });
 
+  it('should filter by a typed city even when the directory does not know it', async () => {
+    const { fixture, host } = setup();
+    await fixture.whenStable();
+
+    await type(host, 'Pereira');
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.resolveTypedLocation()).toMatchObject({
+      kind: 'city',
+      name: 'Pereira',
+      cityName: 'Pereira',
+    });
+    expect(fixture.componentInstance.hasPendingQuery()).toBe(false);
+  });
+
   it('should not resolve an ambiguous typed city', async () => {
     const { fixture, host } = setup();
     await fixture.whenStable();

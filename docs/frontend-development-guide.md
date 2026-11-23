@@ -93,6 +93,12 @@ UI de dominio que **no** va a `shared`:
 
 - Un **anfitrión** tiene propiedades; cada propiedad tiene una o varias
   **habitaciones** (`unit` en el backend). Cada habitación es la unidad de alquiler.
+- El alta de propiedad es un asistente de cinco pasos (datos, ubicación, servicios,
+  fotos y revisión); las fotos se recogen en el asistente y se guardan por URL al
+  crear la propiedad. La landing es contenido de marketing para invitados: con
+  sesión activa, `/` redirige a `/alojamientos`, el catálogo real.
+- Una propiedad aparece en la búsqueda cuando tiene al menos una habitación
+  publicada con plazas libres; el panel del anfitrión muestra ese estado.
 - Cada habitación tiene capacidad (`maxGuests`), plazas ocupadas (derivadas de
   solicitudes `ACEPTADA`), plazas libres (`capacidad - ocupadas`), precio mensual,
   unidad de cobro (`POR_HABITACION`/`POR_PERSONA`), baño, aire, ventilador, zonas
